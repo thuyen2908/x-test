@@ -1,0 +1,50 @@
+{
+	"search.exclude": {
+		"**/.pnp.*": true
+	},
+
+	"editor.formatOnSave": true,
+	"editor.formatOnSaveMode": "file",
+	"editor.defaultFormatter": "biomejs.biome",
+	"editor.codeActionsOnSave": {
+		"source.organizeImports.biome": "explicit",
+		"source.fixAll.biome": "explicit",
+		"quickfix.biome": "explicit"
+	},
+
+	"typescript.enablePromptUseWorkspaceTsdk": true,
+	"typescript.tsdk": "./node_modules/typescript/lib",
+
+	"[javascript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[javascriptreact]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[jsonc]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[css]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[graphql]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+
+	"cucumberautocomplete.smartSnippets": true,
+	"cucumberautocomplete.stepsInvariants": true,
+	"cucumberautocomplete.steps": [
+		"packages/e2e-utils/src/*.{js,ts}",
+		"e2e/**/steps/*.{js,ts}"
+	],
+	"cucumberautocomplete.customParameters": []
+}

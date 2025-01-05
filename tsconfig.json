@@ -1,0 +1,56 @@
+{
+	"compilerOptions": {
+		/* Modules */
+		"module": "ESNext",
+		"moduleResolution": "Bundler",
+		"moduleDetection": "force",
+
+		/* Language & Environment */
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		// "jsx": "react-jsx", // uncomment if using React >= 17
+		"lib": ["ESNext" /* "DOM" */],
+		"target": "ESNext", // modern browsers support all ES2015 (ES6) features
+
+		/* Interop constraints */
+		"forceConsistentCasingInFileNames": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true, // true if "esModuleInterop" is true
+		"isolatedModules": true,
+		"verbatimModuleSyntax": true,
+
+		/* Emit */
+		"noEmit": true, // ensure that we won't accidentally use this config for a build
+		"declaration": true,
+		"declarationMap": true,
+		"importHelpers": true,
+		"sourceMap": true,
+
+		/* Type checking */
+		"allowUnreachableCode": false,
+		"allowUnusedLabels": false,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitAny": true, // true if "strict" is true
+		"noImplicitOverride": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true, // true if "strict" is true
+		"noPropertyAccessFromIndexSignature": true,
+		"noUncheckedIndexedAccess": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"strict": true,
+		"strictBindCallApply": true,
+		"strictNullChecks": true, // true if "strict" is true
+		"strictPropertyInitialization": true, // true if "strict" is true
+		"useUnknownInCatchVariables": true, // true if "strict" is true
+
+		/* JavaScript support */
+		"checkJs": true,
+
+		/* Project */
+		"incremental": true,
+
+		/* Completeness */
+		"skipLibCheck": true
+	}
+}

@@ -1,0 +1,7 @@
+*          text=auto eol=lf
+
+package-lock.json  -diff -merge
+package-lock.json  linguist-generated=true
+
+pnpm-lock.yaml  -diff -merge
+pnpm-lock.yaml  linguist-generated=true

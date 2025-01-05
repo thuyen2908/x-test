@@ -1,0 +1,24 @@
+# yaml-language-server: $schema=https://json.schemastore.org/lefthook.json
+
+# format & lint files
+pre-commit:
+  commands:
+    check:
+      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc,css,scss,gql,graphql}"
+      run: pnpm biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+      stage_fixed: true
+
+# interactively enter commit message with commitizen
+prepare-commit-msg:
+  commands:
+    commitzen:
+      interactive: true
+      run: pnpm cz --hook
+      env:
+        LEFTHOOK: "0"
+
+# lint commit message with commitlint
+commit-msg:
+  commands:
+    commitlint:
+      run: pnpm run commitlint --edit {1}
