@@ -1,0 +1,40 @@
+{
+	"name": "@x-test/common",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"description": "Common utilities for x-test project",
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.mjs",
+	"types": "./dist/shared/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/shared/index.d.ts",
+			"import": "./dist/index.mjs",
+			"require": "./dist/index.cjs"
+		},
+		"./env": {
+			"types": "./dist/env/index.d.ts",
+			"require": "./dist/env.cjs",
+			"import": "./dist/env.mjs"
+		}
+	},
+	"scripts": {
+		"clean": "rimraf dist .turbo .analyzer",
+		"typecheck": "tsc --noEmit",
+		"prebuild": "pnpm clean",
+		"build": "vite build"
+	},
+	"dependencies": {
+		"zod": "^3.24.1"
+	},
+	"devDependencies": {
+		"@types/node": "^22.10.5",
+		"rimraf": "^6.0.1",
+		"rollup-plugin-node-externals": "^8.0.0",
+		"rollup-plugin-visualizer": "^5.14.0",
+		"typescript": "^5.7.2",
+		"vite": "^6.0.7",
+		"vite-plugin-dts": "^4.4.0"
+	}
+}
