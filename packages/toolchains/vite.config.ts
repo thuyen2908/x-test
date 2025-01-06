@@ -12,7 +12,6 @@ export default defineConfig({
 	plugins: [nodeExternals()],
 	build: {
 		emptyOutDir: true,
-		// TODO: use env typings from @x-test/common
 		sourcemap: process.env.NODE_ENV !== 'production',
 		lib: {
 			entry: ENTRIES,
