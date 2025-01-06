@@ -7,7 +7,7 @@
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": []
+		"ignore": ["build", "dist"]
 	},
 	"formatter": {
 		"enabled": true,
@@ -16,7 +16,11 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true
+			"recommended": true,
+
+			"suspicious": {
+				"noConsole": "warn"
+			}
 		}
 	},
 	"organizeImports": {
