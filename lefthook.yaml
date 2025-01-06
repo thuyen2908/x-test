@@ -19,6 +19,11 @@ prepare-commit-msg:
 
 # lint commit message with commitlint
 commit-msg:
+  piped: true
   commands:
+    toolchains:
+      priority: 1
+      run: pnpm turbo build --filter=@x-test/toolchains
     commitlint:
-      run: pnpm run commitlint --edit {1}
+      priority: 2
+      run: pnpm commitlint --edit {1}

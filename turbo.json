@@ -1,5 +1,17 @@
 {
 	"$schema": "https://turbo.build/schema.json",
 
-	"tasks": {}
+	"tasks": {
+		"clean": {
+			"cache": true
+		},
+
+		"typecheck": {},
+
+		"build": {
+			"inputs": ["$TURBO_DEFAULT$", ".env"],
+			"dependsOn": ["^build"],
+			"outputs": ["build/**", "dist/**"]
+		}
+	}
 }

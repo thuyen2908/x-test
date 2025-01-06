@@ -4,6 +4,13 @@
 # mise - https://mise.jdx.dev
 mise.local.toml
 
+# turbo - https://turbo.build/repo
+.turbo
+
+# build products
+build/
+dist/
+
 # dependencies
 node_modules
 .pnp

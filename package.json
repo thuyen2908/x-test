@@ -28,6 +28,8 @@
 	},
 	"workspaces": ["packages/*", "e2e/*"],
 	"scripts": {
+		"clean": "turbo clean",
+		"typecheck": "turbo typecheck",
 		"check": "biome check --write"
 	},
 	"devDependencies": {
@@ -35,6 +37,7 @@
 		"@commitlint/cli": "^19.6.1",
 		"@commitlint/config-conventional": "^19.6.0",
 		"@commitlint/types": "^19.5.0",
+		"@x-test/toolchains": "workspace:*",
 		"commitizen": "^4.3.1",
 		"cz-conventional-changelog": "^3.3.0",
 		"lefthook": "^1.10.1",

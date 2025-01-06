@@ -1,0 +1,30 @@
+{
+	"name": "@x-test/toolchains",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"description": "A collection of toolchains for x-test project",
+	"exports": {
+		"./commitlint": {
+			"require": "./dist/commitlint.cjs",
+			"import": "./dist/commitlint.mjs"
+		}
+	},
+	"scripts": {
+		"clean": "rimraf dist .turbo",
+		"typecheck": "tsc --noEmit",
+		"prebuild": "pnpm clean",
+		"build": "vite build"
+	},
+	"dependencies": {
+		"find-workspaces": "^0.3.1"
+	},
+	"devDependencies": {
+		"@commitlint/types": "^19.5.0",
+		"@types/node": "^22.10.5",
+		"rimraf": "^6.0.1",
+		"rollup-plugin-node-externals": "^8.0.0",
+		"typescript": "^5.7.2",
+		"vite": "^6.0.7"
+	}
+}
