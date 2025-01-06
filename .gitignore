@@ -17,10 +17,11 @@ node_modules
 .pnp.js
 
 # dotenv
-.env
-.env.*
+.env*
 !.env.vault
+!.env.project
 !.env.example
+.flaskenv*
 
 # Created by https://www.toptal.com/developers/gitignore/api/macos,windows,linux,visualstudiocode,intellij+all,vim
 
