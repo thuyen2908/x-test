@@ -9,13 +9,13 @@ pre-commit:
       stage_fixed: true
 
 # interactively enter commit message with commitizen
-prepare-commit-msg:
-  commands:
-    commitzen:
-      interactive: true
-      run: pnpm cz --hook
-      env:
-        LEFTHOOK: "0"
+# prepare-commit-msg:
+#   commands:
+#     commitzen:
+#       interactive: true
+#       run: pnpm cz --hook
+#       env:
+#         LEFTHOOK: "0"
 
 # lint commit message with commitlint
 commit-msg:

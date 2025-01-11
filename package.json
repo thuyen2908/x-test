@@ -28,9 +28,11 @@
 	},
 	"workspaces": ["packages/*", "e2e/*"],
 	"scripts": {
+		"cz": "cz",
+		"check": "biome check --write",
+
 		"clean": "turbo clean",
-		"typecheck": "turbo typecheck",
-		"check": "biome check --write"
+		"typecheck": "turbo typecheck"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
