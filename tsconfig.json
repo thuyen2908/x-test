@@ -48,7 +48,7 @@
 		"checkJs": true,
 
 		/* Project */
-		"incremental": true,
+		"incremental": false,
 
 		/* Completeness */
 		"skipLibCheck": true

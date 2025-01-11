@@ -20,7 +20,7 @@
 		}
 	},
 	"scripts": {
-		"clean": "rimraf dist .turbo .analyzer",
+		"clean": "rimraf dist .turbo .analyzer tsconfig.tsbuildinfo",
 		"typecheck": "tsc --noEmit",
 		"prebuild": "pnpm clean",
 		"build": "vite build"

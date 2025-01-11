@@ -5,6 +5,7 @@
 
 	"compilerOptions": {
 		"noEmit": false,
+		"incremental": true,
 
 		"baseUrl": "src",
 		"rootDir": "src",
