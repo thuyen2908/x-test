@@ -1,3 +1,4 @@
+import invariant from 'tiny-invariant';
 import z from 'zod';
 
 const defaultEnvSchema = z.object({
@@ -39,9 +40,7 @@ export class Env<TSchema extends z.AnyZodObject = z.AnyZodObject> {
 	protected parseEnv() {
 		const parsedEnv = this.envSchema.safeParse(process.env);
 
-		if (!parsedEnv.success) {
-			throw new Error('Invalid environment variables');
-		}
+		invariant(parsedEnv.success, 'Invalid environment variables');
 
 		return parsedEnv.data;
 	}
