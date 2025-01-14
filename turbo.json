@@ -3,15 +3,25 @@
 
 	"tasks": {
 		"clean": {
-			"cache": true
+			"cache": false
 		},
 
 		"typecheck": {},
 
 		"build": {
-			"inputs": ["$TURBO_DEFAULT$", ".env"],
 			"dependsOn": ["^build"],
+
+			"inputs": ["$TURBO_DEFAULT$", ".env"],
 			"outputs": ["build/**", "dist/**"]
+		},
+
+		"test": {
+			"cache": false,
+
+			"dependsOn": ["^build"],
+
+			"inputs": ["$TURBO_DEFAULT$", ".env"],
+			"outputs": ["dist/**", "test-report/**"]
 		}
 	}
 }

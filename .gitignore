@@ -7,6 +7,9 @@ mise.local.toml
 # turbo - https://turbo.build/repo
 .turbo
 
+# playwright
+test-report
+
 # build products
 build/
 dist/

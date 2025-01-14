@@ -39,12 +39,11 @@
 	"[graphql]": {
 		"editor.defaultFormatter": "biomejs.biome"
 	},
+	"[cucumber]": {
+		"editor.defaultFormatter": "CucumberOpen.cucumber-official"
+	},
 
-	"cucumberautocomplete.smartSnippets": true,
-	"cucumberautocomplete.stepsInvariants": true,
-	"cucumberautocomplete.steps": [
-		"packages/e2e-utils/src/*.{js,ts}",
-		"e2e/**/steps/*.{js,ts}"
-	],
-	"cucumberautocomplete.customParameters": []
+	"cucumber.features": ["e2e/**/features/**/*.feature"],
+	"cucumber.glue": ["e2e/**/features/**/*.ts"],
+	"cucumber.parameterTypes": []
 }

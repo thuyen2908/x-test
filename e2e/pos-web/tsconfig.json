@@ -1,0 +1,14 @@
+{
+	"extends": "../../tsconfig.json",
+
+	"exclude": ["dist", "playwright.config.ts"],
+
+	"compilerOptions": {
+		"incremental": true,
+
+		"rootDir": "src",
+		"baseUrl": "src",
+
+		"paths": {}
+	}
+}
