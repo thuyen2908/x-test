@@ -9,6 +9,7 @@ mise.local.toml
 
 # playwright
 test-report
+test-artifacts
 
 # build products
 build/

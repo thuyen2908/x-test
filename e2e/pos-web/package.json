@@ -5,7 +5,7 @@
 	"type": "module",
 	"description": "E2E test project for the web version of POS",
 	"scripts": {
-		"clean": "rimraf dist .turbo tsconfig.tsbuildinfo test-report",
+		"clean": "rimraf dist .turbo tsconfig.tsbuildinfo test-report test-artifacts",
 		"typecheck": "tsc --noEmit",
 		"report": "playwright show-report test-report",
 		"pretest": "bddgen",

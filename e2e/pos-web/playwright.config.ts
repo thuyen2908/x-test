@@ -15,7 +15,7 @@ const testDir = defineBddConfig({
 // Playwright config
 export default defineConfig({
 	testDir,
-	outputDir: 'dist/playwright',
+	outputDir: 'test-artifacts',
 
 	fullyParallel: true,
 
