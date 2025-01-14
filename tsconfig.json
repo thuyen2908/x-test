@@ -1,4 +1,6 @@
 {
+	"exclude": ["**/node_modules", "**/dist"],
+
 	"compilerOptions": {
 		/* Modules */
 		"module": "ESNext",
