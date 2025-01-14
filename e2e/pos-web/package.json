@@ -13,9 +13,9 @@
 		"test:ui": "pnpm test -- --ui"
 	},
 	"devDependencies": {
-		"@dotenvx/dotenvx": "^1.32.1",
+		"@dotenvx/dotenvx": "^1.33.0",
 		"@playwright/test": "^1.49.1",
-		"@types/node": "^22.10.5",
+		"@types/node": "^22.10.6",
 		"@x-test/common": "workspace:*",
 		"playwright-bdd": "^8.0.1",
 		"rimraf": "^6.0.1",
