@@ -48,7 +48,11 @@ export class Env<TSchema extends z.AnyZodObject = z.AnyZodObject> {
 	/**
 	 * Access the environment variable value by its key
 	 */
-	public get<K extends keyof z.infer<typeof this.envSchema>>(key: K) {
+	public get<
+		K extends keyof z.infer<
+			z.ZodIntersection<typeof defaultEnvSchema, TSchema>
+		>,
+	>(key: K) {
 		const parsedEnv = this.parseEnv();
 
 		return parsedEnv[key];
