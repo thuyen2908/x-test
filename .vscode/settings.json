@@ -45,5 +45,10 @@
 
 	"cucumber.features": ["e2e/**/features/**/*.feature"],
 	"cucumber.glue": ["e2e/**/features/**/*.ts"],
-	"cucumber.parameterTypes": []
+	"cucumber.parameterTypes": [
+		{
+			"name": "pageId",
+			"regexp": "HOME|LOGIN"
+		}
+	]
 }

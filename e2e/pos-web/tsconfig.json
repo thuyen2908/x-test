@@ -1,7 +1,7 @@
 {
 	"extends": "../../tsconfig.json",
 
-	"exclude": ["dist", "playwright.config.ts"],
+	"exclude": ["dist", "test-artifacts", "test-report", "playwright.config.ts"],
 
 	"compilerOptions": {
 		"incremental": true,
@@ -9,6 +9,12 @@
 		"rootDir": "src",
 		"baseUrl": "src",
 
-		"paths": {}
+		"paths": {
+			"#env": ["env.ts"],
+			"#const": ["const.ts"],
+			"#typings": ["typings.ts"],
+
+			"~/*": ["*"]
+		}
 	}
 }

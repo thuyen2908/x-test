@@ -1,9 +1,14 @@
 import { defineConfig, devices } from '@playwright/test';
 import { defineBddConfig } from 'playwright-bdd';
 
+import { constants } from './src/const';
 import { env } from './src/env';
 
-const isCI = env.get('NODE_ENV') === 'ci';
+const isCI = env.isCI;
+const baseURL = env.baseURL;
+const posConfig = env.posConfig;
+
+const userAuthStorage = constants.AuthStorage.user;
 
 // BDD config
 const testDir = defineBddConfig({
@@ -16,6 +21,7 @@ const testDir = defineBddConfig({
 export default defineConfig({
 	testDir,
 	outputDir: 'test-artifacts',
+	snapshotPathTemplate: '__snapshots__/{testFileDir}/{testFileName}/{arg}{ext}',
 
 	fullyParallel: true,
 
@@ -28,28 +34,54 @@ export default defineConfig({
 		? [['list', { printSteps: false }]]
 		: [
 				['list', { printSteps: true }],
-				['html', { outputFolder: 'test-report' }],
+				['html', { outputFolder: 'test-report', open: 'never' }],
 				['json', { outputFile: 'test-report/report.json' }],
 			],
 
 	use: {
 		trace: 'on-first-retry',
+
+		// general config for all projects
+		baseURL,
+		timezoneId: posConfig.timezone,
 	},
 
 	projects: [
+		/* ------------------------ Setup & teardown projects ----------------------- */
+
+		{
+			name: 'setup',
+			testDir: './src',
+			testMatch: /.*\.setup\.ts/,
+		},
+
+		/* -------------------------- Cross-browser testing ------------------------- */
+
 		{
 			name: 'chromium',
-			use: { ...devices['Desktop Chrome'] },
+			dependencies: ['setup'],
+			use: {
+				...devices['Desktop Chrome'],
+				storageState: userAuthStorage,
+			},
 		},
 
 		{
 			name: 'firefox',
-			use: { ...devices['Desktop Firefox'] },
+			dependencies: ['setup'],
+			use: {
+				...devices['Desktop Firefox'],
+				storageState: userAuthStorage,
+			},
 		},
 
 		{
 			name: 'webkit',
-			use: { ...devices['Desktop Safari'] },
+			dependencies: ['setup'],
+			use: {
+				...devices['Desktop Safari'],
+				storageState: userAuthStorage,
+			},
 		},
 	],
 });

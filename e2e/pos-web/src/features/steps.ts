@@ -1,10 +1,15 @@
 import { expect } from '@playwright/test';
 import { createBdd } from 'playwright-bdd';
 
+import { constants } from '#const';
+import type { PageId } from '#typings';
+
 const { Given, When, Then } = createBdd();
 
-Given('I am on Playwright home page', async ({ page }) => {
-	await page.goto('https://playwright.dev');
+Given('I am on the {pageId} page', async ({ page }, pageId: PageId) => {
+	const pageUrl = constants.PageUrl[pageId];
+
+	await page.goto(pageUrl);
 });
 
 When('I click link {string}', async ({ page }, name) => {
