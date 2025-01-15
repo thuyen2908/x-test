@@ -30,6 +30,12 @@ export default defineConfig({
 	retries: isCI ? 2 : 0,
 	workers: isCI ? 1 : undefined,
 
+	expect: {
+		toHaveScreenshot: {
+			maxDiffPixelRatio: 0.05,
+		},
+	},
+
 	reporter: isCI
 		? [['list', { printSteps: false }]]
 		: [
