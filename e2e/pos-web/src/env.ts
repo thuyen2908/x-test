@@ -1,3 +1,4 @@
+import { resolve } from 'node:path';
 import dotenvx from '@dotenvx/dotenvx';
 import z from 'zod';
 
@@ -20,13 +21,16 @@ declare global {
 	}
 }
 
+const __dirname = import.meta.dirname;
+const envPath = resolve(__dirname, '../../..', '.env');
+
 /**
  * Extend the common environment variables with this project specific ones
  */
 class Env extends BaseEnv<typeof EnvSchema> {
 	constructor() {
 		// load .env
-		dotenvx.config({ path: ['../../.env'] });
+		dotenvx.config({ path: [envPath] });
 
 		// extend the common schema with ours
 		super(EnvSchema);

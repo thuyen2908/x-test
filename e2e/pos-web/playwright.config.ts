@@ -8,19 +8,20 @@ const isCI = env.isCI;
 const baseURL = env.baseURL;
 const posConfig = env.posConfig;
 
+const PlaywrightConfig = constants.PlaywrightConfig;
 const userAuthStorage = constants.AuthStorage.user;
 
 // BDD config
 const testDir = defineBddConfig({
-	featuresRoot: 'src/features',
+	featuresRoot: PlaywrightConfig.bddRoot,
 
-	outputDir: 'dist/bdd',
+	outputDir: PlaywrightConfig.bddOutput,
 });
 
 // Playwright config
 export default defineConfig({
 	testDir,
-	outputDir: 'test-artifacts',
+	outputDir: PlaywrightConfig.artifactsDir,
 	snapshotPathTemplate: '__snapshots__/{testFileDir}/{testFileName}/{arg}{ext}',
 
 	fullyParallel: true,
@@ -40,8 +41,11 @@ export default defineConfig({
 		? [['list', { printSteps: false }]]
 		: [
 				['list', { printSteps: true }],
-				['html', { outputFolder: 'test-report', open: 'never' }],
-				['json', { outputFile: 'test-report/report.json' }],
+				[
+					'html',
+					{ outputFolder: PlaywrightConfig.htmlReportDir, open: 'never' },
+				],
+				['json', { outputFile: PlaywrightConfig.jsonReportFile }],
 			],
 
 	use: {

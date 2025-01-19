@@ -28,6 +28,7 @@
 	},
 	"workspaces": ["packages/*", "e2e/*"],
 	"scripts": {
+		"postinstall": "turbo build",
 		"cz": "cz",
 		"check": "biome check --write",
 		"clean": "turbo clean && rimraf .turbo",
