@@ -40,15 +40,14 @@
 		"editor.defaultFormatter": "biomejs.biome"
 	},
 	"[cucumber]": {
-		"editor.defaultFormatter": "CucumberOpen.cucumber-official"
+		"editor.defaultFormatter": "alexkrechik.cucumberautocomplete"
 	},
 
-	"cucumber.features": ["e2e/**/features/**/*.feature"],
-	"cucumber.glue": ["e2e/**/features/**/*.ts"],
-	"cucumber.parameterTypes": [
+	"cucumberautocomplete.steps": ["e2e/**/features/*.ts"],
+	"cucumberautocomplete.customParameters": [
 		{
-			"name": "pageId",
-			"regexp": "HOME|LOGIN"
+			"parameter": "{pageId}",
+			"value": "(HOME|LOGIN)"
 		}
 	]
 }

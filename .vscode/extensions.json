@@ -2,7 +2,7 @@
 	"recommendations": [
 		"biomejs.biome",
 		"ms-playwright.playwright",
-		"cucumberopen.cucumber-official",
+		"alexkrechik.cucumberautocomplete",
 		"streetsidesoftware.code-spell-checker"
 	]
 }
