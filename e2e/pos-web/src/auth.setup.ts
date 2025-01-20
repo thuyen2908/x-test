@@ -40,8 +40,8 @@ setup('authentication', async ({ page }) => {
 
 	// wait until the loading spinner is gone
 	await expect(businessDateResetPrompt.or(salonName)).toBeVisible({
-		// currently, look like the login process is quite slow, re-adjust in the future if necessary
-		timeout: 10000,
+		// currently, look like the login process is quite slow, re-adjust this value in the future if necessary
+		timeout: 20000,
 	});
 
 	// reset business date if there's a warning prompt

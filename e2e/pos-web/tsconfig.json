@@ -9,6 +9,8 @@
 		"rootDir": "src",
 		"baseUrl": "src",
 
+		"lib": ["ESNext", "DOM"],
+
 		"paths": {
 			"#env": ["env.ts"],
 			"#const": ["const.ts"],

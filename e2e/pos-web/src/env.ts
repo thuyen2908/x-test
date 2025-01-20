@@ -11,6 +11,8 @@ const EnvSchema = z.object({
 	POS_USERNAME: z.string(),
 	POS_PASSWORD: z.string(),
 	POS_SALON_NAME: z.string(),
+
+	CLOCK_IN_PASSWORD: z.string(),
 });
 
 type ProcessEnvType = z.infer<typeof EnvSchema>;
@@ -59,6 +61,8 @@ class Env extends BaseEnv<typeof EnvSchema> {
 			username: this.get('POS_USERNAME'),
 			password: this.get('POS_PASSWORD'),
 			salonName: this.get('POS_SALON_NAME'),
+
+			clockInPassword: this.get('CLOCK_IN_PASSWORD'),
 		};
 	}
 }
