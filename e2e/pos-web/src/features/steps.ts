@@ -223,3 +223,43 @@ When(
 		await button.click();
 	},
 );
+
+When('I clock out the timesheet', async ({ page }) => {
+	// click on the Timesheet button
+	await page.getByText('Timesheet').click();
+
+	// find and click on the Clock Out button
+	const clockOutButton = page.getByText('Clock Out', { exact: true });
+	await expect(clockOutButton).toBeVisible();
+	await clockOutButton.click();
+
+	// expect the clock out password dialog to be visible
+	const clockOutPasswordDialog = page.locator('div.MuiDialogContent-root');
+	await expect(clockOutPasswordDialog).toBeVisible();
+
+	// enter the clock in password
+	const { clockInPassword } = env.posConfig;
+	for (const passwordDigit of clockInPassword) {
+		const passwordDigitButton = clockOutPasswordDialog.getByText(
+			passwordDigit,
+			{
+				exact: true,
+			},
+		);
+
+		await passwordDigitButton.click();
+	}
+
+	const successfullyClockedOutToast = page.getByText(
+		'clocked out successfully',
+	); // in case of new clock in session
+	const alreadyClockedOutToast = page.getByText('has not clocked in yet'); // in case there's an existing clock in session
+
+	// expect a toast message indicating the result of the clock in operation
+	await expect(
+		successfullyClockedOutToast.or(alreadyClockedOutToast),
+	).toBeVisible();
+
+	// refresh the page to get the latest data
+	await page.reload();
+});
