@@ -237,9 +237,9 @@ When('I clock out the timesheet', async ({ page }) => {
 	const clockOutPasswordDialog = page.locator('div.MuiDialogContent-root');
 	await expect(clockOutPasswordDialog).toBeVisible();
 
-	// enter the clock in password
-	const { clockInPassword } = env.posConfig;
-	for (const passwordDigit of clockInPassword) {
+	// enter the clock out password
+	const { clockInPassword: clockOutPassword } = env.posConfig; // clock in and clock out share the same password
+	for (const passwordDigit of clockOutPassword) {
 		const passwordDigitButton = clockOutPasswordDialog.getByText(
 			passwordDigit,
 			{
@@ -252,10 +252,10 @@ When('I clock out the timesheet', async ({ page }) => {
 
 	const successfullyClockedOutToast = page.getByText(
 		'clocked out successfully',
-	); // in case of new clock in session
-	const alreadyClockedOutToast = page.getByText('has not clocked in yet'); // in case there's an existing clock in session
+	);
+	const alreadyClockedOutToast = page.getByText('has not clocked in yet'); // in case user has not clocked in yet
 
-	// expect a toast message indicating the result of the clock in operation
+	// expect a toast message indicating the result of the clock out operation
 	await expect(
 		successfullyClockedOutToast.or(alreadyClockedOutToast),
 	).toBeVisible();

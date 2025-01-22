@@ -16,7 +16,8 @@ const userAuthStorage = path.resolve(
 );
 
 setup('authentication', async ({ page }) => {
-	setup.setTimeout(50000);
+	setup.setTimeout(50_000);
+
 	// make sure that the path is ready
 	await ensureFile(userAuthStorage);
 
@@ -42,7 +43,7 @@ setup('authentication', async ({ page }) => {
 	// wait until the loading spinner is gone
 	await expect(businessDateResetPrompt.or(salonName)).toBeVisible({
 		// currently, look like the login process is quite slow, re-adjust this value in the future if necessary
-		timeout: 30000,
+		timeout: 30_000,
 	});
 
 	// reset business date if there's a warning prompt

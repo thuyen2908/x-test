@@ -1,8 +1,7 @@
 @regression @smoke
-Feature: Clocked out
+Feature: Timesheet
 
-  @slow
-  Scenario: Clock out technician
+  Scenario: Clock out
     Given I am on the HOME page
     When I clock out the timesheet
 
