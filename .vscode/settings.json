@@ -43,6 +43,8 @@
 		"editor.defaultFormatter": "alexkrechik.cucumberautocomplete"
 	},
 
+	"cucumberautocomplete.smartSnippets": true,
+	"cucumberautocomplete.stepsInvariants": true,
 	"cucumberautocomplete.steps": ["e2e/**/features/*.ts"],
 	"cucumberautocomplete.customParameters": [
 		{
