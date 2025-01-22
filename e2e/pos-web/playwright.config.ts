@@ -69,7 +69,7 @@ export default defineConfig({
 		/* -------------------------- Cross-browser testing ------------------------- */
 
 		{
-			name: 'chromium',
+			name: 'chrome',
 			dependencies: ['setup'],
 			use: {
 				...devices['Desktop Chrome'],
@@ -78,19 +78,10 @@ export default defineConfig({
 		},
 
 		{
-			name: 'firefox',
+			name: 'edge',
 			dependencies: ['setup'],
 			use: {
-				...devices['Desktop Firefox'],
-				storageState: userAuthStorage,
-			},
-		},
-
-		{
-			name: 'webkit',
-			dependencies: ['setup'],
-			use: {
-				...devices['Desktop Safari'],
+				...devices['Desktop Edge'],
 				storageState: userAuthStorage,
 			},
 		},
