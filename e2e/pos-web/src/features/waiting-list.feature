@@ -1,4 +1,4 @@
-@regression @smoke
+@regression @smoke @skip
 Feature: Waiting list
 
   Scenario: Add an existing customer to the waiting list

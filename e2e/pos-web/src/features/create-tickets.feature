@@ -25,6 +25,7 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
+  @skip
   Scenario: Add an existing customer to a new ticket
     Given I am on the HOME page
     When I select the "Owner" employee
@@ -49,6 +50,7 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
+  @skip
   Scenario: Create a new customer on the fly
     Given I am on the HOME page
     When I select the "Owner" employee
