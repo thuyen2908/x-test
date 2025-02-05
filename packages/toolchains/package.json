@@ -21,11 +21,11 @@
 	},
 	"devDependencies": {
 		"@commitlint/types": "^19.5.0",
-		"@types/node": "^22.10.6",
+		"@types/node": "^22.13.1",
 		"@x-test/common": "workspace:*",
 		"rimraf": "^6.0.1",
 		"rollup-plugin-node-externals": "^8.0.0",
 		"typescript": "^5.7.3",
-		"vite": "^6.0.7"
+		"vite": "^6.0.11"
 	}
 }
