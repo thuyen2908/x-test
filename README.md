@@ -1,0 +1,101 @@
+<p align="center">
+  <img src="static/logo.png" alt="Logo" width="320">
+</p>
+
+<div align="center">
+  <a alt="typescript" href="http://www.typescriptlang.org">
+    <img src="https://shields.io/badge/TypeScript-3178C6?logo=TypeScript&logoColor=white" />
+  </a>
+
+  <a alt="pnpm" href="https://pnpm.io">
+    <img src="https://img.shields.io/badge/pnpm-F69220?logo=pnpm&logoColor=white" />
+  </a>
+
+  <a alt="turbo" href="https://turbo.build/repo">
+    <img src="https://img.shields.io/badge/Turborepo-%230F0813.svg?logo=Turborepo&logoColor=white" />
+  </a>
+</div>
+
+<div align="center">
+  <a alt="conventional-commits" href="https://conventionalcommits.org">
+    <img src="https://img.shields.io/badge/Conventional%20Commits-1.0.0-%23FE5196?logo=conventionalcommits&logoColor=white" />
+  </a>
+
+  <a alt="commitizen" href="https://commitizen-tools.github.io/commitizen">
+    <img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" />
+  </a>
+
+  <a alt="renovate" href="https://renovatebot.com">
+    <img src="https://img.shields.io/badge/renovate-enabled-brightgreen.svg?logo=renovate&logoColor=white" />
+  </a>
+</div>
+
+<br/>
+
+- [Prerequisites](#prerequisites)
+- [Getting started](#getting-started)
+  - [For Windows](#for-windows)
+    - [WSL](#wsl)
+    - [Non-WSL (*not recommended*)](#non-wsl-not-recommended)
+  - [For Linux, MacOS or WSL](#for-linux-macos-or-wsl)
+- [Essential commands](#essential-commands)
+  - [Project root](#project-root)
+  - [Playwright-based E2E projects (e2e/pos-web,...)](#playwright-based-e2e-projects-e2epos-web)
+
+## Prerequisites
+
+[Node.js](https://nodejs.org/en) - any current [LTS version](https://nodejs.org/en/about/previous-releases), or using a Node Version Manager below
+
+[mise](https://mise.jdx.dev) (optional) - recommended tool to manage Node versions (*alternatives*: [asdf](https://asdf-vm.com), [nvm](https://github.com/nvm-sh/nvm), [fnm](https://github.com/Schniz/fnm)...)
+
+## Getting started
+
+> [!IMPORTANT]
+> For the *security* purpose, we manage all our secrets using [dotenv-vault](https://www.dotenv.org/docs). Before setting up the repository, please:
+> - Ask your team to share a copy of the `.env` file with you. Place it in the root of the project
+> - **Or**, request an invitation to the project vault, and follow the "**Log in .env.vault**" and "**Pull .env**" sections of this guide: https://www.dotenv.org/docs/quickstart/sync
+
+### For Windows
+
+#### WSL
+
+> [!NOTE]
+> The recommended way for setting up a development environment on Windows is to use the [Windows Subsystem for Linux (WSL)](https://learn.microsoft.com/en-us/windows/wsl/install)
+
+You can follow the step-by-step guide here to setup WSL and Windows Terminal (only select the sections relevant to your needs): https://learn.microsoft.com/en-us/windows/wsl/setup/environment
+
+After successfully setting up WSL, you can continue to the section for [Linux, MacOS or WSL](#for-linux-macos-or-wsl)
+
+#### Non-WSL (*not recommended*)
+
+- Install Git: https://git-scm.com/downloads/win
+- Setting up an Unix-like environment: [Git Bash](https://www.gitkraken.com/blog/what-is-git-bash) or [MSYS2](https://www.msys2.org/docs/what-is-msys2)
+- Install Node.js: https://nodejs.org/en/download
+- Enable [Corepack](https://nodejs.org/api/corepack.html) by running `corepack enable`
+- Install project's dependencies `pnpm install`
+
+### For Linux, MacOS or WSL
+
+> [!NOTE]
+> Make sure that Git is installed. If not, you can install it via [build-essential](https://itsfoss.com/build-essential-ubuntu) on Linux, WSL or by running `xcode-select --install` on MacOS
+
+- Setup `mise` as our Node Version Manager, just follow this guide: https://mise.jdx.dev/getting-started.html
+- Open terminal at the root of the project and run `mise install` to install the corresponding Node.js version
+- Enable [Corepack](https://nodejs.org/api/corepack.html) by running `corepack enable`
+- Install project's dependencies `pnpm install`
+
+## Essential commands
+
+### Project root
+
+- `pnpm cz` - to commit changes using [commitizen](https://commitizen-tools.github.io/commitizen)
+- `pnpm playwright:install-browsers` - to install [Playwright's browsers](https://playwright.dev/docs/browsers#install-browsers)
+- `pnpm e2e:test` - to run all end-to-end tests
+
+### Playwright-based E2E projects (e2e/pos-web,...)
+
+- `pnpm bdd:watch` - to generate BDD files in watch mode, useful for development
+- `pnpm report` - to show e2e [report](https://playwright.dev/docs/running-tests#test-reports)
+- `pnpm test` - to run all tests
+- `pnpm test:ui` - to run tests in [Playwright UI mode](https://playwright.dev/docs/test-ui-mode)
+- `pnpm test:debug` - to run tests in [debug mode](https://playwright.dev/docs/running-tests#debugging-tests)
