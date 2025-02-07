@@ -104,5 +104,5 @@ After successfully setting up WSL, you can continue to the section for [Linux, M
 ## Troubleshooting
 
 1. If you encounter a "cannot find matching keyid" error while installing dependencies with `pnpm`, please follow this guide here: https://vercel.com/guides/corepack-errors-github-actions
-  - Upgrade `corepack` version >= `0.31.0`
-  - Or, run `COREPACK_INTEGRITY_KEYS=0 pnpm install`
+   - Upgrade `corepack` version >= `0.31.0`
+   - Or, run `COREPACK_INTEGRITY_KEYS=0 pnpm install`
