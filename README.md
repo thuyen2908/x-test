@@ -41,6 +41,7 @@
 - [Essential commands](#essential-commands)
   - [Project root](#project-root)
   - [Playwright-based E2E projects (e2e/pos-web,...)](#playwright-based-e2e-projects-e2epos-web)
+- [Troubleshooting](#troubleshooting)
 
 ## Prerequisites
 
@@ -99,3 +100,9 @@ After successfully setting up WSL, you can continue to the section for [Linux, M
 - `pnpm test` - to run all tests
 - `pnpm test:ui` - to run tests in [Playwright UI mode](https://playwright.dev/docs/test-ui-mode)
 - `pnpm test:debug` - to run tests in [debug mode](https://playwright.dev/docs/running-tests#debugging-tests)
+
+## Troubleshooting
+
+1. If you encounter a "cannot find matching keyid" error while installing dependencies with `pnpm`, please follow this guide here: https://vercel.com/guides/corepack-errors-github-actions
+  - Upgrade `corepack` version >= `0.31.0`
+  - Or, run `COREPACK_INTEGRITY_KEYS=0 pnpm install`
