@@ -16,13 +16,12 @@
 			"groupSlug": "non-major dependencies"
 		},
 		{
-			"matchManagers": ["mise"],
-			"rangeStrategy": "auto"
+			"matchManagers": ["npm"],
+			"rangeStrategy": "bump"
 		}
 	],
 
 	"prHourlyLimit": 5,
-	"rangeStrategy": "bump",
 	"addLabels": ["📦 renovate"],
 
 	"osvVulnerabilityAlerts": true,
