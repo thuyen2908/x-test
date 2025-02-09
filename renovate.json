@@ -18,6 +18,7 @@
 	],
 
 	"prHourlyLimit": 5,
+	"rangeStrategy": "bump",
 	"addLabels": ["📦 renovate"],
 
 	"osvVulnerabilityAlerts": true,
