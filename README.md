@@ -41,6 +41,7 @@
 - [Essential commands](#essential-commands)
   - [Project root](#project-root)
   - [Playwright-based E2E projects (e2e/pos-web,...)](#playwright-based-e2e-projects-e2epos-web)
+- [Allure Report](#allure-report)
 - [Troubleshooting](#troubleshooting)
 
 ## Prerequisites
@@ -96,10 +97,16 @@ After successfully setting up WSL, you can continue to the section for [Linux, M
 ### Playwright-based E2E projects (e2e/pos-web,...)
 
 - `pnpm bdd:watch` - to generate BDD files in watch mode, useful for development
-- `pnpm report` - to show e2e [report](https://playwright.dev/docs/running-tests#test-reports)
+- `pnpm report` - to show [Playwright report](https://playwright.dev/docs/running-tests#test-reports)
 - `pnpm test` - to run all tests
 - `pnpm test:ui` - to run tests in [Playwright UI mode](https://playwright.dev/docs/test-ui-mode)
 - `pnpm test:debug` - to run tests in [debug mode](https://playwright.dev/docs/running-tests#debugging-tests)
+
+## Allure Report
+
+- To install Allure Report locally, follow this instruction: https://allurereport.org/docs/install
+- In Playwright-based E2E projects, to view the Allure Report, run this command: `pnpm report:allure`
+- To learn more about integrating Allure Report with Playwright, check out this guide: https://allurereport.org/docs/playwright
 
 ## Troubleshooting
 
