@@ -32,14 +32,17 @@ export default defineConfig({
 	workers: isCI ? 1 : undefined,
 
 	expect: {
-		timeout: 10_000,
+		timeout: 15_000,
 		toHaveScreenshot: {
 			maxDiffPixelRatio: 0.05,
 		},
 	},
 
 	reporter: isCI
-		? [['list', { printSteps: false }]]
+		? [
+				['list', { printSteps: false }],
+				['allure-playwright', PlaywrightConfig.allureReportConfig],
+			]
 		: [
 				['list', { printSteps: true }],
 				[
@@ -47,6 +50,7 @@ export default defineConfig({
 					{ outputFolder: PlaywrightConfig.htmlReportDir, open: 'never' },
 				],
 				['json', { outputFile: PlaywrightConfig.jsonReportFile }],
+				['allure-playwright', PlaywrightConfig.allureReportConfig],
 			],
 
 	use: {

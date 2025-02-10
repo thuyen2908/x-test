@@ -1,3 +1,4 @@
+import os from 'node:os';
 import { resolve } from 'node:path';
 
 import { env } from './env';
@@ -16,18 +17,29 @@ export class Const {
 	public get PlaywrightConfig() {
 		const distDir = resolve(projectRoot, 'dist');
 		const artifactsDir = resolve(projectRoot, 'test-artifacts');
-		const reportDir = resolve(projectRoot, 'test-report');
+		const playwrightReportDir = resolve(projectRoot, 'playwright-report');
+		const allureReportDir = resolve(projectRoot, 'allure-report');
 
 		return {
 			distDir,
 			artifactsDir,
-			reportDir,
+			reportDir: playwrightReportDir,
 
 			bddRoot: resolve(projectRoot, 'src/features'),
 			bddOutput: resolve(distDir, 'bdd'),
 
-			htmlReportDir: reportDir,
-			jsonReportFile: resolve(reportDir, 'report.json'),
+			htmlReportDir: playwrightReportDir,
+			jsonReportFile: resolve(playwrightReportDir, 'report.json'),
+			allureReportDir,
+			allureReportConfig: {
+				resultsDir: allureReportDir,
+				environmentInfo: {
+					os_platform: os.platform(),
+					os_release: os.release(),
+					os_version: os.version(),
+					node_version: process.version,
+				},
+			},
 		};
 	}
 

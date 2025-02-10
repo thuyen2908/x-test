@@ -21,7 +21,12 @@
 			"dependsOn": ["^build"],
 
 			"inputs": ["$TURBO_DEFAULT$", ".env"],
-			"outputs": ["dist/**", "test-report/**"]
+			"outputs": [
+				"dist/**",
+				"test-artifacts/**",
+				"playwright-report/**",
+				"allure-report/**"
+			]
 		}
 	}
 }

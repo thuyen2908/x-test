@@ -11,8 +11,10 @@ Feature: Create tickets
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
 
+    Then I wait for the network to be idle
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
+
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
     And I should see the text "PAYMENT HISTORY" visible

@@ -8,8 +8,9 @@ mise.local.toml
 .turbo
 
 # playwright
-test-report
 test-artifacts
+playwright-report
+allure-report
 
 # build products
 build/
