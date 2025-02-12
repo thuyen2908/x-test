@@ -1,0 +1,19 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5
+
+workflows:
+  verify-circle-ci:
+    jobs:
+      - verify-pipeline
+
+jobs:
+  verify-pipeline:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - run:
+          name: "Echo successfully"
+          command: "echo This pipeline should run successfully"
