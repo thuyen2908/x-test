@@ -5,6 +5,7 @@
 		"dist",
 		"test-artifacts",
 		"playwright-report",
+		"allure-results",
 		"allure-report",
 		"playwright.config.ts"
 	],

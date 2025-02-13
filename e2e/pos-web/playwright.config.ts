@@ -68,6 +68,12 @@ export default defineConfig({
 			name: 'setup',
 			testDir: './src',
 			testMatch: /.*\.setup\.ts/,
+			teardown: 'teardown',
+		},
+		{
+			name: 'teardown',
+			testDir: './src',
+			testMatch: /.*\.teardown\.ts/,
 		},
 
 		/* -------------------------- Cross-browser testing ------------------------- */

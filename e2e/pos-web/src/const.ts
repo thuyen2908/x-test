@@ -1,11 +1,18 @@
-import os from 'node:os';
+import { platform, release, version } from 'node:os';
 import { resolve } from 'node:path';
 
 import { env } from './env';
-import { PageId } from './typings';
 
 const __dirname = import.meta.dirname;
 const projectRoot = resolve(__dirname, '..');
+
+/**
+ * Page identifiers
+ */
+export enum PageId {
+	HOME = 'HOME',
+	LOGIN = 'LOGIN',
+}
 
 /**
  * An utility class, which contains all the constants used in our project
@@ -18,7 +25,10 @@ export class Const {
 		const distDir = resolve(projectRoot, 'dist');
 		const artifactsDir = resolve(projectRoot, 'test-artifacts');
 		const playwrightReportDir = resolve(projectRoot, 'playwright-report');
+
+		const allureResultsDir = resolve(projectRoot, 'allure-results');
 		const allureReportDir = resolve(projectRoot, 'allure-report');
+		const allureReportGenerationTimeout = 5_000; // in ms
 
 		return {
 			distDir,
@@ -30,13 +40,15 @@ export class Const {
 
 			htmlReportDir: playwrightReportDir,
 			jsonReportFile: resolve(playwrightReportDir, 'report.json'),
+
+			allureResultsDir,
 			allureReportDir,
+			allureReportGenerationTimeout,
 			allureReportConfig: {
-				resultsDir: allureReportDir,
 				environmentInfo: {
-					os_platform: os.platform(),
-					os_release: os.release(),
-					os_version: os.version(),
+					os_platform: platform(),
+					os_release: release(),
+					os_version: version(),
 					node_version: process.version,
 				},
 			},
