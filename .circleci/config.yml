@@ -31,13 +31,20 @@ jobs:
     resource_class: small
     steps:
       - checkout
-      # - *restore_pnpm_cache
-      - *install_dependencies
-      # - save_cache:
-      #     name: Save pnpm cache
-      #     key: pnpm-{{ checksum "pnpm-lock.yaml" }}
-      #     paths:
-      #       - .pnpm-store
+      - *restore_pnpm_cache
+      - run:
+          name: Install dependencies using pnpm
+          command: |
+            corepack enable
+            pnpm config set store-dir .pnpm-store
+      - run:
+          name: Install dependencies
+          command: pnpm install --ignore-scripts
+      - save_cache:
+          name: Save pnpm cache
+          key: pnpm-{{ checksum "pnpm-lock.yaml" }}
+          paths:
+            - .pnpm-store
 
   Build:
     docker:
@@ -45,7 +52,7 @@ jobs:
     resource_class: small
     steps:
       - checkout
-      # - *restore_pnpm_cache
+      - *restore_pnpm_cache
       - *install_dependencies
       - run:
           name: Build monorepo packages
