@@ -29,7 +29,7 @@ export default defineConfig({
 	// CI config
 	forbidOnly: isCI,
 	retries: isCI ? 2 : 0,
-	workers: isCI ? 1 : undefined,
+	// workers: isCI ? 1 : undefined,
 
 	expect: {
 		timeout: 15_000,

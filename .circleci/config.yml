@@ -64,6 +64,7 @@ jobs:
     docker:
       - image: cimg/node:lts
     resource_class: medium
+    parallelism: 3
     parameters:
       project:
         type: string
@@ -79,4 +80,4 @@ jobs:
           name: 'Run tests for project: << parameters.project >>'
           command: |
             cd e2e/<< parameters.project >>
-            pnpm test
+            SHARD="$((${CIRCLE_NODE_INDEX}+1))"; pnpm test -- --shard=${SHARD}/${CIRCLE_NODE_TOTAL}
