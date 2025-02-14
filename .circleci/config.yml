@@ -21,7 +21,8 @@ aliases:
       name: Install dependencies using pnpm
       command: |
         corepack enable
-        pnpm config set store-dir .pnpm-store
+        pnpm config set store-dir ~/.pnpm-store
+        pnpm store path
         pnpm install --ignore-scripts
 
 jobs:
@@ -32,19 +33,12 @@ jobs:
     steps:
       - checkout
       - *restore_pnpm_cache
-      - run:
-          name: Install dependencies using pnpm
-          command: |
-            corepack enable
-            pnpm config set store-dir .pnpm-store
-      - run:
-          name: Install dependencies
-          command: pnpm install --ignore-scripts
+      - *install_dependencies
       - save_cache:
           name: Save pnpm cache
           key: pnpm-{{ checksum "pnpm-lock.yaml" }}
           paths:
-            - .pnpm-store
+            - ~/.pnpm-store
 
   Build:
     docker:
