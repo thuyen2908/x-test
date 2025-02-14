@@ -7,6 +7,10 @@ workflows:
       - Build:
           requires:
             - Install dependencies
+      - Run Playwright tests:
+          project: pos-web
+          requires:
+            - Build
 
 aliases:
   - &restore_pnpm_cache
@@ -22,8 +26,14 @@ aliases:
       command: |
         corepack enable
         pnpm config set store-dir ~/.pnpm-store
-        pnpm store path
         pnpm install --ignore-scripts
+
+  - &build
+    run:
+      name: Build monorepo packages
+      environment:
+        TURBO_UI: 'false'
+      command: pnpm build
 
 jobs:
   Install dependencies:
@@ -48,9 +58,25 @@ jobs:
       - checkout
       - *restore_pnpm_cache
       - *install_dependencies
-      - run:
-          name: Build monorepo packages
-          environment:
-            TURBO_UI: 'false'
-          command: pnpm build
+      - *build
 
+  Run Playwright tests:
+    docker:
+      - image: cimg/node:lts
+    resource_class: medium
+    parameters:
+      project:
+        type: string
+    steps:
+      - checkout
+      - *restore_pnpm_cache
+      - *install_dependencies
+      - *build
+      - run:
+          name: Install Playwright browsers
+          command: pnpm playwright:install-browsers
+      - run:
+          name: 'Run tests for project: << parameters.project >>'
+          command: |
+            cd e2e/<< parameters.project >>
+            pnpm test
