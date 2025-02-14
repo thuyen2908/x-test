@@ -1,20 +1,28 @@
 version: 2.1
 
 workflows:
-  Run E2E:
+  Run tests:
     jobs:
       - Install dependencies
       - Build:
           requires:
             - Install dependencies
 
-alias:
+aliases:
   - &restore_pnpm_cache
     restore_cache:
       name: Restore pnpm cache
       keys:
         - pnpm-{{ checksum "pnpm-lock.yaml" }}
         - pnpm-
+
+  - &install_dependencies
+    run:
+      name: Install dependencies using pnpm
+      command: |
+        corepack enable
+        pnpm config set store-dir .pnpm-store
+        pnpm install --ignore-scripts
 
 jobs:
   Install dependencies:
@@ -24,13 +32,7 @@ jobs:
     steps:
       - checkout
       - *restore_pnpm_cache
-      - run:
-          name: Install dependencies with pnpm
-          command: |
-            pnpm install --ignore-scripts
-            pnpm config set store-dir .pnpm-store
-            pwd
-            ls -la
+      - *install_dependencies
       - save_cache:
           name: Save pnpm cache
           key: pnpm-{{ checksum "pnpm-lock.yaml" }}
@@ -44,9 +46,10 @@ jobs:
     steps:
       - checkout
       - *restore_pnpm_cache
+      - *install_dependencies
       - run:
           name: Build monorepo packages
           environment:
             TURBO_UI: 'false'
-          command: echo 'Running build...'
+          command: pnpm build
 
