@@ -4,7 +4,7 @@ workflows:
   test:
     jobs:
       - Install dependencies
-      - Pull environments:
+      - Build:
           requires:
             - Install dependencies
 
@@ -33,12 +33,12 @@ jobs:
           paths:
             - ~/.pnpm-store
 
-  Pull environments:
+  Build:
     docker:
       - image: cimg/node:lts
     resource_class: small
     steps:
       - checkout
       - run:
-          name: Pull environments from Dotenv Vault
-          command: pnpm dlx dotenv-vault@latest pull ci
+          name: Build monorepo packages
+          command: pnpm build
