@@ -1,19 +1,44 @@
 version: 2.1
 
-orbs:
-  node: circleci/node@7
-
 workflows:
-  verify-circle-ci:
+  test:
     jobs:
-      - verify-pipeline
+      - Install dependencies
+      - Pull environments:
+          requires:
+            - Install dependencies
 
 jobs:
-  verify-pipeline:
+  Install dependencies:
     docker:
-      - image: cimg/base:stable
+      - image: cimg/node:lts
+    resource_class: small
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore pnpm cache
+          keys:
+            - pnpm-{{ checksum "pnpm-lock.yaml" }}
+      - run:
+          name: Enable Corepack
+          command: |
+            corepack enable
+            pnpm config set store-dir ~/.pnpm-store
+      - run:
+          name: Install dependencies with pnpm
+          command: pnpm install
+      - save_cache:
+          name: Save pnpm cache
+          key: pnpm-{{ checksum "pnpm-lock.yaml" }}
+          paths:
+            - ~/.pnpm-store
+
+  Pull environments:
+    docker:
+      - image: cimg/node:lts
+    resource_class: small
     steps:
       - checkout
       - run:
-          name: "Echo successfully"
-          command: "echo This pipeline should run successfully"
+          name: Pull environments from Dotenv Vault
+          command: pnpm dlx dotenv-vault@latest pull ci
