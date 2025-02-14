@@ -8,6 +8,13 @@ workflows:
           requires:
             - Install dependencies
 
+alias:
+  - &restore_pnpm_cache
+    restore_cache:
+      name: Restore pnpm cache
+      keys:
+        - pnpm-{{ checksum "pnpm-lock.yaml" }}
+
 jobs:
   Install dependencies:
     docker:
@@ -15,10 +22,7 @@ jobs:
     resource_class: small
     steps:
       - checkout
-      - restore_cache:
-          name: Restore pnpm cache
-          keys:
-            - pnpm-{{ checksum "pnpm-lock.yaml" }}
+      - *restore_pnpm_cache
       - run:
           name: Enable Corepack
           command: |
@@ -26,7 +30,7 @@ jobs:
             pnpm config set store-dir ~/.pnpm-store
       - run:
           name: Install dependencies with pnpm
-          command: pnpm install
+          command: pnpm install --ignore-scripts
       - save_cache:
           name: Save pnpm cache
           key: pnpm-{{ checksum "pnpm-lock.yaml" }}
@@ -39,6 +43,7 @@ jobs:
     resource_class: small
     steps:
       - checkout
+      - *restore_pnpm_cache
       - run:
           name: Build monorepo packages
           command: pnpm build
