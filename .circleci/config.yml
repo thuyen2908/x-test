@@ -8,6 +8,7 @@ workflows:
           requires:
             - Install dependencies
       - Run Playwright tests:
+          name: Run pos-web tests
           project: pos-web
           requires:
             - Build
@@ -63,8 +64,8 @@ jobs:
   Run Playwright tests:
     docker:
       - image: cimg/node:lts
-    resource_class: medium
-    parallelism: 3
+    resource_class: small
+    parallelism: 4
     parameters:
       project:
         type: string
