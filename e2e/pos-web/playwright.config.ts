@@ -1,4 +1,3 @@
-import { cpus } from 'node:os';
 import { defineConfig, devices } from '@playwright/test';
 import { defineBddConfig } from 'playwright-bdd';
 
@@ -11,9 +10,6 @@ const posConfig = env.posConfig;
 
 const PlaywrightConfig = constants.PlaywrightConfig;
 const userAuthStorage = constants.AuthStorage.user;
-
-console.info(`Number of CPUs: ${cpus().length}`);
-console.log('isCI', isCI);
 
 // BDD config
 const testDir = defineBddConfig({
@@ -33,7 +29,7 @@ export default defineConfig({
 	// CI config
 	forbidOnly: isCI,
 	retries: isCI ? 2 : 0,
-	workers: '50%',
+	workers: isCI ? 2 : undefined,
 
 	expect: {
 		timeout: 15_000,
