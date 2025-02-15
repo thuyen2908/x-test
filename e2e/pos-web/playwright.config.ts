@@ -1,3 +1,4 @@
+import { cpus } from 'node:os';
 import { defineConfig, devices } from '@playwright/test';
 import { defineBddConfig } from 'playwright-bdd';
 
@@ -10,6 +11,8 @@ const posConfig = env.posConfig;
 
 const PlaywrightConfig = constants.PlaywrightConfig;
 const userAuthStorage = constants.AuthStorage.user;
+
+console.info(`Number of CPUs: ${cpus()}`);
 
 // BDD config
 const testDir = defineBddConfig({
