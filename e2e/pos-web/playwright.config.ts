@@ -29,7 +29,7 @@ export default defineConfig({
 	// CI config
 	forbidOnly: isCI,
 	retries: isCI ? 2 : 0,
-	// workers: isCI ? 1 : undefined,
+	workers: '50%',
 
 	expect: {
 		timeout: 15_000,
@@ -50,6 +50,7 @@ export default defineConfig({
 					{ outputFolder: PlaywrightConfig.htmlReportDir, open: 'never' },
 				],
 				['json', { outputFile: PlaywrightConfig.jsonReportFile }],
+				['junit', { outputFile: PlaywrightConfig.junitReportFile }],
 				['allure-playwright', PlaywrightConfig.allureReportConfig],
 			],
 
