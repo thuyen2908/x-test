@@ -12,7 +12,8 @@ const posConfig = env.posConfig;
 const PlaywrightConfig = constants.PlaywrightConfig;
 const userAuthStorage = constants.AuthStorage.user;
 
-console.info(`Number of CPUs: ${cpus()}`);
+console.info(`Number of CPUs: ${cpus().length}`);
+console.log('isCI', isCI);
 
 // BDD config
 const testDir = defineBddConfig({
@@ -44,6 +45,7 @@ export default defineConfig({
 	reporter: isCI
 		? [
 				['list', { printSteps: false }],
+				['junit', { outputFile: PlaywrightConfig.junitReportFile }],
 				['allure-playwright', PlaywrightConfig.allureReportConfig],
 			]
 		: [
@@ -53,7 +55,6 @@ export default defineConfig({
 					{ outputFolder: PlaywrightConfig.htmlReportDir, open: 'never' },
 				],
 				['json', { outputFile: PlaywrightConfig.jsonReportFile }],
-				['junit', { outputFile: PlaywrightConfig.junitReportFile }],
 				['allure-playwright', PlaywrightConfig.allureReportConfig],
 			],
 
