@@ -64,7 +64,7 @@ jobs:
   Run Playwright tests:
     docker:
       - image: cimg/node:lts
-    resource_class: medium
+    resource_class: small
     parallelism: 2
     parameters:
       project:
@@ -82,3 +82,5 @@ jobs:
           command: |
             cd e2e/<< parameters.project >>
             pnpm test --shard=$((${CIRCLE_NODE_INDEX}+1))/${CIRCLE_NODE_TOTAL}
+      - store_test_results:
+          path: ./playwright-report/results.xml

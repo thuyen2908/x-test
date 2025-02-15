@@ -40,6 +40,7 @@ export class Const {
 
 			htmlReportDir: playwrightReportDir,
 			jsonReportFile: resolve(playwrightReportDir, 'report.json'),
+			junitReportFile: resolve(playwrightReportDir, 'results.xml'),
 
 			allureResultsDir,
 			allureReportDir,
