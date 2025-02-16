@@ -175,4 +175,4 @@ jobs:
     steps:
       - run:
           name: Verify job
-          command: echo "<< parameters.project >>"
+          command: echo "Project << parameters.project >>"
