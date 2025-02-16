@@ -9,11 +9,6 @@ workflows:
     when:
       equal: [ test, << pipeline.parameters.pipeline_action >> ]
     jobs:
-      - Trigger pipeline:
-            name: Trigger the publish report workflow
-            pipeline_action: report
-            requires:
-              - Run pos-web tests
       # - Install dependencies
       # - Build:
       #     requires:
@@ -23,7 +18,11 @@ workflows:
       #     project: pos-web
       #     requires:
       #       - Build
-
+      - Trigger pipeline:
+          name: Trigger the publish report workflow
+          pipeline_action: report
+          # requires:
+          #   - Run pos-web tests
 
   Publish reports:
     when:
