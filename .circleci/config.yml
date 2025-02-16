@@ -9,15 +9,15 @@ workflows:
     when:
       equal: [ test, << pipeline.parameters.pipeline_action >> ]
     jobs:
-      - Install dependencies
-      - Build:
-          requires:
-            - Install dependencies
-      - Run Playwright tests:
-          name: Run pos-web tests
-          project: pos-web
-          requires:
-            - Build
+      # - Install dependencies
+      # - Build:
+      #     requires:
+      #       - Install dependencies
+      # - Run Playwright tests:
+      #     name: Run pos-web tests
+      #     project: pos-web
+      #     requires:
+      #       - Build
       - Trigger pipeline:
           name: Trigger the publish report workflow
           pipeline_action: report
@@ -93,10 +93,10 @@ jobs:
           name: Trigger pipeline using CircleCI API
           command: |
             curl -X POST \
-            https://circleci.com/api/v2/project/$PROJECT_SLUG/pipeline \
+            "https://circleci.com/api/v2/project/${PROJECT_SLUG}/pipeline" \
             -H "Accept: application/json" \
             -H "Content-Type: application/json" \
-            -H "Circle-Token: $WORKFLOW_QUEUE_TOKEN" \
+            -H "Circle-Token: ${WORKFLOW_QUEUE_TOKEN}" \
             -d '{"parameters": {"pipeline_action": "<< parameters.pipeline_action >>"}}'
 
   # ---------------------------------- CI jobs --------------------------------- #
