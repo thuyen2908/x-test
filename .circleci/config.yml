@@ -13,6 +13,19 @@ workflows:
           requires:
             - Build
 
+  Publish reports:
+    jobs:
+      - workflow-queue/pipeline-queue:
+          context: $WORKFLOW_QUEUE_TOKEN
+          name: pipeline-queue
+
+      - Publish Playwright reports:
+          name: Publish pos-web report
+          project: pos-web
+
+orbs:
+  workflow-queue: promiseofcake/workflow-queue@3
+
 aliases:
   - &restore_pnpm_cache
     restore_cache:
@@ -92,3 +105,15 @@ jobs:
             pnpm test --shard=$((${CIRCLE_NODE_INDEX}+1))/${CIRCLE_NODE_TOTAL}
       - store_test_results:
           path: e2e/<< parameters.project >>/playwright-report/results.xml
+
+  Publish Playwright reports:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    parameters:
+      project:
+        type: string
+    steps:
+      - run:
+          name: Verify job
+          command: echo "<< parameters.project >>"
