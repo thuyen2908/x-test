@@ -25,7 +25,7 @@ aliases:
     run:
       name: Install dependencies using pnpm
       command: |
-        corepack enable
+        sudo corepack enable
         pnpm config set store-dir ~/.pnpm-store
         pnpm install --ignore-scripts
 
