@@ -90,17 +90,17 @@ jobs:
           name: Trigger pipeline using CircleCI API
           command: |
             curl -X POST \
-            "https://circleci.com/api/v2/project/circleci/${ORGANIZATION_ID}/${PROJECT_ID}/pipeline/run" \
+            "https://circleci.com/api/v2/project/circleci/$ORGANIZATION_ID/$PROJECT_ID/pipeline/run" \
             -H "Accept: application/json" \
             -H "Content-Type: application/json" \
-            -H "Circle-Token: ${PIPELINE_TRIGGER_TOKEN}" \
+            -H "Circle-Token: $PIPELINE_TRIGGER_TOKEN" \
             -d '{
-              "definition_id": "${PIPELINE_DEFINITION_ID}",
+              "definition_id": "'"$PIPELINE_DEFINITION_ID"'",
               "config": {
-                "branch": "${CIRCLE_BRANCH}"
+                "branch": "'"$CIRCLE_BRANCH"'"
               },
               "checkout": {
-                "branch": "${CIRCLE_BRANCH}"
+                "branch": "'"$CIRCLE_BRANCH"'"
               },
               "parameters": {
                 "pipeline_action": "<< parameters.pipeline_action >>"
