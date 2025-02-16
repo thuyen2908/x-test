@@ -63,7 +63,7 @@ jobs:
 
   Run Playwright tests:
     docker:
-      - image: cimg/node:lts
+      - image: cimg/openjdk:23.0-node
     resource_class: small
     parallelism: 3
     parameters:
