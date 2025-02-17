@@ -285,13 +285,9 @@ jobs:
           path: 'allure-report.tar.zst'
           destination: 'allure-report.tar.zst'
 
-      - run:
-          name: Verify environment variables
-          command: echo $CIRCLE_BUILD_NUM
-
       - trigger_pipeline:
           pipeline_action: deploy-report
-          artifact_build_number: $CIRCLE_BUILD_NUM
+          artifact_build_number: "$CIRCLE_BUILD_NUM"
 
   Deploy project report:
     docker:
