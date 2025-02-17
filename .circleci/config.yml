@@ -182,25 +182,16 @@ jobs:
       - run:
           name: 'Run tests for project: << parameters.project >>'
           command: |
+            set -e
             cd e2e/<< parameters.project >>
             pnpm test --shard=$((${CIRCLE_NODE_INDEX}+1))/${CIRCLE_NODE_TOTAL}
 
       - store_test_results:
           path: e2e/<< parameters.project >>/playwright-report/results.xml
-
-      - run:
-          when: always
-          name: Verify testing results
-          command: ls -la e2e/<< parameters.project >>
       - persist_to_workspace:
           root: ./
           paths:
             - e2e/<< parameters.project >>/allure-results
-      - run:
-          when: always
-          name: Clean up
-          command: echo 'Cleaning job...'
-
 
   Collect and generate Allure Report:
     docker:
