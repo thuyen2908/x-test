@@ -203,6 +203,9 @@ jobs:
     docker:
       - image: cimg/openjdk:23.0-node
     resource_class: small
+    parameters:
+      project:
+        type: string
     steps:
       - attach_workspace:
           at: .
