@@ -348,5 +348,7 @@ jobs:
           command: |
             cd report-<< parameters.project >>
             git add .
-            git commit --author "CircleCI" -m "docs: update report (build number: $CIRCLE_BUILD_NUM)"
+            git config --global user.name "circle-ci[bot]"
+            git config --global user.email "97781772+circle-ci[bot]@users.noreply.github.com"
+            git commit -m "docs: update report (build number: $CIRCLE_BUILD_NUM)"
             git push
