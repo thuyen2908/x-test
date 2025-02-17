@@ -45,6 +45,7 @@ aliases:
       default: test
     build_number:
       type: integer
+      default: 0
 
   - &restore_pnpm_cache
     restore_cache:
