@@ -5,45 +5,42 @@ version: 2.1
 # ---------------------------------------------------------------------------- #
 
 workflows:
-  Github page:
+  Run tests:
+    when:
+      equal: [ test, << pipeline.parameters.pipeline_action >> ]
     jobs:
-      - Deploy to Github page
+      - Install dependencies
+      - Build:
+          requires:
+            - Install dependencies
 
-  # Run tests:
-  #   when:
-  #     equal: [ test, << pipeline.parameters.pipeline_action >> ]
-  #   jobs:
-  #     - Install dependencies
-  #     - Build:
-  #         requires:
-  #           - Install dependencies
+      # ----------------------- E2E pipeline for each project ---------------------- #
 
-  #     # ----------------------- E2E pipeline for each project ---------------------- #
+      - Run Playwright tests:
+          name: Run pos-web tests
+          project: pos-web
+          requires:
+            - Build
 
-  #     - Run Playwright tests:
-  #         name: Run pos-web tests
-  #         project: pos-web
-  #         requires:
-  #           - Build
+  # ------------------------ Report generation pipelines ----------------------- #
 
-  # # ------------------------ Report generation pipelines ----------------------- #
+      - Collect and generate Allure Report:
+          name: Collect and generate Allure Report for pos-web
+          project: pos-web
+          requires:
+            - Run pos-web tests
 
-  #     - Collect and generate Allure Report:
-  #         name: Collect and generate Allure Report for pos-web
-  #         project: pos-web
-  #         requires:
-  #           - Run pos-web tests
+  # ------------------------ Report deploying pipelines ------------------------ #
 
-  # # ------------------------ Report deploying pipelines ------------------------ #
-
-  # Deploy reports:
-  #   when:
-  #     equal: [ deploy-report, << pipeline.parameters.pipeline_action >> ]
-  #   jobs:
-  #     - Deploy project report:
-  #         name: Deploy report for project pos-web
-  #         project: pos-web
-  #         artifact_build_number: << pipeline.parameters.artifact_build_number >>
+  Deploy reports:
+    when:
+      equal: [ deploy-report, << pipeline.parameters.pipeline_action >> ]
+    jobs:
+      - Deploy project report:
+          name: Deploy report for project pos-web
+          project: pos-web
+          artifact_build_number: << pipeline.parameters.artifact_build_number >>
+          report_repo_origin: $REPORT_POS_WEB_ORIGIN
 
 # ---------------------------------------------------------------------------- #
 #                                    Aliases                                   #
@@ -178,6 +175,23 @@ commands:
             | grep -o -E 'https://([^"]*)' \
             | wget --verbose --header "Circle-Token: $PIPELINE_TRIGGER_TOKEN" --input-file -
 
+  clone_github_repo:
+    parameters:
+      repo_origin:
+        type: string
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - $GITHUB_DEPLOY_KEY_FINGERPRINT
+      - run:
+          name: Clone Github repository
+          command: |
+            mkdir -p ~/.ssh
+            touch ~/.ssh/known_hosts
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
+            GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa_$GITHUB_DEPLOY_KEY_FINGERPRINT'
+            git clone << parameters.repo_origin >>
+
 # ---------------------------------------------------------------------------- #
 #                                     Jobs                                     #
 # ---------------------------------------------------------------------------- #
@@ -302,6 +316,8 @@ jobs:
         type: string
       artifact_build_number:
         type: string
+      report_repo_origin:
+        type: string
     steps:
       - run:
           name: Verify pipeline parameters
@@ -316,19 +332,16 @@ jobs:
           name: Verify de-compressed report files
           command: ls -la
 
-  Deploy to Github page:
-    docker:
-      - image: cimg/base:current
-    resource_class: small
-    steps:
-      - add_ssh_keys:
-          fingerprints:
-            - $GITHUB_DEPLOY_KEY_FINGERPRINT
+      - clone_github_repo:
+          repo_origin: << parameters.report_repo_origin >>
       - run:
-          name: Clone Github repository
+          name: Copy report files to the cloned repo
           command: |
-            mkdir -p ~/.ssh
-            touch ~/.ssh/known_hosts
-            ssh-keyscan github.com >> ~/.ssh/known_hosts
-            GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa_$GITHUB_DEPLOY_KEY_FINGERPRINT'
-            git clone $REPORT_POS_WEB_ORIGIN
+            cd report-<< parameters.project >>
+            git rm -r *
+            cp -a ../e2e/< parameters.project >>/allure-report/. ./
+      - run:
+          name: Verify copied files
+          command: ls -la report-<< parameters.project >>
+
+
