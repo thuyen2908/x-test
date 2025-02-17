@@ -5,8 +5,12 @@ import allure from 'allure-commandline';
 import { copy, emptyDir, pathExists } from 'fs-extra';
 
 import { constants } from './const';
+import { env } from './env';
 
 teardown('generate allure report', async () => {
+	// the CI will handle the report generation instead
+	if (env.isCI) return;
+
 	const { allureResultsDir, allureReportDir, allureReportGenerationTimeout } =
 		constants.PlaywrightConfig;
 
