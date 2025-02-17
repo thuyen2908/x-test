@@ -7,7 +7,7 @@ version: 2.1
 workflows:
   Github page:
     jobs:
-      - Deploy to Github Page
+      - Deploy to Github page
 
   # Run tests:
   #   when:
