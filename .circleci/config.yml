@@ -173,9 +173,6 @@ commands:
             -H "Circle-Token: $PIPELINE_TRIGGER_TOKEN" \
             | grep -o -E 'https://([^"]*)' \
             | wget --verbose --header "Circle-Token: $PIPELINE_TRIGGER_TOKEN" --input-file -
-      - run:
-          name: Verify downloaded artifact
-          command: ls -la
 
 # ---------------------------------------------------------------------------- #
 #                                     Jobs                                     #
@@ -307,6 +304,10 @@ jobs:
           command: |
             echo "Target project: << parameters.project >>"
             echo "Artifact build number: << parameters.artifact_build_number >>"
-
       - download_artifact:
           artifact_build_number: << parameters.artifact_build_number >>
+      - decompress_using_zstd:
+          target_file: allure-report.tar.zst
+      - run:
+          name: Verify de-compressed report files
+          command: ls -la
