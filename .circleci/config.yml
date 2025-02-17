@@ -154,7 +154,7 @@ commands:
               },
               "parameters": {
                 "pipeline_action": "<< parameters.pipeline_action >>",
-                "artifact_build_number": "<< parameters.artifact_build_number >>"
+                "artifact_build_number": "'"$CIRCLE_BUILD_NUM"'"
               }
             }'
 
@@ -287,7 +287,10 @@ jobs:
 
       - trigger_pipeline:
           pipeline_action: deploy-report
-          artifact_build_number: "$CIRCLE_BUILD_NUM"
+          # currently, passing environment variables to parameters are not being evaluated
+          # which means, if we pass $CIRCLE_BUILD_NUM as a parameter, it will be passed as "$CIRCLE_BUILD_NUM" instead of the actual build number
+          # this issue is raised here: https://discuss.circleci.com/t/passing-an-environment-variable-to-parameters-in-the-continuation-continue-command-does-not-work/40832
+          artifact_build_number: ''
 
   Deploy project report:
     docker:
