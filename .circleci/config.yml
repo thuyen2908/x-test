@@ -166,6 +166,9 @@ jobs:
           path: e2e/<< parameters.project >>/playwright-report/results.xml
 
       - run:
+          name: Install pzstd compression algorithm
+          command: sudo apt-get update && sudo apt-get install -y zstd
+      - run:
           name: Compress Allure reports
           command: |
             tar --use-compress-program pzstd -cf allure-report.tar.zstd ./e2e/<< parameters.project >>/allure-report
