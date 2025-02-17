@@ -287,7 +287,7 @@ jobs:
 
       - run:
           name: Verify environment variables
-          command: "echo 'CIRCLE_BUILD_NUMB: $CIRCLE_BUILD_NUM'"
+          command: echo $CIRCLE_BUILD_NUM
 
       - trigger_pipeline:
           pipeline_action: deploy-report
