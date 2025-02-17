@@ -21,11 +21,17 @@ workflows:
           project: pos-web
           requires:
             - Build
+
+  # ------------------------ Report generation pipelines ----------------------- #
+
+  Generate Allure reports:
+    when:
+     equal: [ report, << pipeline.parameters.pipeline_action >> ]
+    jobs:
       - Collect and generate Allure Report:
           name: Collect and generate Allure Report for pos-web
           project: pos-web
-          requires:
-            - Run pos-web tests
+          artifact_build_number: << pipeline.parameters.build_number >>
 
 # ---------------------------------------------------------------------------- #
 #                                    Aliases                                   #
@@ -37,6 +43,8 @@ aliases:
       type: enum
       enum: [test, report]
       default: test
+    build_number:
+      type: integer
 
   - &restore_pnpm_cache
     restore_cache:
@@ -100,43 +108,36 @@ commands:
             echo "Post-compression size"
             du -sh << parameters.output_file >>
 
+  trigger_pipeline:
+    parameters:
+      *param_pipeline_action
+    steps:
+      - run:
+          name: Trigger pipeline using CircleCI API
+          command: |
+            curl -X POST \
+            "https://circleci.com/api/v2/project/circleci/$ORGANIZATION_ID/$PROJECT_ID/pipeline/run" \
+            -H "Accept: application/json" \
+            -H "Content-Type: application/json" \
+            -H "Circle-Token: $PIPELINE_TRIGGER_TOKEN" \
+            -d '{
+              "definition_id": "'"$PIPELINE_DEFINITION_ID"'",
+              "config": {
+                "branch": "'"$CIRCLE_BRANCH"'"
+              },
+              "checkout": {
+                "branch": "'"$CIRCLE_BRANCH"'"
+              },
+              "parameters": {
+                "pipeline_action": "<< parameters.pipeline_action >>"
+              }
+            }'
+
 # ---------------------------------------------------------------------------- #
 #                                     Jobs                                     #
 # ---------------------------------------------------------------------------- #
 
 jobs:
-  # ------------------------------- Utility jobs ------------------------------- #
-
-  # Trigger pipeline:
-  #   docker:
-  #     - image: cimg/base:current
-  #   resource_class: small
-  #   parameters:
-  #     *param_pipeline_action
-  #   steps:
-  #     - run:
-  #         name: Trigger pipeline using CircleCI API
-  #         command: |
-  #           curl -X POST \
-  #           "https://circleci.com/api/v2/project/circleci/$ORGANIZATION_ID/$PROJECT_ID/pipeline/run" \
-  #           -H "Accept: application/json" \
-  #           -H "Content-Type: application/json" \
-  #           -H "Circle-Token: $PIPELINE_TRIGGER_TOKEN" \
-  #           -d '{
-  #             "definition_id": "'"$PIPELINE_DEFINITION_ID"'",
-  #             "config": {
-  #               "branch": "'"$CIRCLE_BRANCH"'"
-  #             },
-  #             "checkout": {
-  #               "branch": "'"$CIRCLE_BRANCH"'"
-  #             },
-  #             "parameters": {
-  #               "pipeline_action": "<< parameters.pipeline_action >>"
-  #             }
-  #           }'
-
-  # ---------------------------------- CI jobs --------------------------------- #
-
   Install dependencies:
     docker:
       - image: cimg/node:lts
@@ -184,14 +185,20 @@ jobs:
           command: |
             cd e2e/<< parameters.project >>
             pnpm test --shard=$((${CIRCLE_NODE_INDEX}+1))/${CIRCLE_NODE_TOTAL}
-            exit 0
 
       - store_test_results:
           path: e2e/<< parameters.project >>/playwright-report/results.xml
-      - persist_to_workspace:
-          root: ./
-          paths:
-            - e2e/<< parameters.project >>/allure-results
+      - store_artifacts:
+          path: e2e/<< parameters.project >>/allure-results
+          destination: allure-results
+
+      - when:
+          condition:
+            equal: [ true, true ]
+          steps:
+            - trigger_pipeline:
+                pipeline_action: report
+                build_number: ${CIRCLE_BUILD_NUM}
 
   Collect and generate Allure Report:
     docker:
@@ -200,33 +207,41 @@ jobs:
     parameters:
       project:
         type: string
+      artifact_build_number:
+        type: number
     steps:
-      - checkout
-      - *restore_pnpm_cache
-      - *install_dependencies_with_sudo
+      - run:
+          name: Verify job parameters
+          command: |
+            echo "Project: << parameters.project >>"
+            echo "Build number: << parameters.artifact_build_number >>"
 
-      - attach_workspace:
-          at: ./
-      - run:
-          name: Verify Allure results
-          command: |
-            echo "Verifying Allure results for project: << parameters.project >>"
-            ls -la e2e/<< parameters.project >>/allure-results
-      - run:
-          name: Generate Allure Report
-          command: |
-            cd e2e/<< parameters.project >>
-            pnpm allure generate allure-results
-      - run:
-          name: Verify generated Allure report
-          command: |
-            echo "Verifying generated Allure report for project: << parameters.project >>"
-            du -sh e2e/<< parameters.project >>/allure-report
-            ls -la e2e/<< parameters.project >>/allure-report
+      # - checkout
+      # - *restore_pnpm_cache
+      # - *install_dependencies_with_sudo
 
-      - compress_directory_using_zstd:
-          target_directory: e2e/<< parameters.project >>/allure-report
-          output_file: '[<< parameters.project >>]allure-report.tar.zst'
-      - store_artifacts:
-          path: '[<< parameters.project >>]allure-report.tar.zst'
-          destination: '[<< parameters.project >>]allure-report.tar.zst'
+      # - attach_workspace:
+      #     at: ./
+      # - run:
+      #     name: Verify Allure results
+      #     command: |
+      #       echo "Verifying Allure results for project: << parameters.project >>"
+      #       ls -la e2e/<< parameters.project >>/allure-results
+      # - run:
+      #     name: Generate Allure Report
+      #     command: |
+      #       cd e2e/<< parameters.project >>
+      #       pnpm allure generate allure-results
+      # - run:
+      #     name: Verify generated Allure report
+      #     command: |
+      #       echo "Verifying generated Allure report for project: << parameters.project >>"
+      #       du -sh e2e/<< parameters.project >>/allure-report
+      #       ls -la e2e/<< parameters.project >>/allure-report
+
+      # - compress_directory_using_zstd:
+      #     target_directory: e2e/<< parameters.project >>/allure-report
+      #     output_file: '[<< parameters.project >>]allure-report.tar.zst'
+      # - store_artifacts:
+      #     path: '[<< parameters.project >>]allure-report.tar.zst'
+      #     destination: '[<< parameters.project >>]allure-report.tar.zst'
