@@ -338,7 +338,7 @@ jobs:
           command: |
             cd report-<< parameters.project >>
             git rm -r *
-            cp -a ../e2e/< parameters.project >>/allure-report/. ./
+            cp -a ../e2e/<< parameters.project >>/allure-report/. ./
       - run:
           name: Verify copied files
           command: ls -la report-<< parameters.project >>
