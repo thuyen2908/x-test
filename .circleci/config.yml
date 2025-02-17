@@ -153,7 +153,8 @@ commands:
                 "branch": "'"$CIRCLE_BRANCH"'"
               },
               "parameters": {
-                "pipeline_action": "<< parameters.pipeline_action >>"
+                "pipeline_action": "<< parameters.pipeline_action >>",
+                "artifact_build_number": "<< parameters.artifact_build_number >>"
               }
             }'
 
