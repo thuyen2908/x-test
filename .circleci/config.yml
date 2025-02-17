@@ -44,8 +44,8 @@ aliases:
       enum: [test, report]
       default: test
     build_number:
-      type: integer
-      default: 0
+      type: string
+      default: ''
 
   - &restore_pnpm_cache
     restore_cache:
@@ -209,7 +209,7 @@ jobs:
       project:
         type: string
       artifact_build_number:
-        type: integer
+        type: string
     steps:
       - run:
           name: Verify job parameters
