@@ -170,6 +170,7 @@ jobs:
           name: Install pzstd compression algorithm
           command: sudo apt-get update && sudo apt-get install -y zstd
       - run:
+          when: always
           name: Compress Allure report
           command: |
             echo "Size of the report before compression"
