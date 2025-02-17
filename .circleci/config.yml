@@ -203,7 +203,7 @@ jobs:
       - when:
           condition:
             # only trigger pipeline once on the main node in parallel mode
-            equal [ 0, ${CIRCLE_NODE_INDEX} ]
+            equal: [ 0, $CIRCLE_NODE_INDEX ]
           steps:
             - trigger_pipeline:
                 pipeline_action: report
