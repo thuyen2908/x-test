@@ -24,14 +24,11 @@ workflows:
 
   # ------------------------ Report generation pipelines ----------------------- #
 
-  Generate Allure reports:
-    when:
-      equal: [ report, << pipeline.parameters.pipeline_action >> ]
-    jobs:
       - Collect and generate Allure Report:
           name: Collect and generate Allure Report for pos-web
           project: pos-web
-          artifact_build_number: << pipeline.parameters.build_number >>
+          requires:
+            - Run pos-web tests
 
 # ---------------------------------------------------------------------------- #
 #                                    Aliases                                   #
@@ -43,7 +40,7 @@ aliases:
       type: enum
       enum: [test, report]
       default: test
-    build_number:
+    artifact_build_number:
       type: string
       default: ''
 
@@ -193,64 +190,48 @@ jobs:
           command: |
             ls -la e2e/<< parameters.project >>
             ls -la e2e/<< parameters.project >>/allure-results
+            exit 0
 
       - store_test_results:
           path: e2e/<< parameters.project >>/playwright-report/results.xml
-      - store_artifacts:
-          path: e2e/<< parameters.project >>/allure-results
-          destination: allure-results
-
-      - when:
-          condition:
-            # only trigger pipeline once on the main node in parallel mode
-            equal: [ 0, $CIRCLE_NODE_INDEX ]
-          steps:
-            - trigger_pipeline:
-                pipeline_action: report
-                build_number: ${CIRCLE_BUILD_NUM}
+      - persist_to_workspace:
+          root: .
+          paths:
+            - e2e/<< parameters.project >>/allure-results
 
   Collect and generate Allure Report:
     docker:
       - image: cimg/openjdk:23.0-node
     resource_class: small
-    parameters:
-      project:
-        type: string
-      artifact_build_number:
-        type: string
     steps:
+      - attach_workspace:
+          at: .
+
+      - checkout
+      - *restore_pnpm_cache
+      - *install_dependencies_with_sudo
+
       - run:
-          name: Verify job parameters
+          name: Verify Allure results
           command: |
-            echo "Project: << parameters.project >>"
-            echo "Build number: << parameters.artifact_build_number >>"
+            echo "Verifying Allure results for project: << parameters.project >>"
+            ls -la e2e/<< parameters.project >>/allure-results
+            du -sh e2e/<< parameters.project >>/allure-results
+      - run:
+          name: Generate Allure Report
+          command: |
+            cd e2e/<< parameters.project >>
+            pnpm allure generate allure-results
+      - run:
+          name: Verify generated Allure report
+          command: |
+            echo "Verifying generated Allure report for project: << parameters.project >>"
+            ls -la e2e/<< parameters.project >>/allure-report
+            du -sh e2e/<< parameters.project >>/allure-report
 
-      # - checkout
-      # - *restore_pnpm_cache
-      # - *install_dependencies_with_sudo
-
-      # - attach_workspace:
-      #     at: ./
-      # - run:
-      #     name: Verify Allure results
-      #     command: |
-      #       echo "Verifying Allure results for project: << parameters.project >>"
-      #       ls -la e2e/<< parameters.project >>/allure-results
-      # - run:
-      #     name: Generate Allure Report
-      #     command: |
-      #       cd e2e/<< parameters.project >>
-      #       pnpm allure generate allure-results
-      # - run:
-      #     name: Verify generated Allure report
-      #     command: |
-      #       echo "Verifying generated Allure report for project: << parameters.project >>"
-      #       du -sh e2e/<< parameters.project >>/allure-report
-      #       ls -la e2e/<< parameters.project >>/allure-report
-
-      # - compress_directory_using_zstd:
-      #     target_directory: e2e/<< parameters.project >>/allure-report
-      #     output_file: '[<< parameters.project >>]allure-report.tar.zst'
-      # - store_artifacts:
-      #     path: '[<< parameters.project >>]allure-report.tar.zst'
-      #     destination: '[<< parameters.project >>]allure-report.tar.zst'
+      - compress_directory_using_zstd:
+          target_directory: e2e/<< parameters.project >>/allure-report
+          output_file: 'allure-report.tar.zst'
+      - store_artifacts:
+          path: 'allure-report.tar.zst'
+          destination: 'allure-report.tar.zst'
