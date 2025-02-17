@@ -5,41 +5,45 @@ version: 2.1
 # ---------------------------------------------------------------------------- #
 
 workflows:
-  Run tests:
-    when:
-      equal: [ test, << pipeline.parameters.pipeline_action >> ]
+  Github page:
     jobs:
-      - Install dependencies
-      - Build:
-          requires:
-            - Install dependencies
+      - Deploy to Github Page
 
-      # ----------------------- E2E pipeline for each project ---------------------- #
+  # Run tests:
+  #   when:
+  #     equal: [ test, << pipeline.parameters.pipeline_action >> ]
+  #   jobs:
+  #     - Install dependencies
+  #     - Build:
+  #         requires:
+  #           - Install dependencies
 
-      - Run Playwright tests:
-          name: Run pos-web tests
-          project: pos-web
-          requires:
-            - Build
+  #     # ----------------------- E2E pipeline for each project ---------------------- #
 
-  # ------------------------ Report generation pipelines ----------------------- #
+  #     - Run Playwright tests:
+  #         name: Run pos-web tests
+  #         project: pos-web
+  #         requires:
+  #           - Build
 
-      - Collect and generate Allure Report:
-          name: Collect and generate Allure Report for pos-web
-          project: pos-web
-          requires:
-            - Run pos-web tests
+  # # ------------------------ Report generation pipelines ----------------------- #
 
-  # ------------------------ Report deploying pipelines ------------------------ #
+  #     - Collect and generate Allure Report:
+  #         name: Collect and generate Allure Report for pos-web
+  #         project: pos-web
+  #         requires:
+  #           - Run pos-web tests
 
-  Deploy reports:
-    when:
-      equal: [ deploy-report, << pipeline.parameters.pipeline_action >> ]
-    jobs:
-      - Deploy project report:
-          name: Deploy report for project pos-web
-          project: pos-web
-          artifact_build_number: << pipeline.parameters.artifact_build_number >>
+  # # ------------------------ Report deploying pipelines ------------------------ #
+
+  # Deploy reports:
+  #   when:
+  #     equal: [ deploy-report, << pipeline.parameters.pipeline_action >> ]
+  #   jobs:
+  #     - Deploy project report:
+  #         name: Deploy report for project pos-web
+  #         project: pos-web
+  #         artifact_build_number: << pipeline.parameters.artifact_build_number >>
 
 # ---------------------------------------------------------------------------- #
 #                                    Aliases                                   #
@@ -311,3 +315,17 @@ jobs:
       - run:
           name: Verify de-compressed report files
           command: ls -la
+
+  Deploy to Github page:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - $GITHUB_DEPLOY_KEY_FINGERPRINT
+      - run:
+          name: Clone Github repository
+          command: |
+            GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa_$GITHUB_DEPLOY_KEY_FINGERPRINT'
+            git clone $REPORT_POS_WEB_ORIGIN
