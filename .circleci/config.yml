@@ -26,7 +26,7 @@ workflows:
 
   Generate Allure reports:
     when:
-     equal: [ report, << pipeline.parameters.pipeline_action >> ]
+      equal: [ report, << pipeline.parameters.pipeline_action >> ]
     jobs:
       - Collect and generate Allure Report:
           name: Collect and generate Allure Report for pos-web
@@ -208,7 +208,7 @@ jobs:
       project:
         type: string
       artifact_build_number:
-        type: number
+        type: integer
     steps:
       - run:
           name: Verify job parameters
