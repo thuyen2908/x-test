@@ -30,6 +30,17 @@ workflows:
           requires:
             - Run pos-web tests
 
+  # ------------------------ Report deploying pipelines ------------------------ #
+
+  Deploy reports:
+    when:
+      equal: [ deploy-report, << pipeline.parameters.pipeline_action >> ]
+    jobs:
+      - Deploy project report:
+          name: Deploy report for project pos-web
+          project: pos-web
+          artifact_build_number: << pipeline.parameters.artifact_build_number >>
+
 # ---------------------------------------------------------------------------- #
 #                                    Aliases                                   #
 # ---------------------------------------------------------------------------- #
@@ -38,7 +49,7 @@ aliases:
   - &param_pipeline_action
     pipeline_action:
       type: enum
-      enum: [test, report]
+      enum: [test, deploy-report]
       default: test
     artifact_build_number:
       type: string
@@ -68,6 +79,13 @@ aliases:
         pnpm config set store-dir ~/.pnpm-store
         pnpm install --ignore-scripts
 
+  - &install_pzstd
+    run:
+      name: Install pzstd compression algorithm
+      command: |
+        sudo apt-get update
+        sudo apt-get install -y pzstd
+
   - &build
     run:
       name: Build monorepo packages
@@ -94,9 +112,7 @@ commands:
       output_file:
         type: string
     steps:
-      - run:
-          name: Install pzstd compression algorithm
-          command: sudo apt-get update && sudo apt-get install -y zstd
+      - *install_pzstd
       - run:
           name: 'Compress directory: << parameters.target_directory >>'
           command: |
@@ -105,6 +121,16 @@ commands:
             tar --use-compress-program pzstd -cf << parameters.output_file >> << parameters.target_directory >>
             echo "Post-compression size"
             du -sh << parameters.output_file >>
+
+  decompress_using_zstd:
+    parameters:
+      target_file:
+        type: string
+    steps:
+      - *install_pzstd
+      - run:
+          name: 'De-compress file: << parameters.target_file >>'
+          command: tar --use-compress-program pzstd -xf << parameters.target_file >>
 
   trigger_pipeline:
     parameters:
@@ -238,3 +264,23 @@ jobs:
       - store_artifacts:
           path: 'allure-report.tar.zst'
           destination: 'allure-report.tar.zst'
+
+      - trigger_pipeline:
+          pipeline_action: deploy-report
+          artifact_build_number: $CIRCLE_BUILD_NUM
+
+  Deploy project report:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    parameters:
+      project:
+        type: string
+      artifact_build_number:
+        type: string
+    steps:
+      - run:
+          name: Verify pipeline parameters
+          command: |
+            echo "Target project: << parameters.project >>"
+            echo "Artifact build number: << parameters.artifact_build_number >>"
