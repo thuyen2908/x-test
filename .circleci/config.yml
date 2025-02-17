@@ -158,6 +158,25 @@ commands:
               }
             }'
 
+  download_artifact:
+    parameters:
+      artifact_build_number:
+        type: string
+    steps:
+      - run:
+          name: Download report artifact
+          command: |
+            curl -X GET \
+            "https://circleci.com/api/v2/project/$PROJECT_SLUG/<< parameters.artifact_build_number >>/artifacts" \
+            -H "Accept: application/json" \
+            -H "Content-Type: application/json" \
+            -H "Circle-Token: $PIPELINE_TRIGGER_TOKEN" \
+            | grep -o -E 'https://([^"]*)' \
+            | wget --verbose --header "Circle-Token: $PIPELINE_TRIGGER_TOKEN" --input-file -
+      - run:
+          name: Verify downloaded artifact
+          command: ls -la
+
 # ---------------------------------------------------------------------------- #
 #                                     Jobs                                     #
 # ---------------------------------------------------------------------------- #
@@ -285,3 +304,6 @@ jobs:
           command: |
             echo "Target project: << parameters.project >>"
             echo "Artifact build number: << parameters.artifact_build_number >>"
+
+      - download_artifact:
+          artifact_build_number: << parameters.artifact_build_number >>
