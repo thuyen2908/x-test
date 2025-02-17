@@ -53,6 +53,15 @@ aliases:
         pnpm config set store-dir ~/.pnpm-store
         pnpm install --ignore-scripts
 
+  - &install_dependencies_with_sudo
+    run:
+      name: Install dependencies using pnpm
+      command: |
+        sudo npm install -g corepack@latest
+        sudo corepack enable
+        pnpm config set store-dir ~/.pnpm-store
+        pnpm install --ignore-scripts
+
   - &build
     run:
       name: Build monorepo packages
@@ -141,13 +150,7 @@ jobs:
       - *restore_pnpm_cache
       # this Convenience Image requires a sudo permission to use Corepack
       # that's why we duplicate the dependencies installing steps with the sudo access here
-      - run:
-          name: Install dependencies using pnpm
-          command: |
-            sudo npm install -g corepack@latest
-            sudo corepack enable
-            pnpm config set store-dir ~/.pnpm-store
-            pnpm install --ignore-scripts
+      - *install_dependencies_with_sudo
       - *build
       - run:
           name: Install Playwright browsers
@@ -190,7 +193,7 @@ jobs:
     steps:
       - checkout
       - *restore_pnpm_cache
-      - *install_dependencies
+      - *install_dependencies_with_sudo
 
       - attach_workspace:
           at: ./
@@ -210,3 +213,6 @@ jobs:
             echo "Verifying generated Allure report for project: << parameters.project >>"
             du -sh ./allure-report
             ls -la ./allure-report
+      - store_artifacts:
+          path: ./e2e/<< parameters.project >>/allure-report
+          destination: allure-report/<< parameters.project >>
