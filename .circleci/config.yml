@@ -187,19 +187,27 @@ jobs:
             cd e2e/<< parameters.project >>
             pnpm test --shard=$((${CIRCLE_NODE_INDEX}+1))/${CIRCLE_NODE_TOTAL}
 
+      - run:
+          when: always
+          name: Verify test results
+          command: |
+            ls -la e2e/<< parameters.project >>
+            ls -la e2e/<< parameters.project >>/allure-results
+
       - store_test_results:
           path: e2e/<< parameters.project >>/playwright-report/results.xml
       - store_artifacts:
           path: e2e/<< parameters.project >>/allure-results
           destination: allure-results
 
-      - when:
-          condition:
-            equal: [ true, true ]
-          steps:
-            - trigger_pipeline:
-                pipeline_action: report
-                build_number: ${CIRCLE_BUILD_NUM}
+      - run:
+          when: always
+          name: Trigger Allure Report generation
+          command: echo 'Setting up trigger pipeline for Allure Report generation'
+
+      - trigger_pipeline:
+          pipeline_action: report
+          build_number: ${CIRCLE_BUILD_NUM}
 
   Collect and generate Allure Report:
     docker:
