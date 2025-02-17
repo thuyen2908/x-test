@@ -328,7 +328,7 @@ jobs:
       - decompress_using_zstd:
           target_file: allure-report.tar.zst
       - run:
-          name: Verify de-compressed report files
+          name: Verify de-compressed files
           command: ls -la
 
       - clone_github_repo:
@@ -343,4 +343,10 @@ jobs:
           name: Verify copied files
           command: ls -la report-<< parameters.project >>
 
-
+      - run:
+          name: Deploy the new report
+          command: |
+            cd report-<< parameters.project >>
+            git add .
+            git commit --author "CircleCI" -m "docs: update report (build number: $CIRCLE_BUILD_NUM)"
+            git push
