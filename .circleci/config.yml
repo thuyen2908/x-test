@@ -173,9 +173,11 @@ jobs:
           command: |
             echo "Size of the report before compression"
             du -sh ./e2e/<< parameters.project >>/allure-report
-            tar --use-compress-program pzstd -cf allure-report.tar.zstd ./e2e/<< parameters.project >>/allure-report
+            tar --use-compress-program pzstd -cf ./allure-report.tar.zstd ./e2e/<< parameters.project >>/allure-report
             echo "Size of the report after compression"
             du -sh ./allure-report.tar.zstd
+      - store_artifacts:
+          path: ./allure-report.tar.zstd
 
   Publish Playwright reports:
     docker:
