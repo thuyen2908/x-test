@@ -18,19 +18,24 @@ workflows:
           project: pos-web
           requires:
             - Build
-      - Trigger pipeline:
-          name: Trigger the publish report workflow
-          pipeline_action: report
+      # - Trigger pipeline:
+      #     name: Trigger the publish report workflow
+      #     pipeline_action: report
+      #     requires:
+      #       - Run pos-web tests
+      - Collect and generate Allure Report:
+          name: Collect and generate Allure Report for pos-web
+          project: pos-web
           requires:
             - Run pos-web tests
 
-  Publish reports:
-    when:
-      equal: [ report, << pipeline.parameters.pipeline_action >> ]
-    jobs:
-      - Publish Playwright reports:
-          name: Publish pos-web report
-          project: pos-web
+  # Publish reports:
+  #   when:
+  #     equal: [ report, << pipeline.parameters.pipeline_action >> ]
+  #   jobs:
+  #     - Publish Playwright reports:
+  #         name: Publish pos-web report
+  #         project: pos-web
 
 # ---------------------------------------------------------------------------- #
 #                                    Aliases                                   #
@@ -79,33 +84,33 @@ parameters:
 jobs:
   # ------------------------------- Utility jobs ------------------------------- #
 
-  Trigger pipeline:
-    docker:
-      - image: cimg/base:current
-    resource_class: small
-    parameters:
-      *param_pipeline_action
-    steps:
-      - run:
-          name: Trigger pipeline using CircleCI API
-          command: |
-            curl -X POST \
-            "https://circleci.com/api/v2/project/circleci/$ORGANIZATION_ID/$PROJECT_ID/pipeline/run" \
-            -H "Accept: application/json" \
-            -H "Content-Type: application/json" \
-            -H "Circle-Token: $PIPELINE_TRIGGER_TOKEN" \
-            -d '{
-              "definition_id": "'"$PIPELINE_DEFINITION_ID"'",
-              "config": {
-                "branch": "'"$CIRCLE_BRANCH"'"
-              },
-              "checkout": {
-                "branch": "'"$CIRCLE_BRANCH"'"
-              },
-              "parameters": {
-                "pipeline_action": "<< parameters.pipeline_action >>"
-              }
-            }'
+  # Trigger pipeline:
+  #   docker:
+  #     - image: cimg/base:current
+  #   resource_class: small
+  #   parameters:
+  #     *param_pipeline_action
+  #   steps:
+  #     - run:
+  #         name: Trigger pipeline using CircleCI API
+  #         command: |
+  #           curl -X POST \
+  #           "https://circleci.com/api/v2/project/circleci/$ORGANIZATION_ID/$PROJECT_ID/pipeline/run" \
+  #           -H "Accept: application/json" \
+  #           -H "Content-Type: application/json" \
+  #           -H "Circle-Token: $PIPELINE_TRIGGER_TOKEN" \
+  #           -d '{
+  #             "definition_id": "'"$PIPELINE_DEFINITION_ID"'",
+  #             "config": {
+  #               "branch": "'"$CIRCLE_BRANCH"'"
+  #             },
+  #             "checkout": {
+  #               "branch": "'"$CIRCLE_BRANCH"'"
+  #             },
+  #             "parameters": {
+  #               "pipeline_action": "<< parameters.pipeline_action >>"
+  #             }
+  #           }'
 
   # ---------------------------------- CI jobs --------------------------------- #
 
@@ -164,31 +169,51 @@ jobs:
             pnpm test --shard=$((${CIRCLE_NODE_INDEX}+1))/${CIRCLE_NODE_TOTAL}
       - store_test_results:
           path: e2e/<< parameters.project >>/playwright-report/results.xml
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - e2e/<< parameters.project >>/allure-results
 
-      - run:
-          when: always
-          name: Install pzstd compression algorithm
-          command: sudo apt-get update && sudo apt-get install -y zstd
-      - run:
-          when: always
-          name: Compress Allure report
-          command: |
-            echo "Size of the report before compression"
-            du -sh ./e2e/<< parameters.project >>/allure-report
-            tar --use-compress-program pzstd -cf ./allure-report.tar.zstd ./e2e/<< parameters.project >>/allure-report
-            echo "Size of the report after compression"
-            du -sh ./allure-report.tar.zstd
-      - store_artifacts:
-          path: ./allure-report.tar.zstd
+      # - run:
+      #     when: always
+      #     name: Install pzstd compression algorithm
+      #     command: sudo apt-get update && sudo apt-get install -y zstd
+      # - run:
+      #     when: always
+      #     name: Compress Allure report
+      #     command: |
+      #       echo "Size of the report before compression"
+      #       du -sh ./e2e/<< parameters.project >>/allure-report
+      #       tar --use-compress-program pzstd -cf ./allure-report.tar.zstd ./e2e/<< parameters.project >>/allure-report
+      #       echo "Size of the report after compression"
+      #       du -sh ./allure-report.tar.zstd
+      # - store_artifacts:
+      #     path: ./allure-report.tar.zstd
 
-  Publish Playwright reports:
+  Collect and generate Allure Report:
     docker:
-      - image: cimg/base:current
+      - image: cimg/openjdk:23.0-node
     resource_class: small
     parameters:
       project:
         type: string
     steps:
+      - attach_workspace:
+          at: ./
       - run:
-          name: Verify job
-          command: echo "Project << parameters.project >>"
+          name: Verify Allure results
+          command: |
+            echo "Verifying Allure results for project: << parameters.project >>"
+            ls -la ./e2e/<< parameters.project >>/allure-results
+
+  # Publish Playwright reports:
+  #   docker:
+  #     - image: cimg/base:current
+  #   resource_class: small
+  #   parameters:
+  #     project:
+  #       type: string
+  #   steps:
+  #     - run:
+  #         name: Verify job
+  #         command: echo "Project << parameters.project >>"
