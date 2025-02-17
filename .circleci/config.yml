@@ -77,6 +77,30 @@ parameters:
   *param_pipeline_action
 
 # ---------------------------------------------------------------------------- #
+#                                   Commands                                   #
+# ---------------------------------------------------------------------------- #
+
+commands:
+  compress_directory_using_zstd:
+    parameters:
+      target_directory:
+        type: string
+      output_file:
+        type: string
+    steps:
+      - run:
+          name: Install pzstd compression algorithm
+          command: sudo apt-get update && sudo apt-get install -y zstd
+      - run:
+          name: 'Compress directory: << parameters.target_directory >>'
+          command: |
+            echo "Pre-compression size"
+            du -sh << parameters.target_directory >>
+            tar --use-compress-program pzstd -cf << parameters.output_file >> << parameters.target_directory >>
+            echo "Post-compression size"
+            du -sh << parameters.output_file >>
+
+# ---------------------------------------------------------------------------- #
 #                                     Jobs                                     #
 # ---------------------------------------------------------------------------- #
 
@@ -167,22 +191,6 @@ jobs:
           paths:
             - e2e/<< parameters.project >>/allure-results
 
-      # - run:
-      #     when: always
-      #     name: Install pzstd compression algorithm
-      #     command: sudo apt-get update && sudo apt-get install -y zstd
-      # - run:
-      #     when: always
-      #     name: Compress Allure report
-      #     command: |
-      #       echo "Size of the report before compression"
-      #       du -sh ./e2e/<< parameters.project >>/allure-report
-      #       tar --use-compress-program pzstd -cf ./allure-report.tar.zstd ./e2e/<< parameters.project >>/allure-report
-      #       echo "Size of the report after compression"
-      #       du -sh ./allure-report.tar.zstd
-      # - store_artifacts:
-      #     path: ./allure-report.tar.zstd
-
   Collect and generate Allure Report:
     docker:
       - image: cimg/openjdk:23.0-node
@@ -201,18 +209,22 @@ jobs:
           name: Verify Allure results
           command: |
             echo "Verifying Allure results for project: << parameters.project >>"
-            ls -la ./e2e/<< parameters.project >>/allure-results
+            ls -la e2e/<< parameters.project >>/allure-results
       - run:
           name: Generate Allure Report
           command: |
-            cd ./e2e/<< parameters.project >>
-            pnpm allure generate ./allure-results
+            cd e2e/<< parameters.project >>
+            pnpm allure generate allure-results
       - run:
           name: Verify generated Allure report
           command: |
             echo "Verifying generated Allure report for project: << parameters.project >>"
-            du -sh ./allure-report
-            ls -la ./allure-report
+            du -sh e2e/<< parameters.project >>/allure-report
+            ls -la e2e/<< parameters.project >>/allure-report
+
+      - compress_directory_using_zstd:
+          target_directory: e2e/<< parameters.project >>/allure-report
+          output_filename: '[<< parameters.project >>]allure-report.tar.zst'
       - store_artifacts:
-          path: ./e2e/<< parameters.project >>/allure-report
-          destination: allure-report/<< parameters.project >>
+          path: '[<< parameters.project >>]allure-report.tar.zst'
+          destination: '[<< parameters.project >>]allure-report.tar.zst'
