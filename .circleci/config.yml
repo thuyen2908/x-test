@@ -200,14 +200,14 @@ jobs:
           path: e2e/<< parameters.project >>/allure-results
           destination: allure-results
 
-      - run:
-          when: always
-          name: Trigger Allure Report generation
-          command: echo 'Setting up trigger pipeline for Allure Report generation'
-
-      - trigger_pipeline:
-          pipeline_action: report
-          build_number: ${CIRCLE_BUILD_NUM}
+      - when:
+          condition:
+            # only trigger pipeline once on the main node in parallel mode
+            equal [ 0, ${CIRCLE_NODE_INDEX} ]
+          steps:
+            - trigger_pipeline:
+                pipeline_action: report
+                build_number: ${CIRCLE_BUILD_NUM}
 
   Collect and generate Allure Report:
     docker:
