@@ -207,12 +207,12 @@ jobs:
       project:
         type: string
     steps:
-      - attach_workspace:
-          at: .
-
       - checkout
       - *restore_pnpm_cache
       - *install_dependencies_with_sudo
+
+      - attach_workspace:
+          at: .
 
       - run:
           name: Verify Allure results
