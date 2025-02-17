@@ -24,8 +24,6 @@ workflows:
       - Collect and generate Allure Report:
           name: Collect and generate Allure Report for pos-web
           project: pos-web
-          requires:
-            - Run pos-web tests
 
 # ---------------------------------------------------------------------------- #
 #                                    Aliases                                   #
