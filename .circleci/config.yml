@@ -9,20 +9,20 @@ workflows:
     when:
       equal: [ test, << pipeline.parameters.pipeline_action >> ]
     jobs:
-      # - Install dependencies
-      # - Build:
-      #     requires:
-      #       - Install dependencies
-      # - Run Playwright tests:
-      #     name: Run pos-web tests
-      #     project: pos-web
-      #     requires:
-      #       - Build
+      - Install dependencies
+      - Build:
+          requires:
+            - Install dependencies
+      - Run Playwright tests:
+          name: Run pos-web tests
+          project: pos-web
+          requires:
+            - Build
       - Trigger pipeline:
           name: Trigger the publish report workflow
           pipeline_action: report
-          # requires:
-          #   - Run pos-web tests
+          requires:
+            - Run pos-web tests
 
   Publish reports:
     when:
@@ -164,6 +164,12 @@ jobs:
             pnpm test --shard=$((${CIRCLE_NODE_INDEX}+1))/${CIRCLE_NODE_TOTAL}
       - store_test_results:
           path: e2e/<< parameters.project >>/playwright-report/results.xml
+
+      - run:
+          name: Compress Allure reports
+          command: |
+            tar --use-compress-program pzstd -cf allure-report.tar.zstd ./e2e/<< parameters.project >>/allure-report
+            du -sh ./allure-report.tar.zstd
 
   Publish Playwright reports:
     docker:
