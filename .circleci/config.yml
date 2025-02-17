@@ -224,7 +224,7 @@ jobs:
 
       - compress_directory_using_zstd:
           target_directory: e2e/<< parameters.project >>/allure-report
-          output_filename: '[<< parameters.project >>]allure-report.tar.zst'
+          output_file: '[<< parameters.project >>]allure-report.tar.zst'
       - store_artifacts:
           path: '[<< parameters.project >>]allure-report.tar.zst'
           destination: '[<< parameters.project >>]allure-report.tar.zst'
