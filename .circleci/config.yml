@@ -166,6 +166,7 @@ jobs:
           path: e2e/<< parameters.project >>/playwright-report/results.xml
 
       - run:
+          when: always
           name: Install pzstd compression algorithm
           command: sudo apt-get update && sudo apt-get install -y zstd
       - run:
