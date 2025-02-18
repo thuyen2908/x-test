@@ -22,7 +22,7 @@
 		"@types/node": "^22.13.4",
 		"@x-test/common": "workspace:*",
 		"allure-commandline": "^2.32.2",
-		"allure-playwright": "^3.1.0",
+		"allure-playwright": "^3.2.0",
 		"fs-extra": "^11.3.0",
 		"nodemon": "^3.1.9",
 		"playwright-bdd": "^8.1.0",
