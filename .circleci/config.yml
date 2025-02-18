@@ -24,7 +24,7 @@ workflows:
   # ------------------------ Report deploying pipelines ----------------------- #
 
       - Collect test results and generate Allure Report:
-          name: Collect test results and generate Allure Report for pos-web
+          name: Collect test results and generate Allure Report for "pos-web"
           requires:
             - Run pos-web tests:
                 - success
@@ -33,9 +33,9 @@ workflows:
           project: pos-web
 
       - Deploy project report:
-          name: Deploy report for project pos-web
+          name: Deploy report for "pos-web"
           requires:
-            - Collect test results and generate Allure Report for pos-web
+            - Collect test results and generate Allure Report for "pos-web"
 
           project: pos-web
 
