@@ -312,6 +312,7 @@ jobs:
 
       - clone_github_repo:
           repo_origin: $REPORT_POS_WEB_ORIGIN
+          clone_path: report-<< parameters.project >>
 
       - run:
           name: Copy report files to the cloned repo
