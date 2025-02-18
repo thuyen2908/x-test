@@ -211,7 +211,7 @@ jobs:
   Run Playwright tests:
     docker:
       - image: cimg/openjdk:23.0-node
-    resource_class: medium
+    resource_class: small
     parallelism: 2
     parameters:
       project:
@@ -260,13 +260,19 @@ jobs:
 
       - attach_workspace:
           at: .
-
       - run:
           name: Verify Allure results
           command: |
             ls -la e2e/<< parameters.project >>/allure-results
             echo '\n'
             du -sh e2e/<< parameters.project >>/allure-results
+
+      - clone_github_repo:
+          repo_origin: $REPORT_POS_WEB_ORIGIN
+      - run:
+          name: Retain the history from previous report
+          command: cp -a ./report-<< parameters.project >>/history/. ./allure-results/history/
+
       - run:
           name: Generate Allure Report
           command: |
