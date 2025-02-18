@@ -277,7 +277,7 @@ jobs:
             echo 'Size before compression:'
             du -sh playwright-report
             echo
-            zip -r playwright-report.zip playwright-report
+            zip -9r playwright-report.zip playwright-report
             echo
             echo 'Size after compression:'
             du -sh playwright-report.zip

@@ -28,7 +28,7 @@ export default defineConfig({
 
 	// CI config
 	forbidOnly: isCI,
-	retries: isCI ? 2 : 0,
+	retries: isCI ? 2 : 1,
 	workers: isCI ? 4 : undefined,
 
 	expect: {
