@@ -166,6 +166,8 @@ commands:
     parameters:
       repo_origin:
         type: string
+      clone_path:
+        type: string
     steps:
       - add_ssh_keys:
           fingerprints:
@@ -177,7 +179,7 @@ commands:
             touch ~/.ssh/known_hosts
             ssh-keyscan github.com >> ~/.ssh/known_hosts
             GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa_$GITHUB_DEPLOY_KEY_FINGERPRINT'
-            git clone << parameters.repo_origin >>
+            git clone << parameters.repo_origin >> << parameters.clone_path >>
 
 # ---------------------------------------------------------------------------- #
 #                                     Jobs                                     #
@@ -211,7 +213,7 @@ jobs:
   Run Playwright tests:
     docker:
       - image: cimg/openjdk:23.0-node
-    resource_class: small
+    resource_class: medium
     parallelism: 2
     parameters:
       project:
@@ -269,10 +271,11 @@ jobs:
 
       - clone_github_repo:
           repo_origin: $REPORT_POS_WEB_ORIGIN
+          clone_path: e2e/<< parameters.project >>
       - run:
           name: Retain the history from previous report
           command: |
-            ls -la .
+            cd e2e/<< parameters.project >>
             mkdir ./allure-results/history
             cp -a ./report-<< parameters.project >>/history/. ./allure-results/history/
 
