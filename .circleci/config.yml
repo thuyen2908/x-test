@@ -248,6 +248,20 @@ jobs:
           paths:
             - e2e/<< parameters.project >>/allure-results
 
+      - run:
+          name: Compress Playwright report directory
+          command: |
+            cd e2e/<< parameters.project >>
+            echo 'Size before compression:'
+            du -sh playwright-report
+            echo '\n'
+            zip -r playwright-report.zip playwright-report
+            echo 'Size after compression:'
+            du -sh playwright-report.zip
+      - store_artifacts:
+          path: e2e/<< parameters.project >>/playwright-report.zip
+          destination: playwright-report.zip
+
   Collect and generate Allure Report:
     docker:
       - image: cimg/openjdk:23.0-node
@@ -271,7 +285,7 @@ jobs:
 
       - clone_github_repo:
           repo_origin: $REPORT_POS_WEB_ORIGIN
-          clone_path: e2e/<< parameters.project >>
+          clone_path: e2e/report-<< parameters.project >>
       - run:
           name: Retain the history from previous report
           command: |
