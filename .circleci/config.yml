@@ -5,9 +5,7 @@ version: 2.1
 # ---------------------------------------------------------------------------- #
 
 workflows:
-  Run tests:
-    when:
-      equal: [ test, << pipeline.parameters.pipeline_action >> ]
+  Run tests -> Deploy test reports:
     jobs:
       - Install dependencies
       - Build:
@@ -18,44 +16,34 @@ workflows:
 
       - Run Playwright tests:
           name: Run pos-web tests
-          project: pos-web
           requires:
             - Build
 
-  # ------------------------ Report generation pipelines ----------------------- #
+          project: pos-web
+
+  # ------------------------ Report deploying pipelines ----------------------- #
 
       - Collect and generate Allure Report:
           name: Collect and generate Allure Report for pos-web
-          project: pos-web
           requires:
-            - Run pos-web tests
+            - Run pos-web tests:
+                - success
+                - failed
 
-  # ------------------------ Report deploying pipelines ------------------------ #
+          project: pos-web
 
-  Deploy reports:
-    when:
-      equal: [ deploy-report, << pipeline.parameters.pipeline_action >> ]
-    jobs:
       - Deploy project report:
           name: Deploy report for project pos-web
+          requires:
+            - Collect and generate Allure Report for pos-web
+
           project: pos-web
-          artifact_build_number: << pipeline.parameters.artifact_build_number >>
-          report_repo_origin: $REPORT_POS_WEB_ORIGIN
 
 # ---------------------------------------------------------------------------- #
 #                                    Aliases                                   #
 # ---------------------------------------------------------------------------- #
 
 aliases:
-  - &param_pipeline_action
-    pipeline_action:
-      type: enum
-      enum: [test, deploy-report]
-      default: test
-    artifact_build_number:
-      type: string
-      default: ''
-
   - &restore_pnpm_cache
     restore_cache:
       name: Restore pnpm cache
@@ -80,12 +68,12 @@ aliases:
         pnpm config set store-dir ~/.pnpm-store
         pnpm install --ignore-scripts
 
-  - &install_pzstd
-    run:
-      name: Install pzstd compression algorithm
-      command: |
-        sudo apt-get update
-        sudo apt-get install -y zstd
+  # - &install_pzstd
+  #   run:
+  #     name: Install pzstd compression algorithm
+  #     command: |
+  #       sudo apt-get update
+  #       sudo apt-get install -y zstd
 
   - &build
     run:
@@ -95,85 +83,84 @@ aliases:
       command: pnpm build
 
 # ---------------------------------------------------------------------------- #
-#                                  Parameters                                  #
-# ---------------------------------------------------------------------------- #
-
-parameters:
-  *param_pipeline_action
-
-# ---------------------------------------------------------------------------- #
 #                                   Commands                                   #
 # ---------------------------------------------------------------------------- #
 
 commands:
-  compress_directory_using_zstd:
-    parameters:
-      target_directory:
-        type: string
-      output_file:
-        type: string
-    steps:
-      - *install_pzstd
-      - run:
-          name: 'Compress directory: << parameters.target_directory >>'
-          command: |
-            echo "Pre-compression size"
-            du -sh << parameters.target_directory >>
-            tar --use-compress-program pzstd -cf << parameters.output_file >> << parameters.target_directory >>
-            echo "Post-compression size"
-            du -sh << parameters.output_file >>
+  # compress_directory_using_zstd:
+  #   parameters:
+  #     target_directory:
+  #       type: string
+  #     output_file:
+  #       type: string
+  #   steps:
+  #     - *install_pzstd
+  #     - run:
+  #         name: 'Compress directory: << parameters.target_directory >>'
+  #         command: |
+  #           echo "Pre-compression size"
+  #           du -sh << parameters.target_directory >>
+  #           tar --use-compress-program pzstd -cf << parameters.output_file >> << parameters.target_directory >>
+  #           echo "Post-compression size"
+  #           du -sh << parameters.output_file >>
 
-  decompress_using_zstd:
-    parameters:
-      target_file:
-        type: string
-    steps:
-      - *install_pzstd
-      - run:
-          name: 'De-compress file: << parameters.target_file >>'
-          command: tar --use-compress-program pzstd -xf << parameters.target_file >>
+  # decompress_using_zstd:
+  #   parameters:
+  #     target_file:
+  #       type: string
+  #   steps:
+  #     - *install_pzstd
+  #     - run:
+  #         name: 'De-compress file: << parameters.target_file >>'
+  #         command: tar --use-compress-program pzstd -xf << parameters.target_file >>
 
-  trigger_pipeline:
-    parameters:
-      *param_pipeline_action
-    steps:
-      - run:
-          name: Trigger pipeline using CircleCI API
-          command: |
-            curl -X POST \
-            "https://circleci.com/api/v2/project/circleci/$ORGANIZATION_ID/$PROJECT_ID/pipeline/run" \
-            -H "Accept: application/json" \
-            -H "Content-Type: application/json" \
-            -H "Circle-Token: $PIPELINE_TRIGGER_TOKEN" \
-            -d '{
-              "definition_id": "'"$PIPELINE_DEFINITION_ID"'",
-              "config": {
-                "branch": "'"$CIRCLE_BRANCH"'"
-              },
-              "checkout": {
-                "branch": "'"$CIRCLE_BRANCH"'"
-              },
-              "parameters": {
-                "pipeline_action": "<< parameters.pipeline_action >>",
-                "artifact_build_number": "'"$CIRCLE_BUILD_NUM"'"
-              }
-            }'
+  # trigger_pipeline:
+  #   parameters:
+  #     pipeline_action:
+  #       type: enum
+  #       enum: [test, deploy-report]
+  #       default: test
+  #     artifact_build_number:
+  #       type: string
+  #       default: ''
+  #   steps:
+  #     - run:
+  #         name: Trigger pipeline using CircleCI API
+  #         command: |
+  #           curl -X POST \
+  #           "https://circleci.com/api/v2/project/circleci/$ORGANIZATION_ID/$PROJECT_ID/pipeline/run" \
+  #           -H "Accept: application/json" \
+  #           -H "Content-Type: application/json" \
+  #           -H "Circle-Token: $PIPELINE_TRIGGER_TOKEN" \
+  #           -d '{
+  #             "definition_id": "'"$PIPELINE_DEFINITION_ID"'",
+  #             "config": {
+  #               "branch": "'"$CIRCLE_BRANCH"'"
+  #             },
+  #             "checkout": {
+  #               "branch": "'"$CIRCLE_BRANCH"'"
+  #             },
+  #             "parameters": {
+  #               "pipeline_action": "<< parameters.pipeline_action >>",
+  #               "artifact_build_number": "'"$CIRCLE_BUILD_NUM"'"
+  #             }
+  #           }'
 
-  download_artifact:
-    parameters:
-      artifact_build_number:
-        type: string
-    steps:
-      - run:
-          name: Download report artifact
-          command: |
-            curl -X GET \
-            "https://circleci.com/api/v2/project/$PROJECT_SLUG/<< parameters.artifact_build_number >>/artifacts" \
-            -H "Accept: application/json" \
-            -H "Content-Type: application/json" \
-            -H "Circle-Token: $PIPELINE_TRIGGER_TOKEN" \
-            | grep -o -E 'https://([^"]*)' \
-            | wget --verbose --header "Circle-Token: $PIPELINE_TRIGGER_TOKEN" --input-file -
+  # download_artifact:
+  #   parameters:
+  #     artifact_build_number:
+  #       type: string
+  #   steps:
+  #     - run:
+  #         name: Download report artifact
+  #         command: |
+  #           curl -X GET \
+  #           "https://circleci.com/api/v2/project/$PROJECT_SLUG/<< parameters.artifact_build_number >>/artifacts" \
+  #           -H "Accept: application/json" \
+  #           -H "Content-Type: application/json" \
+  #           -H "Circle-Token: $PIPELINE_TRIGGER_TOKEN" \
+  #           | grep -o -E 'https://([^"]*)' \
+  #           | wget --verbose --header "Circle-Token: $PIPELINE_TRIGGER_TOKEN" --input-file -
 
   clone_github_repo:
     parameters:
@@ -224,16 +211,16 @@ jobs:
   Run Playwright tests:
     docker:
       - image: cimg/openjdk:23.0-node
-    resource_class: small
-    parallelism: 3
+    resource_class: medium
+    parallelism: 2
     parameters:
       project:
         type: string
     steps:
       - checkout
       - *restore_pnpm_cache
-      # this Convenience Image requires a sudo permission to use Corepack
-      # that's why we duplicate the dependencies installing steps with the sudo access here
+        # this Convenience Image requires a sudo permission to use Corepack
+        # that's why we duplicate the dependencies installing steps with the sudo access here
       - *install_dependencies_with_sudo
       - *build
       - run:
@@ -243,13 +230,13 @@ jobs:
           name: 'Run tests for project: << parameters.project >>'
           command: |
             cd e2e/<< parameters.project >>
-            pnpm test --shard=$((${CIRCLE_NODE_INDEX}+1))/${CIRCLE_NODE_TOTAL} || exit 0
+            pnpm test --shard=$((${CIRCLE_NODE_INDEX}+1))/${CIRCLE_NODE_TOTAL}
 
       - run:
-          when: always
           name: Verify test results
           command: |
             ls -la e2e/<< parameters.project >>
+            echo '\n'
             ls -la e2e/<< parameters.project >>/allure-results
 
       - store_test_results:
@@ -277,8 +264,8 @@ jobs:
       - run:
           name: Verify Allure results
           command: |
-            echo "Verifying Allure results for project: << parameters.project >>"
             ls -la e2e/<< parameters.project >>/allure-results
+            echo '\n'
             du -sh e2e/<< parameters.project >>/allure-results
       - run:
           name: Generate Allure Report
@@ -288,23 +275,14 @@ jobs:
       - run:
           name: Verify generated Allure report
           command: |
-            echo "Verifying generated Allure report for project: << parameters.project >>"
             ls -la e2e/<< parameters.project >>/allure-report
+            echo '\n'
             du -sh e2e/<< parameters.project >>/allure-report
 
-      - compress_directory_using_zstd:
-          target_directory: e2e/<< parameters.project >>/allure-report
-          output_file: 'allure-report.tar.zst'
-      - store_artifacts:
-          path: 'allure-report.tar.zst'
-          destination: 'allure-report.tar.zst'
-
-      - trigger_pipeline:
-          pipeline_action: deploy-report
-          # currently, passing environment variables to parameters are not being evaluated
-          # which means, if we pass $CIRCLE_BUILD_NUM as a parameter, it will be passed as "$CIRCLE_BUILD_NUM" instead of the actual build number
-          # this issue is raised here: https://discuss.circleci.com/t/passing-an-environment-variable-to-parameters-in-the-continuation-continue-command-does-not-work/40832
-          artifact_build_number: ''
+      - persist_to_workspace:
+          root: .
+          paths:
+            - e2e/<< parameters.project >>/allure-report
 
   Deploy project report:
     docker:
@@ -313,26 +291,16 @@ jobs:
     parameters:
       project:
         type: string
-      artifact_build_number:
-        type: string
-      report_repo_origin:
-        type: string
     steps:
+      - attach_workspace:
+          at: .
       - run:
-          name: Verify pipeline parameters
-          command: |
-            echo "Target project: << parameters.project >>"
-            echo "Artifact build number: << parameters.artifact_build_number >>"
-      - download_artifact:
-          artifact_build_number: << parameters.artifact_build_number >>
-      - decompress_using_zstd:
-          target_file: allure-report.tar.zst
-      - run:
-          name: Verify de-compressed files
-          command: ls -la
+          name: Verify report files
+          command: ls -la e2e/<< parameters.project >>/allure-report
 
       - clone_github_repo:
-          repo_origin: << parameters.report_repo_origin >>
+          repo_origin: $REPORT_POS_WEB_ORIGIN
+
       - run:
           name: Copy report files to the cloned repo
           command: |
