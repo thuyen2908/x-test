@@ -15,7 +15,7 @@ workflows:
       # ----------------------- E2E pipeline for each project ---------------------- #
 
       - Run Playwright tests:
-          name: Run pos-web tests
+          name: Run tests for "pos-web"
           requires:
             - Build
 
@@ -26,7 +26,7 @@ workflows:
       - Collect test results and generate Allure Report:
           name: Collect test results and generate Allure Report for "pos-web"
           requires:
-            - Run pos-web tests:
+            - Run tests for "pos-web":
                 - success
                 - failed
 
