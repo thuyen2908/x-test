@@ -272,6 +272,7 @@ jobs:
       - run:
           name: Retain the history from previous report
           command: |
+            ls -la .
             mkdir ./allure-results/history
             cp -a ./report-<< parameters.project >>/history/. ./allure-results/history/
 
