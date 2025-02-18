@@ -29,5 +29,6 @@
 	"addLabels": ["📦 renovate"],
 
 	"osvVulnerabilityAlerts": true,
+	"transitiveRemediation": true,
 	"dependencyDashboardOSVVulnerabilitySummary": "all"
 }
