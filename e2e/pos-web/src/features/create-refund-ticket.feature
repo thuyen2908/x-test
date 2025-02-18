@@ -3,8 +3,11 @@ Feature: Create a refund ticket
 
 Scenario: Create a refund ticket
 Given I am on the HOME page
+When I clock in the timesheet
+Then I should see the employee "Owner" in the employee list
+
 When I click on the menu
-And I select the "Refund" on the list
+And I select the lable "Refund" on the list
 Then I should see a popup dialog with title "Create Ticket Refund"
 
 When I fill "$5" from numpad
@@ -23,7 +26,7 @@ And I should see the button with id "payment" visible
 When I click on the element with id "payment"
 And I should see a popup dialog with title "Close Ticket"
 And I should see a popup dialog with content "CHANGE$0.00OK"
-When I click on the "OK" button
+When I click on the "OK" button in the popup dialog
 Then I should be redirected to HOME page
 
 
