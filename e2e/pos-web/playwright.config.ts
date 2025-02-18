@@ -40,7 +40,7 @@ export default defineConfig({
 
 	reporter: isCI
 		? [
-				['list', { printSteps: false }],
+				['list', { printSteps: true }],
 				['junit', { outputFile: PlaywrightConfig.junitReportFile }],
 				['allure-playwright', PlaywrightConfig.allureReportConfig],
 			]
