@@ -271,7 +271,9 @@ jobs:
           repo_origin: $REPORT_POS_WEB_ORIGIN
       - run:
           name: Retain the history from previous report
-          command: cp -a ./report-<< parameters.project >>/history/. ./allure-results/history/
+          command: |
+            mkdir ./allure-results/history
+            cp -a ./report-<< parameters.project >>/history/. ./allure-results/history/
 
       - run:
           name: Generate Allure Report
