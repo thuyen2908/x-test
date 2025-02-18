@@ -42,6 +42,10 @@ export default defineConfig({
 		? [
 				['list', { printSteps: false }],
 				['junit', { outputFile: PlaywrightConfig.junitReportFile }],
+				[
+					'html',
+					{ outputFolder: PlaywrightConfig.htmlReportDir, open: 'never' },
+				],
 				['allure-playwright', PlaywrightConfig.allureReportConfig],
 			]
 		: [

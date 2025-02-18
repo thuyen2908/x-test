@@ -238,7 +238,7 @@ jobs:
           name: Verify test results
           command: |
             ls -la e2e/<< parameters.project >>
-            echo '\n'
+            echo
             ls -la e2e/<< parameters.project >>/allure-results
 
       - store_test_results:
@@ -254,8 +254,9 @@ jobs:
             cd e2e/<< parameters.project >>
             echo 'Size before compression:'
             du -sh playwright-report
-            echo '\n'
+            echo
             zip -r playwright-report.zip playwright-report
+            echo
             echo 'Size after compression:'
             du -sh playwright-report.zip
       - store_artifacts:
@@ -280,17 +281,18 @@ jobs:
           name: Verify Allure results
           command: |
             ls -la e2e/<< parameters.project >>/allure-results
-            echo '\n'
+            echo
             du -sh e2e/<< parameters.project >>/allure-results
 
       - clone_github_repo:
           repo_origin: $REPORT_POS_WEB_ORIGIN
-          clone_path: e2e/report-<< parameters.project >>
+          clone_path: e2e/<< parameters.project >>/report-<< parameters.project >>
       - run:
           name: Retain the history from previous report
           command: |
             cd e2e/<< parameters.project >>
             mkdir ./allure-results/history
+
             cp -a ./report-<< parameters.project >>/history/. ./allure-results/history/
 
       - run:
@@ -302,7 +304,7 @@ jobs:
           name: Verify generated Allure report
           command: |
             ls -la e2e/<< parameters.project >>/allure-report
-            echo '\n'
+            echo
             du -sh e2e/<< parameters.project >>/allure-report
 
       - persist_to_workspace:
