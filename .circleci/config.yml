@@ -23,8 +23,8 @@ workflows:
 
   # ------------------------ Report deploying pipelines ----------------------- #
 
-      - Collect and generate Allure Report:
-          name: Collect and generate Allure Report for pos-web
+      - Collect test results and generate Allure Report:
+          name: Collect test results and generate Allure Report for pos-web
           requires:
             - Run pos-web tests:
                 - success
@@ -35,7 +35,7 @@ workflows:
       - Deploy project report:
           name: Deploy report for project pos-web
           requires:
-            - Collect and generate Allure Report for pos-web
+            - Collect test results and generate Allure Report for pos-web
 
           project: pos-web
 
@@ -249,7 +249,7 @@ jobs:
             - e2e/<< parameters.project >>/allure-results
             - e2e/<< parameters.project >>/playwright-report
 
-  Collect and generate Allure Report:
+  Collect test results and generate Allure Report:
     docker:
       - image: cimg/openjdk:23.0-node
     resource_class: small
