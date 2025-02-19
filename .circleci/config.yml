@@ -232,10 +232,10 @@ jobs:
           name: 'Run tests for project: << parameters.project >>'
           command: |
             cd e2e/<< parameters.project >>
-            pnpm test --shard=$((${CIRCLE_NODE_INDEX}+1))/${CIRCLE_NODE_TOTAL} || true
-
+            pnpm test --shard=$((${CIRCLE_NODE_INDEX}+1))/${CIRCLE_NODE_TOTAL}
             exit_code=$?
             echo $exit_code > run_tests_exit_code.log
+            exit 0
 
       - run:
           name: Verify test results
