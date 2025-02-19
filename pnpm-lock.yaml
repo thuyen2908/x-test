@@ -59,6 +59,9 @@ importers:
       '@x-test/common':
         specifier: workspace:*
         version: link:../../packages/common
+      allure-commandline:
+        specifier: ^2.32.2
+        version: 2.32.2
       allure-playwright:
         specifier: ^3.2.0
         version: 3.2.0(@playwright/test@1.50.1)
@@ -754,6 +757,10 @@ packages:
 
   alien-signals@0.4.14:
     resolution: {integrity: sha512-itUAVzhczTmP2U5yX67xVpsbbOiquusbWVyA9N+sy6+r6YVbFkahXvNCeEPWEOMhwDYwbVbGHFkVL03N9I5g+Q==}
+
+  allure-commandline@2.32.2:
+    resolution: {integrity: sha512-+O+a4laukvO/jqWLV/PenQo4an9igZgo+TuAX10D+Do4K03EPyCcmxCel/EXp8NUMb3ExErrrozyX/0o6I8qbA==}
+    hasBin: true
 
   allure-js-commons@3.2.0:
     resolution: {integrity: sha512-UXRo3D6/XEIMosro+OldWj8phJ65eSOYaAUlThOpl6nJJ0sGngMpJYog+Z9FmZDo1BZn4edwLs4aAUaTgkz4Cg==}
@@ -2699,6 +2706,8 @@ snapshots:
       require-from-string: 2.0.2
 
   alien-signals@0.4.14: {}
+
+  allure-commandline@2.32.2: {}
 
   allure-js-commons@3.2.0(allure-playwright@3.2.0(@playwright/test@1.50.1)):
     dependencies:

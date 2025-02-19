@@ -28,8 +28,8 @@ export default defineConfig({
 
 	// CI config
 	forbidOnly: isCI,
-	retries: isCI ? 2 : 0,
-	workers: isCI ? 1 : undefined,
+	retries: isCI ? 2 : 1,
+	workers: isCI ? 4 : undefined,
 
 	expect: {
 		timeout: 15_000,
@@ -40,7 +40,8 @@ export default defineConfig({
 
 	reporter: isCI
 		? [
-				['list', { printSteps: false }],
+				['list', { printSteps: true }],
+				['junit', { outputFile: PlaywrightConfig.junitReportFile }],
 				['allure-playwright', PlaywrightConfig.allureReportConfig],
 			]
 		: [
@@ -68,6 +69,12 @@ export default defineConfig({
 			name: 'setup',
 			testDir: './src',
 			testMatch: /.*\.setup\.ts/,
+			teardown: 'teardown',
+		},
+		{
+			name: 'teardown',
+			testDir: './src',
+			testMatch: /.*\.teardown\.ts/,
 		},
 
 		/* -------------------------- Cross-browser testing ------------------------- */

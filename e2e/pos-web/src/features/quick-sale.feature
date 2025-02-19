@@ -59,7 +59,7 @@ Scenario: Create a new customer on quick sale ticket
   Given I am on the HOME page
   Then I should see the employee "Owner" in the employee list
 
-  When I click on the lable "Quick Sale" in the header
+  When I click on the label "Quick Sale" in the header
   Then I should see the "Ticket View" screen
   And I should see the "Manicure" service
 
