@@ -245,6 +245,7 @@ jobs:
           condition:
             matches:
               pattern: '^main$'
+              value: << pipeline.git.branch >>
           steps:
             - persist_to_workspace:
                 root: .
