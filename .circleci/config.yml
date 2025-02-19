@@ -243,9 +243,7 @@ jobs:
 
       - when:
           condition:
-            matches:
-              pattern: '^main$'
-              value: << pipeline.git.branch >>
+            equal: [ 42, 42 ]
           steps:
             - persist_to_workspace:
                 root: .
