@@ -18,12 +18,6 @@ workflows:
           name: Run tests for "pos-web"
           requires:
             - Build
-          post-steps:
-            - persist_to_workspace:
-                root: .
-                paths:
-                  - e2e/pos-web/allure-results
-                  - e2e/pos-web/playwright-report
 
           project: pos-web
 
@@ -247,13 +241,19 @@ jobs:
             echo
             ls -la e2e/<< parameters.project >>/allure-results
 
+      - when:
+          condition:
+            matches:
+              pattern: '^main$'
+          steps:
+            - persist_to_workspace:
+                root: .
+                paths:
+                  - e2e/<< parameters.project >>/allure-results
+                  - e2e/<< parameters.project >>/playwright-report
+
       - store_test_results:
           path: e2e/<< parameters.project >>/playwright-report/results.xml
-      - persist_to_workspace:
-          root: .
-          paths:
-            - e2e/<< parameters.project >>/allure-results
-            - e2e/<< parameters.project >>/playwright-report
 
   Collect test results and generate Allure Report:
     docker:
