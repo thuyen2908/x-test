@@ -18,6 +18,7 @@ workflows:
           name: Run tests for "pos-web"
           requires:
             - Build
+          project: pos-web
           post-steps:
             - persist_to_workspace:
                 root: .
@@ -25,7 +26,6 @@ workflows:
                   - e2e/<< parameters.project >>/allure-results
                   - e2e/<< parameters.project >>/playwright-report
 
-          project: pos-web
 
   # ------------------------ Report deploying pipelines ----------------------- #
 
