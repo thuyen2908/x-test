@@ -232,7 +232,10 @@ jobs:
           name: 'Run tests for project: << parameters.project >>'
           command: |
             cd e2e/<< parameters.project >>
-            pnpm test --shard=$((${CIRCLE_NODE_INDEX}+1))/${CIRCLE_NODE_TOTAL}
+            pnpm test --shard=$((${CIRCLE_NODE_INDEX}+1))/${CIRCLE_NODE_TOTAL} || true
+
+            exit_code=$?
+            echo $exit_code > run_tests_exit_code.log
 
       - run:
           name: Verify test results
@@ -244,11 +247,21 @@ jobs:
       - store_test_results:
           path: e2e/<< parameters.project >>/playwright-report/results.xml
       - persist_to_workspace:
-          when: always
           root: .
           paths:
             - e2e/<< parameters.project >>/allure-results
             - e2e/<< parameters.project >>/playwright-report
+
+      - run:
+          name: Evaluate testing exit code
+          command: |
+            if [ "$(cat run_tests_exit_code.log)" -ne 0 ]; then
+              echo "Tests failed with exit code $(cat run_tests_exit_code.log)"
+              echo "Check the previous step of this job for details"
+              exit 1
+            else
+              echo "All tests passed successfully"
+            fi
 
   Collect test results and generate Allure Report:
     docker:
