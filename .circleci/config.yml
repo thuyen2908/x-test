@@ -244,15 +244,15 @@ jobs:
       - store_test_results:
           path: e2e/<< parameters.project >>/playwright-report/results.xml
 
-      - when:
-          condition:
-            equal: [true, true]
-          steps:
-            - persist_to_workspace:
-                root: .
-                paths:
-                  - e2e/<< parameters.project >>/allure-results
-                  - e2e/<< parameters.project >>/playwright-report
+      - run:
+          when: on_fail
+          name: Continue to persist_to_workspace even if the test step failed
+          command: echo
+      - persist_to_workspace:
+          root: .
+          paths:
+            - e2e/<< parameters.project >>/allure-results
+            - e2e/<< parameters.project >>/playwright-report
 
   Collect test results and generate Allure Report:
     docker:
