@@ -42,6 +42,8 @@
   - [Project root](#project-root)
   - [Playwright-based E2E projects (e2e/pos-web,...)](#playwright-based-e2e-projects-e2epos-web)
 - [Allure Report](#allure-report)
+- [CI/CD](#cicd)
+- [Report dashboards](#report-dashboards)
 - [Troubleshooting](#troubleshooting)
 
 ## Prerequisites
@@ -107,6 +109,14 @@ After successfully setting up WSL, you can continue to the section for [Linux, M
 - To install Allure Report locally, follow this instruction: https://allurereport.org/docs/install
 - In Playwright-based E2E projects, to view the Allure Report, run this command: `pnpm report:allure`
 - To learn more about integrating Allure Report with Playwright, check out this guide: https://allurereport.org/docs/playwright
+
+## CI/CD
+
+We're using [CircleCI](https://circleci.com) for our CI/CD pipelines. Each e2e project will trigger a pipeline on every commit pushed to the `main` branch and every merged PR. The pipeline is configured to run all tests on different browsers and deploy the test report to a designated dashboard.
+
+## Report dashboards
+
+- `pos-web`: https://thuyen2908.github.io/report-pos-web
 
 ## Troubleshooting
 
