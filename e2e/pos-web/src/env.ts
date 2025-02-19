@@ -1,4 +1,5 @@
 import { resolve } from 'node:path';
+
 import dotenvx from '@dotenvx/dotenvx';
 import z from 'zod';
 

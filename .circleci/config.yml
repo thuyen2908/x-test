@@ -1,19 +1,365 @@
 version: 2.1
 
-orbs:
-  node: circleci/node@7
+# ---------------------------------------------------------------------------- #
+#                                   Workflows                                  #
+# ---------------------------------------------------------------------------- #
 
 workflows:
-  verify-circle-ci:
+  Run tests -> Deploy test reports:
     jobs:
-      - verify-pipeline
+      - Install dependencies
+      - Build:
+          requires:
+            - Install dependencies
+
+      # ----------------------- E2E pipeline for each project ---------------------- #
+
+      - Run Playwright tests:
+          name: Run tests for "pos-web"
+          requires:
+            - Build
+
+          project: pos-web
+
+  # ------------------------ Report deploying pipelines ----------------------- #
+
+      - Collect test results and generate Allure Report:
+          name: Collect test results and generate Allure Report for "pos-web"
+          requires:
+            - Run tests for "pos-web":
+                - success
+                - failed
+
+          project: pos-web
+
+      - Deploy project report:
+          name: Deploy report for "pos-web"
+          requires:
+            - Collect test results and generate Allure Report for "pos-web"
+
+          project: pos-web
+
+# ---------------------------------------------------------------------------- #
+#                                    Aliases                                   #
+# ---------------------------------------------------------------------------- #
+
+aliases:
+  - &restore_pnpm_cache
+    restore_cache:
+      name: Restore pnpm cache
+      keys:
+        - pnpm-{{ checksum "pnpm-lock.yaml" }}
+        - pnpm-
+
+  - &install_dependencies
+    run:
+      name: Install dependencies using pnpm
+      command: |
+        corepack enable
+        pnpm config set store-dir ~/.pnpm-store
+        pnpm install --ignore-scripts
+
+  - &install_dependencies_with_sudo
+    run:
+      name: Install dependencies using pnpm
+      command: |
+        sudo npm install -g corepack@latest
+        sudo corepack enable
+        pnpm config set store-dir ~/.pnpm-store
+        pnpm install --ignore-scripts
+
+  # - &install_pzstd
+  #   run:
+  #     name: Install pzstd compression algorithm
+  #     command: |
+  #       sudo apt-get update
+  #       sudo apt-get install -y zstd
+
+  - &build
+    run:
+      name: Build monorepo packages
+      environment:
+        TURBO_UI: 'false'
+      command: pnpm build
+
+# ---------------------------------------------------------------------------- #
+#                                   Commands                                   #
+# ---------------------------------------------------------------------------- #
+
+commands:
+  # compress_directory_using_zstd:
+  #   parameters:
+  #     target_directory:
+  #       type: string
+  #     output_file:
+  #       type: string
+  #   steps:
+  #     - *install_pzstd
+  #     - run:
+  #         name: 'Compress directory: << parameters.target_directory >>'
+  #         command: |
+  #           echo "Pre-compression size"
+  #           du -sh << parameters.target_directory >>
+  #           tar --use-compress-program pzstd -cf << parameters.output_file >> << parameters.target_directory >>
+  #           echo "Post-compression size"
+  #           du -sh << parameters.output_file >>
+
+  # decompress_using_zstd:
+  #   parameters:
+  #     target_file:
+  #       type: string
+  #   steps:
+  #     - *install_pzstd
+  #     - run:
+  #         name: 'De-compress file: << parameters.target_file >>'
+  #         command: tar --use-compress-program pzstd -xf << parameters.target_file >>
+
+  # trigger_pipeline:
+  #   parameters:
+  #     pipeline_action:
+  #       type: enum
+  #       enum: [test, deploy-report]
+  #       default: test
+  #     artifact_build_number:
+  #       type: string
+  #       default: ''
+  #   steps:
+  #     - run:
+  #         name: Trigger pipeline using CircleCI API
+  #         command: |
+  #           curl -X POST \
+  #           "https://circleci.com/api/v2/project/circleci/$ORGANIZATION_ID/$PROJECT_ID/pipeline/run" \
+  #           -H "Accept: application/json" \
+  #           -H "Content-Type: application/json" \
+  #           -H "Circle-Token: $PIPELINE_TRIGGER_TOKEN" \
+  #           -d '{
+  #             "definition_id": "'"$PIPELINE_DEFINITION_ID"'",
+  #             "config": {
+  #               "branch": "'"$CIRCLE_BRANCH"'"
+  #             },
+  #             "checkout": {
+  #               "branch": "'"$CIRCLE_BRANCH"'"
+  #             },
+  #             "parameters": {
+  #               "pipeline_action": "<< parameters.pipeline_action >>",
+  #               "artifact_build_number": "'"$CIRCLE_BUILD_NUM"'"
+  #             }
+  #           }'
+
+  # download_artifact:
+  #   parameters:
+  #     artifact_build_number:
+  #       type: string
+  #   steps:
+  #     - run:
+  #         name: Download report artifact
+  #         command: |
+  #           curl -X GET \
+  #           "https://circleci.com/api/v2/project/$PROJECT_SLUG/<< parameters.artifact_build_number >>/artifacts" \
+  #           -H "Accept: application/json" \
+  #           -H "Content-Type: application/json" \
+  #           -H "Circle-Token: $PIPELINE_TRIGGER_TOKEN" \
+  #           | grep -o -E 'https://([^"]*)' \
+  #           | wget --verbose --header "Circle-Token: $PIPELINE_TRIGGER_TOKEN" --input-file -
+
+  clone_github_repo:
+    parameters:
+      repo_origin:
+        type: string
+      clone_path:
+        type: string
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - $GITHUB_DEPLOY_KEY_FINGERPRINT
+      - run:
+          name: Clone Github repository
+          command: |
+            mkdir -p ~/.ssh
+            touch ~/.ssh/known_hosts
+            ssh-keyscan github.com >> ~/.ssh/known_hosts
+            GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa_$GITHUB_DEPLOY_KEY_FINGERPRINT'
+            git clone << parameters.repo_origin >> << parameters.clone_path >>
+
+# ---------------------------------------------------------------------------- #
+#                                     Jobs                                     #
+# ---------------------------------------------------------------------------- #
 
 jobs:
-  verify-pipeline:
+  Install dependencies:
     docker:
-      - image: cimg/base:stable
+      - image: cimg/node:lts
+    resource_class: small
     steps:
       - checkout
+      - *restore_pnpm_cache
+      - *install_dependencies
+      - save_cache:
+          name: Save pnpm cache
+          key: pnpm-{{ checksum "pnpm-lock.yaml" }}
+          paths:
+            - ~/.pnpm-store
+
+  Build:
+    docker:
+      - image: cimg/node:lts
+    resource_class: small
+    steps:
+      - checkout
+      - *restore_pnpm_cache
+      - *install_dependencies
+      - *build
+
+  Run Playwright tests:
+    docker:
+      - image: cimg/openjdk:23.0-node
+    resource_class: medium
+    parallelism: 2
+    parameters:
+      project:
+        type: string
+    steps:
+      - checkout
+      - *restore_pnpm_cache
+        # this Convenience Image requires a sudo permission to use Corepack
+        # that's why we duplicate the dependencies installing steps with the sudo access here
+      - *install_dependencies_with_sudo
+      - *build
       - run:
-          name: "Echo successfully"
-          command: "echo This pipeline should run successfully"
+          name: Install Playwright browsers
+          command: pnpm playwright:install-browsers
+      - run:
+          name: 'Run tests for project: << parameters.project >>'
+          # intentionally using `|| true` to avoid failing the job if tests fail
+          # the evaluation of test results is done in the below "Evaluate testing results" step
+          command: |
+            cd e2e/<< parameters.project >>
+            pnpm test --shard=$((${CIRCLE_NODE_INDEX}+1))/${CIRCLE_NODE_TOTAL} || true
+
+      - run:
+          name: Verify test results
+          command: |
+            ls -la e2e/<< parameters.project >>
+            echo
+            ls -la e2e/<< parameters.project >>/allure-results
+
+      - store_test_results:
+          path: e2e/<< parameters.project >>/playwright-report/results.xml
+      - persist_to_workspace:
+          root: .
+          paths:
+            - e2e/<< parameters.project >>/allure-results
+            - e2e/<< parameters.project >>/playwright-report
+
+      - run:
+          name: Evaluate testing results
+          command: |
+            if [ $(jq '.stats.unexpected > 0' e2e/<< parameters.project >>/playwright-report/report.json) = "true" ]; then
+              echo "Detected failed test(s)"
+              echo "Check the testing step above for more details"
+              exit 1
+            else
+              echo "All tests passed successfully"
+            fi
+
+  Collect test results and generate Allure Report:
+    docker:
+      - image: cimg/openjdk:23.0-node
+    resource_class: small
+    parameters:
+      project:
+        type: string
+    steps:
+      - checkout
+      - *restore_pnpm_cache
+      - *install_dependencies_with_sudo
+
+      - attach_workspace:
+          at: .
+      - run:
+          name: Verify Allure results
+          command: |
+            ls -la e2e/<< parameters.project >>/allure-results
+            echo
+            du -sh e2e/<< parameters.project >>/allure-results
+
+      - run:
+          name: Compress Playwright report directory
+          command: |
+            cd e2e/<< parameters.project >>
+            echo 'Size before compression:'
+            du -sh playwright-report
+            echo
+            zip -9r playwright-report.zip playwright-report
+            echo
+            echo 'Size after compression:'
+            du -sh playwright-report.zip
+      - store_artifacts:
+          path: e2e/<< parameters.project >>/playwright-report.zip
+          destination: playwright-report.zip
+
+      - clone_github_repo:
+          repo_origin: $REPORT_POS_WEB_ORIGIN
+          clone_path: e2e/<< parameters.project >>/report-<< parameters.project >>
+      - run:
+          name: Retain the history from previous report
+          command: |
+            cd e2e/<< parameters.project >>
+            mkdir ./allure-results/history
+
+            cp -a ./report-<< parameters.project >>/history/. ./allure-results/history/
+
+      - run:
+          name: Generate Allure Report
+          command: |
+            cd e2e/<< parameters.project >>
+            pnpm allure generate allure-results
+      - run:
+          name: Verify generated Allure report
+          command: |
+            ls -la e2e/<< parameters.project >>/allure-report
+            echo
+            du -sh e2e/<< parameters.project >>/allure-report
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - e2e/<< parameters.project >>/allure-report
+
+  Deploy project report:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    parameters:
+      project:
+        type: string
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Verify report files
+          command: ls -la e2e/<< parameters.project >>/allure-report
+
+      - clone_github_repo:
+          repo_origin: $REPORT_POS_WEB_ORIGIN
+          clone_path: report-<< parameters.project >>
+
+      - run:
+          name: Copy report files to the cloned repo
+          command: |
+            cd report-<< parameters.project >>
+            git rm -r *
+            cp -a ../e2e/<< parameters.project >>/allure-report/. ./
+      - run:
+          name: Verify copied files
+          command: ls -la report-<< parameters.project >>
+
+      - run:
+          name: Deploy the new report
+          command: |
+            cd report-<< parameters.project >>
+            git add .
+            git config --global user.name "circle-ci[bot]"
+            git config --global user.email "97781772+circle-ci[bot]@users.noreply.github.com"
+            git commit -m "docs: update report (build number: $CIRCLE_BUILD_NUM)"
+            git push

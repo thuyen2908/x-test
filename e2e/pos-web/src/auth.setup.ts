@@ -1,19 +1,15 @@
-import path from 'node:path';
+import { resolve } from 'node:path';
+
 import { expect, test as setup } from '@playwright/test';
 import { ensureFile } from 'fs-extra/esm';
 
-import { constants } from './const';
+import { constants, PageId } from './const';
 import { env } from './env';
-import { PageId } from './typings';
 
 const __dirname = import.meta.dirname;
 
 // resolve the path to auth storage files
-const userAuthStorage = path.resolve(
-	__dirname,
-	'..',
-	constants.AuthStorage.user,
-);
+const userAuthStorage = resolve(__dirname, '..', constants.AuthStorage.user);
 
 setup('authentication', async ({ page }) => {
 	setup.setTimeout(50_000);
