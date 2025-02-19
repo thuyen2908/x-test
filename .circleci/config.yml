@@ -228,11 +228,16 @@ jobs:
       - run:
           name: Install Playwright browsers
           command: pnpm playwright:install-browsers
+      - persist_to_workspace:
+          root: .
+          paths:
+            - e2e/<< parameters.project >>/allure-results
+            - e2e/<< parameters.project >>/playwright-report
       - run:
           name: 'Run tests for project: << parameters.project >>'
           command: |
             cd e2e/<< parameters.project >>
-            pnpm test --shard=$((${CIRCLE_NODE_INDEX}+1))/${CIRCLE_NODE_TOTAL} || exit 0
+            pnpm test --shard=$((${CIRCLE_NODE_INDEX}+1))/${CIRCLE_NODE_TOTAL}
 
       - run:
           name: Verify test results
@@ -243,11 +248,6 @@ jobs:
 
       - store_test_results:
           path: e2e/<< parameters.project >>/playwright-report/results.xml
-      - persist_to_workspace:
-          root: .
-          paths:
-            - e2e/<< parameters.project >>/allure-results
-            - e2e/<< parameters.project >>/playwright-report
 
   Collect test results and generate Allure Report:
     docker:
