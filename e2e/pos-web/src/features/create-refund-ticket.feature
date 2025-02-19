@@ -7,7 +7,7 @@ When I clock in the timesheet
 Then I should see the employee "Owner" in the employee list
 
 When I click on the menu
-And I select the lable "Refund" on the list
+And I select the label "Refund" on the list
 Then I should see a popup dialog with title "Create Ticket Refund"
 
 When I fill "$5" from numpad
