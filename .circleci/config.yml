@@ -230,12 +230,11 @@ jobs:
           command: pnpm playwright:install-browsers
       - run:
           name: 'Run tests for project: << parameters.project >>'
+          # intentionally using `|| true` to avoid failing the job if tests fail
+          # the evaluation of test results is done in the below "Evaluate testing results" step
           command: |
             cd e2e/<< parameters.project >>
-            pnpm test --shard=$((${CIRCLE_NODE_INDEX}+1))/${CIRCLE_NODE_TOTAL}
-            exit_code=$?
-            echo $exit_code > run_tests_exit_code.log
-            exit 0
+            pnpm test --shard=$((${CIRCLE_NODE_INDEX}+1))/${CIRCLE_NODE_TOTAL} || true
 
       - run:
           name: Verify test results
@@ -253,11 +252,11 @@ jobs:
             - e2e/<< parameters.project >>/playwright-report
 
       - run:
-          name: Evaluate testing exit code
+          name: Evaluate testing results
           command: |
-            if [ "$(cat run_tests_exit_code.log)" -ne 0 ]; then
-              echo "Tests failed with exit code $(cat run_tests_exit_code.log)"
-              echo "Check the previous step of this job for details"
+            if [ $(jq '.stats.unexpected > 0' e2e/<< parameters.project >>/playwright-report/report.json) = "true" ]; then
+              echo "Detected failed test(s)"
+              echo "Check the testing step above for more details"
               exit 1
             else
               echo "All tests passed successfully"
