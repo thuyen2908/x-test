@@ -1,9 +1,9 @@
 @regression @smoke @skip
-Feature: Waiting list
+Feature: Check In
 
   Scenario: Add an existing customer to the waiting list
     Given I am on the HOME page
-    When I click on the "CHECK-INS" button
+    When I click on the "Check In" label in the header
     Then I should be redirected to WAITING-LIST page
 
     When I click on the "Add Customer" button
@@ -23,7 +23,7 @@ Feature: Waiting list
 
   Scenario: Create a new customer & add him/her to the waiting list
     Given I am on the HOME page
-    When I click on the "CHECK-INS" button
+    When I click on the "Check In" label in the header
     Then I should be redirected to WAITING-LIST page
 
     When I click on the "Add Customer" button
