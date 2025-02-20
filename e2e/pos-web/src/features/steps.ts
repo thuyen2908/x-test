@@ -262,3 +262,65 @@ When('I clock out the timesheet', async ({ page }) => {
 	// refresh the page to get the latest data
 	await page.reload();
 });
+
+When(
+	'I select the {string} payment type',
+	async ({ page }, paymentType: string) => {
+		const paymentTypeButton = page
+			.locator('.xPayment__type')
+			.getByText(paymentType);
+		await expect(paymentTypeButton).toBeVisible();
+
+		await paymentTypeButton.click();
+	},
+);
+Then('I should see the tax amount displayed', async ({ page }) => {
+	const chargeTax = page.locator('.xCharge__taxes');
+
+	await expect(chargeTax).not.toHaveText('0.00');
+});
+
+When('I click on the item {string} button', async ({ page }, item: string) => {
+	const itemButton = page.locator('li.xMultiple__status').getByText(item);
+	await expect(itemButton).toBeVisible();
+
+	await itemButton.click();
+});
+
+When(
+	'I select the {string} service in the dialog',
+	async ({ page }, service: string) => {
+		const serviceButton = page
+			.locator('div.xMultiple__wrap')
+			.locator('li.xTicketItems')
+			.getByText(service, { exact: true });
+		await expect(serviceButton).toBeVisible();
+
+		await serviceButton.click();
+	},
+);
+
+When(
+	'I select the {string} employee in the dialog',
+	async ({ page }, employee: string) => {
+		const employeeButton = page
+			.locator('.xMultiple__employee')
+			.getByText(employee, { exact: true });
+		await expect(employeeButton).toBeVisible();
+
+		await employeeButton.click();
+	},
+);
+
+When(
+	'I click on the {string} button in the dialog',
+	async ({ page }, button: string) => {
+		const buttonElement = page
+			.locator('.xMultiple__wrap')
+			.getByRole('button', { name: button });
+
+		await expect(buttonElement).toBeVisible();
+
+		await buttonElement.click();
+	},
+);
