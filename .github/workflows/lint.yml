@@ -1,4 +1,4 @@
-name: Code Check
+name: Lint
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  Lint:
+  biome_check_and_typecheck:
     runs-on: ubuntu-latest
 
     env:
