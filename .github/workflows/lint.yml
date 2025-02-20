@@ -8,6 +8,8 @@ on:
 
 jobs:
   biome_check_and_typecheck:
+    name: 'Check'
+
     runs-on: ubuntu-latest
 
     env:
