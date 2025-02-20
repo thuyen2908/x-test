@@ -42,7 +42,7 @@
   </a>
 </div>
 
-<br/>
+---
 
 - [Prerequisites](#prerequisites)
 - [Getting started](#getting-started)
