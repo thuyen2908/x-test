@@ -7,7 +7,7 @@ on:
     branches: [ $default-branch ]
 
 jobs:
-  Install-dependencies:
+  lint:
     runs-on: ubuntu-latest
 
     steps:
