@@ -1,4 +1,9 @@
-import { defineConfig, devices } from '@playwright/test';
+import {
+	type PlaywrightTestProject,
+	type ReporterDescription,
+	defineConfig,
+	devices,
+} from '@playwright/test';
 import { defineBddConfig } from 'playwright-bdd';
 
 import { constants } from './src/const';
@@ -11,11 +16,39 @@ const posConfig = env.posConfig;
 const PlaywrightConfig = constants.PlaywrightConfig;
 const userAuthStorage = constants.AuthStorage.user;
 
+const listReporter: ReporterDescription = ['list', { printSteps: true }];
+const jsonReporter: ReporterDescription = [
+	'json',
+	{ outputFile: PlaywrightConfig.jsonReportFile },
+];
+const allureReporter: ReporterDescription = [
+	'allure-playwright',
+	PlaywrightConfig.allureReportConfig,
+];
+
+const chromeProject: PlaywrightTestProject = {
+	name: 'chrome',
+	dependencies: ['setup'],
+	use: {
+		...devices['Desktop Chrome'],
+		storageState: userAuthStorage,
+	},
+};
+const edgeProject: PlaywrightTestProject = {
+	name: 'edge',
+	dependencies: ['setup'],
+	use: {
+		...devices['Desktop Edge'],
+		storageState: userAuthStorage,
+	},
+};
+
 // BDD config
 const testDir = defineBddConfig({
 	featuresRoot: PlaywrightConfig.bddRoot,
-
 	outputDir: PlaywrightConfig.bddOutput,
+
+	matchKeywords: true,
 });
 
 // Playwright config
@@ -40,19 +73,19 @@ export default defineConfig({
 
 	reporter: isCI
 		? [
-				['list', { printSteps: true }],
-				['json', { outputFile: PlaywrightConfig.jsonReportFile }],
+				listReporter,
+				jsonReporter,
+				allureReporter,
 				['junit', { outputFile: PlaywrightConfig.junitReportFile }],
-				['allure-playwright', PlaywrightConfig.allureReportConfig],
 			]
 		: [
-				['list', { printSteps: true }],
+				listReporter,
+				jsonReporter,
+				allureReporter,
 				[
 					'html',
 					{ outputFolder: PlaywrightConfig.htmlReportDir, open: 'never' },
 				],
-				['json', { outputFile: PlaywrightConfig.jsonReportFile }],
-				['allure-playwright', PlaywrightConfig.allureReportConfig],
 			],
 
 	use: {
@@ -69,33 +102,17 @@ export default defineConfig({
 		{
 			name: 'setup',
 			testDir: './src',
-			testMatch: /.*\.setup\.ts/,
+			testMatch: ['auth.setup.ts'],
 			teardown: 'teardown',
 		},
 		{
 			name: 'teardown',
 			testDir: './src',
-			testMatch: /.*\.teardown\.ts/,
+			testMatch: isCI ? [] : ['report.teardown.ts'],
 		},
 
 		/* -------------------------- Cross-browser testing ------------------------- */
 
-		{
-			name: 'chrome',
-			dependencies: ['setup'],
-			use: {
-				...devices['Desktop Chrome'],
-				storageState: userAuthStorage,
-			},
-		},
-
-		{
-			name: 'edge',
-			dependencies: ['setup'],
-			use: {
-				...devices['Desktop Edge'],
-				storageState: userAuthStorage,
-			},
-		},
+		...(isCI ? [chromeProject, edgeProject] : [chromeProject]),
 	],
 });

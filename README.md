@@ -32,6 +32,22 @@
 
 <br/>
 
+<div align="center">
+  <a alt="codeql-status" href="https://github.com/thuyen2908/x-test/actions/workflows/github-code-scanning/codeql">
+    <img src="https://img.shields.io/github/actions/workflow/status/thuyen2908/x-test/github-code-scanning%2Fcodeql?logo=github&logoColor=959DA5&label=CodeQL" />
+  </a>
+
+  <a alt="lint-status" href="https://github.com/thuyen2908/x-test/actions/workflows/lint.yml">
+    <img src="https://img.shields.io/github/actions/workflow/status/thuyen2908/x-test/lint.yml?logo=biome&logoColor=959DA5&label=Lint" />
+  </a>
+
+  <a alt="test-status" href="https://dl.circleci.com/status-badge/redirect/circleci/HdQfpoVuGR4FzjnCbAPyjr/TjMokNaF8KeQxX92w7GTKz/tree/main">
+    <img src="https://dl.circleci.com/status-badge/img/circleci/HdQfpoVuGR4FzjnCbAPyjr/TjMokNaF8KeQxX92w7GTKz/tree/main.svg?style=shield" />
+  </a>
+</div>
+
+---
+
 - [Prerequisites](#prerequisites)
 - [Getting started](#getting-started)
   - [For Windows](#for-windows)

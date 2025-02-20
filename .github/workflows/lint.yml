@@ -1,0 +1,42 @@
+name: Lint
+
+on:
+  push:
+    branches: [ main ]
+  pull_request_target:
+    branches: [ main ]
+
+jobs:
+  biome_check_and_typecheck:
+    name: 'Check'
+
+    runs-on: ubuntu-latest
+
+    env:
+      TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+      TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+      TURBO_TELEMETRY_DISABLED: ${{ vars.TURBO_TELEMETRY_DISABLED }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.tool-versions'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --ignore-scripts
+
+      - name: Build monorepo
+        run: pnpm build
+
+      - name: Run lint
+        run: pnpm lint

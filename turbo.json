@@ -7,6 +7,7 @@
 		},
 
 		"typecheck": {},
+		"//#check": {},
 
 		"build": {
 			"dependsOn": ["^build"],

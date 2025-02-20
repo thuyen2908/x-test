@@ -1,13 +1,12 @@
 {
 	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
 	"vcs": {
-		"enabled": false,
+		"enabled": true,
 		"clientKind": "git",
 		"useIgnoreFile": true
 	},
 	"files": {
-		"ignoreUnknown": false,
-		"ignore": ["node_modules", ".turbo", "build", "dist", ".analyzer"]
+		"ignoreUnknown": false
 	},
 	"formatter": {
 		"enabled": true,

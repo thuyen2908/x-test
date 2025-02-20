@@ -204,7 +204,7 @@ Then('The test should pause here for debugging', async ({ page }) => {
 	await page.pause();
 });
 
-When('I wait for the network to be idle', async ({ page }) => {
+Then('I wait for the network to be idle', async ({ page }) => {
 	await page.waitForLoadState('networkidle');
 });
 

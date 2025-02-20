@@ -30,10 +30,10 @@
 	"scripts": {
 		"postinstall": "pnpm playwright:install-browsers && pnpm turbo build",
 		"cz": "cz",
-		"update:dependencies": "pnpm dlx taze major -frw",
-		"check": "biome check --write",
 		"clean": "turbo clean && rimraf .turbo",
+		"check": "biome check --files-ignore-unknown=true .",
 		"typecheck": "turbo typecheck",
+		"lint": "turbo check typecheck",
 		"playwright:install-browsers": "pnpm dlx playwright install --with-deps",
 		"build": "turbo build",
 		"e2e:test": "turbo test --filter='./e2e/*'"
