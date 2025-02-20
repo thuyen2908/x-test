@@ -30,6 +30,8 @@
   </a>
 </div>
 
+<br/>
+
 <div align="center">
   <a alt="codeql-status" href="https://github.com/thuyen2908/x-test/actions/workflows/github-code-scanning/codeql">
     <img src="https://img.shields.io/github/actions/workflow/status/thuyen2908/x-test/github-code-scanning%2Fcodeql?logo=github&logoColor=959DA5&label=CodeQL" />
