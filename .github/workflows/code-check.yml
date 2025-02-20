@@ -7,12 +7,15 @@ on:
     branches: [ main ]
 
 jobs:
-  lint:
+  Lint:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
 
       - name: Use Node.js
         uses: actions/setup-node@v4
@@ -21,10 +24,10 @@ jobs:
           cache: 'pnpm'
 
       - name: Install dependencies
-        run: |
-          npm install -g corepack@latest
-          corepack enable
-          pnpm install --ignore-scripts
+        run: pnpm install --ignore-scripts
+
+      - name: Build monorepo
+        run: pnpm build
 
       - name: Run lint
         run: pnpm lint
