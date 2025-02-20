@@ -262,3 +262,15 @@ When('I clock out the timesheet', async ({ page }) => {
 	// refresh the page to get the latest data
 	await page.reload();
 });
+
+When(
+	'I select the {string} payment type',
+	async ({ page }, paymentType: string) => {
+		const paymentTypeButton = page
+			.locator('.xPayment__type')
+			.getByText(paymentType);
+		await expect(paymentTypeButton).toBeVisible();
+
+		await paymentTypeButton.click();
+	},
+);

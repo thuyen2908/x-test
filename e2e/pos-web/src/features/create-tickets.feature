@@ -159,7 +159,6 @@ Feature: Create tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-  @skip
   Scenario: Create a ticket and pay with Zelle type
     Given I am on the HOME page
     When I select the "Hanna" employee
