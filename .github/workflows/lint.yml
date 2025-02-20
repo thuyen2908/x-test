@@ -10,9 +10,6 @@ jobs:
   Install-dependencies:
     runs-on: ubuntu-latest
 
-    env:
-      COMMIT_SHA: ${{ github.sha }
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
