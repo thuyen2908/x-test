@@ -77,7 +77,7 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-  @skip
+@slow
   Scenario: Create a ticket with multiple technicians
     Given I am on the HOME page
     When I select the "Tina" employee
@@ -90,8 +90,8 @@ Feature: Create tickets
     Then I should see my cart showing 2 item added
     And I should see the tax amount displayed
 
-    When I click on the "Technician" button
-    Then I should see a popup dialog with title "Technician Multiple"
+    When I click on the item "Technician" button
+    Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
     When I select the "Manicure" service in the dialog
     And I select the "Anna" employee in the dialog
     And I click on the "Apply" button in the dialog
@@ -110,7 +110,7 @@ Feature: Create tickets
     Then I should be redirected to HOME page
 
   @skip
-  Scenario: Create a ticket and pay with Credit type
+  Scenario: Create a ticket, add Tip and pay with Credit card
     Given I am on the HOME page
     When I select the "Laura" employee
     Then I should see the "Ticket View" screen
@@ -159,6 +159,7 @@ Feature: Create tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
+@slow
   Scenario: Create a ticket and pay with Zelle type
     Given I am on the HOME page
     When I select the "Hanna" employee
@@ -168,6 +169,7 @@ Feature: Create tickets
     Then I wait for the network to be idle
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
+    And I should see the tax amount displayed
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
