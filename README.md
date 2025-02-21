@@ -41,8 +41,8 @@
     <img src="https://img.shields.io/github/actions/workflow/status/thuyen2908/x-test/lint.yml?logo=biome&logoColor=959DA5&label=Lint" />
   </a>
 
-  <a alt="test-status" href="https://dl.circleci.com/status-badge/redirect/circleci/HdQfpoVuGR4FzjnCbAPyjr/TjMokNaF8KeQxX92w7GTKz/tree/main">
-    <img src="https://dl.circleci.com/status-badge/img/circleci/HdQfpoVuGR4FzjnCbAPyjr/TjMokNaF8KeQxX92w7GTKz/tree/main.svg?style=shield" />
+  <a alt="e2e-status" href="https://dl.circleci.com/status-badge/redirect/gh/thuyen2908/x-test/tree/main">
+    <img src="https://img.shields.io/circleci/build/gh/thuyen2908/x-test?token=CCIPRJ_DAf9rKzu1q38dQV157zRVz_e48cbc26d322e1508cb4510e77ae99fdcf568571&logo=circleci&logoColor=959DA5&label=E2E" />
   </a>
 </div>
 
