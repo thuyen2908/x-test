@@ -223,8 +223,8 @@ jobs:
   Run Playwright tests:
     docker:
       - image: cimg/openjdk:23.0-node
-    resource_class: small
-    parallelism: 4
+    resource_class: medium
+    parallelism: 3
     parameters:
       project:
         type: string
@@ -364,6 +364,9 @@ jobs:
           name: Verify copied files
           command: ls -la report-<< parameters.project >>
 
+      - add_ssh_keys:
+          fingerprints:
+            - $GITHUB_DEPLOY_KEY_FINGERPRINT
       - run:
           name: Deploy the new report
           command: |
