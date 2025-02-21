@@ -6,7 +6,7 @@ import {
 } from '@playwright/test';
 import { defineBddConfig } from 'playwright-bdd';
 
-import { constants } from './src/const';
+import { constants, UserRole } from './src/const';
 import { env } from './src/env';
 
 const isCI = env.isCI;
@@ -14,7 +14,7 @@ const baseURL = env.baseURL;
 const posConfig = env.posConfig;
 
 const PlaywrightConfig = constants.PlaywrightConfig;
-const userAuthStorage = constants.AuthStorage.user;
+const adminAuthStorage = constants.AuthStorage[UserRole.ADMIN];
 
 const listReporter: ReporterDescription = ['list', { printSteps: true }];
 const jsonReporter: ReporterDescription = [
@@ -31,7 +31,7 @@ const chromeProject: PlaywrightTestProject = {
 	dependencies: ['setup'],
 	use: {
 		...devices['Desktop Chrome'],
-		storageState: userAuthStorage,
+		storageState: adminAuthStorage,
 	},
 };
 const edgeProject: PlaywrightTestProject = {
@@ -39,7 +39,7 @@ const edgeProject: PlaywrightTestProject = {
 	dependencies: ['setup'],
 	use: {
 		...devices['Desktop Edge'],
-		storageState: userAuthStorage,
+		storageState: adminAuthStorage,
 	},
 };
 
@@ -61,7 +61,7 @@ export default defineConfig({
 
 	// CI config
 	forbidOnly: isCI,
-	retries: isCI ? 2 : 1,
+	retries: isCI ? 2 : 0,
 	workers: isCI ? 4 : undefined,
 
 	expect: {
@@ -89,7 +89,7 @@ export default defineConfig({
 			],
 
 	use: {
-		trace: 'on-first-retry',
+		trace: isCI ? 'on-first-retry' : 'retain-on-first-failure',
 
 		// general config for all projects
 		baseURL,
