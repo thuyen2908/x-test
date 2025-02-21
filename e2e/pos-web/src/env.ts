@@ -6,14 +6,12 @@ import z from 'zod';
 import { Env as BaseEnv } from '@x-test/common/env';
 
 const EnvSchema = z.object({
-	BASE_URL: z.string(),
+	PW_BASE_URL: z.string(),
+	PW_TIMEZONE: z.string().default('UTC'),
 
-	POS_TIMEZONE: z.string().default('UTC'),
-	POS_USERNAME: z.string(),
-	POS_PASSWORD: z.string(),
-	POS_SALON_NAME: z.string(),
-
-	CLOCK_IN_PASSWORD: z.string(),
+	PW_ADMIN_NAME: z.string(),
+	PW_ADMIN_USERNAME: z.string(),
+	PW_ADMIN_PASSWORD: z.string(),
 });
 
 type ProcessEnvType = z.infer<typeof EnvSchema>;
@@ -50,7 +48,7 @@ class Env extends BaseEnv<typeof EnvSchema> {
 	 * Retrieve the base URL for all tests
 	 */
 	public get baseURL() {
-		return this.get('BASE_URL');
+		return this.get('PW_BASE_URL');
 	}
 
 	/**
@@ -58,12 +56,11 @@ class Env extends BaseEnv<typeof EnvSchema> {
 	 */
 	public get posConfig() {
 		return {
-			timezone: this.get('POS_TIMEZONE'),
-			username: this.get('POS_USERNAME'),
-			password: this.get('POS_PASSWORD'),
-			salonName: this.get('POS_SALON_NAME'),
+			timezone: this.get('PW_TIMEZONE'),
 
-			clockInPassword: this.get('CLOCK_IN_PASSWORD'),
+			adminName: this.get('PW_ADMIN_NAME'),
+			adminUsername: this.get('PW_ADMIN_USERNAME'),
+			adminPassword: this.get('PW_ADMIN_PASSWORD'),
 		};
 	}
 }

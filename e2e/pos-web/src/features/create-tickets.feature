@@ -4,7 +4,7 @@ Feature: Create tickets
   @slow
   Scenario: Create a ticket for the Owner role
     Given I am on the HOME page
-    When I clock in the timesheet
+    When I clock in the timesheet with PIN "1234"
     Then I should see the employee "Owner" in the employee list
 
     When I select the "Owner" employee
@@ -13,7 +13,8 @@ Feature: Create tickets
 
     Then I wait for the network to be idle
     When I add the "Manicure" service to my cart
-    Then I should see my cart showing 1 item added
+    Then I wait for the network to be idle
+    And I should see my cart showing 1 item added
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -77,9 +78,10 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-@slow
+  @slow
   Scenario: Create a ticket with multiple technicians
     Given I am on the HOME page
+    Then I wait for the network to be idle
     When I select the "Tina" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
@@ -159,9 +161,10 @@ Feature: Create tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-@slow
+  @slow
   Scenario: Create a ticket and pay with Zelle type
     Given I am on the HOME page
+    Then I wait for the network to be idle
     When I select the "Hanna" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service

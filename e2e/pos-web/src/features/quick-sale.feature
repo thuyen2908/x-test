@@ -3,7 +3,7 @@ Feature: Quick sale tickets
 
 Scenario: Create a quick sale ticket for the Owner role
   Given I am on the HOME page
-  When I clock in the timesheet
+  When I clock in the timesheet with PIN "1234"
   Then I should see the employee "Owner" in the employee list
 
   When I click on the "Quick Sale" label in the header

@@ -3,7 +3,7 @@ Feature: Timesheet
 
   Scenario: Clock out
     Given I am on the HOME page
-    When I clock out the timesheet
+    When I clock out the timesheet using PIN "1234"
     Then I should not see the employee "Owner" in the employee list
 
   Scenario: Clock in others
@@ -17,7 +17,7 @@ Feature: Timesheet
 
   Scenario: Clock in
     Given I am on the HOME page
-    When I clock in the timesheet
+    When I clock in the timesheet with PIN "1234"
     Then I should see the employee "Owner" in the employee list
 
 

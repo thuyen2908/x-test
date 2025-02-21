@@ -3,7 +3,7 @@ Feature: Create a refund ticket
 
 Scenario: Create a refund ticket
   Given I am on the HOME page
-  When I clock in the timesheet
+  When I clock in the timesheet with PIN "1234"
   Then I should see the employee "Owner" in the employee list
 
   When I click on the menu

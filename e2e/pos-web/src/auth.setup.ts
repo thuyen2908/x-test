@@ -3,19 +3,21 @@ import { resolve } from 'node:path';
 import { expect, test as setup } from '@playwright/test';
 import { ensureFile } from 'fs-extra/esm';
 
-import { constants, PageId } from './const';
+import { constants, PageId, UserRole } from './const';
 import { env } from './env';
 
 const __dirname = import.meta.dirname;
 
-// resolve the path to auth storage files
-const userAuthStorage = resolve(__dirname, '..', constants.AuthStorage.user);
-
-setup('authentication', async ({ page }) => {
+setup('Authentication: Admin role', async ({ page }) => {
 	setup.setTimeout(50_000);
 
 	// make sure that the path is ready
-	await ensureFile(userAuthStorage);
+	const authStorage = resolve(
+		__dirname,
+		'..',
+		constants.AuthStorage[UserRole.ADMIN],
+	);
+	await ensureFile(authStorage);
 
 	const posConfig = env.posConfig;
 
@@ -23,8 +25,8 @@ setup('authentication', async ({ page }) => {
 	await page.goto(constants.PageUrl[PageId.LOGIN]);
 
 	// key in username & password
-	await page.fill('input[name="email"]', posConfig.username);
-	await page.fill('input[name="password"]', posConfig.password);
+	await page.fill('input[name="email"]', posConfig.adminUsername);
+	await page.fill('input[name="password"]', posConfig.adminPassword);
 
 	// visual check
 	await page.waitForLoadState('networkidle'); // wait until the background image fully loaded
@@ -34,10 +36,10 @@ setup('authentication', async ({ page }) => {
 	await page.getByRole('button', { name: 'SIGN IN' }).click();
 
 	const businessDateResetPrompt = page.getByText('Business Day is incorrect!');
-	const salonName = page.getByText(posConfig.salonName);
+	const adminName = page.getByText(posConfig.adminName);
 
 	// wait until the loading spinner is gone
-	await expect(businessDateResetPrompt.or(salonName)).toBeVisible({
+	await expect(businessDateResetPrompt.or(adminName)).toBeVisible({
 		// currently, look like the login process is quite slow, re-adjust this value in the future if necessary
 		timeout: 30_000,
 	});
@@ -47,9 +49,9 @@ setup('authentication', async ({ page }) => {
 		await page.getByRole('button', { name: 'Reset' }).click();
 
 		// wait until the homepage is loaded
-		expect(salonName).toBeVisible();
+		expect(adminName).toBeVisible();
 	}
 
 	// persist all browser context to the auth storage
-	await page.context().storageState({ path: userAuthStorage });
+	await page.context().storageState({ path: authStorage });
 });

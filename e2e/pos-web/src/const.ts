@@ -14,6 +14,11 @@ export enum PageId {
 	LOGIN = 'LOGIN',
 }
 
+export enum UserRole {
+	ADMIN = 'ADMIN',
+	// more roles go here
+}
+
 /**
  * An utility class, which contains all the constants used in our project
  */
@@ -63,8 +68,8 @@ export class Const {
 		const { artifactsDir } = this.PlaywrightConfig;
 
 		return {
-			user: resolve(artifactsDir, '.auth/user.json'),
-		};
+			[UserRole.ADMIN]: resolve(artifactsDir, `.auth/${UserRole.ADMIN}.json`),
+		} satisfies Record<UserRole, string>;
 	}
 
 	/**

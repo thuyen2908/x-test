@@ -1,7 +1,12 @@
-import { defineConfig, devices } from '@playwright/test';
+import {
+	type PlaywrightTestProject,
+	type ReporterDescription,
+	defineConfig,
+	devices,
+} from '@playwright/test';
 import { defineBddConfig } from 'playwright-bdd';
 
-import { constants } from './src/const';
+import { constants, UserRole } from './src/const';
 import { env } from './src/env';
 
 const isCI = env.isCI;
@@ -9,13 +14,41 @@ const baseURL = env.baseURL;
 const posConfig = env.posConfig;
 
 const PlaywrightConfig = constants.PlaywrightConfig;
-const userAuthStorage = constants.AuthStorage.user;
+const adminAuthStorage = constants.AuthStorage[UserRole.ADMIN];
+
+const listReporter: ReporterDescription = ['list', { printSteps: true }];
+const jsonReporter: ReporterDescription = [
+	'json',
+	{ outputFile: PlaywrightConfig.jsonReportFile },
+];
+const allureReporter: ReporterDescription = [
+	'allure-playwright',
+	PlaywrightConfig.allureReportConfig,
+];
+
+const chromeProject: PlaywrightTestProject = {
+	name: 'chrome',
+	dependencies: ['setup'],
+	use: {
+		...devices['Desktop Chrome'],
+		storageState: adminAuthStorage,
+	},
+};
+const edgeProject: PlaywrightTestProject = {
+	name: 'edge',
+	dependencies: ['setup'],
+	use: {
+		...devices['Desktop Edge'],
+		storageState: adminAuthStorage,
+	},
+};
 
 // BDD config
 const testDir = defineBddConfig({
 	featuresRoot: PlaywrightConfig.bddRoot,
-
 	outputDir: PlaywrightConfig.bddOutput,
+
+	matchKeywords: true,
 });
 
 // Playwright config
@@ -28,7 +61,7 @@ export default defineConfig({
 
 	// CI config
 	forbidOnly: isCI,
-	retries: isCI ? 2 : 1,
+	retries: isCI ? 2 : 0,
 	workers: isCI ? 4 : undefined,
 
 	expect: {
@@ -40,23 +73,23 @@ export default defineConfig({
 
 	reporter: isCI
 		? [
-				['list', { printSteps: true }],
-				['json', { outputFile: PlaywrightConfig.jsonReportFile }],
+				listReporter,
+				jsonReporter,
+				allureReporter,
 				['junit', { outputFile: PlaywrightConfig.junitReportFile }],
-				['allure-playwright', PlaywrightConfig.allureReportConfig],
 			]
 		: [
-				['list', { printSteps: true }],
+				listReporter,
+				jsonReporter,
+				allureReporter,
 				[
 					'html',
 					{ outputFolder: PlaywrightConfig.htmlReportDir, open: 'never' },
 				],
-				['json', { outputFile: PlaywrightConfig.jsonReportFile }],
-				['allure-playwright', PlaywrightConfig.allureReportConfig],
 			],
 
 	use: {
-		trace: 'on-first-retry',
+		trace: isCI ? 'on-first-retry' : 'retain-on-first-failure',
 
 		// general config for all projects
 		baseURL,
@@ -69,33 +102,17 @@ export default defineConfig({
 		{
 			name: 'setup',
 			testDir: './src',
-			testMatch: /.*\.setup\.ts/,
+			testMatch: ['auth.setup.ts'],
 			teardown: 'teardown',
 		},
 		{
 			name: 'teardown',
 			testDir: './src',
-			testMatch: /.*\.teardown\.ts/,
+			testMatch: isCI ? [] : ['report.teardown.ts'],
 		},
 
 		/* -------------------------- Cross-browser testing ------------------------- */
 
-		{
-			name: 'chrome',
-			dependencies: ['setup'],
-			use: {
-				...devices['Desktop Chrome'],
-				storageState: userAuthStorage,
-			},
-		},
-
-		{
-			name: 'edge',
-			dependencies: ['setup'],
-			use: {
-				...devices['Desktop Edge'],
-				storageState: userAuthStorage,
-			},
-		},
+		...(isCI ? [chromeProject, edgeProject] : [chromeProject]),
 	],
 });
