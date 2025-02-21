@@ -189,8 +189,7 @@ commands:
             mkdir -p ~/.ssh
             touch ~/.ssh/known_hosts
             ssh-keyscan github.com >> ~/.ssh/known_hosts
-            GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa_$GITHUB_DEPLOY_KEY_FINGERPRINT'
-            git clone << parameters.repo_origin >> << parameters.clone_path >>
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa_$GITHUB_DEPLOY_KEY_FINGERPRINT" git clone << parameters.repo_origin >> << parameters.clone_path >>
 
 # ---------------------------------------------------------------------------- #
 #                                     Jobs                                     #
@@ -365,9 +364,6 @@ jobs:
           name: Verify copied files
           command: ls -la report-<< parameters.project >>
 
-      - add_ssh_keys:
-          fingerprints:
-            - $GITHUB_DEPLOY_KEY_FINGERPRINT
       - run:
           name: Deploy the new report
           command: |
@@ -375,6 +371,5 @@ jobs:
             git add .
             git config --global user.name "circle-ci[bot]"
             git config --global user.email "97781772+circle-ci[bot]@users.noreply.github.com"
-            GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa_$GITHUB_DEPLOY_KEY_FINGERPRINT'
             git commit -m "docs: update report (build number: $CIRCLE_BUILD_NUM)"
-            git push
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa_$GITHUB_DEPLOY_KEY_FINGERPRINT" git push
