@@ -373,4 +373,5 @@ jobs:
             git config --global user.name "circle-ci[bot]"
             git config --global user.email "97781772+circle-ci[bot]@users.noreply.github.com"
             git commit -m "docs: update report (build number: $CIRCLE_BUILD_NUM)"
+            GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa_$GITHUB_DEPLOY_KEY_FINGERPRINT'
             git push
