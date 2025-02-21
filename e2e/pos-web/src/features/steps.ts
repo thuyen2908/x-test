@@ -324,3 +324,13 @@ When(
 		await buttonElement.click();
 	},
 );
+
+Then(
+	'I should see the {string} employee in my cart',
+	async ({ page }, employee: string) => {
+		const employeeElement = page
+			.locator('ul.xTicketItemList')
+			.getByText(employee);
+		await expect(employeeElement).toContainText(employee);
+	},
+);

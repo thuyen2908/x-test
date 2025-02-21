@@ -95,7 +95,7 @@ Feature: Create tickets
     When I select the "Manicure" service in the dialog
     And I select the "Anna" employee in the dialog
     And I click on the "Apply" button in the dialog
-    Then I should see the text "Ticket View" visible
+    Then I should see the "Anna" employee in my cart
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -193,7 +193,7 @@ Feature: Create tickets
     Then I should see my cart showing 2 item added
 
     When I click on the element with id "technician"
-    Then I should see a popup dialog with title "Technician Multiple"
+    Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
     When I select the "Manicure" service in the dialog
     And I select the "Anna" employee in the dialog
     And I click on the "Apply" button in the dialog
