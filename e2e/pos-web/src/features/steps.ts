@@ -269,6 +269,12 @@ When(
 	},
 );
 
+Then('I should see the tax amount displayed', async ({ page }) => {
+	const chargeTax = page.locator('.xCharge__taxes');
+
+	await expect(chargeTax).not.toHaveText('0.00');
+});
+
 When(
 	'I select the {string} payment type',
 	async ({ page }, paymentType: string) => {
@@ -280,11 +286,6 @@ When(
 		await paymentTypeButton.click();
 	},
 );
-Then('I should see the tax amount displayed', async ({ page }) => {
-	const chargeTax = page.locator('.xCharge__taxes');
-
-	await expect(chargeTax).not.toHaveText('0.00');
-});
 
 When('I click on the item {string} button', async ({ page }, item: string) => {
 	const itemButton = page.locator('li.xMultiple__status').getByText(item);
@@ -328,5 +329,15 @@ When(
 		await expect(buttonElement).toBeVisible();
 
 		await buttonElement.click();
+	},
+);
+
+Then(
+	'I should see the {string} employee in my cart',
+	async ({ page }, employee: string) => {
+		const employeeElement = page
+			.locator('ul.xTicketItemList')
+			.getByText(employee);
+		await expect(employeeElement).toContainText(employee);
 	},
 );
