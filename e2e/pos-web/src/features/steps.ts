@@ -2,7 +2,6 @@ import { expect } from '@playwright/test';
 import { createBdd } from 'playwright-bdd';
 
 import { constants, type PageId } from '#const';
-import { env } from '#env';
 
 const { Given, When, Then, BeforeScenario } = createBdd();
 
