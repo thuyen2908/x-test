@@ -1,5 +1,11 @@
 version: 2.1
 
+trigger_on_main_only: &trigger_on_main_only
+  filters:
+    branches:
+      only:
+        - main
+
 # ---------------------------------------------------------------------------- #
 #                                   Workflows                                  #
 # ---------------------------------------------------------------------------- #
@@ -7,14 +13,17 @@ version: 2.1
 workflows:
   Run tests -> Deploy test reports:
     jobs:
-      - Install dependencies
+      - Install dependencies:
+          <<: *trigger_on_main_only
       - Build:
+          <<: *trigger_on_main_only
           requires:
             - Install dependencies
 
       # ----------------------- E2E pipeline for each project ---------------------- #
 
       - Run Playwright tests:
+          <<: *trigger_on_main_only
           name: Run tests for "pos-web"
           requires:
             - Build
@@ -24,6 +33,7 @@ workflows:
   # ------------------------ Report deploying pipelines ----------------------- #
 
       - Collect test results and generate Allure Report:
+          <<: *trigger_on_main_only
           name: Collect test results and generate Allure Report for "pos-web"
           requires:
             - Run tests for "pos-web":
@@ -33,6 +43,7 @@ workflows:
           project: pos-web
 
       - Deploy project report:
+          <<: *trigger_on_main_only
           name: Deploy report for "pos-web"
           requires:
             - Collect test results and generate Allure Report for "pos-web"
@@ -213,8 +224,8 @@ jobs:
   Run Playwright tests:
     docker:
       - image: cimg/openjdk:23.0-node
-    resource_class: medium
-    parallelism: 2
+    resource_class: small
+    parallelism: 4
     parameters:
       project:
         type: string
