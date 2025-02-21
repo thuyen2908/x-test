@@ -364,6 +364,9 @@ jobs:
           name: Verify copied files
           command: ls -la report-<< parameters.project >>
 
+      - add_ssh_keys:
+          fingerprints:
+            - $GITHUB_DEPLOY_KEY_FINGERPRINT
       - run:
           name: Deploy the new report
           command: |
