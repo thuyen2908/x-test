@@ -286,11 +286,17 @@ Then('I should see the {string} name', async ({ page }, name: string) => {
 	await expect(nameElement).toContainText(name);
 });
 
-When('I fill the Gift card 1111', async ({ page }) => {
-	for (let i = 0; i < 4; i++) {
-		await page.locator('button.key:has(span.text-num:has-text("1"))').click();
-	}
-	await expect(page.locator('.xPayment__card--input').nth(0)).toContainText(
-		'1111',
-	);
-});
+When(
+	'I fill the Gift card with {string}',
+	async ({ page }, giftCardNumber: string) => {
+		for (const digit of giftCardNumber) {
+			await page
+				.locator(`button.key:has(span.text-num:has-text("${digit}"))`)
+				.click();
+		}
+
+		await expect(page.locator('.xPayment__card--input').nth(0)).toContainText(
+			giftCardNumber,
+		);
+	},
+);
