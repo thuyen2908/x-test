@@ -1,10 +1,10 @@
 import { resolve } from 'node:path';
 
-import { test as teardown } from '@playwright/test';
 import allure from 'allure-commandline';
 import { copy, emptyDir, pathExists } from 'fs-extra';
 
 import { constants } from './const';
+import { test as teardown } from './steps/fixtures';
 
 teardown('Report: Generate Allure report', async () => {
 	const { allureResultsDir, allureReportDir, allureReportGenerationTimeout } =

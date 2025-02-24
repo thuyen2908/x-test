@@ -8,8 +8,8 @@
 		"moduleDetection": "force",
 
 		/* Language & Environment */
-		"emitDecoratorMetadata": true,
-		"experimentalDecorators": true,
+		"emitDecoratorMetadata": false,
+		"experimentalDecorators": false,
 		// "jsx": "react-jsx", // uncomment if using React >= 17
 		"lib": ["ESNext" /* "DOM" */],
 		"target": "ESNext", // modern browsers support all ES2015 (ES6) features

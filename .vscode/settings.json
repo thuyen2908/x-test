@@ -45,11 +45,18 @@
 
 	"cucumberautocomplete.smartSnippets": true,
 	"cucumberautocomplete.stepsInvariants": true,
-	"cucumberautocomplete.steps": ["e2e/**/features/*.ts"],
+	"cucumberautocomplete.steps": [
+		"e2e/**/features/**/*.ts",
+		"e2e/**/steps/**/*.ts"
+	],
 	"cucumberautocomplete.customParameters": [
 		{
 			"parameter": "{pageId}",
 			"value": "(HOME|LOGIN)"
+		},
+		{
+			"parameter": "{timesheetAction}",
+			"value": "(in|out)"
 		}
 	]
 }

@@ -1,0 +1,12 @@
+version: '0.2'
+language: en
+
+words:
+  - zstd
+  - remeda
+  - networkidle
+  - timesheet
+  - numpad
+  - zelle
+  - dotenvx
+  - bddgen

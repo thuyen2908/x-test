@@ -12,6 +12,8 @@
 
 	"compilerOptions": {
 		"incremental": true,
+		"declaration": false,
+		"declarationMap": false,
 
 		"rootDir": "src",
 		"baseUrl": "src",
@@ -20,10 +22,7 @@
 
 		"paths": {
 			"#env": ["env.ts"],
-			"#const": ["const.ts"],
-			"#typings": ["typings.ts"],
-
-			"~/*": ["*"]
+			"#const": ["const.ts"]
 		}
 	}
 }

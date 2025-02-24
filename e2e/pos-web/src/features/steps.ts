@@ -3,24 +3,7 @@ import { createBdd } from 'playwright-bdd';
 
 import { constants, type PageId } from '#const';
 
-const { Given, When, Then, BeforeScenario } = createBdd();
-
-BeforeScenario(async ({ page }) => {
-	// TODO: this is just a temporary solution for the issue of unable to click payment button
-	//   in headless browsers, somehow our website relies on window.chrome.webview to function properly,
-	//   which is not available in headless browsers
-	// Consider using a fixture to inject this script instead of doing it in every scenario
-	await page.addInitScript(() => {
-		// biome-ignore lint/suspicious/noExplicitAny: workaround for now
-		(window as any).chrome = {};
-	});
-});
-
-Given('I am on the {pageId} page', async ({ page }, pageId: PageId) => {
-	const pageUrl = constants.PageUrl[pageId];
-
-	await page.goto(pageUrl);
-});
+const { When, Then } = createBdd();
 
 Then(
 	'I should be redirected to {pageId} page',
@@ -29,50 +12,6 @@ Then(
 
 		await page.waitForURL(pageUrl);
 		await expect(page).toHaveURL(pageUrl);
-	},
-);
-
-When(
-	'I clock in the timesheet with PIN {string}',
-	async ({ page }, pin: string) => {
-		// click on the Timesheet button
-		await page.getByText('Timesheet').click();
-
-		// find and click on the Clock In button
-		const clockInButton = page.getByText('Clock In', { exact: true });
-		await expect(clockInButton).toBeVisible();
-		await clockInButton.click();
-
-		// expect the clock in password dialog to be visible
-		const clockInPasswordDialog = page.locator('div.MuiDialogContent-root');
-		await expect(clockInPasswordDialog).toBeVisible();
-
-		// enter the clock in PIN
-		for (const passwordDigit of pin) {
-			const passwordDigitButton = clockInPasswordDialog.getByText(
-				passwordDigit,
-				{
-					exact: true,
-				},
-			);
-
-			await passwordDigitButton.click();
-		}
-
-		await page.waitForLoadState('networkidle');
-
-		const successfullyClockedInToast = page.getByText(
-			'clocked in successfully',
-		); // in case of new clock in session
-		const alreadyClockedInToast = page.getByText('has clocked in'); // in case there's an existing clock in session
-
-		// expect a toast message indicating the result of the clock in operation
-		await expect(
-			successfullyClockedInToast.or(alreadyClockedInToast),
-		).toBeVisible();
-
-		// refresh the page to get the latest data
-		await page.reload();
 	},
 );
 
@@ -227,47 +166,47 @@ When(
 	},
 );
 
-When(
-	'I clock out the timesheet using PIN {string}',
-	async ({ page }, pin: string) => {
-		// click on the Timesheet button
-		await page.getByText('Timesheet').click();
+// When(
+// 	'I clock out the timesheet using PIN {string}',
+// 	async ({ page }, pin: string) => {
+// 		// click on the Timesheet button
+// 		await page.getByText('Timesheet').click();
 
-		// find and click on the Clock Out button
-		const clockOutButton = page.getByText('Clock Out', { exact: true });
-		await expect(clockOutButton).toBeVisible();
-		await clockOutButton.click();
+// 		// find and click on the Clock Out button
+// 		const clockOutButton = page.getByText('Clock Out', { exact: true });
+// 		await expect(clockOutButton).toBeVisible();
+// 		await clockOutButton.click();
 
-		// expect the clock out password dialog to be visible
-		const clockOutPasswordDialog = page.locator('div.MuiDialogContent-root');
-		await expect(clockOutPasswordDialog).toBeVisible();
+// 		// expect the clock out password dialog to be visible
+// 		const clockOutPasswordDialog = page.locator('div.MuiDialogContent-root');
+// 		await expect(clockOutPasswordDialog).toBeVisible();
 
-		// enter the clock out PIN
-		for (const passwordDigit of pin) {
-			const passwordDigitButton = clockOutPasswordDialog.getByText(
-				passwordDigit,
-				{
-					exact: true,
-				},
-			);
+// 		// enter the clock out PIN
+// 		for (const passwordDigit of pin) {
+// 			const passwordDigitButton = clockOutPasswordDialog.getByText(
+// 				passwordDigit,
+// 				{
+// 					exact: true,
+// 				},
+// 			);
 
-			await passwordDigitButton.click();
-		}
+// 			await passwordDigitButton.click();
+// 		}
 
-		const successfullyClockedOutToast = page.getByText(
-			'clocked out successfully',
-		);
-		const alreadyClockedOutToast = page.getByText('has not clocked in yet'); // in case user has not clocked in yet
+// 		const successfullyClockedOutToast = page.getByText(
+// 			'clocked out successfully',
+// 		);
+// 		const alreadyClockedOutToast = page.getByText('has not clocked in yet'); // in case user has not clocked in yet
 
-		// expect a toast message indicating the result of the clock out operation
-		await expect(
-			successfullyClockedOutToast.or(alreadyClockedOutToast),
-		).toBeVisible();
+// 		// expect a toast message indicating the result of the clock out operation
+// 		await expect(
+// 			successfullyClockedOutToast.or(alreadyClockedOutToast),
+// 		).toBeVisible();
 
-		// refresh the page to get the latest data
-		await page.reload();
-	},
-);
+// 		// refresh the page to get the latest data
+// 		await page.reload();
+// 	},
+// );
 
 Then('I should see the tax amount displayed', async ({ page }) => {
 	const chargeTax = page.locator('.xCharge__taxes');

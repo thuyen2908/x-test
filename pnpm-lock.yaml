@@ -74,6 +74,9 @@ importers:
       playwright-bdd:
         specifier: ^8.2.0
         version: 8.2.0(@cucumber/message-streams@4.0.1(@cucumber/messages@27.0.2))(@playwright/test@1.50.1)
+      remeda:
+        specifier: ^2.20.2
+        version: 2.20.2
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
@@ -1716,6 +1719,9 @@ packages:
     resolution: {integrity: sha512-iETxpjK6YoRWJG5o6hXLwvjYAoW+FEZn9os0PD/b6AP6xQwsa/Y7lCVgIixBbUPMfhu+i2LtdeAqVTgGlQarfA==}
     hasBin: true
 
+  remeda@2.20.2:
+    resolution: {integrity: sha512-38pfm5aUq6mUkNYbt7TdY2WEk9mSqRVV+6UsoTjabwmbu8obLbh8sYYSX2WQ3W4u6EYp3XxUKqIiwGFZu+OY9g==}
+
   require-directory@2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
     engines: {node: '>=0.10.0'}
@@ -1961,6 +1967,10 @@ packages:
   type-fest@0.21.3:
     resolution: {integrity: sha512-t0rzBq87m3fVcduHDUFhKmyyX+9eo6WQjZvf51Ea/M0Q7+T374Jp1aUiyUl0GKxp8M/OETVHSDvmkyPgvX+X2w==}
     engines: {node: '>=10'}
+
+  type-fest@4.35.0:
+    resolution: {integrity: sha512-2/AwEFQDFEy30iOLjrvHDIH7e4HEWH+f1Yl1bI5XMqzuoCUqwYCdxachgsgv0og/JdVZUhbfjcJAoHj5L1753A==}
+    engines: {node: '>=16'}
 
   typescript@5.7.2:
     resolution: {integrity: sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg==}
@@ -3649,6 +3659,10 @@ snapshots:
 
   regexp-tree@0.1.27: {}
 
+  remeda@2.20.2:
+    dependencies:
+      type-fest: 4.35.0
+
   require-directory@2.1.1: {}
 
   require-from-string@2.0.2: {}
@@ -3861,6 +3875,8 @@ snapshots:
       turbo-windows-arm64: 2.4.2
 
   type-fest@0.21.3: {}
+
+  type-fest@4.35.0: {}
 
   typescript@5.7.2: {}
 

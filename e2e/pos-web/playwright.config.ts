@@ -47,6 +47,7 @@ const edgeProject: PlaywrightTestProject = {
 const testDir = defineBddConfig({
 	featuresRoot: PlaywrightConfig.bddRoot,
 	outputDir: PlaywrightConfig.bddOutput,
+	steps: ['src/features/**/*.ts', 'src/steps/**/*.ts'],
 
 	matchKeywords: true,
 });
@@ -65,7 +66,7 @@ export default defineConfig({
 	workers: isCI ? 4 : undefined,
 
 	expect: {
-		timeout: 15_000,
+		timeout: 10_000,
 		toHaveScreenshot: {
 			maxDiffPixelRatio: 0.05,
 		},
