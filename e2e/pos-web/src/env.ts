@@ -10,7 +10,7 @@ const EnvSchema = z.object({
 	PW_TIMEZONE: z.string().default('UTC'),
 
 	PW_ADMIN_NAME: z.string(),
-	PW_ADMIN_USERNAME: z.string(),
+	PW_ADMIN_EMAIL: z.string(),
 	PW_ADMIN_PASSWORD: z.string(),
 });
 
@@ -59,7 +59,7 @@ class Env extends BaseEnv<typeof EnvSchema> {
 			timezone: this.get('PW_TIMEZONE'),
 
 			adminName: this.get('PW_ADMIN_NAME'),
-			adminUsername: this.get('PW_ADMIN_USERNAME'),
+			adminEmail: this.get('PW_ADMIN_EMAIL'),
 			adminPassword: this.get('PW_ADMIN_PASSWORD'),
 		};
 	}
