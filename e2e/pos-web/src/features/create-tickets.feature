@@ -138,7 +138,7 @@ Feature: Create tickets
     Then I wait for the network to be idle
     Then I should be redirected to HOME page
 
-  @slow @only
+  @slow
   Scenario: Create a ticket and pay with Gift Card type
     Given I am on the HOME page
     When I select the "Emma" employee
