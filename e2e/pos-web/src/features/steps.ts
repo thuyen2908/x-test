@@ -341,3 +341,17 @@ Then(
 		await expect(employeeElement).toContainText(employee);
 	},
 );
+
+Then('I should see the {string} name', async ({ page }, name: string) => {
+	const nameElement = page.locator('.xPayment__card--input').getByText(name);
+	await expect(nameElement).toContainText(name);
+});
+
+When('I fill the Gift card 1111', async ({ page }) => {
+	for (let i = 0; i < 4; i++) {
+		await page.locator('button.key:has(span.text-num:has-text("1"))').click();
+	}
+	await expect(page.locator('.xPayment__card--input').nth(0)).toContainText(
+		'1111',
+	);
+});
