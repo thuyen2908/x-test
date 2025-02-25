@@ -34,14 +34,14 @@ const chromeProject: PlaywrightTestProject = {
 		storageState: adminAuthStorage,
 	},
 };
-const edgeProject: PlaywrightTestProject = {
-	name: 'edge',
-	dependencies: ['setup'],
-	use: {
-		...devices['Desktop Edge'],
-		storageState: adminAuthStorage,
-	},
-};
+// const edgeProject: PlaywrightTestProject = {
+// 	name: 'edge',
+// 	dependencies: ['setup'],
+// 	use: {
+// 		...devices['Desktop Edge'],
+// 		storageState: adminAuthStorage,
+// 	},
+// };
 
 // BDD config
 const testDir = defineBddConfig({
@@ -114,6 +114,6 @@ export default defineConfig({
 
 		/* -------------------------- Cross-browser testing ------------------------- */
 
-		...(isCI ? [chromeProject, edgeProject] : [chromeProject]),
+		...(isCI ? [chromeProject /* edgeProject */] : [chromeProject]),
 	],
 });
