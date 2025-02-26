@@ -31,7 +31,7 @@ Feature: Create tickets
   @skip
   Scenario: Add an existing customer to a new ticket and pay with Loyalty points
     Given I am on the HOME page
-    When I select the "Owner" employee
+    When I select the "Tim" employee
     And I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
     And I should see the tax amount displayed
@@ -56,7 +56,7 @@ Feature: Create tickets
   @skip
   Scenario: Create a new customer on the fly
     Given I am on the HOME page
-    When I select the "Owner" employee
+    When I select the "Dylan" employee
     And I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
     And I should see the tax amount displayed
@@ -198,14 +198,14 @@ Feature: Create tickets
     When I click on the element with id "technician"
     Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
     When I select the "Manicure" service in the dialog
-    And I select the "Anna" employee in the dialog
+    And I select the "Kelley" employee in the dialog
     And I click on the "Apply" button in the dialog
-    Then I should see the "Anna" employee in my cart
+    Then I should see the "Kelley" employee in my cart
 
-    When I click on the element with id "tip"
+    When I click on the adding "Tip" button
     Then I should see a popup dialog with title "Add Tip"
-    When I fill $5 from the numpad
-    Then I should see $5.00 tip in my cart
+    When I fill "5" from the numpad
+    Then I should see "5" tip in my cart
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -213,7 +213,7 @@ Feature: Create tickets
     And I should see the button with id "payment" visible
 
     When I select the "Credit" payment type
-    And I fill the last 4 digits of card number 1234
+    And I fill the last 4 digits of card number "1234"
     And I click on the element with id "payment"
     And I click on the "Percent Split" button
     Then I should see the "Close Ticket" button is enabled
