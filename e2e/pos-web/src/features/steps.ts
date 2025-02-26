@@ -300,3 +300,46 @@ When(
 		);
 	},
 );
+
+When(
+	'I click on the adding {string} button',
+	async ({ page }, button: string) => {
+		const buttonElement = page.locator('.xCharge').getByText(button);
+		await expect(buttonElement).toBeVisible();
+
+		await buttonElement.click();
+	},
+);
+
+When('I fill {string} from the numpad', async ({ page }, amount: string) => {
+	const numpadButton = page.locator(
+		`button.key:has(span.text-num:has-text("${amount}"))`,
+	);
+
+	await numpadButton.click();
+
+	const OKButton = page.getByRole('button', { name: 'OK' });
+
+	await OKButton.click();
+});
+
+Then('I should see {string} tip in my cart', async ({ page }, tip: string) => {
+	const tipElement = page.locator('ul.xCharge').getByText(tip);
+
+	await expect(tipElement).toContainText(tip);
+});
+
+When(
+	'I fill the last 4 digits of card number {string}',
+	async ({ page }, number: string) => {
+		for (const digit of number) {
+			await page
+				.locator(`button.key:has(span.text-num:has-text("${digit}"))`)
+				.click();
+		}
+
+		await expect(page.locator('.xPayment__card--number-digits')).toContainText(
+			number,
+		);
+	},
+);
