@@ -18,7 +18,7 @@ Then(
 Then(
 	'I should see the employee {string} in the employee list',
 	async ({ page }, employeeName: string) => {
-		const employeeList = page.locator('ul.ListItemEmployee__wrap');
+		const employeeList = page.locator('div.xQueueList');
 
 		await expect(
 			employeeList.getByText(employeeName, { exact: true }),
@@ -30,7 +30,7 @@ Then(
 When(
 	'I select the {string} employee',
 	async ({ page }, employeeName: string) => {
-		const employeeList = page.locator('ul.ListItemEmployee__wrap');
+		const employeeList = page.locator('div.xQueueList');
 
 		const employee = employeeList.getByText(employeeName, { exact: true });
 		await expect(employee).toBeVisible();
@@ -67,9 +67,15 @@ When(
 		const service = page
 			.locator('li.ItemService')
 			.getByText(serviceName, { exact: true });
-		await expect(service).toBeVisible();
 
 		await service.click();
+
+		// verify that the service is added to the cart
+		const addedItem = page
+			.locator('li.xTicketItems')
+			.getByText(serviceName, { exact: true });
+
+		await expect(addedItem).toBeVisible();
 	},
 );
 
