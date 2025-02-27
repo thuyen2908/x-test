@@ -214,10 +214,11 @@ When(
 // 	},
 // );
 
-Then('I should see the tax amount displayed', async ({ page }) => {
+Then('I should see the tax amount non-zero', async ({ page }) => {
 	const chargeTax = page.locator('.xCharge__taxes');
 
-	await expect(chargeTax).not.toHaveText('0.00');
+	await expect(chargeTax).not.toContainText('0.00');
+	await expect(chargeTax).not.toHaveText('$0.00');
 });
 
 When(
@@ -349,3 +350,60 @@ When(
 		);
 	},
 );
+
+Then(
+	'I should see the employee {string} visible in the split tip screen',
+	async ({ page }, employee: string) => {
+		const employeeElement = page
+			.locator('.xSplitTip__employee')
+			.getByText(employee, { exact: true });
+
+		await expect(employeeElement).toHaveText(employee);
+	},
+);
+
+Then(
+	'I should see the text {string} visible in the split tip screen',
+	async ({ page }, text: string) => {
+		const textElement = page
+			.locator('.xPayment__numpad.xSplitTip')
+			.getByText(text, { exact: true });
+
+		await expect(textElement).toContainText(text);
+	},
+);
+
+Then(
+	'I should see the total tip {string} visible in the split tip screen',
+	async ({ page }, totalTip: string) => {
+		const totalTipElement = page
+			.locator('.xPayment__numpad.xSplitTip')
+			.locator('.xSplitTip__numpad--tip')
+			.getByText(totalTip);
+
+		await expect(totalTipElement).toContainText(totalTip);
+	},
+);
+
+When(
+	'I click on the {string} button in the split tip screen',
+	async ({ page }, button: string) => {
+		const buttonElement = page
+			.locator('.xPayment__numpad.xSplitTip')
+			.getByRole('button', { name: button });
+
+		await expect(buttonElement).toBeVisible();
+
+		await buttonElement.click();
+	},
+);
+
+Then('I should see all split tips non-zero', async ({ page }) => {
+	const tipValues = page
+		.locator('.xSplitTip__employee')
+		.locator('.tip.row')
+		.locator('span.value');
+	const allTips = await tipValues.allTextContents();
+	expect(allTips).not.toContain('0.00');
+	expect(allTips.every((tip) => !tip.includes('0.00'))).toBeTruthy();
+});
