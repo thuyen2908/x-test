@@ -353,7 +353,6 @@ When(
 When('I click on the Select customer', async ({ page }) => {
 	page.locator('.TicketSearch__customer').click();
 });
-//.base-Popper-root
 
 Then(
 	'I should see the loyalty program {string} visible',
