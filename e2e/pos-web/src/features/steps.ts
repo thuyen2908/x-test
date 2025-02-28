@@ -349,3 +349,52 @@ When(
 		);
 	},
 );
+
+When('I click on the Select customer', async ({ page }) => {
+	page.locator('.TicketSearch__customer').click();
+});
+//.base-Popper-root
+
+Then(
+	'I should see the loyalty program {string} visible',
+	async ({ page }, program: string) => {
+		const loyaltyProgram = page.locator(
+			'#mui-component-select-loyaltyProgramId',
+		);
+		await loyaltyProgram.waitFor({ state: 'attached' });
+		await loyaltyProgram.getByText(program);
+		await expect(loyaltyProgram).toHaveText(program);
+	},
+);
+
+When(
+	'I fill the new customer name {string}',
+	async ({ page }, name: string) => {
+		const firstName = page.locator('input[name="firstName"]');
+		await firstName.fill(name);
+
+		await expect(firstName).toHaveValue(name);
+	},
+);
+
+When('I fill the new customer phone', async ({ page }) => {
+	const cellPhone = page.locator('input[name="cellPhone"]');
+	const rawPhone = Math.floor(
+		1000000000 + Math.random() * 9000000000,
+	).toString();
+	const formattedPhone = `(${rawPhone.substring(0, 3)}) ${rawPhone.substring(3, 6)}-${rawPhone.substring(6)}`;
+
+	await cellPhone.fill(rawPhone);
+
+	await expect(cellPhone).toHaveValue(formattedPhone);
+});
+
+Then(
+	'I should see a new customer {string} on ticket',
+	async ({ page }, name: string) => {
+		const customerElement = page
+			.locator('.TicketSearch__customer .mainTitle')
+			.getByText(name);
+		await expect(customerElement).toHaveText(name);
+	},
+);

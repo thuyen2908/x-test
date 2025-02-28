@@ -53,7 +53,7 @@ Feature: Create tickets
     Then I wait for the network to be idle
     Then I should be redirected to HOME page
 
-  @skip
+  @slow
   Scenario: Create a new customer on the fly
     Given I am on the HOME page
     When I select the "Dylan" employee
@@ -62,10 +62,14 @@ Feature: Create tickets
     And I should see the tax amount displayed
 
     When I click on the Select customer
-    And I click on the text "Click Here To Add Customers"
+    And I click on the "Click Here To Add Customers" button
     Then I should see a popup dialog with title "Create New Customer"
-    When I create a new customer
-    Then I should see a new customer on ticket
+    And I should see the loyalty program "2 Points = $1" visible
+
+    When I fill the new customer name "Guest"
+    And I fill the new customer phone
+    And I click on the "Save" button in the popup dialog
+    Then I should see a new customer "Guest" on ticket
 
     When I click on the "Pay" button
     Then I should see the text "PAYMENT TICKET" visible
