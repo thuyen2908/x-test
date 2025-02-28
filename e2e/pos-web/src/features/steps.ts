@@ -361,7 +361,6 @@ Then(
 			'#mui-component-select-loyaltyProgramId',
 		);
 		await loyaltyProgram.waitFor({ state: 'attached' });
-		await loyaltyProgram.getByText(program);
 		await expect(loyaltyProgram).toHaveText(program);
 	},
 );
@@ -397,3 +396,17 @@ Then(
 		await expect(customerElement).toHaveText(name);
 	},
 );
+
+When('I add the {string} customer', async ({ page }, customer: string) => {
+	page.locator('.TicketSearch__customer ').click();
+	page.locator('.TicketSearch__customer input').fill(customer);
+	const selectCustomer = page
+		.locator('.MuiListItemText-root.name')
+		.getByText(customer, { exact: true });
+	await selectCustomer.click();
+});
+
+When('I redeem my loyalty points', async ({ page }) => {
+	page.locator('.xLoyalty__item').click();
+	page.locator('.xLoyalty__btn').getByText('OK').click();
+});
