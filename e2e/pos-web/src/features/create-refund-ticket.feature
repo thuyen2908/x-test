@@ -24,7 +24,7 @@ Scenario: Create a refund ticket
   And I should see the button with id "payment" visible
 
   When I click on the element with id "payment"
-  And I should see a popup dialog with title "Close Ticket"
+  Then I should see a popup dialog with title "Close Ticket"
   And I should see a popup dialog with content "CHANGE$0.00OK"
   When I click on the "OK" button in the popup dialog
   Then I should be redirected to HOME page

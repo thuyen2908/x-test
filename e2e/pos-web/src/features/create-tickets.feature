@@ -10,11 +10,8 @@ Feature: Create tickets
     When I select the "Owner" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
-
-    Then I wait for the network to be idle
     When I add the "Manicure" service to my cart
-    Then I wait for the network to be idle
-    And I should see my cart showing 1 item added
+    Then I should see my cart showing 1 item added
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -22,8 +19,7 @@ Feature: Create tickets
     And I should see the button with id "payment" visible
 
     When I click on the element with id "payment"
-    Then I wait for the network to be idle
-    And I should see a popup dialog with title "Close Ticket"
+    Then I should see a popup dialog with title "Close Ticket"
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
@@ -34,7 +30,7 @@ Feature: Create tickets
     When I select the "Tim" employee
     And I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see the tax amount displayed
+    And I should see the tax amount non-zero
 
     When I add the "Tin" customer
     Then I should see a new customer "Tin" on ticket
@@ -47,8 +43,7 @@ Feature: Create tickets
     And I should see the text "BALANCE" visible
 
     When I redeem my loyalty points
-    Then I wait for the network to be idle
-    And I should be redirected to HOME page
+    Then I should be redirected to HOME page
 
   @slow
   Scenario: Create a new customer on the fly
@@ -56,7 +51,7 @@ Feature: Create tickets
     When I select the "Dylan" employee
     And I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see the tax amount displayed
+    And I should see the tax amount non-zero
 
     When I click on the Select customer
     And I click on the "Click Here To Add Customers" button
@@ -73,8 +68,7 @@ Feature: Create tickets
     And I should see the text "PAYMENT HISTORY" visible
 
     When I click on the element with id "payment"
-    Then I wait for the network to be idle
-    And I should see a popup dialog with title "Close Ticket"
+    Then I should see a popup dialog with title "Close Ticket"
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
@@ -82,16 +76,14 @@ Feature: Create tickets
   @slow
   Scenario: Create a ticket with multiple technicians
     Given I am on the HOME page
-    Then I wait for the network to be idle
     When I select the "Tina" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
 
-    Then I wait for the network to be idle
     When I add the "Manicure" service to my cart
     When I add the "Pedicure" service to my cart
     Then I should see my cart showing 2 item added
-    And I should see the tax amount displayed
+    And I should see the tax amount non-zero
 
     When I click on the item "Technician" button
     Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
@@ -106,8 +98,7 @@ Feature: Create tickets
     And I should see the button with id "payment" visible
 
     When I click on the element with id "payment"
-    Then I wait for the network to be idle
-    And I should see a popup dialog with title "Close Ticket"
+    Then I should see a popup dialog with title "Close Ticket"
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
@@ -119,10 +110,9 @@ Feature: Create tickets
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
 
-    Then I wait for the network to be idle
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see the tax amount displayed
+    And I should see the tax amount non-zero
 
     When I click on the adding "Tip" button
     Then I should see a popup dialog with title "Add Tip"
@@ -136,7 +126,6 @@ Feature: Create tickets
     When I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
     And I click on the element with id "payment"
-    Then I wait for the network to be idle
     Then I should be redirected to HOME page
 
   @slow
@@ -146,10 +135,9 @@ Feature: Create tickets
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
 
-    Then I wait for the network to be idle
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see the tax amount displayed
+    And I should see the tax amount non-zero
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -165,15 +153,13 @@ Feature: Create tickets
   @slow
   Scenario: Create a ticket and pay with Zelle type
     Given I am on the HOME page
-    Then I wait for the network to be idle
     When I select the "Hanna" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
 
-    Then I wait for the network to be idle
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see the tax amount displayed
+    And I should see the tax amount non-zero
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -181,22 +167,21 @@ Feature: Create tickets
 
     When I select the "Zelle" payment type
     And I click on the element with id "payment"
-    Then I wait for the network to be idle
     Then I should be redirected to HOME page
 
-  @skip
+  @slow
   Scenario: Split tip on ticket after paying by Credit card
     Given I am on the HOME page
     When I select the "Brian" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
 
-    Then I wait for the network to be idle
     When I add the "Manicure" service to my cart
     When I add the "Pedicure" service to my cart
     Then I should see my cart showing 2 item added
+    And I should see the tax amount non-zero
 
-    When I click on the element with id "technician"
+    When I click on the item "Technician" button
     Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
     When I select the "Manicure" service in the dialog
     And I select the "Kelley" employee in the dialog
@@ -216,10 +201,15 @@ Feature: Create tickets
     When I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
     And I click on the element with id "payment"
-    And I click on the "Percent Split" button
-    Then I should see the "Close Ticket" button is enabled
+    Then I should see the employee "Brian" visible in the split tip screen
+    And I should see the employee "Kelley" visible in the split tip screen
+    And I should see the text "TOTAL TIP" visible in the split tip screen
+    And I should see the total tip "5" visible in the split tip screen
+
+    When I click on the "Percent Split" button in the split tip screen
+    Then I should see all split tips non-zero
 
     When I click on the "Close Ticket" button
     Then I should see a popup dialog with title "Close Ticket"
-    When I click on the "Confirm" button in the popup dialog
+    When I click on the "confirm" button in the popup dialog
     Then I should be redirected to HOME page
