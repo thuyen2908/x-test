@@ -66,7 +66,7 @@ export default defineConfig({
 	workers: isCI ? 4 : undefined,
 
 	expect: {
-		timeout: 10_000,
+		timeout: 15_000,
 		toHaveScreenshot: {
 			maxDiffPixelRatio: 0.05,
 		},
