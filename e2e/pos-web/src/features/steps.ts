@@ -347,6 +347,21 @@ When(
 	},
 );
 
+When('I click on the Select customer', async ({ page }) => {
+	page.locator('.TicketSearch__customer').click();
+});
+
+Then(
+	'I should see the loyalty program {string} visible',
+	async ({ page }, program: string) => {
+		const loyaltyProgram = page.locator(
+			'#mui-component-select-loyaltyProgramId',
+		);
+		await loyaltyProgram.waitFor({ state: 'attached' });
+		await expect(loyaltyProgram).toHaveText(program);
+	},
+);
+
 Then(
 	'I should see the employee {string} visible in the split tip screen',
 	async ({ page }, employee: string) => {
@@ -380,6 +395,52 @@ Then(
 		await expect(totalTipElement).toContainText(totalTip);
 	},
 );
+
+When(
+	'I fill the new customer name {string}',
+	async ({ page }, name: string) => {
+		const firstName = page.locator('input[name="firstName"]');
+		await firstName.fill(name);
+
+		await expect(firstName).toHaveValue(name);
+	},
+);
+
+When('I fill the new customer phone', async ({ page }) => {
+	const cellPhone = page.locator('input[name="cellPhone"]');
+	const rawPhone = Math.floor(
+		1000000000 + Math.random() * 9000000000,
+	).toString();
+	const formattedPhone = `(${rawPhone.substring(0, 3)}) ${rawPhone.substring(3, 6)}-${rawPhone.substring(6)}`;
+
+	await cellPhone.fill(rawPhone);
+
+	await expect(cellPhone).toHaveValue(formattedPhone);
+});
+
+Then(
+	'I should see a new customer {string} on ticket',
+	async ({ page }, name: string) => {
+		const customerElement = page
+			.locator('.TicketSearch__customer .mainTitle')
+			.getByText(name);
+		await expect(customerElement).toHaveText(name);
+	},
+);
+
+When('I add the {string} customer', async ({ page }, customer: string) => {
+	page.locator('.TicketSearch__customer ').click();
+	page.locator('.TicketSearch__customer input').fill(customer);
+	const selectCustomer = page
+		.locator('.MuiListItemText-root.name')
+		.getByText(customer, { exact: true });
+	await selectCustomer.click();
+});
+
+When('I redeem my loyalty points', async ({ page }) => {
+	page.locator('.xLoyalty__item').click();
+	page.locator('.xLoyalty__btn').getByText('OK').click();
+});
 
 When(
 	'I click on the {string} button in the split tip screen',
