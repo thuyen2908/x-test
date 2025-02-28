@@ -10,7 +10,6 @@ Scenario: Create a quick sale ticket for the Owner role
   Then I should see the "Ticket View" screen
   And I should see the "Manicure" service
 
-  Then I wait for the network to be idle
   When I add the "Manicure" service to my cart
   Then I should see my cart showing 1 item added
 
@@ -20,7 +19,6 @@ Scenario: Create a quick sale ticket for the Owner role
   And I should see the button with id "payment" visible
 
   When I click on the element with id "payment"
-  Then I wait for the network to be idle
   And I should see a popup dialog with title "Close Ticket"
   And I should see a popup dialog with title "CHANGE$0.00OK"
   When I click on the "OK" button in the popup dialog
@@ -34,7 +32,6 @@ Scenario: Add an existing customer to a quick sale ticket
   Then I should see the "Ticket View" screen
   And I should see the "Manicure" service
 
-  Then I wait for the network to be idle
   When I add the "Manicure" service to my cart
   Then I should see my cart showing 1 item added
 
@@ -49,7 +46,6 @@ Scenario: Add an existing customer to a quick sale ticket
   And I should see the button with id "payment" visible
 
   When I click on the element with id "payment"
-  Then I wait for the network to be idle
   And I should see a popup dialog with title "Close Ticket"
   And I should see a popup dialog with title "CHANGE$0.00OK"
   When I click on the "OK" button in the popup dialog
@@ -63,7 +59,6 @@ Scenario: Create a new customer on quick sale ticket
   Then I should see the "Ticket View" screen
   And I should see the "Manicure" service
 
-  Then I wait for the network to be idle
   When I add the "Manicure" service to my cart
   Then I should see my cart showing 1 item added
 
@@ -79,7 +74,6 @@ Scenario: Create a new customer on quick sale ticket
   And I should see the button with id "payment" visible
 
   When I click on the element with id "payment"
-  Then I wait for the network to be idle
   And I should see a popup dialog with title "Close Ticket"
   And I should see a popup dialog with title "CHANGE$0.00OK"
   When I click on the "OK" button in the popup dialog

@@ -153,10 +153,6 @@ Then('The test should pause here for debugging', async ({ page }) => {
 	await page.pause();
 });
 
-Then('I wait for the network to be idle', async ({ page }) => {
-	await page.waitForLoadState('networkidle');
-});
-
 When(
 	'I click on the {string} button in the popup dialog',
 	async ({ page }, buttonText: string) => {
