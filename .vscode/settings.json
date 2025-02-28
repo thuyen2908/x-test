@@ -43,6 +43,9 @@
 		"editor.defaultFormatter": "alexkrechik.cucumberautocomplete"
 	},
 
+	"cucumberautocomplete.strictGherkinValidation": true,
+	"cucumberautocomplete.strictGherkinCompletion": true,
+	"cucumberautocomplete.pureTextSteps": true,
 	"cucumberautocomplete.smartSnippets": true,
 	"cucumberautocomplete.stepsInvariants": true,
 	"cucumberautocomplete.steps": [
