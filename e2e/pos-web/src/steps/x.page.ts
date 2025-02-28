@@ -75,16 +75,24 @@ class xPage {
 			has: page.locator('li.merchantInfo__dbaName'),
 		});
 
+		const dialog = (dialogTitle: string) =>
+			page.locator('div[role="dialog"]', {
+				has: page.locator('#alert-dialog-title', {
+					hasText: dialogTitle,
+				}),
+			});
+
 		return {
 			/**
 			 * Locate the dialog element by its title
 			 */
-			dialog: (dialogTitle: string) =>
-				page.locator('div[role="dialog"]', {
-					has: page.locator('#alert-dialog-title', {
-						hasText: dialogTitle,
-					}),
-				}),
+			dialog,
+			/**
+			 * Locate the close button of an open dialog
+			 */
+			dialogCloseButton: (dialogTitle: string, buttonTitle = 'Close') =>
+				dialog(dialogTitle).locator(`button[title="${buttonTitle}"]`),
+
 			toast: page.locator('div.MuiAlert-message'),
 
 			merchantInfo,
@@ -142,5 +150,10 @@ class xPage {
 		await expect(
 			successfullyClockedInToast.or(alreadyClockedInToast),
 		).toBeVisible();
+
+		// if the dialog is still visible, close it
+		if (await enterPasswordDialog.isVisible()) {
+			await locators.dialogCloseButton('PASSWORD').click().catch();
+		}
 	}
 }

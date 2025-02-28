@@ -10,11 +10,8 @@ Feature: Create tickets
     When I select the "Owner" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
-
-    Then I wait for the network to be idle
     When I add the "Manicure" service to my cart
-    Then I wait for the network to be idle
-    And I should see my cart showing 1 item added
+    Then I should see my cart showing 1 item added
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -22,8 +19,7 @@ Feature: Create tickets
     And I should see the button with id "payment" visible
 
     When I click on the element with id "payment"
-    Then I wait for the network to be idle
-    And I should see a popup dialog with title "Close Ticket"
+    Then I should see a popup dialog with title "Close Ticket"
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
