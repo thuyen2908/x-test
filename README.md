@@ -33,12 +33,16 @@
 <br/>
 
 <div align="center">
-  <a alt="codeql-status" href="https://github.com/thuyen2908/x-test/actions/workflows/github-code-scanning/codeql">
+  <a alt="codeql" href="https://github.com/thuyen2908/x-test/actions/workflows/github-code-scanning/codeql">
     <img src="https://img.shields.io/github/actions/workflow/status/thuyen2908/x-test/github-code-scanning%2Fcodeql?logo=github&logoColor=959DA5&label=CodeQL" />
   </a>
 
-  <a alt="lint-status" href="https://github.com/thuyen2908/x-test/actions/workflows/lint.yml">
+  <a alt="lint" href="https://github.com/thuyen2908/x-test/actions/workflows/lint.yml">
     <img src="https://img.shields.io/github/actions/workflow/status/thuyen2908/x-test/lint.yml?logo=biome&logoColor=959DA5&label=Lint" />
+  </a>
+
+  <a alt="codacy" href="https://app.codacy.com/gh/thuyen2908/x-test/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade">
+    <img src="https://img.shields.io/codacy/grade/4286e6a42b224a71b1d8d784e385eb48?logo=codacy&label=Codacy" />
   </a>
 
   <a alt="e2e-status" href="https://dl.circleci.com/status-badge/redirect/gh/thuyen2908/x-test/tree/main">
