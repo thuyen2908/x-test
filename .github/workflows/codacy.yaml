@@ -3,6 +3,9 @@ name: Codacy Analysis
 on:
   push:
     branches: [ main ]
+
+  pull_request:
+    types: [opened, synchronize, reopened]
   pull_request_target:
     branches: [ main ]
 
