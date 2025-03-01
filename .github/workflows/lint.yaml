@@ -6,6 +6,8 @@ on:
   pull_request_target:
     branches: [ main ]
 
+permissions: read-all
+
 jobs:
   biome_check_and_typecheck:
     name: 'Check'
