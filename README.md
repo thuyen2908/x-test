@@ -37,8 +37,8 @@
     <img src="https://img.shields.io/github/actions/workflow/status/thuyen2908/x-test/github-code-scanning%2Fcodeql?logo=github&logoColor=959DA5&label=CodeQL" />
   </a>
 
-  <a alt="lint" href="https://github.com/thuyen2908/x-test/actions/workflows/lint.yml">
-    <img src="https://img.shields.io/github/actions/workflow/status/thuyen2908/x-test/lint.yml?logo=biome&logoColor=959DA5&label=Lint" />
+  <a alt="lint" href="https://github.com/thuyen2908/x-test/actions/workflows/lint.yaml">
+    <img src="https://img.shields.io/github/actions/workflow/status/thuyen2908/x-test/lint.yaml?logo=biome&logoColor=959DA5&label=Lint" />
   </a>
 
   <a alt="codacy" href="https://app.codacy.com/gh/thuyen2908/x-test/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade">
