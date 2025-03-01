@@ -41,6 +41,10 @@
     <img src="https://img.shields.io/github/actions/workflow/status/thuyen2908/x-test/lint.yaml?logo=biome&logoColor=959DA5&label=Lint" />
   </a>
 
+  <a alt="sonarqube" href="https://sonarcloud.io/summary/new_code?id=thuyen2908_x-test">
+    <img src="https://sonarcloud.io/api/project_badges/measure?project=thuyen2908_x-test&metric=alert_status" />
+  </a>
+
   <a alt="codacy" href="https://app.codacy.com/gh/thuyen2908/x-test/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade">
     <img src="https://img.shields.io/codacy/grade/4286e6a42b224a71b1d8d784e385eb48?logo=codacy&label=Codacy" />
   </a>
