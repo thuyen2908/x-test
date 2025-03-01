@@ -1,0 +1,5 @@
+github:
+  ignore_labels:
+    - 📦 renovate
+  labels:
+    - 🤖 sourcery
