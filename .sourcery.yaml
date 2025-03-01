@@ -1,5 +1,5 @@
 github:
   ignore_labels:
-    - 📦 renovate
+    - '📦 renovate'
   labels:
-    - 🤖 sourcery
+    - '🤖 sourcery'
