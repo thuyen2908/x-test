@@ -1,4 +1,4 @@
-name: Codacy Analysis
+name: SonarQube Analysis
 
 on:
   push:
@@ -12,7 +12,7 @@ on:
 permissions: read-all
 
 jobs:
-  codacy_analysis:
+  sonarqube_analysis:
     name: Analyze
 
     runs-on: ubuntu-latest
@@ -21,10 +21,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          fetch-depth: 0 # shallow clones should be disabled for a better relevancy of analysis
 
-      - name: Run Codacy Analysis
-        uses: codacy/codacy-analysis-cli-action@master
-        with:
-          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          upload: true
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
