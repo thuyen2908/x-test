@@ -8,7 +8,7 @@ on:
 
 jobs:
   codacy_analysis:
-    name: Codacy Analysis
+    name: Analyze
 
     runs-on: ubuntu-latest
 
