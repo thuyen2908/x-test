@@ -6,12 +6,15 @@ import {
 } from '@playwright/test';
 import { defineBddConfig } from 'playwright-bdd';
 
-import { constants, UserRole } from './src/const';
+import type { Fixtures } from './src/steps/fixtures';
+import { UserRole } from './src/types/common';
+
+import { constants } from './src/const';
 import { env } from './src/env';
+import { getConfig } from './src/test-config';
 
 const isCI = env.isCI;
 const baseURL = env.baseURL;
-const posConfig = env.posConfig;
 
 const PlaywrightConfig = constants.PlaywrightConfig;
 const adminAuthStorage = constants.AuthStorage[UserRole.ADMIN];
@@ -26,20 +29,26 @@ const allureReporter: ReporterDescription = [
 	PlaywrightConfig.allureReportConfig,
 ];
 
-const chromeProject: PlaywrightTestProject = {
+const chromeProject: PlaywrightTestProject<Fixtures> = {
 	name: 'chrome',
 	dependencies: ['setup'],
 	use: {
 		...devices['Desktop Chrome'],
+		timezoneId: getConfig('chrome').timezone,
 		storageState: adminAuthStorage,
+
+		testConfig: getConfig('chrome'),
 	},
 };
-// const edgeProject: PlaywrightTestProject = {
+// const edgeProject: PlaywrightTestProject<Fixtures> = {
 // 	name: 'edge',
 // 	dependencies: ['setup'],
 // 	use: {
 // 		...devices['Desktop Edge'],
+// 		timezoneId: getConfig('edge').timezone,
 // 		storageState: adminAuthStorage,
+
+// 		testConfig: getConfig('edge'),
 // 	},
 // };
 
@@ -53,7 +62,7 @@ const testDir = defineBddConfig({
 });
 
 // Playwright config
-export default defineConfig({
+export default defineConfig<Fixtures>({
 	testDir,
 	outputDir: PlaywrightConfig.artifactsDir,
 	snapshotPathTemplate: '__snapshots__/{testFileDir}/{testFileName}/{arg}{ext}',
@@ -94,7 +103,7 @@ export default defineConfig({
 
 		// general config for all projects
 		baseURL,
-		timezoneId: posConfig.timezone,
+		timezoneId: getConfig().timezone,
 	},
 
 	projects: [

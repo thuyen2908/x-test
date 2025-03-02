@@ -1,7 +1,8 @@
 import { expect } from '@playwright/test';
 import { createBdd } from 'playwright-bdd';
 
-import { constants, type PageId } from '#const';
+import { constants } from '#const';
+import type { PageId } from '#types';
 
 const { When, Then } = createBdd();
 
@@ -23,18 +24,6 @@ Then(
 		await expect(
 			employeeList.getByText(employeeName, { exact: true }),
 		).toBeVisible();
-	},
-);
-
-When(
-	'I select the {string} employee',
-	async ({ page }, employeeName: string) => {
-		const employeeList = page.locator('div.xQueueList');
-
-		const employee = employeeList.getByText(employeeName, { exact: true });
-		await expect(employee).toBeVisible();
-
-		await employee.click();
 	},
 );
 

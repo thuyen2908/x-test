@@ -1,7 +1,7 @@
 import { type Locator, type Page, expect } from '@playwright/test';
 import { Fixture, Given, When } from 'playwright-bdd/decorators';
 
-import { PageId } from '#const';
+import { PageId } from '#types';
 
 import type { TimesheetAction } from './parameters';
 
@@ -17,6 +17,9 @@ declare global {
 const getPOMPageIdMap = async () => ({
 	[PageId.LOGIN]: await import('./login.page').then((m) => m.LoginPage),
 	[PageId.HOME]: await import('./home.page').then((m) => m.HomePage),
+	[PageId.TICKET_VIEW]: await import('./ticket-view.page').then(
+		(m) => m.TicketViewPage,
+	),
 });
 
 type POMPageIdMap = Awaited<ReturnType<typeof getPOMPageIdMap>>;
@@ -71,16 +74,17 @@ class xPage {
 	public get locators() {
 		const { page } = this;
 
-		const merchantInfo = page.locator('ul', {
-			has: page.locator('li.merchantInfo__dbaName'),
-		});
-
 		const dialog = (dialogTitle: string) =>
 			page.locator('div[role="dialog"]', {
 				has: page.locator('#alert-dialog-title', {
 					hasText: dialogTitle,
 				}),
 			});
+
+		const pageHeader = page.locator('div.xHeader__top');
+
+		const companyProfile = pageHeader.locator('div.xCompanyProfile');
+		const merchantInfo = companyProfile.locator('ul.xHeader__info');
 
 		return {
 			/**
@@ -95,7 +99,16 @@ class xPage {
 
 			toast: page.locator('div.MuiAlert-message'),
 
+			pageHeader,
+			pageName: pageHeader.locator('p.pageName'),
+			pageDetail: pageHeader.locator('p.pageDetail'),
+
+			companyProfile,
 			merchantInfo,
+			merchantName: merchantInfo.locator(
+				'li.merchantInfo__dbaName > span.label',
+			),
+			merchantContact: merchantInfo.locator('li.merchantInfo__address'),
 
 			timesheetButton: page.getByText('Timesheet', { exact: true }),
 			clockInButton: page.getByText('Clock In', { exact: true }),

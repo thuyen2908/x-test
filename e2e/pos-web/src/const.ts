@@ -1,23 +1,12 @@
 import { platform, release, version } from 'node:os';
 import { resolve } from 'node:path';
 
+import { PageId, UserRole } from '#types';
+
 import { env } from './env';
 
 const __dirname = import.meta.dirname;
 const projectRoot = resolve(__dirname, '..');
-
-/**
- * Page identifiers
- */
-export enum PageId {
-	HOME = 'HOME',
-	LOGIN = 'LOGIN',
-}
-
-export enum UserRole {
-	ADMIN = 'ADMIN',
-	// more roles go here
-}
 
 /**
  * An utility class, which contains all the constants used in our project
@@ -64,12 +53,12 @@ export class Const {
 	/**
 	 * Get the authentication storage path for each role
 	 */
-	public get AuthStorage() {
+	public get AuthStorage(): Record<UserRole, string> {
 		const { artifactsDir } = this.PlaywrightConfig;
 
 		return {
 			[UserRole.ADMIN]: resolve(artifactsDir, `.auth/${UserRole.ADMIN}.json`),
-		} satisfies Record<UserRole, string>;
+		};
 	}
 
 	/**
@@ -81,6 +70,7 @@ export class Const {
 		return {
 			[PageId.HOME]: baseURL,
 			[PageId.LOGIN]: `${baseURL}/login`,
+			[PageId.TICKET_VIEW]: `${baseURL}/tickets`,
 		} satisfies Record<PageId, string>;
 	}
 }

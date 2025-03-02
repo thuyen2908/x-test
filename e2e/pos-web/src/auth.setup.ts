@@ -3,14 +3,14 @@ import { resolve } from 'node:path';
 import { expect } from '@playwright/test';
 import { ensureFile } from 'fs-extra/esm';
 
-import { constants, PageId, UserRole } from './const';
-import { env } from './env';
+import { PageId, UserRole } from '#types';
+
+import { constants } from './const';
 import { test as setup } from './steps/fixtures';
 
 const __dirname = import.meta.dirname;
-const posConfig = env.posConfig;
 
-setup('Authentication: Admin role', async ({ page, xPage }) => {
+setup('Authentication: Admin role', async ({ page, xPage, testConfig }) => {
 	setup.setTimeout(40_000);
 
 	// make sure that the path is ready
@@ -25,7 +25,10 @@ setup('Authentication: Admin role', async ({ page, xPage }) => {
 	const loginPage = await xPage.goto(PageId.LOGIN);
 
 	// key in email & password
-	await loginPage.keyInAdminEmailPassword();
+	await loginPage.keyInAdminEmailPassword(
+		testConfig.adminEmail,
+		testConfig.adminPassword,
+	);
 
 	// visual check
 	await page.waitForLoadState('networkidle'); // wait until the background image fully loaded
@@ -35,14 +38,14 @@ setup('Authentication: Admin role', async ({ page, xPage }) => {
 	await loginPage.submitLogin();
 
 	const businessDayResetPrompt = loginPage.locators.businessDayResetPrompt;
-	const adminName = loginPage.locators.merchantInfo.getByText(
-		posConfig.adminName,
+	const username = loginPage.locators.merchantInfo.getByText(
+		testConfig.adminName,
 	);
 
 	// wait until the loading spinner is gone
-	await expect(businessDayResetPrompt.or(adminName)).toBeVisible({
+	await expect(businessDayResetPrompt.or(username)).toBeVisible({
 		// currently, look like the login process is quite slow, re-adjust this value in the future if necessary
-		timeout: 30_000,
+		timeout: 25_000,
 	});
 
 	// reset business date if prompted
@@ -50,7 +53,7 @@ setup('Authentication: Admin role', async ({ page, xPage }) => {
 		await loginPage.resetBusinessDay();
 
 		// wait until the homepage is loaded
-		expect(adminName).toBeVisible();
+		expect(username).toBeVisible();
 	}
 
 	// persist all browser context to the auth storage

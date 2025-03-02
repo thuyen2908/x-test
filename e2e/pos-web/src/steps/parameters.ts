@@ -1,6 +1,6 @@
 import { defineParameterType } from 'playwright-bdd';
 
-import { PageId } from '#const';
+import { PageId } from '#types';
 
 const pageIds = Object.values(PageId);
 defineParameterType({

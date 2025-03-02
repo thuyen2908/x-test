@@ -21,6 +21,7 @@
 		"lib": ["ESNext", "DOM"],
 
 		"paths": {
+			"#types": ["types/common.ts"],
 			"#env": ["env.ts"],
 			"#const": ["const.ts"]
 		}

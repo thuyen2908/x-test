@@ -7,11 +7,16 @@ import { Env as BaseEnv } from '@x-test/common/env';
 
 const EnvSchema = z.object({
 	PW_BASE_URL: z.string(),
-	PW_TIMEZONE: z.string().default('UTC'),
 
 	PW_ADMIN_NAME: z.string(),
 	PW_ADMIN_EMAIL: z.string(),
 	PW_ADMIN_PASSWORD: z.string(),
+
+	PW_TIMEZONE_CHROME: z.string().default('UTC'),
+	PW_TIMEZONE_EDGE: z.string().default('UTC'),
+
+	PW_MERCHANT_NAME_CHROME: z.string(),
+	PW_MERCHANT_NAME_EDGE: z.string(),
 });
 
 type ProcessEnvType = z.infer<typeof EnvSchema>;
@@ -56,11 +61,18 @@ class Env extends BaseEnv<typeof EnvSchema> {
 	 */
 	public get posConfig() {
 		return {
-			timezone: this.get('PW_TIMEZONE'),
-
 			adminName: this.get('PW_ADMIN_NAME'),
 			adminEmail: this.get('PW_ADMIN_EMAIL'),
 			adminPassword: this.get('PW_ADMIN_PASSWORD'),
+
+			chrome: {
+				timezone: this.get('PW_TIMEZONE_CHROME'),
+				merchantName: this.get('PW_MERCHANT_NAME_CHROME'),
+			},
+			edge: {
+				timezone: this.get('PW_TIMEZONE_EDGE'),
+				merchantName: this.get('PW_MERCHANT_NAME_EDGE'),
+			},
 		};
 	}
 }

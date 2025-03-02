@@ -1,12 +1,10 @@
 import { expect } from '@playwright/test';
 import { Fixture } from 'playwright-bdd/decorators';
 
-import { constants, PageId } from '#const';
-import { env } from '#env';
+import { constants } from '#const';
+import { PageId } from '#types';
 
 import { xPage } from './x.page';
-
-const posConfig = env.posConfig;
 
 export
 @Fixture('loginPage')
@@ -33,16 +31,14 @@ class LoginPage extends xPage {
 		};
 	}
 
-	/* -------------------------------- BDD steps ------------------------------- */
-
 	/**
 	 * Enter admin's email and password
 	 */
-	public async keyInAdminEmailPassword() {
+	public async keyInAdminEmailPassword(email: string, password: string) {
 		const { locators } = this;
 
-		await locators.emailInput.fill(posConfig.adminEmail);
-		await locators.passwordInput.fill(posConfig.adminPassword);
+		await locators.emailInput.fill(email);
+		await locators.passwordInput.fill(password);
 	}
 
 	/**
