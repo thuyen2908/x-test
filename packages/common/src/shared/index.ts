@@ -1,3 +1,3 @@
-// TODO: shared utilities go here
+// shared utilities go here
 
 export const mockFn = () => {};
