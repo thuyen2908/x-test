@@ -26,7 +26,6 @@ Then(
 	},
 );
 
-// TODO: reduce duplicated codes by using fixtures and POM in the future
 When(
 	'I select the {string} employee',
 	async ({ page }, employeeName: string) => {
@@ -60,7 +59,6 @@ Then(
 	},
 );
 
-// TODO: reduce duplicated codes by using fixtures and POM in the future
 When(
 	'I add the {string} service to my cart',
 	async ({ page }, serviceName: string) => {
@@ -127,7 +125,6 @@ When(
 Then(
 	'I should see a popup dialog with title {string}',
 	async ({ page }, dialogTitle: string) => {
-		// TODO: consider using a fixture to reduce duplicated codes
 		const dialogTitleElement = page.locator('.MuiDialogTitle-root');
 
 		await expect(dialogTitleElement).toBeVisible();
@@ -167,48 +164,6 @@ When(
 		await button.click();
 	},
 );
-
-// When(
-// 	'I clock out the timesheet using PIN {string}',
-// 	async ({ page }, pin: string) => {
-// 		// click on the Timesheet button
-// 		await page.getByText('Timesheet').click();
-
-// 		// find and click on the Clock Out button
-// 		const clockOutButton = page.getByText('Clock Out', { exact: true });
-// 		await expect(clockOutButton).toBeVisible();
-// 		await clockOutButton.click();
-
-// 		// expect the clock out password dialog to be visible
-// 		const clockOutPasswordDialog = page.locator('div.MuiDialogContent-root');
-// 		await expect(clockOutPasswordDialog).toBeVisible();
-
-// 		// enter the clock out PIN
-// 		for (const passwordDigit of pin) {
-// 			const passwordDigitButton = clockOutPasswordDialog.getByText(
-// 				passwordDigit,
-// 				{
-// 					exact: true,
-// 				},
-// 			);
-
-// 			await passwordDigitButton.click();
-// 		}
-
-// 		const successfullyClockedOutToast = page.getByText(
-// 			'clocked out successfully',
-// 		);
-// 		const alreadyClockedOutToast = page.getByText('has not clocked in yet'); // in case user has not clocked in yet
-
-// 		// expect a toast message indicating the result of the clock out operation
-// 		await expect(
-// 			successfullyClockedOutToast.or(alreadyClockedOutToast),
-// 		).toBeVisible();
-
-// 		// refresh the page to get the latest data
-// 		await page.reload();
-// 	},
-// );
 
 Then('I should see the tax amount non-zero', async ({ page }) => {
 	const chargeTax = page.locator('.xCharge__taxes');
