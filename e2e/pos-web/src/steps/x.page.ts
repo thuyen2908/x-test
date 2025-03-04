@@ -1,7 +1,11 @@
 import { type Locator, type Page, expect } from '@playwright/test';
 import { Fixture, Given, When } from 'playwright-bdd/decorators';
 
-import { PageId } from '#types';
+import { constants } from '#const';
+import type { PageId } from '#types';
+
+import type { TestConfig } from '../test-config';
+import type { TestStorage } from '../test-storage';
 
 import type { TimesheetAction } from './parameters';
 
@@ -12,19 +16,6 @@ declare global {
 }
 
 /**
- * When create a new POM, add it here to use the universal `gotoPage` method
- */
-const getPOMPageIdMap = async () => ({
-	[PageId.LOGIN]: await import('./login.page').then((m) => m.LoginPage),
-	[PageId.HOME]: await import('./home.page').then((m) => m.HomePage),
-	[PageId.TICKET_VIEW]: await import('./ticket-view.page').then(
-		(m) => m.TicketViewPage,
-	),
-});
-
-type POMPageIdMap = Awaited<ReturnType<typeof getPOMPageIdMap>>;
-
-/**
  * The base Page class, every other [POM (Page Object Model)](https://playwright.dev/docs/pom)
  * 	should extend this class.
  * This class also includes utility steps that are common to all pages
@@ -32,7 +23,11 @@ type POMPageIdMap = Awaited<ReturnType<typeof getPOMPageIdMap>>;
 export
 @Fixture('xPage')
 class xPage {
-	constructor(protected readonly page: Page) {
+	constructor(
+		protected readonly testConfig: TestConfig,
+		protected readonly testStorage: TestStorage,
+		protected readonly page: Page,
+	) {
 		// A solution for the issue of unable to click the "PAYMENT" button.
 		// Somehow our POS website relies on window.chrome.webview to function properly,
 		//   the `chrome` property is `undefined` in headless browsers,
@@ -53,33 +48,19 @@ class xPage {
 	}
 
 	/**
-	 * Go to a specific page
-	 *
-	 * @returns The POM (Page Object Model) object of the target page
-	 */
-	public async goto<TPageId extends keyof POMPageIdMap>(
-		pageId: TPageId,
-	): Promise<InstanceType<POMPageIdMap[TPageId]>> {
-		const pomPageIdMap = await getPOMPageIdMap();
-
-		const targetPage = new pomPageIdMap[pageId](this.page);
-		await targetPage.open();
-
-		return targetPage as InstanceType<POMPageIdMap[TPageId]>;
-	}
-
-	/**
 	 * A list of this page specific locators
 	 */
 	public get locators() {
 		const { page } = this;
 
-		const dialog = (dialogTitle: string) =>
+		const dialog = (dialogTitle: string, id = 'alert-dialog-title') =>
 			page.locator('div[role="dialog"]', {
-				has: page.locator('#alert-dialog-title', {
+				has: page.locator(`#${id}`, {
 					hasText: dialogTitle,
 				}),
 			});
+		const draggableDialog = (dialogTitle: string) =>
+			dialog(dialogTitle, 'draggable-dialog-title');
 
 		const pageHeader = page.locator('div.xHeader__top');
 
@@ -87,15 +68,10 @@ class xPage {
 		const merchantInfo = companyProfile.locator('ul.xHeader__info');
 
 		return {
-			/**
-			 * Locate the dialog element by its title
-			 */
 			dialog,
-			/**
-			 * Locate the close button of an open dialog
-			 */
-			dialogCloseButton: (dialogTitle: string, buttonTitle = 'Close') =>
-				dialog(dialogTitle).locator(`button[title="${buttonTitle}"]`),
+			draggableDialog,
+			dialogCloseButton: (dialogLocator: Locator, buttonTitle = 'Close') =>
+				dialogLocator.locator(`button[title="${buttonTitle}"]`),
 
 			toast: page.locator('div.MuiAlert-message'),
 
@@ -117,6 +93,18 @@ class xPage {
 	}
 
 	/**
+	 * Wait for a specific API call to be completed
+	 */
+	public waitForResponseOfAPI(api: keyof typeof constants.APIs) {
+		return this.page.waitForResponse((response) => {
+			const [method, url] = constants.APIs[api];
+			const request = response.request();
+
+			return request.url().includes(url) && request.method() === method;
+		});
+	}
+
+	/**
 	 * Enter a PIN using the on-screen numpad
 	 */
 	public async enterPIN(PIN: string, numpadLocator: Locator) {
@@ -130,7 +118,7 @@ class xPage {
 
 	@Given('I am on the {pageId} page')
 	public gotoPage(pageId: PageId) {
-		return this.goto(pageId);
+		return this.page.goto(constants.PageUrl[pageId]);
 	}
 
 	@When('I clock {timesheetAction} the timesheet with PIN {string}')
@@ -166,7 +154,10 @@ class xPage {
 
 		// if the dialog is still visible, close it
 		if (await enterPasswordDialog.isVisible()) {
-			await locators.dialogCloseButton('PASSWORD').click().catch();
+			await locators
+				.dialogCloseButton(enterPasswordDialog, 'PASSWORD')
+				.click()
+				.catch();
 		}
 	}
 }

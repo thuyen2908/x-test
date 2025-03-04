@@ -1,7 +1,7 @@
 import { platform, release, version } from 'node:os';
 import { resolve } from 'node:path';
 
-import { PageId, UserRole } from '#types';
+import { type HTTPMethod, PageId, UserRole } from '#types';
 
 import { env } from './env';
 
@@ -47,18 +47,18 @@ export class Const {
 					node_version: process.version,
 				},
 			},
-		};
+		} as const;
 	}
 
 	/**
 	 * Get the authentication storage path for each role
 	 */
-	public get AuthStorage(): Record<UserRole, string> {
+	public get AuthStorage() {
 		const { artifactsDir } = this.PlaywrightConfig;
 
 		return {
 			[UserRole.ADMIN]: resolve(artifactsDir, `.auth/${UserRole.ADMIN}.json`),
-		};
+		} as const;
 	}
 
 	/**
@@ -71,7 +71,16 @@ export class Const {
 			[PageId.HOME]: baseURL,
 			[PageId.LOGIN]: `${baseURL}/login`,
 			[PageId.TICKET_VIEW]: `${baseURL}/tickets`,
-		} satisfies Record<PageId, string>;
+		} as const satisfies Record<PageId, string>;
+	}
+
+	/**
+	 * APIs endpoints called by our web
+	 */
+	public get APIs() {
+		return {
+			'Get In-Service Tickets': ['GET', '/ticket-v2/get-ticket-inservices'],
+		} as const satisfies Record<string, [method: HTTPMethod, url: string]>;
 	}
 }
 

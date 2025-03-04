@@ -1,5 +1,11 @@
 export type Browser = 'chrome' | 'edge';
 
+export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+
+export interface TestOptions {
+	timeout?: number;
+}
+
 /**
  * Page identifiers
  */

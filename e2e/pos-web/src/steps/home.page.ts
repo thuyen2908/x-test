@@ -2,7 +2,7 @@ import { expect } from '@playwright/test';
 import { Fixture, When } from 'playwright-bdd/decorators';
 
 import { constants } from '#const';
-import { PageId } from '#types';
+import { PageId, type TestOptions } from '#types';
 
 import { TicketViewPage } from './ticket-view.page';
 import { xPage } from './x.page';
@@ -21,6 +21,7 @@ class HomePage extends xPage {
 		const { page } = this;
 
 		const employeeList = page.locator('div.xQueueList');
+		const ticketList = page.locator('div.ListTicket');
 
 		return {
 			...super.locators,
@@ -28,7 +29,20 @@ class HomePage extends xPage {
 			employeeList,
 			employee: (employeeName: string) =>
 				employeeList.getByText(employeeName, { exact: true }),
+
+			ticketList,
+			ticketById: (ticketId: string) =>
+				ticketList.getByText(`#${ticketId}`, { exact: true }),
 		};
+	}
+
+	/**
+	 * Select an on-going ticket (by its number) on the home screen
+	 */
+	public selectTicketById(id: string, { timeout }: TestOptions = {}) {
+		const { locators } = this;
+
+		return locators.ticketById(id).click({ timeout });
 	}
 
 	/* -------------------------------- BDD steps ------------------------------- */
@@ -41,5 +55,15 @@ class HomePage extends xPage {
 		await employee.click();
 
 		await expect(locators.pageName).toHaveText(TicketViewPage.TITLE);
+
+		const ticketViewPage = new TicketViewPage(
+			this.testConfig,
+			this.testStorage,
+			this.page,
+		);
+		const ticketNumber = await ticketViewPage.getTicketNumber();
+
+		// keep track ongoing tickets, used for cleanup in case of test failure
+		ticketNumber && this.testStorage.ongoingTickets.add(ticketNumber);
 	}
 }
