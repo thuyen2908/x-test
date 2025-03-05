@@ -53,7 +53,7 @@ export class Const {
 	/**
 	 * Get the authentication storage path for each role
 	 */
-	public get AuthStorage() {
+	public get AuthStorage(): Record<UserRole, string> {
 		const { artifactsDir } = this.PlaywrightConfig;
 
 		return {
@@ -64,14 +64,14 @@ export class Const {
 	/**
 	 * Retrieve a mapping between page identifiers and their URLs
 	 */
-	public get PageUrl() {
+	public get PageUrl(): Record<PageId, string> {
 		const baseURL = env.baseURL;
 
 		return {
 			[PageId.HOME]: baseURL,
 			[PageId.LOGIN]: `${baseURL}/login`,
 			[PageId.TICKET_VIEW]: `${baseURL}/tickets`,
-		} as const satisfies Record<PageId, string>;
+		} as const;
 	}
 
 	/**
