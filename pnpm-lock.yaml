@@ -45,8 +45,8 @@ importers:
   e2e/pos-web:
     devDependencies:
       '@dotenvx/dotenvx':
-        specifier: ^1.38.3
-        version: 1.38.3
+        specifier: ^1.38.4
+        version: 1.38.4
       '@playwright/test':
         specifier: ^1.50.1
         version: 1.50.1
@@ -60,8 +60,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/common
       allure-commandline:
-        specifier: ^2.32.2
-        version: 2.32.2
+        specifier: ^2.33.0
+        version: 2.33.0
       allure-playwright:
         specifier: ^3.2.0
         version: 3.2.0(@playwright/test@1.50.1)
@@ -335,8 +335,8 @@ packages:
   '@cucumber/tag-expressions@6.1.1':
     resolution: {integrity: sha512-0oj5KTzf2DsR3DhL3hYeI9fP3nyKzs7TQdpl54uJelJ3W3Hlyyet2Hib+8LK7kNnqJsXENnJg9zahRYyrtvNEg==}
 
-  '@dotenvx/dotenvx@1.38.3':
-    resolution: {integrity: sha512-6tquYDfAiJbgQbYwWfL0jJHiUumY5EiFXVswk9sTwn5lWICMwOPmMOrM9TEVLzesfNMYwDyUiMp5WAA6yXs+SQ==}
+  '@dotenvx/dotenvx@1.38.4':
+    resolution: {integrity: sha512-5rl1W5uMgSMrjluMqOf0FmUC6DILlR9Iy+6WzJIzt8qAON6gSbNZEkDG7MtktbK8g6QgQm9mMwaGgjW4DeU9Gw==}
     hasBin: true
 
   '@ecies/ciphers@0.2.2':
@@ -761,8 +761,8 @@ packages:
   alien-signals@0.4.14:
     resolution: {integrity: sha512-itUAVzhczTmP2U5yX67xVpsbbOiquusbWVyA9N+sy6+r6YVbFkahXvNCeEPWEOMhwDYwbVbGHFkVL03N9I5g+Q==}
 
-  allure-commandline@2.32.2:
-    resolution: {integrity: sha512-+O+a4laukvO/jqWLV/PenQo4an9igZgo+TuAX10D+Do4K03EPyCcmxCel/EXp8NUMb3ExErrrozyX/0o6I8qbA==}
+  allure-commandline@2.33.0:
+    resolution: {integrity: sha512-oGMW1Zaqd9SqYJHUqeET1AP363guQkswnCKD+6jSX9YCK8BbttSqZJy9PeSmJtU16uW3qGB6cvgrvJwKUWG5Ew==}
     hasBin: true
 
   allure-js-commons@3.2.0:
@@ -2350,7 +2350,7 @@ snapshots:
 
   '@cucumber/tag-expressions@6.1.1': {}
 
-  '@dotenvx/dotenvx@1.38.3':
+  '@dotenvx/dotenvx@1.38.4':
     dependencies:
       commander: 11.1.0
       dotenv: 16.4.7
@@ -2718,7 +2718,7 @@ snapshots:
 
   alien-signals@0.4.14: {}
 
-  allure-commandline@2.32.2: {}
+  allure-commandline@2.33.0: {}
 
   allure-js-commons@3.2.0(allure-playwright@3.2.0(@playwright/test@1.50.1)):
     dependencies:
