@@ -17,7 +17,7 @@
 	},
 	"devDependencies": {
 		"@dotenvx/dotenvx": "^1.38.4",
-		"@playwright/test": "^1.50.1",
+		"@playwright/test": "^1.51.0",
 		"@types/fs-extra": "^11.0.4",
 		"@types/node": "^22.13.9",
 		"@x-test/common": "workspace:*",
@@ -25,7 +25,7 @@
 		"allure-playwright": "^3.2.0",
 		"fs-extra": "^11.3.0",
 		"nodemon": "^3.1.9",
-		"playwright-bdd": "^8.2.0",
+		"playwright-bdd": "^8.2.1",
 		"remeda": "^2.21.0",
 		"rimraf": "^6.0.1",
 		"typescript": "^5.8.2",
