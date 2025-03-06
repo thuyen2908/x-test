@@ -424,3 +424,39 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
+
+  @skip
+  Scenario: Remove tax in ticket
+    Given I am on the HOME page
+    When I select the "Tim" employee
+    And I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+    And I should see the tax amount non-zero
+
+    When I remove the tax
+    Then I should see the tax display "0.00"
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the text "PAYMENT HISTORY" visible
+    And I should see the button with id "payment" visible
+
+    When I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page
+
+  @skip
+  Scenario: Void a ticket
+    Given I am on the HOME page
+    When I select the "Kelley" employee
+    Then I should see the "Ticket View" screen
+
+    When I click on the "VOID TICKET" button
+    Then I should see a popup dialog with title "Void Ticket"
+
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page
+
+
