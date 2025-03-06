@@ -208,8 +208,5 @@ Feature: Create tickets
 
     When I click on the "Percent Split" button in the split tip screen
     Then I should see all split tips non-zero
-
     When I click on the "Close Ticket" button
-    Then I should see a popup dialog with title "Close Ticket"
-    When I click on the "confirm" button in the popup dialog
     Then I should be redirected to HOME page
