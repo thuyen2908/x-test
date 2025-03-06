@@ -409,7 +409,7 @@ Feature: Create tickets
 
     When I enter the amount "4321"
     And I click on the "OK" button in the popup dialog
-    Then I should see the number card "1234" visible
+    Then I should see the number card "4321" visible
     When I click on the "REWRITE" button in the popup dialog
     Then I should see my cart showing 1 item added
     And I should see the tax amount non-zero
@@ -458,5 +458,4 @@ Feature: Create tickets
 
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
-
 
