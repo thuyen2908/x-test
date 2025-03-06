@@ -155,7 +155,7 @@ class xPage {
 		// if the dialog is still visible, close it
 		if (await enterPasswordDialog.isVisible()) {
 			await locators
-				.dialogCloseButton(enterPasswordDialog, 'PASSWORD')
+				.dialogCloseButton(enterPasswordDialog, 'Close')
 				.click()
 				.catch();
 		}
