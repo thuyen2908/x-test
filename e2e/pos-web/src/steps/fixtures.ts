@@ -1,6 +1,6 @@
-import { expect } from '@playwright/test';
 import { test as base, createBdd } from 'playwright-bdd';
 
+import { cleanupRedundantTickets } from '../redundant-tickets.cleanup';
 import { type TestConfig, getConfig } from '../test-config';
 import { TestStorage } from '../test-storage';
 
@@ -39,41 +39,4 @@ export const { Given, When, Then, AfterScenario } = createBdd(test);
 /*                                 Test hooks                                 */
 /* -------------------------------------------------------------------------- */
 
-// Clean up redundant on-going tickets (in case the test fails and did not clean up properly)
-AfterScenario(async ({ browser, testConfig, testStorage }) => {
-	const redundantTickets = Array.from(testStorage.ongoingTickets);
-	const context = await browser.newContext();
-
-	const cleanupTasks = redundantTickets.map(async (ticketNumber) => {
-		const page = await context.newPage();
-		const homePage = new HomePage(testConfig, testStorage, page);
-		const ticketViewPage = new TicketViewPage(testConfig, testStorage, page);
-
-		await homePage.open();
-		await homePage.waitForResponseOfAPI('Get In-Service Tickets');
-
-		const isTicketExist = await homePage.locators
-			.ticketById(ticketNumber)
-			.isVisible();
-		if (!isTicketExist) {
-			console.info(
-				`Ticket #${ticketNumber} does not exist, skipping cleanup...`,
-			);
-			return;
-		}
-
-		console.info(`Cleaning up ticket #${ticketNumber}...`);
-		await homePage.selectTicketById(ticketNumber);
-
-		await expect(ticketViewPage.locators.pageName).toHaveText(
-			TicketViewPage.TITLE,
-		);
-		await ticketViewPage.voidTicket();
-
-		console.info(`Ticket #${ticketNumber} cleaned up successfully`);
-	});
-
-	await Promise.all(cleanupTasks);
-
-	await context.close();
-});
+AfterScenario(cleanupRedundantTickets);
