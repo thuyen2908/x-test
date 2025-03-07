@@ -1,7 +1,6 @@
-@regression @smoke
+@mode:parallel @slow @regression @smoke
 Feature: Create tickets
 
-  @slow
   Scenario: Create a ticket for the Owner role
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1234"
@@ -24,7 +23,6 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-  @slow
   Scenario: Add an existing customer to a new ticket and pay with Loyalty points
     Given I am on the HOME page
     When I select the "Tim" employee
@@ -45,7 +43,6 @@ Feature: Create tickets
     When I redeem my loyalty points
     Then I should be redirected to HOME page
 
-  @slow
   Scenario: Create a new customer on the fly
     Given I am on the HOME page
     When I select the "Dylan" employee
@@ -73,7 +70,6 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-  @slow
   Scenario: Create a ticket with multiple technicians
     Given I am on the HOME page
     When I select the "Tina" employee
@@ -103,7 +99,6 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-  @slow
   Scenario: Create a ticket, add Tip and pay with Credit card
     Given I am on the HOME page
     When I select the "Laura" employee
@@ -128,7 +123,6 @@ Feature: Create tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-  @slow
   Scenario: Create a ticket and pay with Gift Card type
     Given I am on the HOME page
     When I select the "Emma" employee
@@ -150,7 +144,6 @@ Feature: Create tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-  @slow
   Scenario: Create a ticket and pay with Zelle type
     Given I am on the HOME page
     When I select the "Hanna" employee
@@ -169,7 +162,6 @@ Feature: Create tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-  @slow
   Scenario: Split tip on ticket after paying by Credit card
     Given I am on the HOME page
     When I select the "Brian" employee
