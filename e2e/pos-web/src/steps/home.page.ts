@@ -54,6 +54,7 @@ class HomePage extends xPage {
 		const employee = locators.employee(employeeName);
 		await employee.click();
 
+		await this.waitForResponseOfAPI('Save lock number');
 		await expect(locators.pageName).toHaveText(TicketViewPage.TITLE);
 
 		const ticketViewPage = new TicketViewPage(

@@ -80,6 +80,7 @@ export class Const {
 	public get APIs() {
 		return {
 			'Get In-Service Tickets': ['GET', '/ticket-v2/get-ticket-inservices'],
+			'Save lock number': ['POST', '/ticket-management/save-lock-number'],
 		} as const satisfies Record<string, [method: HTTPMethod, url: string]>;
 	}
 }

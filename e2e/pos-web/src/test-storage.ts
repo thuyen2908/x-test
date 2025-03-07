@@ -8,7 +8,7 @@ import type { TestConfig } from './test-config';
 export
 @Fixture('testStorage')
 class TestStorage {
-	static #ongoingTickets: Set<string> = new Set();
+	static readonly #ongoingTickets: Set<string> = new Set();
 
 	constructor(protected readonly testConfig: TestConfig) {}
 
