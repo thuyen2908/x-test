@@ -1,4 +1,4 @@
-@mode:parallel @slow @regression @smoke
+@slow @regression @smoke
 Feature: Create tickets
 
   Scenario: Create a ticket for the Owner role
