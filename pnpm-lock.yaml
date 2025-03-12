@@ -45,8 +45,8 @@ importers:
   e2e/pos-web:
     devDependencies:
       '@dotenvx/dotenvx':
-        specifier: ^1.38.4
-        version: 1.38.4
+        specifier: ^1.38.5
+        version: 1.38.5
       '@playwright/test':
         specifier: ^1.51.0
         version: 1.51.0
@@ -351,8 +351,8 @@ packages:
   '@cucumber/tag-expressions@6.1.1':
     resolution: {integrity: sha512-0oj5KTzf2DsR3DhL3hYeI9fP3nyKzs7TQdpl54uJelJ3W3Hlyyet2Hib+8LK7kNnqJsXENnJg9zahRYyrtvNEg==}
 
-  '@dotenvx/dotenvx@1.38.4':
-    resolution: {integrity: sha512-5rl1W5uMgSMrjluMqOf0FmUC6DILlR9Iy+6WzJIzt8qAON6gSbNZEkDG7MtktbK8g6QgQm9mMwaGgjW4DeU9Gw==}
+  '@dotenvx/dotenvx@1.38.5':
+    resolution: {integrity: sha512-NAmo2Esp7vfOvagkTK2lBU9ptWCojPzFvI2slLtoGNH1hebMX9JWBHkByUGPYgAOnPZN5F4uGxVBGWQNyXse4Q==}
     hasBin: true
 
   '@ecies/ciphers@0.2.2':
@@ -2402,7 +2402,7 @@ snapshots:
 
   '@cucumber/tag-expressions@6.1.1': {}
 
-  '@dotenvx/dotenvx@1.38.4':
+  '@dotenvx/dotenvx@1.38.5':
     dependencies:
       commander: 11.1.0
       dotenv: 16.4.7
