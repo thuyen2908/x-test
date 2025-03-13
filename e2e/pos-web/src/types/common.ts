@@ -13,6 +13,7 @@ export enum PageId {
 	HOME = 'HOME',
 	LOGIN = 'LOGIN',
 	TICKET_VIEW = 'TICKET_VIEW',
+	WAITING_LIST = 'WAITING_LIST',
 }
 
 export enum UserRole {

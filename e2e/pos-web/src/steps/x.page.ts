@@ -53,12 +53,18 @@ class xPage {
 	public get locators() {
 		const { page } = this;
 
-		const dialog = (dialogTitle: string, id = 'alert-dialog-title') =>
-			page.locator('div[role="dialog"]', {
-				has: page.locator(`#${id}`, {
-					hasText: dialogTitle,
-				}),
+		const dialog = (dialogTitle?: string, id = 'alert-dialog-title') => {
+			if (dialogTitle)
+				return page.locator('div[role="dialog"]', {
+					has: page.locator(`#${id}`, {
+						hasText: dialogTitle,
+					}),
+				});
+
+			return page.locator('div[role="dialog"]', {
+				has: page.locator(`#${id}`),
 			});
+		};
 		const draggableDialog = (dialogTitle: string) =>
 			dialog(dialogTitle, 'draggable-dialog-title');
 
@@ -70,6 +76,8 @@ class xPage {
 		return {
 			dialog,
 			draggableDialog,
+			dialogContent: (dialogLocator: Locator) =>
+				dialogLocator.locator('div.MuiDialogContent-root'),
 			dialogCloseButton: (dialogLocator: Locator, buttonTitle = 'Close') =>
 				dialogLocator.locator(`button[title="${buttonTitle}"]`),
 
@@ -117,8 +125,25 @@ class xPage {
 	/* -------------------------------- BDD steps ------------------------------- */
 
 	@Given('I am on the {pageId} page')
-	public gotoPage(pageId: PageId) {
-		return this.page.goto(constants.PageUrl[pageId]);
+	public async gotoPage(pageId: PageId) {
+		await this.page.goto(constants.PageUrl[pageId]);
+	}
+
+	@When('I wait for the page fully loaded')
+	public waitForNetworkIdle() {
+		return this.page.waitForLoadState('networkidle');
+	}
+
+	@When(
+		'I click on the {string} text inside the content section of the opening dialog',
+	)
+	public async clickOnTextElementInsideDialogContent(text: string) {
+		const { locators } = this;
+
+		const dialog = locators.dialog();
+		const dialogContent = locators.dialogContent(dialog);
+
+		await dialogContent.getByText(text, { exact: true }).click();
 	}
 
 	@When('I clock {timesheetAction} the timesheet with PIN {string}')
