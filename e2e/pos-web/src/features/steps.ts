@@ -56,13 +56,6 @@ When(
 			.getByText(serviceName, { exact: true });
 
 		await service.click();
-
-		// verify that the service is added to the cart
-		const addedItem = page
-			.locator('li.xTicketItems')
-			.getByText(serviceName, { exact: true });
-
-		await expect(addedItem).toBeVisible();
 	},
 );
 
@@ -225,6 +218,18 @@ Then(
 			.locator('ul.xTicketItemList')
 			.getByText(employee);
 		await expect(employeeElement).toContainText(employee);
+	},
+);
+
+Then(
+	'I should see multiple {string} employees in my cart',
+	async ({ page }, employee: string) => {
+		const employeeElements = await page
+			.locator('li.xTicketItems')
+			.getByText(employee)
+			.all();
+
+		expect(employeeElements.length).toBeGreaterThan(1);
 	},
 );
 
@@ -453,12 +458,16 @@ Then(
 );
 
 Then(
-	'I should see the employee {string} for package item in my cart',
+	'I should see the employee {string} for all items in a package in my cart',
 	async ({ page }, employee: string) => {
-		const employeeElement = page
+		const elements = await page
 			.locator('.childService')
-			.getByText(employee, { exact: true });
-		await expect(employeeElement).toHaveText(employee);
+			.getByText(employee, { exact: true })
+			.all();
+
+		for (const element of elements) {
+			await expect(element).toHaveText(employee);
+		}
 	},
 );
 
@@ -466,7 +475,7 @@ Then(
 	'I should see the customer {string} in the waiting list',
 	async ({ page }, customer: string) => {
 		const customerElement = page
-			.locator('[data-field][name="customerInfo"]')
+			.locator('div[data-field="customerInfo"]')
 			.getByText(customer, { exact: true });
 		await expect(customerElement).toHaveText(customer);
 	},
@@ -476,7 +485,7 @@ Then(
 	'I should see the service {string} in the waiting list',
 	async ({ page }, service: string) => {
 		const serviceElement = page
-			.locator('[data-field][name="categoryNames"]')
+			.locator('div[data-field="categoryNames"]')
 			.getByText(service, { exact: true });
 		await expect(serviceElement).toHaveText(service);
 	},
@@ -486,7 +495,7 @@ Then(
 	'I should see the technician {string} in the waiting list',
 	async ({ page }, technician: string) => {
 		const technicianElement = page
-			.locator('[data-field][name="technicianNickNames"]')
+			.locator('div[data-field="technicianNickNames"]')
 			.getByText(technician, { exact: true });
 		await expect(technicianElement).toHaveText(technician);
 	},

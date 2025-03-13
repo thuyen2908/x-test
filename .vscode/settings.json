@@ -55,7 +55,7 @@
 	"cucumberautocomplete.customParameters": [
 		{
 			"parameter": "{pageId}",
-			"value": "(HOME|LOGIN)"
+			"value": "(HOME|LOGIN|TICKET_VIEW|WAITING_LIST)"
 		},
 		{
 			"parameter": "{timesheetAction}",
