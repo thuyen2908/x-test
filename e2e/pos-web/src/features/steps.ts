@@ -456,7 +456,7 @@ Then(
 	'I should see the employee {string} for package item in my cart',
 	async ({ page }, employee: string) => {
 		const employeeElement = page
-			.locator('.childServie')
+			.locator('.childService')
 			.getByText(employee, { exact: true });
 		await expect(employeeElement).toHaveText(employee);
 	},
@@ -466,7 +466,7 @@ Then(
 	'I should see the customer {string} in the waiting list',
 	async ({ page }, customer: string) => {
 		const customerElement = page
-			.locator('[data-field][name="customerInfo"')
+			.locator('[data-field][name="customerInfo"]')
 			.getByText(customer, { exact: true });
 		await expect(customerElement).toHaveText(customer);
 	},
@@ -476,7 +476,7 @@ Then(
 	'I should see the service {string} in the waiting list',
 	async ({ page }, service: string) => {
 		const serviceElement = page
-			.locator('[data-field][name="categoryNames"')
+			.locator('[data-field][name="categoryNames"]')
 			.getByText(service, { exact: true });
 		await expect(serviceElement).toHaveText(service);
 	},
@@ -486,7 +486,7 @@ Then(
 	'I should see the technician {string} in the waiting list',
 	async ({ page }, technician: string) => {
 		const technicianElement = page
-			.locator('[data-field][name="technicianNickNames"')
+			.locator('[data-field][name="technicianNickNames"]')
 			.getByText(technician, { exact: true });
 		await expect(technicianElement).toHaveText(technician);
 	},
