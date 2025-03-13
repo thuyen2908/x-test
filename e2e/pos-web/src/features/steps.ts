@@ -197,7 +197,7 @@ When(
 	'I select the {string} employee in the dialog',
 	async ({ page }, employee: string) => {
 		const employeeButton = page
-			.locator('.xMultiple__employee')
+			.locator('.xEmployeeItem')
 			.getByText(employee, { exact: true });
 		await expect(employeeButton).toBeVisible();
 
@@ -408,3 +408,86 @@ Then('I should see all split tips non-zero', async ({ page }) => {
 	expect(allTips).not.toContain('0.00');
 	expect(allTips.every((tip) => !tip.includes('0.00'))).toBeTruthy();
 });
+
+When(
+	'I click on the {string} label in the header',
+	async ({ page }, label: string) => {
+		const labelElement = page
+			.locator('.xHeader__content')
+			.getByText(label, { exact: true });
+
+		await expect(labelElement).toBeVisible();
+
+		await labelElement.click();
+	},
+);
+
+When(
+	'I click on the {string} button in the waiting page',
+	async ({ page }, buttonText: string) => {
+		const buttonElement = page
+			.locator('.xWaitingList__btn')
+			.getByRole('button', { name: buttonText });
+		await buttonElement.click();
+	},
+);
+
+Then(
+	'I should see the service {string} in my cart',
+	async ({ page }, service: string) => {
+		const serviceElement = page
+			.locator('.xTicketItems__content')
+			.getByText(service, { exact: true });
+		await expect(serviceElement).toHaveText(service);
+	},
+);
+
+Then(
+	'I should see the duration {string} in my cart',
+	async ({ page }, duration: string) => {
+		const durationElement = page
+			.locator('.appt-duration')
+			.getByText(duration, { exact: true });
+		await expect(durationElement).toHaveText(duration);
+	},
+);
+
+Then(
+	'I should see the employee {string} for package item in my cart',
+	async ({ page }, employee: string) => {
+		const employeeElement = page
+			.locator('.childServie')
+			.getByText(employee, { exact: true });
+		await expect(employeeElement).toHaveText(employee);
+	},
+);
+
+Then(
+	'I should see the customer {string} in the waiting list',
+	async ({ page }, customer: string) => {
+		const customerElement = page
+			.locator('[data-field][name="customerInfo"')
+			.getByText(customer, { exact: true });
+		await expect(customerElement).toHaveText(customer);
+	},
+);
+
+Then(
+	'I should see the service {string} in the waiting list',
+	async ({ page }, service: string) => {
+		const serviceElement = page
+			.locator('[data-field][name="categoryNames"')
+			.getByText(service, { exact: true });
+		await expect(serviceElement).toHaveText(service);
+	},
+);
+
+Then(
+	'I should see the technician {string} in the waiting list',
+	async ({ page }, technician: string) => {
+		const technicianElement = page
+			.locator('[data-field][name="technicianNickNames"')
+			.getByText(technician, { exact: true });
+		await expect(technicianElement).toHaveText(technician);
+	},
+);

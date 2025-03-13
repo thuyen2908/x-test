@@ -71,6 +71,7 @@ export class Const {
 			[PageId.HOME]: baseURL,
 			[PageId.LOGIN]: `${baseURL}/login`,
 			[PageId.TICKET_VIEW]: `${baseURL}/tickets`,
+			[PageId.WAITING_LIST]: `${baseURL}/waiting-list`,
 		} as const;
 	}
 
