@@ -75,8 +75,8 @@ importers:
         specifier: ^8.2.1
         version: 8.2.1(@cucumber/message-streams@4.0.1(@cucumber/messages@27.0.2))(@playwright/test@1.51.0)
       remeda:
-        specifier: ^2.21.1
-        version: 2.21.1
+        specifier: ^2.21.2
+        version: 2.21.2
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
@@ -1740,8 +1740,8 @@ packages:
     resolution: {integrity: sha512-iETxpjK6YoRWJG5o6hXLwvjYAoW+FEZn9os0PD/b6AP6xQwsa/Y7lCVgIixBbUPMfhu+i2LtdeAqVTgGlQarfA==}
     hasBin: true
 
-  remeda@2.21.1:
-    resolution: {integrity: sha512-7I3JaB+geXL0Vq8V3TEwX6mMlWUCv18OdweAovYKiwDCbjKYf1DIHB58B6z8K7juPuZ1whwj79fOvUaHHHjbew==}
+  remeda@2.21.2:
+    resolution: {integrity: sha512-wdhkMDou8HRpD7RnxKJ/FHJWEGXRH7jV/pb0NsdLLSoBo+G9RjtxcY41hVhogLfEMkThk6aySKjs+Yd6PnpzBA==}
 
   require-directory@2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
@@ -3720,7 +3720,7 @@ snapshots:
 
   regexp-tree@0.1.27: {}
 
-  remeda@2.21.1:
+  remeda@2.21.2:
     dependencies:
       type-fest: 4.37.0
 
