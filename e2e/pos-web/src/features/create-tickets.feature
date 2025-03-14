@@ -203,14 +203,13 @@ Feature: Create tickets
     When I click on the "Close Ticket" button
     Then I should be redirected to HOME page
 
-  @skip
   Scenario: Create a ticket and pay with Cash change
     Given I am on the HOME page
-    When I select the "Laura" employee
+    When I select the "Kim" employee
     Then I should see the "Ticket View" screen
-    And I should see the "Gel Removal" service
+    And I should see the "Gel removal" service
 
-    When I add the "Gel Removal" service to my cart
+    When I add the "Gel removal" service to my cart
     Then I should see my cart showing 1 item added
     And I should see the tax amount non-zero
 
@@ -229,7 +228,7 @@ Feature: Create tickets
   @skip
   Scenario: Make multiple payments using Gift Card and Credit
     Given I am on the HOME page
-    When I select the "Laura" employee
+    When I select the "Lisa" employee
     Then I should see the "Ticket View" screen
     And I should see the "Acrylic Removal" service
 
@@ -258,7 +257,7 @@ Feature: Create tickets
   @skip
   Scenario: Change price and add note for service in ticket
     Given I am on the HOME page
-    When I select the "Lisa" employee
+    When I select the "Harry" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
 
@@ -289,7 +288,7 @@ Feature: Create tickets
   @skip
   Scenario: Add the Open Discount amount for Discount item
     Given I am on the HOME page
-    When I select the "Lisa" employee
+    When I select the "Bella" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
 
@@ -325,7 +324,7 @@ Feature: Create tickets
   @skip
   Scenario: Add the Open Discount percent for Discount ticket
     Given I am on the HOME page
-    When I select the "Lisa" employee
+    When I select the "Ruby" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
 
@@ -357,7 +356,7 @@ Feature: Create tickets
   @skip
   Scenario: Sell a Gift Card add-on amount
     Given I am on the HOME page
-    When I select the "Kelley" employee
+    When I select the "Tom" employee
     Then I should see the "Ticket View" screen
     And I should see the "GIFT CARD" category
 
@@ -387,7 +386,7 @@ Feature: Create tickets
   @skip
   Scenario: Sell a Gift Card rewrite amount
     Given I am on the HOME page
-    When I select the "Kelley" employee
+    When I select the "Sandy" employee
     Then I should see the "Ticket View" screen
     And I should see the "GIFT CARD" category
 
@@ -417,7 +416,7 @@ Feature: Create tickets
   @skip
   Scenario: Remove tax in ticket
     Given I am on the HOME page
-    When I select the "Tim" employee
+    When I select the "Jack" employee
     And I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
     And I should see the tax amount non-zero

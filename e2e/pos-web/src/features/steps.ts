@@ -501,6 +501,14 @@ Then(
 	},
 );
 
+When('I enter the amount {string}', async ({ page }, amount: string) => {
+	for (const digit of amount) {
+		await page
+			.locator(`button.key:has(span.text-num:has-text("${digit}"))`)
+			.click();
+	}
+});
+
 Then(
 	'I should see the employee {string} in the ticket',
 	async ({ page }, employee: string) => {
