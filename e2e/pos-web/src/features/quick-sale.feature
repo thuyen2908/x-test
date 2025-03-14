@@ -1,81 +1,52 @@
-@regression @smoke @skip
+@slow @regression @smoke
 Feature: Quick sale tickets
 
-Scenario: Create a quick sale ticket for the Owner role
-  Given I am on the HOME page
-  When I clock in the timesheet with PIN "1234"
-  Then I should see the employee "Owner" in the employee list
+  Scenario: Create a quick sale ticket
+    Given I am on the HOME page
+    When I wait for the page fully loaded
+    And I click on the "Quick Sale" label in the header
+    And I wait for the page fully loaded
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+    And I should see the employee "Christ" in the ticket
 
-  When I click on the "Quick Sale" label in the header
-  Then I should see the "Ticket View" screen
-  And I should see the "Manicure" service
+    When I add the "Bill" customer
+    Then I should see a new customer "Bill" on ticket
 
-  When I add the "Manicure" service to my cart
-  Then I should see my cart showing 1 item added
+    When I add the "Manicure" service to my cart
+    When I add the "Pedicure" service to my cart
+    Then I should see my cart showing 2 item added
+    And I should see the tax amount non-zero
 
-  When I click on the "Pay" button
-  Then I should see the text "Payment Ticket" visible
-  And I should see the text "Payment History" visible
-  And I should see the button with id "payment" visible
+    When I click on the item "Technician" button
+    Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
+    When I select the "Manicure" service in the dialog
+    And I select the "Kelley" employee in the dialog
+    And I click on the "Apply" button in the dialog
+    Then I should see the "Kelley" employee in my cart
 
-  When I click on the element with id "payment"
-  And I should see a popup dialog with title "Close Ticket"
-  And I should see a popup dialog with title "CHANGE$0.00OK"
-  When I click on the "OK" button in the popup dialog
-  Then I should be redirected to HOME page
+    When I click on the adding "Tip" button
+    Then I should see a popup dialog with title "Add Tip"
+    When I fill "10" from the numpad
+    Then I should see "10" tip in my cart
 
-Scenario: Add an existing customer to a quick sale ticket
-  Given I am on the HOME page
-  Then I should see the employee "Owner" in the employee list
+    When I click on the "PAY" button
+    Then I should see a popup dialog with title "Reward"
+    When I click on the "CANCEL" button in the popup dialog
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the text "PAYMENT HISTORY" visible
+    And I should see the button with id "payment" visible
 
-  When I click on the "Quick Sale" label in the header
-  Then I should see the "Ticket View" screen
-  And I should see the "Manicure" service
+    When I select the "Credit" payment type
+    And I fill the last 4 digits of card number "1234"
+    And I click on the element with id "payment"
+    Then I should see the employee "Christ" visible in the split tip screen
+    And I should see the employee "Kelley" visible in the split tip screen
+    And I should see the text "TOTAL TIP" visible in the split tip screen
+    And I should see the total tip "10" visible in the split tip screen
 
-  When I add the "Manicure" service to my cart
-  Then I should see my cart showing 1 item added
-
-  When I click on the Select customer
-  Then I should see the text "Click Here To Add Customers" visible
-  When I add the "Tin" customer
-  Then I should see the customer name on ticket
-
-  When I click on the "Pay" button
-  Then I should see the text "Payment Ticket" visible
-  And I should see the text "Payment History" visible
-  And I should see the button with id "payment" visible
-
-  When I click on the element with id "payment"
-  And I should see a popup dialog with title "Close Ticket"
-  And I should see a popup dialog with title "CHANGE$0.00OK"
-  When I click on the "OK" button in the popup dialog
-  Then I should be redirected to HOME page
-
-Scenario: Create a new customer on quick sale ticket
-  Given I am on the HOME page
-  Then I should see the employee "Owner" in the employee list
-
-  When I click on the "Quick Sale" label in the header
-  Then I should see the "Ticket View" screen
-  And I should see the "Manicure" service
-
-  When I add the "Manicure" service to my cart
-  Then I should see my cart showing 1 item added
-
-  When I click on the Select customer
-  And I click on the text "Click Here To Add Customers"
-  Then I should see a popup dialog with title "Create New Customer"
-  When I create a new customer
-  Then I should see a new customer on ticket
-
-  When I click on the "Pay" button
-  Then I should see the text "Payment Ticket" visible
-  And I should see the text "Payment History" visible
-  And I should see the button with id "payment" visible
-
-  When I click on the element with id "payment"
-  And I should see a popup dialog with title "Close Ticket"
-  And I should see a popup dialog with title "CHANGE$0.00OK"
-  When I click on the "OK" button in the popup dialog
-  Then I should be redirected to HOME page
+    When I click on the "Equal Split" button in the split tip screen
+    Then I should see all split tips non-zero
+    When I click on the "Close Ticket" button
+    Then I should be redirected to HOME page
 
