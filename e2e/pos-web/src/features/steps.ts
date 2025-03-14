@@ -264,11 +264,11 @@ When(
 );
 
 When('I fill {string} from the numpad', async ({ page }, amount: string) => {
-	const numpadButton = page.locator(
-		`button.key:has(span.text-num:has-text("${amount}"))`,
-	);
-
-	await numpadButton.click();
+	for (const digit of amount) {
+		await page
+			.locator(`button.key:has(span.text-num:has-text("${digit}"))`)
+			.click();
+	}
 
 	const OKButton = page.getByRole('button', { name: 'OK' });
 
@@ -508,3 +508,12 @@ When('I enter the amount {string}', async ({ page }, amount: string) => {
 			.click();
 	}
 });
+
+Then(
+	'I should see the employee {string} in the ticket',
+	async ({ page }, employee: string) => {
+		const headerContent = page.locator('.xHeader__content');
+
+		await expect(headerContent).toContainText(employee);
+	},
+);
