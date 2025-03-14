@@ -264,11 +264,11 @@ When(
 );
 
 When('I fill {string} from the numpad', async ({ page }, amount: string) => {
-	const numpadButton = page.locator(
-		`button.key:has(span.text-num:has-text("${amount}"))`,
-	);
-
-	await numpadButton.click();
+	for (const digit of amount) {
+		await page
+			.locator(`button.key:has(span.text-num:has-text("${digit}"))`)
+			.click();
+	}
 
 	const OKButton = page.getByRole('button', { name: 'OK' });
 
@@ -498,5 +498,14 @@ Then(
 			.locator('div[data-field="technicianNickNames"]')
 			.getByText(technician, { exact: true });
 		await expect(technicianElement).toHaveText(technician);
+	},
+);
+
+Then(
+	'I should see the employee {string} in the ticket',
+	async ({ page }, employee: string) => {
+		const headerContent = page.locator('.xHeader__content');
+
+		await expect(headerContent).toContainText(employee);
 	},
 );
