@@ -500,3 +500,11 @@ Then(
 		await expect(technicianElement).toHaveText(technician);
 	},
 );
+
+When('I enter the amount {string}', async ({ page }, amount: string) => {
+	for (const digit of amount) {
+		await page
+			.locator(`button.key:has(span.text-num:has-text("${digit}"))`)
+			.click();
+	}
+});
