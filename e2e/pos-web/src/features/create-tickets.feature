@@ -225,14 +225,13 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-  @skip
   Scenario: Make multiple payments using Gift Card and Credit
     Given I am on the HOME page
     When I select the "Lisa" employee
     Then I should see the "Ticket View" screen
-    And I should see the "Acrylic Removal" service
+    And I should see the "Acrylic removal" service
 
-    When I add the "Acrylic Removal" service to my cart
+    When I add the "Acrylic removal" service to my cart
     Then I should see my cart showing 1 item added
     And I should see the tax amount non-zero
 
@@ -245,9 +244,12 @@ Feature: Create tickets
     Then I should see the "ID GIFT CARD" name
     When I fill the Gift card with "1111"
     And I click on the "Check Balance" button
+    Then I should see the "AMOUNT" name
+    When I select the tittle "AMOUNT"
     And I enter the amount "10"
     And I click on the element with id "payment"
-    Then I should see the payment history "Gift" visible
+    Then I should see the payment history "Gift (1111)" visible
+    And I should see the payment price "$10.00"
 
     When I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
@@ -266,7 +268,7 @@ Feature: Create tickets
     And I should see the tax amount non-zero
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog contain title "Service"
+    Then I should see a popup dialog with title "Service: Manicure - $6.00"
     When I change the price to "10"
     And I change the quantity to "2"
     And I enter a note "Lorem Ipsum"

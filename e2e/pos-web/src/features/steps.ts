@@ -517,3 +517,39 @@ Then(
 		await expect(headerContent).toContainText(employee);
 	},
 );
+
+When('I select the tittle {string}', async ({ page }, name: string) => {
+	const nameElement = page.locator('.xPayment__card--input').getByText(name);
+	await expect(nameElement).toContainText(name);
+	await nameElement.click();
+});
+
+Then(
+	'I should see the payment history {string} visible',
+	async ({ page }, paymentHistory: string) => {
+		const paymentHistoryElement = page
+			.locator('.xPayment__history--nameType')
+			.getByText(paymentHistory);
+		await expect(paymentHistoryElement).toHaveText(paymentHistory);
+	},
+);
+
+Then(
+	'I should see the payment price {string}',
+	async ({ page }, price: string) => {
+		const priceElement = page
+			.locator('.xPayment__history--price')
+			.getByText(price);
+		await expect(priceElement).toHaveText(price);
+	},
+);
+
+When(
+	'I click on the total price of {string}',
+	async ({ page }, service: string) => {
+		const serviceElement = page
+			.locator('.xTicketItems__total')
+			.getByText(service, { exact: true });
+		await serviceElement.click();
+	},
+);
