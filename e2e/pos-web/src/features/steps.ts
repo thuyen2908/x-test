@@ -518,7 +518,7 @@ Then(
 	},
 );
 
-When('I select the tittle {string}', async ({ page }, name: string) => {
+When('I select the title {string}', async ({ page }, name: string) => {
 	const nameElement = page.locator('.xPayment__card--input').getByText(name);
 	await expect(nameElement).toContainText(name);
 	await nameElement.click();

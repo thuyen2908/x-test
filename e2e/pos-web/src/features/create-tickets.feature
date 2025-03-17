@@ -245,7 +245,7 @@ Feature: Create tickets
     When I fill the Gift card with "1111"
     And I click on the "Check Balance" button
     Then I should see the "AMOUNT" name
-    When I select the tittle "AMOUNT"
+    When I select the title "AMOUNT"
     And I enter the amount "10"
     And I click on the element with id "payment"
     Then I should see the payment history "Gift (1111)" visible
