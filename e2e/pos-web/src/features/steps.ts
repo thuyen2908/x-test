@@ -731,3 +731,17 @@ Then(
 		await expect(dialogTitleElement).toHaveText(dialogTitle);
 	},
 );
+
+When('I back to HOME page', async ({ page }) => {
+	await page.locator('.xHeader__top--left').click();
+});
+
+Then(
+	'I should see the employee {string} in my cart',
+	async ({ page }, employee: string) => {
+		const employeeElement = page
+			.locator('.xTicketItems__wrap')
+			.getByText(employee);
+		await expect(employeeElement).toContainText(employee);
+	},
+);
