@@ -285,7 +285,6 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-  @skip
   Scenario: Add the Open Discount amount for Discount item
     Given I am on the HOME page
     When I select the "Bella" employee
@@ -299,15 +298,16 @@ Feature: Create tickets
     When I click on the item "DISCOUNT ITEM" button
     Then I should see a popup dialog with title "DISCOUNT MULTIPLE"
     When I select the "Manicure" service in the dialog
-    Then I should see the "Owner Absorbs" is checked
+    Then I should see the "Owner Absorbs" option is checked
 
     When I select the discount "Open Discount"
-    And I select the discount type "Amount"
+    And I select the type "Amount" option
     Then I should see the discount type "Amount" visible
     When I enter the discount amount "3"
     And I click on the "Add Value" button in the popup dialog
-    And I click on the "OK" button in the popup dialog
-    Then I should see "Open Discount" in my cart
+    And I click on the "Apply" button in the popup dialog
+    Then I should see the "Open Discount" discount in my cart
+    And I should see the "Owner Absorbs" absorption type in my cart
     And I should see discount "$3.00" in my cart
 
     When I click on the "PAY" button
@@ -334,7 +334,7 @@ Feature: Create tickets
 
     When I click on the adding "Discount" button
     Then I should see a popup dialog with title "Add Discount Ticket"
-    And I should see the "Owner Absorbs" is checked
+    And I should see the "Owner Absorbs" option is checked
 
     When I select the discount "Open Discount"
     Then I should see the discount type "Percent" visible

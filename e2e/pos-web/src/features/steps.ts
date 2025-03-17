@@ -167,7 +167,7 @@ When(
 );
 
 When('I click on the item {string} button', async ({ page }, item: string) => {
-	const itemButton = page.locator('li.xMultiple__status').getByText(item);
+	const itemButton = page.locator('.xMultiple').getByText(item);
 	await expect(itemButton).toBeVisible();
 
 	await itemButton.click();
@@ -586,5 +586,76 @@ Then(
 	'I should see the note {string} visible',
 	async ({ page }, note: string) => {
 		await expect(page.locator('.xTicketItems__note')).toContainText(note);
+	},
+);
+
+Then(
+	'I should see the {string} option is checked',
+	async ({ page }, name: string) => {
+		const radioButton = page.getByLabel(name);
+
+		await expect(radioButton).toBeChecked();
+	},
+);
+
+When('I select the discount {string}', async ({ page }, discount: string) => {
+	const discountElement = page
+		.locator('.ItemDiscount__mutiple')
+		.getByText(discount);
+	await expect(discountElement).toHaveText(discount);
+	await discountElement.click();
+});
+
+When('I select the type {string} option', async ({ page }, type: string) => {
+	const typeElement = page.locator('.xFlex-select');
+	await typeElement.click();
+	await page.locator('#menu-typeDiscount').getByText(type).click();
+});
+
+Then(
+	'I should see the discount type {string} visible',
+	async ({ page }, type: string) => {
+		const discountTypeElement = page
+			.locator('.MuiListItemText-primary')
+			.first()
+			.getByText(type);
+		await expect(discountTypeElement).toHaveText(type);
+	},
+);
+
+When(
+	'I enter the discount amount {string}',
+	async ({ page }, amount: string) => {
+		await page.locator('input#priceAmount').fill(amount);
+	},
+);
+
+Then(
+	'I should see the {string} discount in my cart',
+	async ({ page }, discount: string) => {
+		const discountElement = page
+			.locator('.xTicketItems__discount--title')
+			.getByText(discount);
+		await expect(discountElement).toContainText(discount);
+	},
+);
+
+Then(
+	'I should see the {string} absorption type in my cart',
+	async ({ page }, type: string) => {
+		const typeElement = page
+			.locator('.xTicketItems__discount--title')
+			.getByText(type);
+		await expect(typeElement).toContainText(type);
+	},
+);
+
+Then(
+	'I should see discount {string} in my cart',
+	async ({ page }, amount: string) => {
+		const amountDiscount = page
+			.locator('.xTicketItems__discount--price')
+			.getByText(amount);
+		await expect(amountDiscount).toContainText(amount);
 	},
 );
