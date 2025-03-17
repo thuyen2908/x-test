@@ -600,7 +600,7 @@ Then(
 
 When('I select the discount {string}', async ({ page }, discount: string) => {
 	const discountElement = page
-		.locator('.ItemDiscount__mutiple')
+		.locator('.MuiListItem-gutters')
 		.getByText(discount);
 	await expect(discountElement).toHaveText(discount);
 	await discountElement.click();
@@ -659,3 +659,17 @@ Then(
 		await expect(amountDiscount).toContainText(amount);
 	},
 );
+
+When(
+	'I enter the discount percent {string}',
+	async ({ page }, percent: string) => {
+		await page.locator('#pricePercent').fill(percent);
+	},
+);
+
+Then('I should see the discount ticket non-zero', async ({ page }) => {
+	const discountTicket = page.locator('ul.xCharge li.MuiListItem-root').nth(1);
+
+	await expect(discountTicket).not.toContainText('0.00');
+	await expect(discountTicket).not.toHaveText('$0.00');
+});

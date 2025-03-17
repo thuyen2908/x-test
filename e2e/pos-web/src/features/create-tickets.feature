@@ -321,7 +321,6 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-  @skip
   Scenario: Add the Open Discount percent for Discount ticket
     Given I am on the HOME page
     When I select the "Ruby" employee
@@ -338,7 +337,7 @@ Feature: Create tickets
 
     When I select the discount "Open Discount"
     Then I should see the discount type "Percent" visible
-    When I enter the discount amount "10"
+    When I enter the discount percent "10"
     And I click on the "Add" button in the popup dialog
     Then I should see the discount ticket non-zero
 
