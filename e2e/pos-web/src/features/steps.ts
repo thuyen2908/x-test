@@ -673,3 +673,29 @@ Then('I should see the discount ticket non-zero', async ({ page }) => {
 	await expect(discountTicket).not.toContainText('0.00');
 	await expect(discountTicket).not.toHaveText('$0.00');
 });
+
+Then(
+	'I should see the {string} category',
+	async ({ page }, category: string) => {
+		const categoryElement = page
+			.locator('button.MuiButtonBase-root')
+			.getByText(category, { exact: true });
+		await expect(categoryElement).toHaveText(category);
+	},
+);
+
+When('I select the {string} category', async ({ page }, category: string) => {
+	const categoryElement = page
+		.locator('button.MuiButtonBase-root')
+		.getByText(category, { exact: true });
+	await expect(categoryElement).toHaveText(category);
+	await categoryElement.click();
+});
+
+Then(
+	'I should see the number card {string} visible',
+	async ({ page }, number: string) => {
+		const numberElement = page.locator('.numberCard').getByText(number);
+		await expect(numberElement).toHaveText(number);
+	},
+);

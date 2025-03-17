@@ -352,7 +352,6 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-  @skip
   Scenario: Sell a Gift Card add-on amount
     Given I am on the HOME page
     When I select the "Tom" employee
@@ -360,8 +359,8 @@ Feature: Create tickets
     And I should see the "GIFT CARD" category
 
     When I select the "GIFT CARD" category
-    Then I should see the "Gift Card $100" service
-    When I select the "Gift Card $100" service
+    Then I should see the "Gift card $100" service
+    When I add the "Gift card $100" service to my cart
     Then I should see a popup dialog with title "Activate Gift Card $100.00"
 
     When I enter the amount "1234"
@@ -369,6 +368,7 @@ Feature: Create tickets
     Then I should see the number card "1234" visible
     When I click on the "ADD ON" button in the popup dialog
     Then I should see my cart showing 1 item added
+    And I should see the service "Gift card $100 (1234)" in my cart
     And I should see the tax amount non-zero
 
     When I click on the "PAY" button
@@ -382,7 +382,6 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-  @skip
   Scenario: Sell a Gift Card rewrite amount
     Given I am on the HOME page
     When I select the "Sandy" employee
@@ -390,8 +389,8 @@ Feature: Create tickets
     And I should see the "GIFT CARD" category
 
     When I select the "GIFT CARD" category
-    Then I should see the "Gift Card $100" service
-    When I select the "Gift Card $100" service
+    Then I should see the "Gift card $100" service
+    When I add the "Gift card $100" service to my cart
     Then I should see a popup dialog with title "Activate Gift Card $100.00"
 
     When I enter the amount "4321"
@@ -399,6 +398,7 @@ Feature: Create tickets
     Then I should see the number card "4321" visible
     When I click on the "REWRITE" button in the popup dialog
     Then I should see my cart showing 1 item added
+    And I should see the service "Gift card $100 (4321)" in my cart
     And I should see the tax amount non-zero
 
     When I click on the "PAY" button
