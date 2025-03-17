@@ -412,7 +412,6 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-  @skip
   Scenario: Remove tax in ticket
     Given I am on the HOME page
     When I select the "Jack" employee
@@ -421,7 +420,7 @@ Feature: Create tickets
     And I should see the tax amount non-zero
 
     When I remove the tax
-    Then I should see the tax display "0.00"
+    Then I should see the tax display "$0.00"
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -434,8 +433,7 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-  @skip
-  Scenario: Void a ticket
+  Scenario: Void an empty ticket
     Given I am on the HOME page
     When I select the "Kelley" employee
     Then I should see the "Ticket View" screen
@@ -446,3 +444,18 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
+  Scenario: Void a ticket that has service
+    Given I am on the HOME page
+    When I select the "Kelley" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+
+    When I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I click on the "VOID TICKET" button
+    Then I should see a popup dialog with title "Select Void Reason"
+    When I select the reason "Mistake"
+    Then I should see a second popup dialog with title "Confirm Void"
+    When I click on the "confirm" button in the popup dialog
+    Then I should be redirected to HOME page

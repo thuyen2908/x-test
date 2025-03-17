@@ -699,3 +699,35 @@ Then(
 		await expect(numberElement).toHaveText(number);
 	},
 );
+
+When('I remove the tax', async ({ page }) => {
+	const deleteTax = page.locator(
+		'button:has(svg[data-testid="XDeleteBoldIcon"])',
+	);
+
+	await expect(deleteTax).toBeVisible();
+	await deleteTax.click();
+});
+
+Then('I should see the tax display {string}', async ({ page }, tax: string) => {
+	const taxAmount = page.locator('.xCharge__taxes');
+	await expect(taxAmount).toHaveText(tax);
+});
+
+When('I select the reason {string}', async ({ page }, reason: string) => {
+	const reasonElement = page
+		.locator('.xVoid')
+		.getByText(reason, { exact: true });
+	await expect(reasonElement).toHaveText(reason);
+	await reasonElement.click();
+});
+
+Then(
+	'I should see a second popup dialog with title {string}',
+	async ({ page }, dialogTitle: string) => {
+		const dialogTitleElement = page.locator('.MuiDialogTitle-root').last();
+
+		await expect(dialogTitleElement).toBeVisible();
+		await expect(dialogTitleElement).toHaveText(dialogTitle);
+	},
+);
