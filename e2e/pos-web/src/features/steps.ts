@@ -547,9 +547,44 @@ Then(
 When(
 	'I click on the total price of {string}',
 	async ({ page }, service: string) => {
-		const serviceElement = page
-			.locator('.xTicketItems__total')
-			.getByText(service, { exact: true });
-		await serviceElement.click();
+		const serviceContainer = page
+			.locator('.xTicketItems__info')
+			.filter({ has: page.locator('.itemName', { hasText: service }) });
+
+		await serviceContainer.locator('.xTicketItems__total').click();
+	},
+);
+
+When('I change the price to {string}', async ({ page }, price: string) => {
+	await page.locator('input#itemNumbers\\.amount').clear();
+	await page.locator('input#itemNumbers\\.amount').fill(price);
+});
+
+When(
+	'I change the quantity to {string}',
+	async ({ page }, quantity: string) => {
+		await page.locator('input#itemNumbers\\.qty').clear();
+		await page.locator('input#itemNumbers\\.qty').fill(quantity);
+	},
+);
+
+When('I enter a note {string}', async ({ page }, note: string) => {
+	await page.locator("[placeholder='Enter your note']").fill(note);
+	await page.getByRole('button', { name: 'Save' }).click();
+});
+
+Then(
+	'I should see the total price {string} visible',
+	async ({ page }, price: string) => {
+		await expect(page.locator('.xTicketItems__total .price')).toContainText(
+			price,
+		);
+	},
+);
+
+Then(
+	'I should see the note {string} visible',
+	async ({ page }, note: string) => {
+		await expect(page.locator('.xTicketItems__note')).toContainText(note);
 	},
 );

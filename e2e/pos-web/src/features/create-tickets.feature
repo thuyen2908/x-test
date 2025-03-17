@@ -256,7 +256,6 @@ Feature: Create tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-  @skip
   Scenario: Change price and add note for service in ticket
     Given I am on the HOME page
     When I select the "Harry" employee
@@ -272,9 +271,8 @@ Feature: Create tickets
     When I change the price to "10"
     And I change the quantity to "2"
     And I enter a note "Lorem Ipsum"
-    And I click on the "OK" button in the dialog
-    Then I should see the total price as "20"
-    And I should see the note "Lorem Ipsum" displayed
+    Then I should see the total price "$20.00" visible
+    And I should see the note "Lorem Ipsum" visible
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
