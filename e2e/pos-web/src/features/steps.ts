@@ -745,3 +745,26 @@ Then(
 		await expect(employeeElement).toContainText(employee);
 	},
 );
+
+When('I click on the header menu', async ({ page }) => {
+	await page.locator('.xHeader__menu').click();
+});
+
+When(
+	'I select the {string} label in the menu list',
+	async ({ page }, label: string) => {
+		const labelElement = page.locator('ul.xMenu__link').getByText(label);
+		await expect(labelElement).toHaveText(label);
+		await labelElement.click();
+	},
+);
+
+Then(
+	'I should see the employee {string} in the popup dialog',
+	async ({ page }, employee: string) => {
+		const employeeElement = page
+			.locator('.refund__content')
+			.getByText(employee);
+		await expect(employeeElement).toHaveText(employee);
+	},
+);
