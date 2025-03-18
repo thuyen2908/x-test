@@ -167,7 +167,7 @@ When(
 );
 
 When('I click on the item {string} button', async ({ page }, item: string) => {
-	const itemButton = page.locator('li.xMultiple__status').getByText(item);
+	const itemButton = page.locator('.xMultiple').getByText(item);
 	await expect(itemButton).toBeVisible();
 
 	await itemButton.click();
@@ -515,5 +515,233 @@ Then(
 		const headerContent = page.locator('.xHeader__content');
 
 		await expect(headerContent).toContainText(employee);
+	},
+);
+
+When('I select the title {string}', async ({ page }, name: string) => {
+	const nameElement = page.locator('.xPayment__card--input').getByText(name);
+	await expect(nameElement).toContainText(name);
+	await nameElement.click();
+});
+
+Then(
+	'I should see the payment history {string} visible',
+	async ({ page }, paymentHistory: string) => {
+		const paymentHistoryElement = page
+			.locator('.xPayment__history--nameType')
+			.getByText(paymentHistory);
+		await expect(paymentHistoryElement).toHaveText(paymentHistory);
+	},
+);
+
+Then(
+	'I should see the payment price {string}',
+	async ({ page }, price: string) => {
+		const priceElement = page
+			.locator('.xPayment__history--price')
+			.getByText(price);
+		await expect(priceElement).toHaveText(price);
+	},
+);
+
+When(
+	'I click on the total price of {string}',
+	async ({ page }, service: string) => {
+		const serviceContainer = page
+			.locator('.xTicketItems__info')
+			.filter({ has: page.locator('.itemName', { hasText: service }) });
+
+		await serviceContainer.locator('.xTicketItems__total').click();
+	},
+);
+
+When('I change the price to {string}', async ({ page }, price: string) => {
+	await page.locator('input#itemNumbers\\.amount').clear();
+	await page.locator('input#itemNumbers\\.amount').fill(price);
+});
+
+When(
+	'I change the quantity to {string}',
+	async ({ page }, quantity: string) => {
+		await page.locator('input#itemNumbers\\.qty').clear();
+		await page.locator('input#itemNumbers\\.qty').fill(quantity);
+	},
+);
+
+When('I enter a note {string}', async ({ page }, note: string) => {
+	await page.locator("[placeholder='Enter your note']").fill(note);
+	await page.getByRole('button', { name: 'Save' }).click();
+});
+
+Then(
+	'I should see the total price {string} visible',
+	async ({ page }, price: string) => {
+		await expect(page.locator('.xTicketItems__total .price')).toContainText(
+			price,
+		);
+	},
+);
+
+Then(
+	'I should see the note {string} visible',
+	async ({ page }, note: string) => {
+		await expect(page.locator('.xTicketItems__note')).toContainText(note);
+	},
+);
+
+Then(
+	'I should see the {string} option is checked',
+	async ({ page }, name: string) => {
+		const radioButton = page.getByLabel(name);
+
+		await expect(radioButton).toBeChecked();
+	},
+);
+
+When('I select the discount {string}', async ({ page }, discount: string) => {
+	const discountElement = page
+		.locator('.MuiListItem-gutters')
+		.getByText(discount);
+	await expect(discountElement).toHaveText(discount);
+	await discountElement.click();
+});
+
+When('I select the type {string} option', async ({ page }, type: string) => {
+	const typeElement = page.locator('.xFlex-select');
+	await typeElement.click();
+	await page.locator('#menu-typeDiscount').getByText(type).click();
+});
+
+Then(
+	'I should see the discount type {string} visible',
+	async ({ page }, type: string) => {
+		const discountTypeElement = page
+			.locator('.MuiListItemText-primary')
+			.first()
+			.getByText(type);
+		await expect(discountTypeElement).toHaveText(type);
+	},
+);
+
+When(
+	'I enter the discount amount {string}',
+	async ({ page }, amount: string) => {
+		await page.locator('input#priceAmount').fill(amount);
+	},
+);
+
+Then(
+	'I should see the {string} discount in my cart',
+	async ({ page }, discount: string) => {
+		const discountElement = page
+			.locator('.xTicketItems__discount--title')
+			.getByText(discount);
+		await expect(discountElement).toContainText(discount);
+	},
+);
+
+Then(
+	'I should see the {string} absorption type in my cart',
+	async ({ page }, type: string) => {
+		const typeElement = page
+			.locator('.xTicketItems__discount--title')
+			.getByText(type);
+		await expect(typeElement).toContainText(type);
+	},
+);
+
+Then(
+	'I should see discount {string} in my cart',
+	async ({ page }, amount: string) => {
+		const amountDiscount = page
+			.locator('.xTicketItems__discount--price')
+			.getByText(amount);
+		await expect(amountDiscount).toContainText(amount);
+	},
+);
+
+When(
+	'I enter the discount percent {string}',
+	async ({ page }, percent: string) => {
+		await page.locator('#pricePercent').fill(percent);
+	},
+);
+
+Then('I should see the discount ticket non-zero', async ({ page }) => {
+	const discountTicket = page.locator('ul.xCharge li.MuiListItem-root').nth(1);
+
+	await expect(discountTicket).not.toContainText('0.00');
+	await expect(discountTicket).not.toHaveText('$0.00');
+});
+
+Then(
+	'I should see the {string} category',
+	async ({ page }, category: string) => {
+		const categoryElement = page
+			.locator('button.MuiButtonBase-root')
+			.getByText(category, { exact: true });
+		await expect(categoryElement).toHaveText(category);
+	},
+);
+
+When('I select the {string} category', async ({ page }, category: string) => {
+	const categoryElement = page
+		.locator('button.MuiButtonBase-root')
+		.getByText(category, { exact: true });
+	await expect(categoryElement).toHaveText(category);
+	await categoryElement.click();
+});
+
+Then(
+	'I should see the number card {string} visible',
+	async ({ page }, number: string) => {
+		const numberElement = page.locator('.numberCard').getByText(number);
+		await expect(numberElement).toHaveText(number);
+	},
+);
+
+When('I remove the tax', async ({ page }) => {
+	const deleteTax = page.locator(
+		'button:has(svg[data-testid="XDeleteBoldIcon"])',
+	);
+
+	await expect(deleteTax).toBeVisible();
+	await deleteTax.click();
+});
+
+Then('I should see the tax display {string}', async ({ page }, tax: string) => {
+	const taxAmount = page.locator('.xCharge__taxes');
+	await expect(taxAmount).toHaveText(tax);
+});
+
+When('I select the reason {string}', async ({ page }, reason: string) => {
+	const reasonElement = page
+		.locator('.xVoid')
+		.getByText(reason, { exact: true });
+	await expect(reasonElement).toHaveText(reason);
+	await reasonElement.click();
+});
+
+Then(
+	'I should see a second popup dialog with title {string}',
+	async ({ page }, dialogTitle: string) => {
+		const dialogTitleElement = page.locator('.MuiDialogTitle-root').last();
+
+		await expect(dialogTitleElement).toBeVisible();
+		await expect(dialogTitleElement).toHaveText(dialogTitle);
+	},
+);
+
+When('I back to HOME page', async ({ page }) => {
+	await page.locator('.xHeader__top--left').click();
+});
+
+Then(
+	'I should see the employee {string} in my cart',
+	async ({ page }, employee: string) => {
+		const employeeElement = page
+			.locator('.xTicketItems__wrap')
+			.getByText(employee);
+		await expect(employeeElement).toContainText(employee);
 	},
 );
