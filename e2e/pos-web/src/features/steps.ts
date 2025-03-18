@@ -517,3 +517,54 @@ Then(
 		await expect(headerContent).toContainText(employee);
 	},
 );
+
+When('I select the {string} label', async ({ page }, label: string) => {
+	const giftCardOption = page
+		.locator('ul.xTimeSheet li')
+		.filter({ has: page.locator('span.label', { hasText: label }) });
+
+	await expect(giftCardOption).toBeVisible();
+	await giftCardOption.click();
+});
+
+When('I enter password with PIN {string}', async ({ page }, pin: string) => {
+	for (const digit of pin) {
+		await page
+			.locator(`button.key:has(span.text-num:has-text("${digit}"))`)
+			.click();
+	}
+});
+
+Then(
+	'I should see the gift number {string} visible',
+	async ({ page }, number: string) => {
+		const giftNumberElement = page
+			.locator('.giftCard__content')
+			.getByText(number, { exact: true });
+
+		await expect(giftNumberElement).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the number {string} visible',
+	async ({ page }, number: string) => {
+		const numberElement = page
+			.locator('.BalanceLayout__content--number')
+			.getByText(number, { exact: true });
+
+		await expect(numberElement).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the first type {string} in the detail list',
+	async ({ page }, type: string) => {
+		const firstTypeCell = page
+			.locator('.MuiDataGrid-row')
+			.first()
+			.locator('.MuiDataGrid-cell[data-field="giftCardLogType"]');
+
+		await expect(firstTypeCell).toHaveAttribute('title', type);
+	},
+);
