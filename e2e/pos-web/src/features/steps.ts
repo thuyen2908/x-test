@@ -387,8 +387,8 @@ When('I add the {string} customer', async ({ page }, customer: string) => {
 });
 
 When('I redeem my loyalty points', async ({ page }) => {
-	page.locator('.xLoyalty__item').click();
-	page.locator('.xLoyalty__btn').getByText('OK').click();
+	await page.locator('.xLoyalty__item').click();
+	await page.locator('.xLoyalty__btn').getByText('OK').click();
 });
 
 When(
