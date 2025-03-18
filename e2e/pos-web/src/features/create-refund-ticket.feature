@@ -10,8 +10,8 @@ Feature: Create a refund ticket
     And I should see the employee "Christ" in the popup dialog
     And I should see the "Add Commission" option is checked
 
-    When I add the "Naomi" customer
-    Then I should see a new customer "Naomi" on ticket
+    When I add the "Tin" customer
+    Then I should see a new customer "Tin" on ticket
 
     When I enter the amount "10"
     And I click on the "OK" button
