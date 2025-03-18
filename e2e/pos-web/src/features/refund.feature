@@ -1,5 +1,5 @@
 @slow @regression @smoke
-Feature: Create a refund ticket
+Feature: Refund
 
   Scenario: Create a refund ticket and pay with Cash
     Given I am on the HOME page
