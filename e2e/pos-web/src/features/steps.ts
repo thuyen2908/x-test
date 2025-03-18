@@ -558,7 +558,7 @@ Then(
 );
 
 Then(
-	'I should see the first type {string} in the detail list',
+	'I should see the first type {string} in the gift card detail list',
 	async ({ page }, type: string) => {
 		const firstTypeCell = page
 			.locator('.MuiDataGrid-row')
@@ -566,5 +566,40 @@ Then(
 			.locator('.MuiDataGrid-cell[data-field="giftCardLogType"]');
 
 		await expect(firstTypeCell).toHaveAttribute('title', type);
+	},
+);
+
+Then(
+	'I should see the loyalty phone {string} visible',
+	async ({ page }, phone: string) => {
+		const loyaltyPhoneElement = page
+			.locator('.Bloyalty__phone')
+			.getByText(phone, { exact: true });
+
+		await expect(loyaltyPhoneElement).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the first type {string} in the loyal detail list',
+	async ({ page }, type: string) => {
+		const firstTypeCell = page
+			.locator('.MuiDataGrid-row')
+			.first()
+			.locator('.MuiDataGrid-cell[data-field="type"]');
+
+		await expect(firstTypeCell).toHaveAttribute('title', type);
+	},
+);
+
+Then(
+	'I should see the title contain {string} visible',
+	async ({ page }, name: string) => {
+		const titleElement = page
+			.locator('.BalanceLayout__title span')
+			.getByText(name);
+
+		await expect(titleElement).toBeVisible();
+		await expect(titleElement).toContainText(name);
 	},
 );

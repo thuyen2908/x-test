@@ -34,5 +34,5 @@ Feature: Gift Card Balance
     When I enter the amount "5"
     Then I should see the number "5.00" visible
     When I click on the "INCREASE" button
-    Then I should see the first type "PosManualAdjust" in the detail list
+    Then I should see the first type "PosManualAdjust" in the gift card detail list
 
