@@ -499,3 +499,126 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
+
+  Scenario: Void the item when creating a ticket
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "0404"
+    Then I should see the employee "Sam" in the employee list
+
+    When I select the "Sam" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+    When I add the "Manicure" service to my cart
+    And I add the "Cut cuticle" service to my cart
+    Then I should see my cart showing 2 item added
+    And I should see the service "Manicure" in my cart
+    And I should see the service "Cut cuticle" in my cart
+
+    When I click on the item "VOID ITEM" button
+    Then I should see a popup dialog with title "VOID MULTIPLE"
+    When I select the "Manicure" service in the dialog
+    And I select the reason "Mistake"
+    And I click on the "Void Items" button in the dialog
+    Then I should not see the service "Manicure" in my cart
+    And I should see my cart showing 1 item added
+
+    When I add the "Pedicure" service to my cart
+    Then I should see my cart showing 2 item added
+    And I should see the service "Pedicure" in my cart
+    And I should see the tax amount non-zero
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the text "PAYMENT HISTORY" visible
+    And I should see the button with id "payment" visible
+
+    When I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page
+
+  Scenario: Change Technician for Service package
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "6769"
+    Then I should see the employee "Sophia" in the employee list
+
+    When I select the "Sophia" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Combo 1" service
+
+    When I add the "Combo 1" service to my cart
+    Then I should see my cart showing 1 item added
+    And I should see the tax amount non-zero
+    And I should see the service "Manicure" in my cart
+    And I should see the service "Pedicure" in my cart
+    And I should see multiple "Sophia" employees in my cart
+    And I should see the employee "Sophia" for all items in a package in my cart
+
+    When I click on the item "Technician" button
+    Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
+    When I select the "Manicure" service in the dialog
+    And I select the "Anna" employee in the dialog
+    And I click on the "Apply" button in the dialog
+    Then I should see the "Anna" employee in my cart
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the text "PAYMENT HISTORY" visible
+    And I should see the button with id "payment" visible
+
+    When I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page
+
+  Scenario: Remove payment history and choose another one
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "6373"
+    Then I should see the employee "Mia" in the employee list
+
+    When I select the "Mia" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Combo 1" service
+
+    When I add the "Combo 1" service to my cart
+    Then I should see my cart showing 1 item added
+    And I should see the tax amount non-zero
+    And I should see the service "Manicure" in my cart
+    And I should see the service "Pedicure" in my cart
+    And I should see multiple "Mia" employees in my cart
+    And I should see the employee "Mia" for all items in a package in my cart
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the text "PAYMENT HISTORY" visible
+    And I should see the button with id "payment" visible
+
+    When I enter the amount "10"
+    And I click on the element with id "payment"
+    Then I should see the payment history "Cash" visible
+    And I should see the payment price "$10.00"
+
+    When I click on the more menu for payment history of "Cash"
+    Then I should see the tooltip remove
+    When I click on the tooltip remove
+    Then I should see a popup dialog with title "Cash  - $10.00"
+    When I click on the "Remove" button in the popup dialog
+    Then I should see the text "No transactions found." in the payment history
+
+    When I select the "Gift" payment type
+    Then I should see the "ID GIFT CARD" name
+    When I fill the Gift card with "1111"
+    And I click on the "Check Balance" button
+    Then I should see the "AMOUNT" name
+    When I select the title "AMOUNT"
+    And I enter the amount "10"
+    And I click on the element with id "payment"
+    Then I should see the payment history "Gift (1111)" visible
+    And I should see the payment price "$10.00"
+
+    When I select the "Credit" payment type
+    And I fill the last 4 digits of card number "1234"
+    And I click on the element with id "payment"
+    Then I should be redirected to HOME page

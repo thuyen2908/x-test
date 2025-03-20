@@ -845,3 +845,49 @@ Then(
 		await expect(employeeElement).toHaveText(employee);
 	},
 );
+
+Then(
+	'I should not see the service {string} in my cart',
+	async ({ page }, service: string) => {
+		const serviceElement = page
+			.locator('.xTicketItems__content')
+			.getByText(service, { exact: true });
+		await expect(serviceElement).toHaveCount(0);
+	},
+);
+
+When(
+	'I click on the more menu for payment history of {string}',
+	async ({ page }, paymentMethod: string) => {
+		const paymentHistoryItem = page
+			.locator('.xPayment__history--list li')
+			.filter({ hasText: paymentMethod });
+
+		await paymentHistoryItem.locator('button[aria-label="more"]').click();
+	},
+);
+
+Then('I should see the tooltip remove', async ({ page }) => {
+	const tooltipElement = page.locator(
+		'.xPayment__history--tooltip.active .label:has-text("Remove")',
+	);
+	await expect(tooltipElement).toBeVisible();
+});
+
+When('I click on the tooltip remove', async ({ page }) => {
+	const tooltipElement = page.locator(
+		'.xPayment__history--tooltip.active .label:has-text("Remove")',
+	);
+	await tooltipElement.click();
+});
+
+Then(
+	'I should see the text {string} in the payment history',
+	async ({ page }, text: string) => {
+		const paymentHistoryItem = page
+			.locator('.xPayment__history--scroll')
+			.filter({ hasText: text });
+
+		await expect(paymentHistoryItem).toBeVisible();
+	},
+);
