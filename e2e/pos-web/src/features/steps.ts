@@ -791,20 +791,16 @@ When(
 );
 
 Then('I should see the tooltip remove', async ({ page }) => {
-	const tooltipElement = page
-		.locator('.xPayment__history--tooltip.active')
-		.locator('.xPayment__history--tooltip-item')
-		.locator('.label')
-		.filter({ hasText: 'Remove' });
+	const tooltipElement = page.locator(
+		'.xPayment__history--tooltip.active .label:has-text("Remove")',
+	);
 	await expect(tooltipElement).toBeVisible();
 });
 
 When('I click on the tooltip remove', async ({ page }) => {
-	const tooltipElement = page
-		.locator('.xPayment__history--tooltip.active')
-		.locator('.xPayment__history--tooltip-item')
-		.locator('.label')
-		.filter({ hasText: 'Remove' });
+	const tooltipElement = page.locator(
+		'.xPayment__history--tooltip.active .label:has-text("Remove")',
+	);
 	await tooltipElement.click();
 });
 
