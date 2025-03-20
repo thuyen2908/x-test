@@ -31,6 +31,9 @@ node_modules
 !.env.example
 .flaskenv*
 
+# AIs
+.aider*
+
 # Created by https://www.toptal.com/developers/gitignore/api/macos,windows,linux,visualstudiocode,intellij+all,vim
 
 ### Intellij+all ###
