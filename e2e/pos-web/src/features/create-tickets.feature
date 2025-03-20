@@ -444,7 +444,7 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-  Scenario: Void a ticket that has service
+  Scenario: Void a ticket with a service in Done status
     Given I am on the HOME page
     When I select the "Kelley" employee
     Then I should see the "Ticket View" screen
@@ -452,6 +452,10 @@ Feature: Create tickets
 
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
+    And I should see the "Manicure" service with status wait
+
+    When I click the status of "Manicure" to change done
+    Then I should see the "Manicure" service with status done
 
     When I click on the "VOID TICKET" button
     Then I should see a popup dialog with title "Select Void Reason"
@@ -460,8 +464,25 @@ Feature: Create tickets
     When I click on the "confirm" button in the popup dialog
     Then I should be redirected to HOME page
 
+  Scenario: Void a ticket with a service in Wait status
+    Given I am on the HOME page
+    When I select the "Kelley" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+
+    When I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+    And I should see the "Manicure" service with status wait
+
+    When I click on the "VOID TICKET" button
+    Then I should see a popup dialog with title "Void Ticket"
+
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page
+
   Scenario: Combine tickets
     Given I am on the HOME page
+    When I clock in the timesheet with PIN "6310"
     Then I should see the employee "Sarah" in the employee list
 
     When I select the "Sarah" employee

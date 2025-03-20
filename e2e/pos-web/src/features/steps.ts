@@ -768,3 +768,43 @@ Then(
 		await expect(employeeElement).toHaveText(employee);
 	},
 );
+
+Then(
+	'I should see the {string} service with status wait',
+	async ({ page }, service: string) => {
+		const serviceWithWaitStatus = page
+			.locator('.xTicketItems__wrap', {
+				hasText: service,
+			})
+			.filter({ has: page.locator('.status:text("W")') });
+
+		await expect(serviceWithWaitStatus).toBeVisible();
+	},
+);
+
+When(
+	'I click the status of {string} to change done',
+	async ({ page }, service: string) => {
+		const serviceContainer = page
+			.locator('.xTicketItems__wrap')
+			.filter({ hasText: service });
+
+		const waitStatusElement = serviceContainer.locator('.status:text("W")');
+		await expect(waitStatusElement).toBeVisible();
+
+		await waitStatusElement.click();
+	},
+);
+
+Then(
+	'I should see the {string} service with status done',
+	async ({ page }, service: string) => {
+		const serviceWithWaitStatus = page
+			.locator('.xTicketItems__wrap', {
+				hasText: service,
+			})
+			.filter({ has: page.locator('.status.done:text("D")') });
+
+		await expect(serviceWithWaitStatus).toBeVisible();
+	},
+);
