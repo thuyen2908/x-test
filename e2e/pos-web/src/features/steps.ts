@@ -124,14 +124,6 @@ Then(
 	},
 );
 
-When('I wait for {int} seconds', async ({ page }, seconds: number) => {
-	await page.waitForTimeout(seconds * 1000);
-});
-
-Then('The test should pause here for debugging', async ({ page }) => {
-	await page.pause();
-});
-
 When(
 	'I click on the {string} button in the popup dialog',
 	async ({ page }, buttonText: string) => {
