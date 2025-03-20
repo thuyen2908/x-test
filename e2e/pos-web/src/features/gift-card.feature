@@ -1,22 +1,38 @@
-@regression @smoke @skip
+@slow @regression @smoke
 Feature: Gift Card Balance
 
-  Scenario: View Gift Card balance
-    Given I am on the HOME page
-    When I click on the "Balance" label in the header
-    And I select the "Gift Card" label
-    And I enter password of "Owner" employee
-    Then I should be redirected to GIFT-CARD page
-    And I should see the name "Gift Card" visible
+  Scenario: Search Gift Card
+    Given I am on the GIFT_CARD_BALANCE page
+    Then I should see the text "Gift Card" visible
 
-    When I input Gift Card "1234"
-    And I click on the "Search" button
-    Then I should see the text "Details" visible
-    And I should see the text "Activity Summary" visible
-    And I should see the text "Currently Viewing" visible
+    When I enter the amount "1234"
+    And I click on the "SEARCH" button
+    And I wait for the page fully loaded
+    Then I should see the gift number "1234" visible
 
+    When I click on the "SEARCH ANOTHER" button
+    And I enter the amount "4321"
+    And I click on the "SEARCH" button
+    And I wait for the page fully loaded
+    Then I should see the text "DETAILS" visible
+    And I should see the text "ACTIVITY SUMMARY" visible
+    And I should see the text "CURRENTLY VIEWING" visible
+    And I should see the gift number "4321" visible
 
+  Scenario: Adjust Gift Card balance
+    Given I am on the GIFT_CARD_BALANCE page
+    Then I should see the text "Gift Card" visible
 
+    When I enter the amount "1234"
+    And I click on the "SEARCH" button
+    And I wait for the page fully loaded
+    Then I should see the text "DETAILS" visible
+    And I should see the text "ACTIVITY SUMMARY" visible
+    And I should see the text "CURRENTLY VIEWING" visible
+    And I should see the gift number "1234" visible
 
-
+    When I enter the amount "5"
+    Then I should see the number "5.00" visible
+    When I click on the "INCREASE" button
+    Then I should see the first type "PosManualAdjust" in the gift card detail list
 
