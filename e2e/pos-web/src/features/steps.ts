@@ -896,7 +896,7 @@ Then(
 	},
 );
 
-Then(
+When(
 	'I click on the more menu for payment history of {string}',
 	async ({ page }, paymentMethod: string) => {
 		const paymentHistoryItem = page
