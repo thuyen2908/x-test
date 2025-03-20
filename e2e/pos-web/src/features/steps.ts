@@ -124,14 +124,6 @@ Then(
 	},
 );
 
-When('I wait for {int} seconds', async ({ page }, seconds: number) => {
-	await page.waitForTimeout(seconds * 1000);
-});
-
-Then('The test should pause here for debugging', async ({ page }) => {
-	await page.pause();
-});
-
 When(
 	'I click on the {string} button in the popup dialog',
 	async ({ page }, buttonText: string) => {
@@ -518,6 +510,34 @@ Then(
 	},
 );
 
+When('I select the {string} label', async ({ page }, label: string) => {
+	const giftCardOption = page
+		.locator('ul.xTimeSheet li')
+		.filter({ has: page.locator('span.label', { hasText: label }) });
+
+	await expect(giftCardOption).toBeVisible();
+	await giftCardOption.click();
+});
+
+When('I enter password with PIN {string}', async ({ page }, pin: string) => {
+	for (const digit of pin) {
+		await page
+			.locator(`button.key:has(span.text-num:has-text("${digit}"))`)
+			.click();
+	}
+});
+
+Then(
+	'I should see the gift number {string} visible',
+	async ({ page }, number: string) => {
+		const giftNumberElement = page
+			.locator('.giftCard__content')
+			.getByText(number, { exact: true });
+
+		await expect(giftNumberElement).toBeVisible();
+	},
+);
+
 When('I select the title {string}', async ({ page }, name: string) => {
 	const nameElement = page.locator('.xPayment__card--input').getByText(name);
 	await expect(nameElement).toContainText(name);
@@ -531,6 +551,17 @@ Then(
 			.locator('.xPayment__history--nameType')
 			.getByText(paymentHistory);
 		await expect(paymentHistoryElement).toHaveText(paymentHistory);
+	},
+);
+
+Then(
+	'I should see the number {string} visible',
+	async ({ page }, number: string) => {
+		const numberElement = page
+			.locator('.BalanceLayout__content--number')
+			.getByText(number, { exact: true });
+
+		await expect(numberElement).toBeVisible();
 	},
 );
 
@@ -583,9 +614,55 @@ Then(
 );
 
 Then(
+	'I should see the first type {string} in the gift card detail list',
+	async ({ page }, type: string) => {
+		const firstTypeCell = page
+			.locator('.MuiDataGrid-row')
+			.first()
+			.locator('.MuiDataGrid-cell[data-field="giftCardLogType"]');
+
+		await expect(firstTypeCell).toHaveAttribute('title', type);
+	},
+);
+
+Then(
 	'I should see the note {string} visible',
-	async ({ page }, note: string) => {
-		await expect(page.locator('.xTicketItems__note')).toContainText(note);
+	async ({ page }, note: string) =>
+		await expect(page.locator('.xTicketItems__note')).toContainText(note),
+);
+
+Then(
+	'I should see the loyalty phone {string} visible',
+	async ({ page }, phone: string) => {
+		const loyaltyPhoneElement = page
+			.locator('.Bloyalty__phone')
+			.getByText(phone, { exact: true });
+
+		await expect(loyaltyPhoneElement).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the first type {string} in the loyal detail list',
+	async ({ page }, type: string) => {
+		const firstTypeCell = page
+			.locator('.MuiDataGrid-row')
+			.first()
+			.locator('.MuiDataGrid-cell[data-field="type"]');
+
+		await expect(firstTypeCell).toHaveAttribute('title', type);
+	},
+);
+
+Then(
+	'I should see the title contain {string} visible',
+	async ({ page }, name: string) => {
+		const titleElement = page
+			.locator('.BalanceLayout__title span')
+			.getByText(name);
+
+		await expect(titleElement).toBeVisible();
+		await expect(titleElement).toContainText(name);
 	},
 );
 
@@ -782,6 +859,16 @@ Then(
 	},
 );
 
+Then(
+	'I should not see the service {string} in my cart',
+	async ({ page }, service: string) => {
+		const serviceElement = page
+			.locator('.xTicketItems__content')
+			.getByText(service, { exact: true });
+		await expect(serviceElement).toHaveCount(0);
+	},
+);
+
 When(
 	'I click the status of {string} to change done',
 	async ({ page }, service: string) => {
@@ -806,5 +893,41 @@ Then(
 			.filter({ has: page.locator('.status.done:text("D")') });
 
 		await expect(serviceWithWaitStatus).toBeVisible();
+	},
+);
+
+Then(
+	'I click on the more menu for payment history of {string}',
+	async ({ page }, paymentMethod: string) => {
+		const paymentHistoryItem = page
+			.locator('.xPayment__history--list li')
+			.filter({ hasText: paymentMethod });
+
+		await paymentHistoryItem.locator('button[aria-label="more"]').click();
+	},
+);
+
+Then('I should see the tooltip remove', async ({ page }) => {
+	const tooltipElement = page.locator(
+		'.xPayment__history--tooltip.active .label:has-text("Remove")',
+	);
+	await expect(tooltipElement).toBeVisible();
+});
+
+When('I click on the tooltip remove', async ({ page }) => {
+	const tooltipElement = page.locator(
+		'.xPayment__history--tooltip.active .label:has-text("Remove")',
+	);
+	await tooltipElement.click();
+});
+
+Then(
+	'I should see the text {string} in the payment history',
+	async ({ page }, text: string) => {
+		const paymentHistoryItem = page
+			.locator('.xPayment__history--scroll')
+			.filter({ hasText: text });
+
+		await expect(paymentHistoryItem).toBeVisible();
 	},
 );
