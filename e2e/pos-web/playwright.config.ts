@@ -72,7 +72,7 @@ export default defineConfig<Fixtures>({
 	// CI config
 	forbidOnly: isCI,
 	retries: isCI ? 2 : 0,
-	workers: isCI ? 2 : undefined,
+	workers: isCI ? 3 : undefined,
 
 	expect: {
 		timeout: 30_000,
