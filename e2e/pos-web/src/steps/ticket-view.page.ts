@@ -48,8 +48,7 @@ class TicketViewPage extends xPage {
 	/**
 	 * Void the current ticket on screen
 	 */
-	@When('I void the current open ticket')
-	@When('I void the current open ticket with reason {string}')
+	@When('I void the current open ticket with no reason')
 	public async voidTicket(reason = 'Mistake') {
 		const { locators } = this;
 
@@ -65,7 +64,7 @@ class TicketViewPage extends xPage {
 		await expect(voidReasonDialog.or(voidTicketConfirmDialog)).toBeVisible();
 
 		if (await voidReasonDialog.isVisible()) {
-			// in case there're services already added to ticket
+			// in case the services associate with this ticket have changed status to DONE
 			// select a reason for voiding the ticket
 			await voidReasonDialog.getByText(reason).click();
 
@@ -75,13 +74,23 @@ class TicketViewPage extends xPage {
 
 			await confirmDialog.getByRole('button', { name: 'CONFIRM' }).click();
 		} else {
-			// in case there're no services added to ticket
+			// in case there's no service status changed to DONE
 			await voidTicketConfirmDialog.getByRole('button', { name: 'OK' }).click();
-		}
 
-		await expect(
-			locators.toast.getByText(`Ticket ${ticketNumber} deleted successfully.`),
-		).toBeVisible();
+			await expect(
+				locators.toast.getByText(
+					`Ticket ${ticketNumber} deleted successfully.`,
+				),
+			).toBeVisible();
+		}
+	}
+
+	/**
+	 * Void the current ticket on screen with a specific reason
+	 */
+	@When('I void the current open ticket with reason {string}')
+	public async voidTicketWithProvidedReason(reason: string) {
+		return this.voidTicket(reason);
 	}
 
 	/* -------------------------------- BDD steps ------------------------------- */

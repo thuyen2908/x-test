@@ -438,7 +438,7 @@ Feature: Create tickets
     When I select the "Kelley" employee
     Then I should see the "Ticket View" screen
 
-    When I void the current open ticket
+    When I void the current open ticket with no reason
     Then I should be redirected to HOME page
 
   Scenario: Void a ticket with a service in Done status
@@ -454,11 +454,7 @@ Feature: Create tickets
     When I click the status of "Manicure" to change done
     Then I should see the "Manicure" service with status done
 
-    When I click on the "VOID TICKET" button
-    Then I should see a popup dialog with title "Select Void Reason"
-    When I select the reason "Mistake"
-    Then I should see a second popup dialog with title "Confirm Void"
-    When I click on the "confirm" button in the popup dialog
+    When I void the current open ticket with reason "Mistake"
     Then I should be redirected to HOME page
 
   Scenario: Void a ticket with a service in Wait status
@@ -471,10 +467,7 @@ Feature: Create tickets
     Then I should see my cart showing 1 item added
     And I should see the "Manicure" service with status wait
 
-    When I click on the "VOID TICKET" button
-    Then I should see a popup dialog with title "Void Ticket"
-
-    When I click on the "OK" button in the popup dialog
+    When I void the current open ticket with no reason
     Then I should be redirected to HOME page
 
   Scenario: Combine tickets
