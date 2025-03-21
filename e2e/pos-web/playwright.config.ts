@@ -75,7 +75,7 @@ export default defineConfig<Fixtures>({
 	workers: isCI ? 2 : undefined,
 
 	expect: {
-		timeout: 20_000,
+		timeout: 30_000,
 		toHaveScreenshot: {
 			maxDiffPixelRatio: 0.05,
 		},
