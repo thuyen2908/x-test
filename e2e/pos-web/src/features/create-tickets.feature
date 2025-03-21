@@ -438,10 +438,7 @@ Feature: Create tickets
     When I select the "Kelley" employee
     Then I should see the "Ticket View" screen
 
-    When I click on the "VOID TICKET" button
-    Then I should see a popup dialog with title "Void Ticket"
-
-    When I click on the "OK" button in the popup dialog
+    When I void the current open ticket
     Then I should be redirected to HOME page
 
   Scenario: Void a ticket with a service in Done status

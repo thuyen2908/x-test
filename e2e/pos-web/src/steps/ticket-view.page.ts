@@ -1,5 +1,5 @@
 import { expect } from '@playwright/test';
-import { Fixture } from 'playwright-bdd/decorators';
+import { Fixture, When } from 'playwright-bdd/decorators';
 
 import { constants } from '#const';
 import { PageId } from '#types';
@@ -48,7 +48,9 @@ class TicketViewPage extends xPage {
 	/**
 	 * Void the current ticket on screen
 	 */
-	public async voidTicket() {
+	@When('I void the current open ticket')
+	@When('I void the current open ticket with reason {string}')
+	public async voidTicket(reason = 'Mistake') {
 		const { locators } = this;
 
 		// store the ticket number for later assertion
@@ -65,7 +67,7 @@ class TicketViewPage extends xPage {
 		if (await voidReasonDialog.isVisible()) {
 			// in case there're services already added to ticket
 			// select a reason for voiding the ticket
-			await voidReasonDialog.getByText('Mistake').click();
+			await voidReasonDialog.getByText(reason).click();
 
 			// waiting for the subsequent confirm dialog to be visible
 			const confirmDialog = locators.draggableDialog('CONFIRM VOID');
