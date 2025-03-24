@@ -150,6 +150,9 @@ class xPage {
 	public async clockInTimesheet(timesheetAction: TimesheetAction, PIN: string) {
 		const { locators } = this;
 
+		// wait for the menu bar ready
+		await this.waitForResponseOfAPI('Get In-Service Tickets');
+
 		// click on the Timesheet button
 		await locators.timesheetButton.click();
 
