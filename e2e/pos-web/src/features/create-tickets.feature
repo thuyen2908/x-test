@@ -525,6 +525,9 @@ Feature: Create tickets
     And I should see the service "Manicure" in my cart
     And I should see the service "Cut cuticle" in my cart
 
+    When I click the status of "Manicure" to change done
+    Then I should see the "Manicure" service with status done
+
     When I click on the item "VOID ITEM" button
     Then I should see a popup dialog with title "VOID MULTIPLE"
     When I select the "Manicure" service in the dialog
