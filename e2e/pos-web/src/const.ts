@@ -74,6 +74,7 @@ export class Const {
 			[PageId.WAITING_LIST]: `${baseURL}/waiting-list`,
 			[PageId.GIFT_CARD_BALANCE]: `${baseURL}/gift-card-balance`,
 			[PageId.LOYALTY_BALANCE]: `${baseURL}/loyalty-balance`,
+			[PageId.CLOSED_TICKETS]: `${baseURL}/closed-tickets`,
 		} as const;
 	}
 
