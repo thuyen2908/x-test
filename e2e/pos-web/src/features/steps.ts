@@ -975,3 +975,15 @@ Then(
 		await expect(button).toBeVisible();
 	},
 );
+
+When('I click on the adjust tip icon', async ({ page }) => {
+	await page.locator('.xPayment__history--listBtn').click();
+});
+
+Then(
+	'I should see the payment price contain amount {string}',
+	async ({ page }, amount: string) => {
+		const priceElement = page.locator('.xPayment__history--price');
+		await expect(priceElement).toContainText(amount);
+	},
+);
