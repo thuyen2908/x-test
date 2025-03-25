@@ -946,7 +946,6 @@ Then(
 
 		await expect(lastCustomerCell).toBeVisible();
 		await lastCustomerCell.scrollIntoViewIfNeeded();
-		await page.waitForTimeout(500);
 
 		const title = await lastCustomerCell.getAttribute('title');
 		expect((title || '').trim()).toBe(customerInfo.trim());
@@ -963,7 +962,6 @@ When(
 		});
 		const lastRow = resultRow.last();
 		await lastRow.scrollIntoViewIfNeeded();
-		await page.waitForTimeout(500);
 		await lastRow.click();
 	},
 );
