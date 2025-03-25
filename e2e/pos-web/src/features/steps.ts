@@ -151,7 +151,7 @@ When(
 	async ({ page }, paymentType: string) => {
 		const paymentTypeButton = page
 			.locator('.xPayment__type')
-			.getByText(paymentType);
+			.getByText(paymentType, { exact: true });
 		await expect(paymentTypeButton).toBeVisible();
 
 		await paymentTypeButton.click();
@@ -929,5 +929,59 @@ Then(
 			.filter({ hasText: text });
 
 		await expect(paymentHistoryItem).toBeVisible();
+	},
+);
+
+When('I search for {string}', async ({ page }, text: string) => {
+	await page.locator('input[placeholder="Search…"]').fill(text);
+});
+
+Then(
+	'I should see the last ticket of customer {string}',
+	async ({ page }, customerInfo: string) => {
+		const lastCustomerCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="customerInfo"]', { hasText: customerInfo })
+			.last();
+
+		await expect(lastCustomerCell).toBeVisible();
+		await lastCustomerCell.scrollIntoViewIfNeeded();
+
+		const title = await lastCustomerCell.getAttribute('title');
+		expect((title || '').trim()).toBe(customerInfo.trim());
+	},
+);
+
+When(
+	'I click on the last row for customer {string} to expand details',
+	async ({ page }, customerInfo: string) => {
+		const resultRow = page.locator('.MuiDataGrid-row').filter({
+			has: page.locator('[data-field="customerInfo"]', {
+				hasText: customerInfo,
+			}),
+		});
+		const lastRow = resultRow.last();
+		await lastRow.scrollIntoViewIfNeeded();
+		await lastRow.click();
+	},
+);
+
+Then(
+	'I should see the {string} button visible',
+	async ({ page }, text: string) => {
+		const button = page.locator('.MuiStack-root').getByText(text);
+		await expect(button).toBeVisible();
+	},
+);
+
+When('I click on the adjust tip icon', async ({ page }) => {
+	await page.locator('.xPayment__history--listBtn').click();
+});
+
+Then(
+	'I should see the payment price contain amount {string}',
+	async ({ page }, amount: string) => {
+		const priceElement = page.locator('.xPayment__history--price');
+		await expect(priceElement).toContainText(amount);
 	},
 );
