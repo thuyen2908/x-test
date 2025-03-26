@@ -36,7 +36,11 @@ const envPath = resolve(__dirname, '../../..', '.env');
 class Env extends BaseEnv<typeof EnvSchema> {
 	constructor() {
 		// load .env
-		dotenvx.config({ path: [envPath] });
+		dotenvx.config({
+			path: [envPath],
+			logLevel: 'warn',
+			ignore: ['DEPRECATION NOTICE'],
+		});
 
 		// extend the common schema with ours
 		super(EnvSchema);
