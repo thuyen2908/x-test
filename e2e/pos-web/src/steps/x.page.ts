@@ -78,8 +78,10 @@ class xPage {
 			draggableDialog,
 			dialogContent: (dialogLocator: Locator) =>
 				dialogLocator.locator('div.MuiDialogContent-root'),
-			dialogCloseButton: (dialogLocator: Locator, buttonTitle = 'Close') =>
-				dialogLocator.locator(`button[title="${buttonTitle}"]`),
+			dialogActionButton: (dialogLocator: Locator, buttonText: string) =>
+				dialogLocator
+					.locator('div.MuiDialogActions-root')
+					.getByRole('button', { name: buttonText, exact: true }),
 
 			toast: page.locator('div.MuiAlert-message'),
 
@@ -137,13 +139,23 @@ class xPage {
 	@When(
 		'I click on the {string} text inside the content section of the opening dialog',
 	)
-	public async clickOnTextElementInsideDialogContent(text: string) {
+	public async clickOnTextElementInsideOpeningDialog(text: string) {
 		const { locators } = this;
 
 		const dialog = locators.dialog();
 		const dialogContent = locators.dialogContent(dialog);
 
 		await dialogContent.getByText(text, { exact: true }).click();
+	}
+
+	@When('I click on the action button {string} of the opening dialog')
+	public async clickOnActionButtonOfOpeningDialog(buttonText: string) {
+		const { locators } = this;
+
+		const dialog = locators.dialog();
+		const actionButton = locators.dialogActionButton(dialog, buttonText);
+
+		await actionButton.click();
 	}
 
 	@When('I clock {timesheetAction} the timesheet with PIN {string}')
@@ -170,8 +182,8 @@ class xPage {
 		// enter the PIN
 		await this.enterPIN(PIN, enterPasswordDialog);
 
-		// click on the Confirm button
-		await this.clickOnTextElementInsideDialogContent('CONFIRM');
+		// click confirm action button
+		await this.clickOnActionButtonOfOpeningDialog('CONFIRM');
 
 		const successfullyClockedInToast = locators.toast.getByText(
 			'clocked in successfully',
@@ -184,11 +196,7 @@ class xPage {
 		).toBeVisible();
 
 		// if the dialog is still visible, close it
-		if (await enterPasswordDialog.isVisible()) {
-			await locators
-				.dialogCloseButton(enterPasswordDialog, 'Close')
-				.click()
-				.catch();
-		}
+		if (await enterPasswordDialog.isVisible())
+			await this.clickOnActionButtonOfOpeningDialog('Close').catch();
 	}
 }
