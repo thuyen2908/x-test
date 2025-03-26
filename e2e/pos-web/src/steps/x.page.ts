@@ -196,7 +196,7 @@ class xPage {
 	 * @param navPath - The path to the navigation item, could be a single item or a path to a nested item, separated by " > ".
 	 *   For example: "Quick Sale", "Timesheet > Clock In", "Timesheet > Clock Out"
 	 */
-	@When('I select {string} from the navigation bar')
+	@When('I navigate to {string} on the navigation bar')
 	public async selectNavItem(navPath: string) {
 		const { locators } = this;
 
