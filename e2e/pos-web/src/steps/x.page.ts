@@ -74,33 +74,79 @@ class xPage {
 		const merchantInfo = companyProfile.locator('ul.xHeader__info');
 
 		return {
+			/**
+			 * Locate the current opening dialog
+			 */
 			dialog,
+			/**
+			 * Locate the current opening `draggable` dialog
+			 */
 			draggableDialog,
+			/**
+			 * Locate the content section of a dialog
+			 */
 			dialogContent: (dialogLocator: Locator) =>
 				dialogLocator.locator('div.MuiDialogContent-root'),
+			/**
+			 * Locate an Action Button of a dialog, ex: "CONFIRM", "CANCEL",...
+			 */
 			dialogActionButton: (dialogLocator: Locator, buttonText: string) =>
 				dialogLocator
 					.locator('div.MuiDialogActions-root')
 					.getByRole('button', { name: buttonText, exact: true }),
+			/**
+			 * Locate the Close button of a dialog, ex: "X" button at the top right corner of the dialog
+			 */
 			dialogCloseButton: (dialogLocator: Locator, buttonTitle = 'Close') =>
 				dialogLocator.locator(`button[title="${buttonTitle}"]`),
 
+			/**
+			 * Locate the Toast message container
+			 */
 			toast: page.locator('div.MuiAlert-message'),
 
+			/**
+			 * Locate the page's header
+			 */
 			pageHeader,
+			/**
+			 * Locate the name of the current page, usually on the top left corner of the page, ex: "Ticket View".
+			 * Some pages don't have this element
+			 */
 			pageName: pageHeader.locator('p.pageName'),
+			/**
+			 * Locate the page detail section of the current page, usually appears below the page name, ex: "John Doe - #001" (Ticket View page).
+			 * Some pages don't have this element
+			 */
 			pageDetail: pageHeader.locator('p.pageDetail'),
 
+			/**
+			 * Locate the Company Profile section of the current Salon + the Breadcrumb element,
+			 * 	which is usually located on the top right corner of the page, next to the Calendar element
+			 */
 			companyProfile,
+			/**
+			 * Like the {@link companyProfile} locator, except it doesn't include the Breadcrumb element
+			 */
 			merchantInfo,
+			/**
+			 * Locate the name of the Salon on the top right corner of the page
+			 */
 			merchantName: merchantInfo.locator(
 				'li.merchantInfo__dbaName > span.label',
 			),
+			/**
+			 * Locate the contact information (address, phone number,...) on the top right corner of the page
+			 */
 			merchantContact: merchantInfo.locator('li.merchantInfo__address'),
 
-			timesheetButton: page.getByText('Timesheet', { exact: true }),
-			clockInButton: page.getByText('Clock In', { exact: true }),
-			clockOutButton: page.getByText('Clock Out', { exact: true }),
+			/**
+			 * Locate a Navigation Menu item
+			 */
+			navItem: (itemName: string) =>
+				page.locator('li.xNavbar__item', {
+					hasText: new RegExp(`^${itemName}$`),
+				}),
 		};
 	}
 
@@ -128,20 +174,48 @@ class xPage {
 
 	/* -------------------------------- BDD steps ------------------------------- */
 
+	/**
+	 * Go to a specific page by its {@link PageId}
+	 */
 	@Given('I am on the {pageId} page')
 	public async gotoPage(pageId: PageId) {
 		await this.page.goto(constants.PageUrl[pageId]);
 	}
 
+	/**
+	 * Wait for the page fully loaded
+	 */
 	@When('I wait for the page fully loaded')
 	public waitForNetworkIdle() {
 		return this.page.waitForLoadState('networkidle');
 	}
 
+	/**
+	 * Select an item in the Navigation Bar
+	 *
+	 * @param navPath - The path to the navigation item, could be a single item or a path to a nested item, separated by " > ".
+	 *   For example: "Quick Sale", "Timesheet > Clock In", "Timesheet > Clock Out"
+	 */
+	@When('I select {string} from the navigation bar')
+	public async selectNavItem(navPath: string) {
+		const { locators } = this;
+
+		// wait for the menu bar ready
+		await this.waitForNetworkIdle();
+
+		const navItems = navPath.split(' > ');
+		for (const navItem of navItems) {
+			await locators.navItem(navItem).click();
+		}
+	}
+
+	/**
+	 * Click on an element inside the content section of the opening dialog
+	 */
 	@When(
 		'I click on the {string} text inside the content section of the opening dialog',
 	)
-	public async clickOnTextElementInsideOpeningDialog(text: string) {
+	public async clickOnContentElementInsideOpeningDialog(text: string) {
 		const { locators } = this;
 
 		const dialog = locators.dialog();
@@ -150,6 +224,9 @@ class xPage {
 		await dialogContent.getByText(text, { exact: true }).click();
 	}
 
+	/**
+	 * Click on Action Buttons of the opening dialog, ex: "CONFIRM", "CANCEL",...
+	 */
 	@When('I click on the action button {string} of the opening dialog')
 	public async clickOnActionButtonOfOpeningDialog(buttonText: string) {
 		const { locators } = this;
@@ -160,6 +237,9 @@ class xPage {
 		await actionButton.click();
 	}
 
+	/**
+	 * Close the opening dialog if it's visible
+	 */
 	@When('I close the opening dialog')
 	public async closeOpeningDialog() {
 		const { locators } = this;
@@ -170,22 +250,19 @@ class xPage {
 		await closeButton.click();
 	}
 
+	/**
+	 * Clock In/Out Timesheet with provided PIN
+	 */
 	@When('I clock {timesheetAction} the timesheet with PIN {string}')
 	public async clockInTimesheet(timesheetAction: TimesheetAction, PIN: string) {
 		const { locators } = this;
 
-		// wait for the menu bar ready
-		await this.waitForResponseOfAPI('Get In-Service Tickets');
-
-		// click on the Timesheet button
-		await locators.timesheetButton.click();
-
 		// find and click on the Clock In / Out button
-		const clockInOutButton =
+		const clockInOutNavigationPath =
 			timesheetAction === 'in'
-				? locators.clockInButton
-				: locators.clockOutButton;
-		await clockInOutButton.click();
+				? 'Timesheet > Clock In'
+				: 'Timesheet > Clock Out';
+		await this.selectNavItem(clockInOutNavigationPath);
 
 		// expect the enter password dialog to be visible
 		const enterPasswordDialog = locators.dialog('PASSWORD');

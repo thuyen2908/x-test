@@ -22,9 +22,18 @@ class LoginPage extends xPage {
 		return {
 			...super.locators,
 
+			/**
+			 * Locate the email input field on the {@link PageId.LOGIN} page
+			 */
 			emailInput: page.locator('input[name="email"]'),
+			/**
+			 * Locate the password input field on the {@link PageId.LOGIN} page
+			 */
 			passwordInput: page.locator('input[name="password"]'),
 
+			/**
+			 * Locate the prompt asking to reset the Business Day when logging in on a wrong day
+			 */
 			businessDayResetPrompt: page.getByText('Business Day is incorrect!', {
 				exact: true,
 			}),
