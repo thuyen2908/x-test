@@ -38,7 +38,7 @@ class Env extends BaseEnv<typeof EnvSchema> {
 		// load .env
 		dotenvx.config({
 			path: [envPath],
-			logLevel: 'warn',
+			logLevel: 'error',
 			ignore: ['DEPRECATION NOTICE'],
 		});
 
