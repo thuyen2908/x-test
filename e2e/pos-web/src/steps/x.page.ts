@@ -82,6 +82,8 @@ class xPage {
 				dialogLocator
 					.locator('div.MuiDialogActions-root')
 					.getByRole('button', { name: buttonText, exact: true }),
+			dialogCloseButton: (dialogLocator: Locator, buttonTitle = 'Close') =>
+				dialogLocator.locator(`button[title="${buttonTitle}"]`),
 
 			toast: page.locator('div.MuiAlert-message'),
 
@@ -158,6 +160,16 @@ class xPage {
 		await actionButton.click();
 	}
 
+	@When('I close the opening dialog')
+	public async closeOpeningDialog() {
+		const { locators } = this;
+
+		const dialog = locators.dialog();
+		const closeButton = locators.dialogCloseButton(dialog);
+
+		await closeButton.click();
+	}
+
 	@When('I clock {timesheetAction} the timesheet with PIN {string}')
 	public async clockInTimesheet(timesheetAction: TimesheetAction, PIN: string) {
 		const { locators } = this;
@@ -196,7 +208,6 @@ class xPage {
 		).toBeVisible();
 
 		// if the dialog is still visible, close it
-		if (await enterPasswordDialog.isVisible())
-			await this.clickOnActionButtonOfOpeningDialog('Close').catch();
+		if (await enterPasswordDialog.isVisible()) await this.closeOpeningDialog();
 	}
 }
