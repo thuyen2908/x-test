@@ -170,6 +170,9 @@ class xPage {
 		// enter the PIN
 		await this.enterPIN(PIN, enterPasswordDialog);
 
+		// click on the Confirm button
+		await this.clickOnTextElementInsideDialogContent('CONFIRM');
+
 		const successfullyClockedInToast = locators.toast.getByText(
 			'clocked in successfully',
 		); // in case of new session
