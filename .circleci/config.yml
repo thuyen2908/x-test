@@ -4,7 +4,7 @@ trigger_on_main_only: &trigger_on_main_only
   filters:
     branches:
       only:
-        - ci # FIXME: temporary disable auto trigger
+        - main
 
 # ---------------------------------------------------------------------------- #
 #                                   Workflows                                  #
