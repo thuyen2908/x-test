@@ -1,6 +1,5 @@
 import { test as base, createBdd } from 'playwright-bdd';
 
-import { cleanupRedundantTickets } from '../redundant-tickets.cleanup';
 import { type TestConfig, getConfig } from '../test-config';
 import { TestStorage } from '../test-storage';
 
@@ -38,5 +37,3 @@ export const { Given, When, Then, AfterScenario } = createBdd(test);
 /* -------------------------------------------------------------------------- */
 /*                                 Test hooks                                 */
 /* -------------------------------------------------------------------------- */
-
-AfterScenario(cleanupRedundantTickets);
