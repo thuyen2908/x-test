@@ -20,7 +20,7 @@ Feature: Loyalty Balance
     Then I should see the title contain "Bill" visible
     And I should see the loyalty phone "(888) 888-8888" visible
 
-  Scenario: Adjust Gift Card balance
+  Scenario: Adjust Loyalty balance
     Given I am on the LOYALTY_BALANCE page
     Then I should see the text "Loyalty Phone Number:" visible
 
