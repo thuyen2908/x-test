@@ -224,7 +224,7 @@ jobs:
     docker:
       - image: cimg/openjdk:23.0-node
     resource_class: medium
-    parallelism: 3
+    parallelism: 2
     parameters:
       project:
         type: string
