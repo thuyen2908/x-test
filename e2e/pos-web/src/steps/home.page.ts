@@ -51,10 +51,10 @@ class HomePage extends xPage {
 	/**
 	 * Select an on-going ticket (by its number) on the home screen
 	 */
-	public selectTicketById(id: string, { timeout }: TestOptions = {}) {
+	public selectTicketById(id: string, options: TestOptions = {}) {
 		const { locators } = this;
 
-		return locators.ticketById(id).click({ timeout });
+		return locators.ticketById(id).click({ timeout: options.timeout });
 	}
 
 	/* -------------------------------- BDD steps ------------------------------- */

@@ -2,7 +2,7 @@ import { type Locator, type Page, expect } from '@playwright/test';
 import { Fixture, Given, When } from 'playwright-bdd/decorators';
 
 import { constants } from '#const';
-import type { PageId } from '#types';
+import type { PageId, TestOptions } from '#types';
 
 import type { TestConfig } from '../test-config';
 import type { TestStorage } from '../test-storage';
@@ -153,13 +153,19 @@ class xPage {
 	/**
 	 * Wait for a specific API call to be completed
 	 */
-	public waitForResponseOfAPI(api: keyof typeof constants.APIs) {
-		return this.page.waitForResponse((response) => {
-			const [method, url] = constants.APIs[api];
-			const request = response.request();
+	public waitForResponseOfAPI(
+		api: keyof typeof constants.APIs,
+		options: TestOptions = {},
+	) {
+		return this.page.waitForResponse(
+			(response) => {
+				const [method, url] = constants.APIs[api];
+				const request = response.request();
 
-			return request.url().includes(url) && request.method() === method;
-		});
+				return request.url().includes(url) && request.method() === method;
+			},
+			{ timeout: options.timeout },
+		);
 	}
 
 	/**
