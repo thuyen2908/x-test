@@ -985,3 +985,99 @@ Then(
 		await expect(priceElement).toContainText(amount);
 	},
 );
+
+When(
+	'I double click on the time slot at {string}',
+	async ({ page }, timeSlot: string) => {
+		await page.waitForLoadState('networkidle', { timeout: 60000 });
+
+		// Wait for DOM to be fully loaded
+		await page.waitForLoadState('domcontentloaded', { timeout: 60000 });
+
+		// Define the time slot map with proper typing
+		const timeSlotMap: Record<string, number> = {
+			'07:00 AM': 1,
+			'08:00 AM': 2,
+			'09:00 AM': 3,
+			'10:00 AM': 4,
+			'11:00 AM': 5,
+			'12:00 PM': 6,
+			'01:00 PM': 7,
+			'02:00 PM': 8,
+			'03:00 PM': 9,
+			'04:00 PM': 10,
+			'05:00 PM': 11,
+			'06:00 PM': 12,
+			'07:00 PM': 13,
+			'08:00 PM': 14,
+			'09:00 PM': 15,
+		};
+
+		// Get the row index from the specified time slot
+		const rowIndex = timeSlotMap[timeSlot];
+
+		// Validate the provided time slot
+		if (!rowIndex) {
+			throw new Error(
+				`Time slot "${timeSlot}" is not valid. Valid options are: ${Object.keys(timeSlotMap).join(', ')}`,
+			);
+		}
+
+		// Find the row corresponding to the time slot (using nth which is 0-based)
+		const targetRow = page
+			.locator('#scheduler_table tbody tr')
+			.nth(rowIndex - 1);
+
+		const targetCell = targetRow.locator('td.e-work-cells');
+
+		await expect(targetCell).toBeVisible({ timeout: 60000 });
+
+		await targetCell.scrollIntoViewIfNeeded();
+
+		await targetCell.dblclick();
+	},
+);
+
+When(
+	'I select the {string} employee from the technician dropdown',
+	async ({ page }, employee: string) => {
+		await page.locator('.MuiInputBase-root ').click();
+		await page.waitForSelector('ul.MuiAutocomplete-listbox', {
+			state: 'visible',
+		});
+
+		const option = page
+			.locator('li.MuiAutocomplete-option')
+			.filter({ hasText: employee });
+
+		await expect(option).toBeVisible();
+		await option.click();
+	},
+);
+
+Then('I should see the title {string}', async ({ page }, employee: string) => {
+	const employeeElement = page.locator('.header-title').getByText(employee);
+	await expect(employeeElement).toContainText(employee);
+});
+
+Then(
+	'I should see the duration {string}',
+	async ({ page }, duration: string) => {
+		const durationElement = page.locator(
+			'.appt-duration .MuiListItemText-primary',
+		);
+		await expect(durationElement).toBeVisible();
+		await expect(durationElement).toContainText(duration);
+	},
+);
+
+Then(
+	'I should see the booked time at {string}',
+	async ({ page }, time: string) => {
+		const appointmentElement = page
+			.locator('.e-appointment .event-cellTime')
+			.last();
+		await expect(appointmentElement).toBeVisible();
+		await expect(appointmentElement).toContainText(time);
+	},
+);
