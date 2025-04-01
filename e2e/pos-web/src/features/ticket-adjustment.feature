@@ -65,3 +65,66 @@ Feature: Ticket adjustment
     And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
 
+  Scenario: View service details
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "9610"
+    Then I should see the employee "Natalie" in the employee list
+
+    When I select the "Natalie" employee
+    Then I should see the "Ticket View" screen
+    Then I should see the "Combo 1" service
+    When I add the "Combo 1" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I click on the item "Technician" button
+    Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
+    When I select the "Manicure" service in the dialog
+    And I select the "Kelley" employee in the dialog
+    And I click on the "Apply" button in the dialog
+    Then I should see the "Kelley" employee in my cart
+
+    When I click on the adding "Tip" button
+    Then I should see a popup dialog with title "Add Tip"
+    When I fill "5" from the numpad
+    Then I should see "$5.00" tip in my cart
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the text "PAYMENT HISTORY" visible
+
+    When I select the "Credit" payment type
+    And I fill the last 4 digits of card number "1234"
+    And I click on the element with id "payment"
+    Then I should see the text "TOTAL TIP" visible in the split tip screen
+
+    When I click on the "Percent Split" button in the split tip screen
+    Then I should see all split tips non-zero
+    When I click on the "CLOSE TICKET" button
+    Then I should be redirected to HOME page
+
+    When I wait for the page fully loaded
+    And I click on the header menu
+    And I select the "Manager" label in the menu list
+    Then I should see the "Ticket Adjustment" label in the expanded list
+
+    When I select the "Ticket Adjustment" label in the expanded list
+    Then I should be redirected to TICKET_ADJUSTMENT page
+    And I should see the "Ticket Adjustment" screen
+    And I should see the text "TICKET#" visible
+
+    When I select the first ticket with total "$55.09"
+    Then I should see the service "Combo 1" in my cart
+
+    When I click on the title "DETAILS" in the ticket adjustment screen
+    Then I should see the package item "Manicure" in my cart
+    And I should see the detail "Tip (Non Cash)$2.87"
+    And I should see the detail "Item Supply Fee($2.00)"
+    And I should see multiple "Ticket Supply Fee($1.00)" details
+    And I should see multiple "Comm Loyalty$0.00" details
+    And I should see the detail "Package Amount$39.00"
+    And I should see the detail "Commission$21.60"
+    And I should see the package item "Pedicure" in my cart
+    And I should see the detail "Tip (Non Cash)$2.13"
+    And I should see the detail "Item Supply Fee($3.00)"
+    And I should see the detail "Package Amount$29.00"
+    And I should see the detail "Commission$15.00"
