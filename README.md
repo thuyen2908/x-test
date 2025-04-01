@@ -54,6 +54,10 @@
   </a>
 </div>
 
+<br/>
+
+<img src="https://repobeats.axiom.co/api/embed/2d1279c159a7f7a066c4bd44f7e9bfe747809097.svg" />
+
 ---
 
 - [Prerequisites](#prerequisites)
