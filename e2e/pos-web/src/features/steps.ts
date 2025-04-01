@@ -1,6 +1,7 @@
 import { expect } from '@playwright/test';
 import { createBdd } from 'playwright-bdd';
 
+import type { Page } from '@playwright/test';
 import { constants } from '#const';
 import type { PageId } from '#types';
 
@@ -73,7 +74,7 @@ Then(
 );
 
 When('I click on the {string} button', async ({ page }, buttonText: string) => {
-	const button = page.getByRole('button', { name: buttonText });
+	const button = page.getByRole('button', { name: buttonText, exact: true });
 	await expect(button).toBeVisible();
 
 	await button.click();
@@ -983,5 +984,42 @@ Then(
 	async ({ page }, amount: string) => {
 		const priceElement = page.locator('.xPayment__history--price');
 		await expect(priceElement).toContainText(amount);
+	},
+);
+
+When(
+	'I select the {string} label in the expanded list',
+	async ({ page }, label: string) => {
+		const labelElement = page
+			.locator('div.xMenu__link li')
+			.filter({ hasText: label });
+		await labelElement.click();
+	},
+);
+
+When(
+	'I select the first ticket with total {string}',
+	async ({ page }, total: string) => {
+		const ticketElement = page
+			.locator('.MuiDataGrid-row')
+			.first()
+			.filter({
+				has: page.locator('[data-field="ticketTotals"]', { hasText: total }),
+			});
+
+		await ticketElement.click();
+	},
+);
+
+When('I select the {string} tab', async ({ page }, tab: string) => {
+	const tabElement = page.getByRole('tab', { name: tab });
+	await tabElement.click();
+});
+
+Then(
+	'I should see the text {string} in the ticket adjustment screen',
+	async ({ page }, text: string) => {
+		const element = page.locator('.xEmpty').getByText(text);
+		await expect(element).toBeVisible();
 	},
 );

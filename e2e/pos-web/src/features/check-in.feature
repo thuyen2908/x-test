@@ -31,7 +31,7 @@ Feature: Check In
     And I should see multiple "Any Technician" employees in my cart
     And I should see the employee "Any Technician" for all items in a package in my cart
 
-    When I click on the "Save" button
+    When I click on the "SAVE" button
     Then I should be redirected to WAITING_LIST page
 
     When I wait for the page fully loaded
@@ -83,7 +83,7 @@ Feature: Check In
     And I should see the employee "Laura" in my cart
     And I should see the employee "Bella" in my cart
 
-    When I click on the "Save" button
+    When I click on the "SAVE" button
     Then I should be redirected to WAITING_LIST page
 
     When I wait for the page fully loaded
