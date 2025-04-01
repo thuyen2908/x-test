@@ -45,6 +45,6 @@ Feature: Quick sale tickets
 
     When I click on the "Equal Split" button in the split tip screen
     Then I should see all split tips non-zero
-    When I click on the "Close Ticket" button
+    When I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
 

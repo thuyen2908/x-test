@@ -16,7 +16,7 @@ Feature: Reopen tickets
     When I add the "Riley" customer
     Then I should see a new customer "Riley" on ticket
 
-    When I click on the "Pay" button
+    When I click on the "PAY" button
     Then I should see a popup dialog with title "Reward"
     When I click on the "OK" button in the popup dialog
 
@@ -63,7 +63,7 @@ Feature: Reopen tickets
     When I add the "Bill" customer
     Then I should see a new customer "Bill" on ticket
 
-    When I click on the "Pay" button
+    When I click on the "PAY" button
     Then I should see a popup dialog with title "Reward"
     When I click on the "OK" button in the popup dialog
 
@@ -123,7 +123,7 @@ Feature: Reopen tickets
     When I fill "5" from the numpad
     Then I should see "5" tip in my cart
 
-    When I click on the "Pay" button
+    When I click on the "PAY" button
     Then I should see a popup dialog with title "Reward"
     When I click on the "OK" button in the popup dialog
 
@@ -165,7 +165,7 @@ Feature: Reopen tickets
 
     When I click on the "Percent Split" button in the split tip screen
     Then I should see all split tips non-zero
-    When I click on the "Close Ticket" button
+    When I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
 
   Scenario: Reopen ticket to adjust tip for Credit Card
@@ -183,7 +183,7 @@ Feature: Reopen tickets
     When I add the "Lila" customer
     Then I should see a new customer "Lila" on ticket
 
-    When I click on the "Pay" button
+    When I click on the "PAY" button
     Then I should see a popup dialog with title "Reward"
     When I click on the "OK" button in the popup dialog
 
@@ -217,7 +217,7 @@ Feature: Reopen tickets
     And I click on the "Add Tip" button in the popup dialog
     Then I should see the payment price contain amount "+ $10.00"
 
-    When I click on the "Close Ticket" button
+    When I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
 
   Scenario: Reopen ticket to remove payment Cash and instead of Credit
@@ -235,7 +235,7 @@ Feature: Reopen tickets
     When I add the "Ron" customer
     Then I should see a new customer "Ron" on ticket
 
-    When I click on the "Pay" button
+    When I click on the "PAY" button
     Then I should see a popup dialog with title "Reward"
     When I click on the "OK" button in the popup dialog
 
@@ -305,7 +305,7 @@ Feature: Reopen tickets
     When I fill "5" from the numpad
     Then I should see "5" tip in my cart
 
-    When I click on the "Pay" button
+    When I click on the "PAY" button
     Then I should see a popup dialog with title "Reward"
     When I click on the "OK" button in the popup dialog
 
@@ -319,7 +319,7 @@ Feature: Reopen tickets
 
     When I click on the "Percent Split" button in the split tip screen
     Then I should see all split tips non-zero
-    When I click on the "Close Ticket" button
+    When I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
 
     When I click on the "Tickets" label in the header
@@ -344,7 +344,7 @@ Feature: Reopen tickets
     When I click on the "SPLIT TIP" button
     And I click on the "EQUAL SPLIT" button in the split tip screen
     Then I should see all split tips non-zero
-    When I click on the "Close Ticket" button
+    When I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
 
   Scenario: Reopen ticket to add service and make payment Credit
@@ -362,7 +362,7 @@ Feature: Reopen tickets
     When I add the "Layla" customer
     Then I should see a new customer "Layla" on ticket
 
-    When I click on the "Pay" button
+    When I click on the "PAY" button
     Then I should see a popup dialog with title "Reward"
     When I click on the "OK" button in the popup dialog
 
@@ -390,7 +390,7 @@ Feature: Reopen tickets
     When I add the "Pedicure" service to my cart
     Then I should see my cart showing 2 item added
 
-    When I click on the "Pay" button
+    When I click on the "PAY" button
     Then I should see a popup dialog with title "Reward"
     When I click on the "OK" button in the popup dialog
     Then I should see the text "PAYMENT TICKET" visible
@@ -416,7 +416,7 @@ Feature: Reopen tickets
     When I add the "Ella" customer
     Then I should see a new customer "Ella" on ticket
 
-    When I click on the "Pay" button
+    When I click on the "PAY" button
     Then I should see a popup dialog with title "Reward"
     When I click on the "OK" button in the popup dialog
 
@@ -458,7 +458,7 @@ Feature: Reopen tickets
     When I add the "Harper" customer
     Then I should see a new customer "Harper" on ticket
 
-    When I click on the "Pay" button
+    When I click on the "PAY" button
     Then I should see a popup dialog with title "Reward"
     When I click on the "OK" button in the popup dialog
 

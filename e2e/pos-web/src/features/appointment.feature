@@ -18,7 +18,7 @@ Feature: Appointment
     And I add the "Pedicure" service to my cart
     Then I should see my cart showing 2 item added
 
-    When I click on the "Save" button
+    When I click on the "SAVE" button
     Then I should be redirected to APPOINTMENT page
     And The appointment should be scheduled with "Anna" at "07:00 AM" visible
 
@@ -26,7 +26,7 @@ Feature: Appointment
     And I click on the "Create Ticket" button
     Then I should see the text "Ticket View" visible
 
-    When I click on the "Pay" button
+    When I click on the "PAY" button
     Then I should see a popup dialog with title "REWARD"
     When I click on the "OK" button in the popup dialog
     Then I should see the text "PAYMENT TICKET" visible
@@ -56,7 +56,7 @@ Feature: Appointment
     And I add the "Pedicure" service to my cart
     Then I should see my cart showing 2 item added
 
-    When I click on the "Save" button
+    When I click on the "SAVE" button
     Then I should be redirected to APPOINTMENT page
     And The appointment should be scheduled with "Anna" at "07:00 AM" visible
 
@@ -64,7 +64,7 @@ Feature: Appointment
     And I click on the "Create Ticket" button
     Then I should see the text "Ticket View" visible
 
-    When I click on the "Pay" button
+    When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
     And I should see the text "PAYMENT HISTORY" visible
 
