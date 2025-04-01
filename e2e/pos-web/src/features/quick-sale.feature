@@ -3,9 +3,7 @@ Feature: Quick sale tickets
 
   Scenario: Create a quick sale ticket
     Given I am on the HOME page
-    When I wait for the page fully loaded
-    And I click on the "Quick Sale" label in the header
-    And I wait for the page fully loaded
+    When I navigate to "Quick Sale" on the navigation bar
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
     And I should see the employee "Christ" in the ticket

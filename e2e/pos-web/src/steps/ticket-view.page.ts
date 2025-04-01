@@ -29,9 +29,18 @@ class TicketViewPage extends xPage {
 		return {
 			...super.locators,
 
+			/**
+			 * Locate the service list section, which is the middle column of the "Ticket View" page
+			 */
 			serviceList: page.locator('ul:has(> li.ItemService)'),
 
+			/**
+			 * Locate the "VOID TICKET" button on the header, which is on the left of the Calendar element
+			 */
 			voidButton: page.getByRole('button', { name: 'VOID TICKET' }),
+			/**
+			 * Locate a reason when voiding a ticket that has been changed status to "DONE"
+			 */
 			voidReasonDialog: super.locators.dialog('SELECT VOID REASON'),
 		};
 	}
@@ -44,6 +53,8 @@ class TicketViewPage extends xPage {
 
 		return pageDetail?.split('#')[1]?.trim();
 	}
+
+	/* -------------------------------- BDD steps ------------------------------- */
 
 	/**
 	 * Void the current ticket on screen
@@ -92,6 +103,4 @@ class TicketViewPage extends xPage {
 	public async voidTicketWithProvidedReason(reason: string) {
 		return this.voidTicket(reason);
 	}
-
-	/* -------------------------------- BDD steps ------------------------------- */
 }

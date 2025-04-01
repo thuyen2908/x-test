@@ -26,11 +26,23 @@ class HomePage extends xPage {
 		return {
 			...super.locators,
 
+			/**
+			 * Locate the employee list section, which is the middle column of the {@link PageId.HOME} screen
+			 */
 			employeeList,
+			/**
+			 * Locate an employee by their name
+			 */
 			employee: (employeeName: string) =>
 				employeeList.getByText(employeeName, { exact: true }),
 
+			/**
+			 * Locate the on-going ticket list, which is the right column of the {@link PageId.HOME} screen
+			 */
 			ticketList,
+			/**
+			 * Locate an on-going ticket by its ID
+			 */
 			ticketById: (ticketId: string) =>
 				ticketList.getByText(`#${ticketId}`, { exact: true }),
 		};
@@ -39,14 +51,17 @@ class HomePage extends xPage {
 	/**
 	 * Select an on-going ticket (by its number) on the home screen
 	 */
-	public selectTicketById(id: string, { timeout }: TestOptions = {}) {
+	public selectTicketById(id: string, options: TestOptions = {}) {
 		const { locators } = this;
 
-		return locators.ticketById(id).click({ timeout });
+		return locators.ticketById(id).click({ timeout: options.timeout });
 	}
 
 	/* -------------------------------- BDD steps ------------------------------- */
 
+	/**
+	 * Select an employee on {@link PageId.HOME} screen
+	 */
 	@When('I select the {string} employee')
 	public async selectEmployee(employeeName: string) {
 		const { locators } = this;
