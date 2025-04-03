@@ -73,7 +73,7 @@ Then(
 );
 
 When('I click on the {string} button', async ({ page }, buttonText: string) => {
-	const button = page.getByRole('button', { name: buttonText });
+	const button = page.getByRole('button', { name: buttonText, exact: true });
 	await expect(button).toBeVisible();
 
 	await button.click();
@@ -1039,6 +1039,16 @@ When(
 );
 
 When(
+	'I select the {string} label in the expanded list',
+	async ({ page }, label: string) => {
+		const labelElement = page
+			.locator('div.xMenu__link li')
+			.filter({ hasText: label });
+		await labelElement.click();
+	},
+);
+
+When(
 	'I select the {string} employee from the technician dropdown',
 	async ({ page }, employee: string) => {
 		await page.locator('.MuiInputBase-root ').click();
@@ -1071,6 +1081,33 @@ Then(
 	},
 );
 
+When(
+	'I select the first ticket with total {string}',
+	async ({ page }, total: string) => {
+		const ticketElement = page
+			.locator('.MuiDataGrid-row')
+			.first()
+			.filter({
+				has: page.locator('[data-field="ticketTotals"]', { hasText: total }),
+			});
+
+		await ticketElement.click();
+	},
+);
+
+When('I select the {string} tab', async ({ page }, tab: string) => {
+	const tabElement = page.getByRole('tab', { name: tab });
+	await tabElement.click();
+});
+
+Then(
+	'I should see the text {string} in the ticket adjustment screen',
+	async ({ page }, text: string) => {
+		const element = page.locator('.xEmpty').getByText(text);
+		await expect(element).toBeVisible();
+	},
+);
+
 Then(
 	'I should see the booked time at {string}',
 	async ({ page }, time: string) => {
@@ -1079,5 +1116,52 @@ Then(
 			.last();
 		await expect(appointmentElement).toBeVisible();
 		await expect(appointmentElement).toContainText(time);
+	},
+);
+
+Then(
+	'I should see the {string} label in the expanded list',
+	async ({ page }, label: string) => {
+		const labelElement = page
+			.locator('div.xMenu__link li')
+			.filter({ hasText: label });
+		await expect(labelElement).toBeVisible();
+	},
+);
+
+When(
+	'I click on the title {string} in the ticket adjustment screen',
+	async ({ page }, text: string) => {
+		const element = page.locator('.xFixTicket__main--option').getByText(text);
+		await element.click();
+	},
+);
+
+Then(
+	'I should see the package item {string} in my cart',
+	async ({ page }, service: string) => {
+		const servicePackageItem = page
+			.locator('.ServicePackageItem .xTicketItems__name')
+			.getByText(service);
+		await expect(servicePackageItem).toBeVisible();
+		await expect(servicePackageItem).toHaveText(service);
+	},
+);
+
+Then('I should see the detail {string}', async ({ page }, detail: string) => {
+	const itemDetail = page.locator('.xTicketItems__detail').getByText(detail);
+
+	await expect(itemDetail).toContainText(detail);
+});
+
+Then(
+	'I should see multiple {string} details',
+	async ({ page }, detail: string) => {
+		const itemDetails = await page
+			.locator('.xTicketItems__detail')
+			.getByText(detail)
+			.all();
+
+		expect(itemDetails.length).toBeGreaterThan(1);
 	},
 );

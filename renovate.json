@@ -1,48 +1,30 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": [
-		"config:recommended",
-		"customManagers:biomeVersions"
-	],
+	"extends": ["config:recommended", "customManagers:biomeVersions"],
 	"packageRules": [
 		{
-			"matchPackageNames": [
-				"*"
-			],
-			"matchUpdateTypes": [
-				"major"
-			],
+			"matchPackageNames": ["*"],
+			"matchUpdateTypes": ["major"],
 			"groupName": "major dependencies",
 			"groupSlug": "dependencies"
 		},
 		{
-			"matchPackageNames": [
-				"*"
-			],
-			"matchUpdateTypes": [
-				"minor",
-				"patch"
-			],
+			"matchPackageNames": ["*"],
+			"matchUpdateTypes": ["minor", "patch"],
 			"groupName": "non-major dependencies",
 			"groupSlug": "non-major dependencies"
 		},
 		{
-			"matchManagers": [
-				"npm"
-			],
+			"matchManagers": ["npm"],
 			"rangeStrategy": "bump"
 		},
 		{
-			"matchManagers": [
-				"circleci"
-			],
+			"matchManagers": ["circleci"],
 			"rangeStrategy": "replace"
 		}
 	],
 	"prHourlyLimit": 5,
-	"addLabels": [
-		"📦 renovate"
-	],
+	"addLabels": ["📦 renovate"],
 	"osvVulnerabilityAlerts": true,
 	"dependencyDashboardOSVVulnerabilitySummary": "all"
 }

@@ -33,7 +33,7 @@ Feature: Create tickets
     When I add the "Tin" customer
     Then I should see a new customer "Tin" on ticket
 
-    When I click on the "Pay" button
+    When I click on the "PAY" button
     Then I should see a popup dialog with title "Reward"
     When I click on the "OK" button in the popup dialog
     Then I should see the text "PAYMENT TICKET" visible
@@ -60,7 +60,7 @@ Feature: Create tickets
     And I click on the "Save" button in the popup dialog
     Then I should see a new customer "Guest" on ticket
 
-    When I click on the "Pay" button
+    When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
     And I should see the text "PAYMENT HISTORY" visible
 
@@ -140,7 +140,7 @@ Feature: Create tickets
     When I select the "Gift" payment type
     Then I should see the "ID GIFT CARD" name
     When I fill the Gift card with "1111"
-    And I click on the "Check Balance" button
+    And I click on the "CHECK BALANCE" button
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
@@ -200,7 +200,7 @@ Feature: Create tickets
 
     When I click on the "Percent Split" button in the split tip screen
     Then I should see all split tips non-zero
-    When I click on the "Close Ticket" button
+    When I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
 
   Scenario: Create a ticket and pay with Cash change
@@ -243,7 +243,7 @@ Feature: Create tickets
     When I select the "Gift" payment type
     Then I should see the "ID GIFT CARD" name
     When I fill the Gift card with "1111"
-    And I click on the "Check Balance" button
+    And I click on the "CHECK BALANCE" button
     Then I should see the "AMOUNT" name
     When I select the title "AMOUNT"
     And I enter the amount "10"
@@ -624,7 +624,7 @@ Feature: Create tickets
     When I select the "Gift" payment type
     Then I should see the "ID GIFT CARD" name
     When I fill the Gift card with "1111"
-    And I click on the "Check Balance" button
+    And I click on the "CHECK BALANCE" button
     Then I should see the "AMOUNT" name
     When I select the title "AMOUNT"
     And I enter the amount "10"

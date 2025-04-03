@@ -31,7 +31,7 @@ Feature: Check In
     And I should see multiple "Any Technician" employees in my cart
     And I should see the employee "Any Technician" for all items in a package in my cart
 
-    When I click on the "Save" button
+    When I click on the "SAVE" button
     Then I should be redirected to WAITING_LIST page
 
     When I wait for the page fully loaded
@@ -72,39 +72,39 @@ Feature: Check In
 
     When I add the "Manicure" service to my cart
     Then I should see a popup dialog with title "Pick Technician"
-    When I click on the "Laura" text inside the content section of the opening dialog
+    When I click on the "Emily" text inside the content section of the opening dialog
     And I add the "Pedicure" service to my cart
-    And I click on the "Bella" text inside the content section of the opening dialog
+    And I click on the "Claire" text inside the content section of the opening dialog
 
     Then I should see the service "Manicure" in my cart
     And I should see the duration "20 mins" in my cart
     And I should see the service "Pedicure" in my cart
     And I should see the duration "25 mins" in my cart
-    And I should see the employee "Laura" in my cart
-    And I should see the employee "Bella" in my cart
+    And I should see the employee "Emily" in my cart
+    And I should see the employee "Claire" in my cart
 
-    When I click on the "Save" button
+    When I click on the "SAVE" button
     Then I should be redirected to WAITING_LIST page
 
     When I wait for the page fully loaded
     Then I should see the customer "Alice" in the waiting list
     And I should see the service "Manicure" in the waiting list
     And I should see the service "Pedicure" in the waiting list
-    And I should see the technician "Laura" in the waiting list
-    And I should see the technician "Bella" in the waiting list
+    And I should see the technician "Emily" in the waiting list
+    And I should see the technician "Claire" in the waiting list
 
     When I click on the last row for customer "Alice" to expand details
     Then I should see the "Create Ticket" button visible
 
     When I click on the "Create Ticket" button
     Then I should see the "Ticket View" screen
-    And I should see the employee "Laura" in the ticket
+    And I should see the employee "Emily" in the ticket
     And I should see my cart showing 2 item added
     And I should see the tax amount non-zero
     And I should see the service "Manicure" in my cart
     And I should see the service "Pedicure" in my cart
-    And I should see the employee "Laura" in my cart
-    And I should see the employee "Bella" in my cart
+    And I should see the employee "Emily" in my cart
+    And I should see the employee "Claire" in my cart
 
     When I click on the "PAY" button
     Then I should see a popup dialog with title "Reward"
