@@ -3,7 +3,7 @@ Feature: Appointment
 
   Scenario: Create an appointment for Any Technician of an existing customer
     Given I am on the HOME page
-    When I click on the "Appointment" label in the header
+    When I navigate to "Appointment" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
     When I wait for the page fully loaded
@@ -26,7 +26,7 @@ Feature: Appointment
 
   Scenario: Create an appointment for a specific employee of a new customer
     Given I am on the HOME page
-    When I click on the "Appointment" label in the header
+    When I navigate to "Appointment" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
     When I wait for the page fully loaded
