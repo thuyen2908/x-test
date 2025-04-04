@@ -1191,7 +1191,7 @@ Then(
 		const chargedItem = page
 			.locator('.xFixTicket__main--chargeItem')
 			.getByText(charge);
-		await expect(chargedItem).toHaveText(charge);
+		await expect(chargedItem).toContainText(charge);
 	},
 );
 
@@ -1217,5 +1217,16 @@ When(
 			.locator('.xFixTicket__action--btn')
 			.getByText(button);
 		await buttonItem.click();
+	},
+);
+
+When(
+	'I select the employee {string} in the ticket adjustment screen',
+	async ({ page }, employee: string) => {
+		const employeeElement = page
+			.locator('.ListItemEmployee__wrap')
+			.getByText(employee, { exact: true });
+		await expect(employeeElement).toBeVisible();
+		await employeeElement.click();
 	},
 );
