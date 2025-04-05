@@ -1103,7 +1103,7 @@ When('I select the {string} tab', async ({ page }, tab: string) => {
 Then(
 	'I should see the text {string} in the ticket adjustment screen',
 	async ({ page }, text: string) => {
-		const element = page.locator('.xEmpty').getByText(text);
+		const element = page.locator('.xMainContent').getByText(text);
 		await expect(element).toBeVisible();
 	},
 );
@@ -1163,5 +1163,70 @@ Then(
 			.all();
 
 		expect(itemDetails.length).toBeGreaterThan(1);
+	},
+);
+
+Then(
+	'I should see a popup dialog containing the title {string}',
+	async ({ page }, title: string) => {
+		const dialogTitle = page.locator('#alert-dialog-title').getByText(title);
+		await expect(dialogTitle).toBeVisible();
+		await expect(dialogTitle).toContainText(title);
+	},
+);
+
+When(
+	'I click on the charge item {string} in the ticket adjustment screen',
+	async ({ page }, button: string) => {
+		const buttonItem = page
+			.locator('.xFixTicket__main--chargeItem')
+			.getByText(button);
+		await buttonItem.click();
+	},
+);
+
+Then(
+	'I should see the charge display {string}',
+	async ({ page }, charge: string) => {
+		const chargedItem = page
+			.locator('.xFixTicket__main--chargeItem')
+			.getByText(charge);
+		await expect(chargedItem).toContainText(charge);
+	},
+);
+
+When(
+	'I select the service {string} in my cart',
+	async ({ page }, service: string) => {
+		const serviceElement = page
+			.locator('.xTicketItems__content')
+			.getByText(service, { exact: true });
+		await serviceElement.click();
+	},
+);
+
+Then('I should see the check icon', async ({ page }) => {
+	const checkIcon = page.locator('[data-testid="XCheckIcon"]');
+	await expect(checkIcon).toBeVisible();
+});
+
+When(
+	'I click on the action {string} button',
+	async ({ page }, button: string) => {
+		const buttonItem = page
+			.locator('.xFixTicket__action--btn')
+			.getByText(button);
+		await buttonItem.click();
+	},
+);
+
+When(
+	'I select the employee {string} in the ticket adjustment screen',
+	async ({ page }, employee: string) => {
+		const employeeElement = page
+			.locator('.ListItemEmployee__wrap')
+			.getByText(employee, { exact: true });
+		await expect(employeeElement).toBeVisible();
+		await employeeElement.click();
 	},
 );
