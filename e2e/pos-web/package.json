@@ -17,7 +17,7 @@
 	},
 	"devDependencies": {
 		"@dotenvx/dotenvx": "^1.40.1",
-		"@playwright/test": "^1.51.1",
+		"@playwright/test": "^1.52.0",
 		"@types/fs-extra": "^11.0.4",
 		"@types/node": "^22.14.1",
 		"@x-test/common": "workspace:*",
