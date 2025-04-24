@@ -24,7 +24,7 @@
 		"allure-commandline": "^2.33.0",
 		"allure-playwright": "^3.2.1",
 		"fs-extra": "^11.3.0",
-		"nodemon": "^3.1.9",
+		"nodemon": "^3.1.10",
 		"playwright-bdd": "^8.2.1",
 		"remeda": "^2.21.3",
 		"rimraf": "^6.0.1",
