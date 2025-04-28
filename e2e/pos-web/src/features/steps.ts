@@ -1274,7 +1274,7 @@ When(
 		const dialogVisible = await page.locator('div[role="dialog"]').isVisible();
 
 		if (dialogVisible) {
-			// Look for the confirm button with the specific class from the HTML
+			// Look for the confirm button
 			const confirmButton = page
 				.locator('button.MuiButton-containedPrimary.button_dialog_options')
 				.getByRole('button', { name: 'SIGN IN', exact: true });
