@@ -1042,7 +1042,7 @@ When(
 	'I select the {string} label in the expanded list',
 	async ({ page }, label: string) => {
 		const labelElement = page
-			.locator('div.xMenu__link li')
+			.locator('div.xMenu__link span')
 			.filter({ hasText: label });
 		await labelElement.click();
 	},
@@ -1228,5 +1228,79 @@ When(
 			.getByText(employee, { exact: true });
 		await expect(employeeElement).toBeVisible();
 		await employeeElement.click();
+	},
+);
+
+When('I select the employee {string}', async ({ page }, employee: string) => {
+	const employeeElement = page
+		.locator('.MuiDataGrid-main')
+		.getByText(employee, { exact: true });
+	await expect(employeeElement).toBeVisible();
+	await employeeElement.click();
+});
+
+Then(
+	'I verify all single payroll details for Owner View are displayed correctly',
+	async ({ page }) => {
+		const fields = [
+			'Payroll Date:',
+			'Technician Name:',
+			'Payroll Type:',
+			'# of Work Days:',
+			'Sale Summary',
+			'Total:',
+			'Product:',
+			'Service:',
+			'Service Deductions',
+			'Item Discount:',
+			'Ticket Discount:',
+			'Item Supply Fee:',
+			'Ticket Supply Fee:',
+			'Loyalty Redemption:',
+			'Other Deductions',
+			'Daily Maintenance Fee:',
+			'Credit Card Fee:',
+			'Tax Withheld on Cash:',
+			'Pay Calculations',
+			'Net Total Sale:',
+			'Product Commission:',
+			'Service Commission:',
+			'Net Commission:',
+			'Net Non-Cash Tip (100.00%):',
+			'Check (50.00%):',
+			'Cash (50.00%):',
+			'Pay 1:',
+			'Pay 2:',
+			'Total Payout:',
+			'Gross Profit:',
+		];
+		const card = page.locator('.MuiCard-root.render-bill');
+
+		for (const label of fields) {
+			const fieldLocator = card.getByText(label.trim(), { exact: false });
+			await expect(fieldLocator).toBeVisible();
+		}
+	},
+);
+
+Then(
+	'I should see the technician name {string}',
+	async ({ page }, employee: string) => {
+		const employeeElement = page
+			.locator('tr', { has: page.getByText('Technician Name:') })
+			.locator('td:nth-child(2)');
+		await expect(employeeElement).toBeVisible();
+		await expect(employeeElement).toContainText(employee);
+	},
+);
+
+Then(
+	'I should see the payroll type {string}',
+	async ({ page }, type: string) => {
+		const typeElement = page
+			.locator('tr', { has: page.getByText('Payroll type:') })
+			.locator('td:nth-child(2)');
+		await expect(typeElement).toBeVisible();
+		await expect(typeElement).toContainText(type);
 	},
 );
