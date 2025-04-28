@@ -9,6 +9,9 @@ Feature: Check In
 
     When I click on the "Add Customer" button in the waiting page
     Then I should see the text "Create Waiting" visible
+    When I wait for the page fully loaded
+    Then I should see the categories displayed correctly in check-in
+    And I should see the services displayed correctly in check-in
     And I should see the "Next Available Service" service
 
     When I click on the Select customer
@@ -65,6 +68,9 @@ Feature: Check In
 
     When I click on the "Add Customer" button
     Then I should see the text "Create Waiting" visible
+    When I wait for the page fully loaded
+    Then I should see the categories displayed correctly in check-in
+    And I should see the services displayed correctly in check-in
     And I should see the "Next Available Service" service
 
     When I add the "Alice" customer
