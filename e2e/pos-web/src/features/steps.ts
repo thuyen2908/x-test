@@ -1273,37 +1273,14 @@ When(
 		// Check if any dialog is visible
 		const dialogVisible = await page.locator('div[role="dialog"]').isVisible();
 
-		if (dialogVisible) {
+		if (dialogVisible === true) {
 			// Look for the confirm button
 			const confirmButton = page
 				.locator('button.MuiButton-containedPrimary.button_dialog_options')
-				.getByRole('button', { name: 'SIGN IN', exact: true });
-
-			// Check if the confirm button is visible
-			const confirmButtonVisible = await confirmButton.isVisible();
-
-			if (confirmButtonVisible) {
-				// Click the confirm button
-				await confirmButton.click({ force: true });
-
-				// Wait for dialog to disappear
-				await page
-					.waitForSelector('div[role="dialog"]', {
-						state: 'hidden',
-						timeout: 5000,
-					})
-					.catch(() => {
-						// If dialog doesn't disappear, try clicking again
-						return confirmButton
-							.click({ force: true, timeout: 2000 })
-							.catch(() => {});
-					});
-
-				// Wait for page to update
-				await page.waitForLoadState('networkidle');
-			}
+				.getByRole('button', { name: 'confirm', exact: true });
+			await expect(confirmButton).toBeVisible();
+			await confirmButton.click({ force: true });
 		}
-
 		// If no dialog is visible, this step completes without doing anything
 	},
 );
