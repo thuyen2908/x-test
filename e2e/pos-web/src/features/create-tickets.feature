@@ -57,7 +57,7 @@ Feature: Create tickets
 
     When I fill the new customer name "Guest"
     And I fill the new customer phone
-    And I click on the "Save" button in the popup dialog
+    And I click on the "SAVE" button in the create new customer dialog
     Then I should see a new customer "Guest" on ticket
 
     When I click on the "PAY" button
