@@ -21,7 +21,7 @@ Feature: Check In
 
     When I fill the new customer name "Check-in"
     And I fill the new customer phone
-    And I click on the "Save" button in the popup dialog
+    And I click on the "SAVE" button in the create new customer dialog
     Then I should see a new customer "Check-in" on ticket
 
     When I add the "Combo 1" service to my cart

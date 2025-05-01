@@ -75,7 +75,7 @@ export class Const {
 			[PageId.GIFT_CARD_BALANCE]: `${baseURL}/gift-card-balance`,
 			[PageId.LOYALTY_BALANCE]: `${baseURL}/loyalty-balance`,
 			[PageId.CLOSED_TICKETS]: `${baseURL}/closed-tickets`,
-			[PageId.APPOINTMENT]: `${baseURL}/appointment`,
+			[PageId.APPOINTMENT]: `${baseURL}/appointments`,
 			[PageId.TICKET_ADJUSTMENT]: `${baseURL}/management/ticket-adjustment`,
 		} as const;
 	}
@@ -86,7 +86,7 @@ export class Const {
 	public get APIs() {
 		return {
 			'Get In-Service Tickets': ['GET', '/ticket-v2/get-ticket-inservices'],
-			'Save lock number': ['POST', '/ticket-management/save-lock-number'],
+			'Create a ticket': ['POST', '/ticket-v2/create-ticket'],
 		} as const satisfies Record<string, [method: HTTPMethod, url: string]>;
 	}
 }
