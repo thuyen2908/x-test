@@ -370,8 +370,9 @@ Then(
 );
 
 When('I add the {string} customer', async ({ page }, customer: string) => {
-	page.locator('.TicketSearch__customer ').click();
-	page.locator('.TicketSearch__customer input').fill(customer);
+	const customerSearch = page.locator('TicketSearch__customer ');
+	await customerSearch.getByRole('combobox').fill(customer);
+
 	const selectCustomer = page
 		.locator('.MuiListItemText-root.name')
 		.getByText(customer, { exact: true });
