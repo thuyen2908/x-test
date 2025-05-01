@@ -1110,13 +1110,13 @@ Then(
 );
 
 Then(
-	'I should see the booked time at {string}',
-	async ({ page }, time: string) => {
+	'I should see the customer {string} booked',
+	async ({ page }, customerName: string) => {
 		const appointmentElement = page
 			.locator('.e-appointment .event-cellTime')
 			.last();
 		await expect(appointmentElement).toBeVisible();
-		await expect(appointmentElement).toContainText(time);
+		await expect(appointmentElement).toContainText(customerName);
 	},
 );
 
@@ -1229,5 +1229,59 @@ When(
 			.getByText(employee, { exact: true });
 		await expect(employeeElement).toBeVisible();
 		await employeeElement.click();
+	},
+);
+
+When(
+	'I click on the {string} button in the create new customer dialog',
+	async ({ page }, button: string) => {
+		const buttonElement = page
+			.locator('.customDialogAction')
+			.getByRole('button', { name: button });
+		await buttonElement.click();
+	},
+);
+
+When(
+	'I select the booked of {string}',
+	async ({ page }, customerName: string) => {
+		const appointmentElement = page
+			.locator('.e-appointment .event-cellTime')
+			.last();
+		await expect(appointmentElement).toBeVisible();
+		await expect(appointmentElement).toContainText(customerName);
+		await appointmentElement.click();
+	},
+);
+
+Then(
+	'I should see the time {string} in my cart',
+	async ({ page }, time: string) => {
+		const timeElement = page
+			.locator('.dateBooking')
+			.getByText(time, { exact: true });
+		await expect(timeElement).toBeVisible();
+		await expect(timeElement).toContainText(time);
+	},
+);
+
+When(
+	'I handle the Confirm Validate Time dialog if it appears',
+	async ({ page }) => {
+		// Wait a short time to ensure page is stable
+		await page.waitForTimeout(500);
+
+		// Check if any dialog is visible
+		const dialogVisible = await page.locator('div[role="dialog"]').isVisible();
+
+		if (dialogVisible === true) {
+			// Look for the confirm button
+			const confirmButton = page
+				.locator('button.MuiButton-containedPrimary.button_dialog_options')
+				.getByRole('button', { name: 'confirm', exact: true });
+			await expect(confirmButton).toBeVisible();
+			await confirmButton.click({ force: true });
+		}
+		// If no dialog is visible, this step completes without doing anything
 	},
 );
