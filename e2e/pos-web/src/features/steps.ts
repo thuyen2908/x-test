@@ -370,8 +370,9 @@ Then(
 );
 
 When('I add the {string} customer', async ({ page }, customer: string) => {
-	page.locator('.TicketSearch__customer ').click();
-	page.locator('.TicketSearch__customer input').fill(customer);
+	const customerSearch = page.locator('TicketSearch__customer ');
+	await customerSearch.getByRole('combobox').fill(customer);
+
 	const selectCustomer = page
 		.locator('.MuiListItemText-root.name')
 		.getByText(customer, { exact: true });
@@ -1109,13 +1110,13 @@ Then(
 );
 
 Then(
-	'I should see the booked time at {string}',
-	async ({ page }, time: string) => {
+	'I should see the customer {string} booked',
+	async ({ page }, customerName: string) => {
 		const appointmentElement = page
 			.locator('.e-appointment .event-cellTime')
 			.last();
 		await expect(appointmentElement).toBeVisible();
-		await expect(appointmentElement).toContainText(time);
+		await expect(appointmentElement).toContainText(customerName);
 	},
 );
 
@@ -1284,6 +1285,72 @@ Then(
 );
 
 Then(
+	'I should see the categories displayed correctly in check-in',
+	async ({ page }) => {
+		const expectedCategories = ['MANI & PEDI', 'FULL SET & FILL IN'];
+
+		const categoryElements = page.locator('[role="tablist"] span');
+		await expect(categoryElements).toHaveCount(expectedCategories.length);
+
+		for (let i = 0; i < expectedCategories.length; i++) {
+			const categoryName = await categoryElements.nth(i).innerText();
+			expect(categoryName.trim()).toBe(expectedCategories[i]);
+		}
+	},
+);
+
+When(
+	'I click on the {string} button in the create new customer dialog',
+	async ({ page }, button: string) => {
+		const buttonElement = page
+			.locator('.customDialogAction')
+			.getByRole('button', { name: button });
+		await buttonElement.click();
+	},
+);
+
+When(
+	'I select the booked of {string}',
+	async ({ page }, customerName: string) => {
+		const appointmentElement = page
+			.locator('.e-appointment .event-cellTime')
+			.last();
+		await expect(appointmentElement).toBeVisible();
+		await expect(appointmentElement).toContainText(customerName);
+		await appointmentElement.click();
+	},
+);
+
+Then(
+	'I should see the services displayed correctly in check-in',
+	async ({ page }) => {
+		const expectedServices = [
+			'Next Available Service',
+			'Manicure',
+			'Pedicure',
+			'Cut cuticle',
+			'Gel removal',
+			'Acrylic removal',
+			'Gel X',
+			'Request price',
+			'Combo 1',
+			'Combo 2',
+			'Supper combo',
+		];
+
+		const serviceElements = page.locator(
+			'li.ItemService .ItemService__name span',
+		);
+		await expect(serviceElements).toHaveCount(expectedServices.length);
+
+		for (let i = 0; i < expectedServices.length; i++) {
+			const serviceName = await serviceElements.nth(i).innerText();
+			expect(serviceName.trim()).toBe(expectedServices[i]);
+		}
+	},
+);
+
+Then(
 	'I should see the technician name {string}',
 	async ({ page }, employee: string) => {
 		const employeeElement = page
@@ -1302,5 +1369,37 @@ Then(
 			.locator('td:nth-child(2)');
 		await expect(typeElement).toBeVisible();
 		await expect(typeElement).toContainText(type);
+	},
+);
+
+Then(
+	'I should see the time {string} in my cart',
+	async ({ page }, time: string) => {
+		const timeElement = page
+			.locator('.dateBooking')
+			.getByText(time, { exact: true });
+		await expect(timeElement).toBeVisible();
+		await expect(timeElement).toContainText(time);
+	},
+);
+
+When(
+	'I handle the Confirm Validate Time dialog if it appears',
+	async ({ page }) => {
+		// Wait a short time to ensure page is stable
+		await page.waitForTimeout(500);
+
+		// Check if any dialog is visible
+		const dialogVisible = await page.locator('div[role="dialog"]').isVisible();
+
+		if (dialogVisible === true) {
+			// Look for the confirm button
+			const confirmButton = page
+				.locator('button.MuiButton-containedPrimary.button_dialog_options')
+				.getByRole('button', { name: 'confirm', exact: true });
+			await expect(confirmButton).toBeVisible();
+			await confirmButton.click({ force: true });
+		}
+		// If no dialog is visible, this step completes without doing anything
 	},
 );

@@ -9,6 +9,8 @@ Feature: Check In
 
     When I click on the "Add Customer" button in the waiting page
     Then I should see the text "Create Waiting" visible
+    Then I should see the categories displayed correctly in check-in
+    And I should see the services displayed correctly in check-in
     And I should see the "Next Available Service" service
 
     When I click on the Select customer
@@ -18,7 +20,7 @@ Feature: Check In
 
     When I fill the new customer name "Check-in"
     And I fill the new customer phone
-    And I click on the "Save" button in the popup dialog
+    And I click on the "SAVE" button in the create new customer dialog
     Then I should see a new customer "Check-in" on ticket
 
     When I add the "Combo 1" service to my cart
@@ -34,7 +36,6 @@ Feature: Check In
     When I click on the "SAVE" button
     Then I should be redirected to WAITING_LIST page
 
-    When I wait for the page fully loaded
     Then I should see the customer "Check-in" in the waiting list
     And I should see the service "Combo 1" in the waiting list
     And I should see the technician "Any Technician" in the waiting list
@@ -59,12 +60,13 @@ Feature: Check In
 
   Scenario: Create a waiting for existing customer, assign services to specific employees and create ticket
     Given I am on the HOME page
-    When I wait for the page fully loaded
-    And I click on the "Check In" label in the header
+    When I click on the "Check In" label in the header
     Then I should be redirected to WAITING_LIST page
 
     When I click on the "Add Customer" button
     Then I should see the text "Create Waiting" visible
+    And I should see the categories displayed correctly in check-in
+    And I should see the services displayed correctly in check-in
     And I should see the "Next Available Service" service
 
     When I add the "Alice" customer
@@ -86,7 +88,6 @@ Feature: Check In
     When I click on the "SAVE" button
     Then I should be redirected to WAITING_LIST page
 
-    When I wait for the page fully loaded
     Then I should see the customer "Alice" in the waiting list
     And I should see the service "Manicure" in the waiting list
     And I should see the service "Pedicure" in the waiting list
