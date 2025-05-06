@@ -1439,3 +1439,15 @@ Then(
 		await expect(buttonElement).toBeVisible();
 	},
 );
+
+Then('I should see the payroll date is filtered to today', async ({ page }) => {
+	const today = new Date();
+	const todayString = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
+	const expectedDateRange = `${todayString} - ${todayString}`;
+
+	const payrollRow = page.locator('tr', { hasText: 'Payroll Date:' });
+	const dateCell = payrollRow.locator('td').nth(1);
+	const displayedDateRange = (await dateCell.textContent())?.trim();
+
+	expect(displayedDateRange).toBe(expectedDateRange);
+});

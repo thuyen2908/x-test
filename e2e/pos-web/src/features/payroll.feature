@@ -1,4 +1,4 @@
-@regression @smoke
+@regression @smoke @slow
 Feature: Payroll
 
   Scenario: Verify employee-specific Single Payroll information loads correctly
@@ -12,12 +12,15 @@ Feature: Payroll
     And I should see the "Save" button disable
     And I should see the "Print" button disable
 
-    When I select the employee "Anna"
+    When I wait for the page fully loaded
+    And I select the employee "Anna"
     And I wait for the page fully loaded
     Then I should see the technician name "Anna"
     And I should see the payroll type "Commission"
+    And I should see the payroll date is filtered to today
 
     When I select the type "Employee View"
+    Then I should see the payroll date is filtered to today
     Then I should see the text "Technician Pay" visible
     And I should see the text "Daily Details" visible
 
@@ -43,7 +46,8 @@ Feature: Payroll
     Then I should be redirected to PAYROLL page
     And I should see the "Payroll" screen
 
-    When I select the employee "Anna"
+    When I wait for the page fully loaded
+    And I select the employee "Anna"
     And I wait for the page fully loaded
     And I click on the "PAYROLL DETAILS" tab
     Then I should see the text "Date" visible
@@ -59,7 +63,8 @@ Feature: Payroll
     Then I should be redirected to PAYROLL page
     And I should see the "Payroll" screen
 
-    When I select the employee "Anna"
+    When I wait for the page fully loaded
+    And I select the employee "Anna"
     And I wait for the page fully loaded
     And I click on the "TIMESHEET" tab
     Then I should see the text "Date" visible
