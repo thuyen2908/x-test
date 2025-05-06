@@ -27,15 +27,15 @@
 	},
 	"dependencies": {
 		"tiny-invariant": "^1.3.3",
-		"zod": "^3.24.3"
+		"zod": "^3.24.4"
 	},
 	"devDependencies": {
-		"@types/node": "^22.15.3",
+		"@types/node": "^22.15.11",
 		"rimraf": "^6.0.1",
 		"rollup-plugin-node-externals": "^8.0.0",
 		"rollup-plugin-visualizer": "^5.14.0",
 		"typescript": "^5.8.3",
-		"vite": "^6.3.4",
+		"vite": "^6.3.5",
 		"vite-plugin-dts": "^4.5.3"
 	}
 }
