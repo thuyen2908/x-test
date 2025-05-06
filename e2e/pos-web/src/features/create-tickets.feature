@@ -25,10 +25,13 @@ Feature: Create tickets
 
   Scenario: Add an existing customer to a new ticket and pay with Loyalty points
     Given I am on the HOME page
+    When I clock in the timesheet with PIN "8102"
+    Then I should see the employee "Tim" in the employee list
     When I select the "Tim" employee
     And I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see the tax amount non-zero
+    When I wait for the page fully loaded
+    Then I should see the tax amount non-zero
 
     When I add the "Tin" customer
     Then I should see a new customer "Tin" on ticket
@@ -45,6 +48,8 @@ Feature: Create tickets
 
   Scenario: Create a new customer on the fly
     Given I am on the HOME page
+    When I clock in the timesheet with PIN "0917"
+    Then I should see the employee "Dylan" in the employee list
     When I select the "Dylan" employee
     And I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
@@ -72,6 +77,8 @@ Feature: Create tickets
 
   Scenario: Create a ticket with multiple technicians
     Given I am on the HOME page
+    When I clock in the timesheet with PIN "2860"
+    Then I should see the employee "Tina" in the employee list
     When I select the "Tina" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
@@ -101,6 +108,8 @@ Feature: Create tickets
 
   Scenario: Create a ticket, add Tip and pay with Credit card
     Given I am on the HOME page
+    When I clock in the timesheet with PIN "0101"
+    Then I should see the employee "Laura" in the employee list
     When I select the "Laura" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
@@ -125,6 +134,8 @@ Feature: Create tickets
 
   Scenario: Create a ticket and pay with Gift Card type
     Given I am on the HOME page
+    When I clock in the timesheet with PIN "0404"
+    Then I should see the employee "Emma" in the employee list
     When I select the "Emma" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
@@ -146,6 +157,8 @@ Feature: Create tickets
 
   Scenario: Create a ticket and pay with Zelle type
     Given I am on the HOME page
+    When I clock in the timesheet with PIN "0505"
+    Then I should see the employee "Hanna" in the employee list
     When I select the "Hanna" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
@@ -164,6 +177,8 @@ Feature: Create tickets
 
   Scenario: Split tip on ticket after paying by Credit card
     Given I am on the HOME page
+    When I clock in the timesheet with PIN "0202"
+    Then I should see the employee "Brian" in the employee list
     When I select the "Brian" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
@@ -205,6 +220,8 @@ Feature: Create tickets
 
   Scenario: Create a ticket and pay with Cash change
     Given I am on the HOME page
+    When I clock in the timesheet with PIN "9076"
+    Then I should see the employee "Kim" in the employee list
     When I select the "Kim" employee
     Then I should see the "Ticket View" screen
     And I should see the "Gel removal" service
@@ -227,6 +244,8 @@ Feature: Create tickets
 
   Scenario: Make multiple payments using Gift Card and Credit
     Given I am on the HOME page
+    When I clock in the timesheet with PIN "1219"
+    Then I should see the employee "Lisa" in the employee list
     When I select the "Lisa" employee
     Then I should see the "Ticket View" screen
     And I should see the "Acrylic removal" service
@@ -258,6 +277,8 @@ Feature: Create tickets
 
   Scenario: Change price and add note for service in ticket
     Given I am on the HOME page
+    When I clock in the timesheet with PIN "1828"
+    Then I should see the employee "Harry" in the employee list
     When I select the "Harry" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
@@ -287,6 +308,8 @@ Feature: Create tickets
 
   Scenario: Add the Open Discount amount for Discount item
     Given I am on the HOME page
+    When I clock in the timesheet with PIN "8623"
+    Then I should see the employee "Bella" in the employee list
     When I select the "Bella" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
@@ -323,6 +346,8 @@ Feature: Create tickets
 
   Scenario: Add the Open Discount percent for Discount ticket
     Given I am on the HOME page
+    When I clock in the timesheet with PIN "9962"
+    Then I should see the employee "Ruby" in the employee list
     When I select the "Ruby" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
@@ -354,6 +379,8 @@ Feature: Create tickets
 
   Scenario: Sell a Gift Card add-on amount
     Given I am on the HOME page
+    When I clock in the timesheet with PIN "1010"
+    Then I should see the employee "Tom" in the employee list
     When I select the "Tom" employee
     Then I should see the "Ticket View" screen
     And I should see the "GIFT CARD" category
@@ -384,6 +411,8 @@ Feature: Create tickets
 
   Scenario: Sell a Gift Card rewrite amount
     Given I am on the HOME page
+    When I clock in the timesheet with PIN "5362"
+    Then I should see the employee "Sandy" in the employee list
     When I select the "Sandy" employee
     Then I should see the "Ticket View" screen
     And I should see the "GIFT CARD" category
@@ -414,6 +443,8 @@ Feature: Create tickets
 
   Scenario: Remove tax in ticket
     Given I am on the HOME page
+    When I clock in the timesheet with PIN "6993"
+    Then I should see the employee "Jack" in the employee list
     When I select the "Jack" employee
     And I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
@@ -435,6 +466,8 @@ Feature: Create tickets
 
   Scenario: Void an empty ticket
     Given I am on the HOME page
+    When I clock in the timesheet with PIN "0727"
+    Then I should see the employee "Kelley" in the employee list
     When I select the "Kelley" employee
     Then I should see the "Ticket View" screen
 
@@ -443,6 +476,8 @@ Feature: Create tickets
 
   Scenario: Void a ticket with a service in Done status
     Given I am on the HOME page
+    When I clock in the timesheet with PIN "0727"
+    Then I should see the employee "Kelley" in the employee list
     When I select the "Kelley" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
@@ -459,6 +494,8 @@ Feature: Create tickets
 
   Scenario: Void a ticket with a service in Wait status
     Given I am on the HOME page
+    When I clock in the timesheet with PIN "0727"
+    Then I should see the employee "Kelley" in the employee list
     When I select the "Kelley" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service

@@ -370,11 +370,13 @@ Then(
 );
 
 When('I add the {string} customer', async ({ page }, customer: string) => {
-	const customerSearch = page.locator('TicketSearch__customer ');
+	const customerSearch = page.locator('.xTicketCustomer');
+	await customerSearch.click();
+	page.waitForTimeout(10000);
 	await customerSearch.getByRole('combobox').fill(customer);
 
 	const selectCustomer = page
-		.locator('.MuiListItemText-root.name')
+		.locator('li.MuiListItemText-root.name')
 		.getByText(customer, { exact: true });
 	await selectCustomer.click();
 });
@@ -1401,5 +1403,39 @@ When(
 			await confirmButton.click({ force: true });
 		}
 		// If no dialog is visible, this step completes without doing anything
+	},
+);
+
+When('I select the type {string}', async ({ page }, type: string) => {
+	const combobox = page.locator('div[role="combobox"]');
+	await combobox.click();
+
+	const typeElement = page.locator('li[role="option"]').getByText(type);
+	await expect(typeElement).toBeVisible();
+	await expect(typeElement).toContainText(type);
+	await typeElement.click();
+});
+
+Then(
+	'I should see the {string} button disable',
+	async ({ page }, text: string) => {
+		const buttonElement = page.getByRole('button', { name: text });
+		await expect(buttonElement).toBeDisabled();
+	},
+);
+
+When('I click on the {string} tab', async ({ page }, tab: string) => {
+	const tabElement = page.getByRole('tab', { name: tab });
+	await expect(tabElement).toBeVisible();
+	await tabElement.click();
+});
+
+Then(
+	'I should see the {string} button visible in the payroll',
+	async ({ page }, text: string) => {
+		const buttonElement = page
+			.locator('.MuiBox-root')
+			.getByRole('button', { name: text });
+		await expect(buttonElement).toBeVisible();
 	},
 );
