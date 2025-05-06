@@ -16,10 +16,10 @@
 		"test:debug": "pnpm test --debug"
 	},
 	"devDependencies": {
-		"@dotenvx/dotenvx": "^1.42.2",
+		"@dotenvx/dotenvx": "^1.43.0",
 		"@playwright/test": "^1.52.0",
 		"@types/fs-extra": "^11.0.4",
-		"@types/node": "^22.15.3",
+		"@types/node": "^22.15.11",
 		"@x-test/common": "workspace:*",
 		"allure-commandline": "^2.34.0",
 		"allure-playwright": "^3.2.1",
@@ -29,6 +29,6 @@
 		"remeda": "^2.21.3",
 		"rimraf": "^6.0.1",
 		"typescript": "^5.8.3",
-		"zod": "^3.24.3"
+		"zod": "^3.24.4"
 	}
 }
