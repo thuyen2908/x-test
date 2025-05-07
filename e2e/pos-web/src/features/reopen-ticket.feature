@@ -502,3 +502,108 @@ Feature: Reopen tickets
     And I fill the last 4 digits of card number "1234"
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
+
+  Scenario: Sell a new Gift Card then void ticket
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "2463"
+    Then I should see the employee "Isabella" in the employee list
+    When I select the "Isabella" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "GIFT CARD" category
+
+    When I select the "GIFT CARD" category
+    Then I should see the "Gift card $50" service
+    When I add the "Gift card $50" service to my cart
+    Then I should see a popup dialog with title "Activate Gift Card $50.00"
+
+    When I enter the amount "5678"
+    And I click on the "OK" button in the popup dialog
+    Then I should see my cart showing 1 item added
+    And I should see the service "Gift card $50 (5678)" in my cart
+    And I should see the tax amount non-zero
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the text "PAYMENT HISTORY" visible
+    And I should see the button with id "payment" visible
+
+    When I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page
+
+    When I click on the "Tickets" label in the header
+    Then I should be redirected to CLOSED_TICKETS page
+
+    When I search for "53"
+    And I wait for the page fully loaded
+    Then I should see the last ticket of payment "$53.00"
+
+    When I click on the last row for payment "$53.00" to expand details
+    Then I should see the "Reopen ticket" button visible
+
+    When I click on the "Reopen ticket" button
+    Then I should see the "Ticket View" screen
+    And I should see the employee "Isabella" in the ticket
+
+    When I void the current open ticket with no reason
+    Then I should be redirected to HOME page
+
+    When I navigate to "Balance" on the navigation bar
+    And I select the "Gift Card" option
+    Then I should be redirected to GIFT_CARD_BALANCE page
+    And I should see the text "Gift Card" visible
+
+    When I enter the amount "5678"
+    And I click on the "SEARCH" button
+    Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
+    And I should see a popup dialog with content "Do you want to activate gift card #5678"
+
+  Scenario: Remove loyalty balance when voiding ticket
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "7217"
+    Then I should see the employee "Charlotte" in the employee list
+    When I select the "Charlotte" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Acrylic removal" service
+
+    When I add the "Acrylic removal" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I add the "Jimmy" customer
+    Then I should see a new customer "Jimmy" on ticket
+
+    When I click on the "PAY" button
+    And I select the "Credit" payment type
+    And I fill the last 4 digits of card number "1234"
+    And I click on the element with id "payment"
+    Then I should be redirected to HOME page
+
+    When I click on the "Tickets" label in the header
+    Then I should be redirected to CLOSED_TICKETS page
+
+    When I search for "Jimmy"
+    And I wait for the page fully loaded
+    Then I should see the last ticket of customer "Jimmy"
+
+    When I click on the last row for customer "Jimmy" to expand details
+    Then I should see the "Reopen ticket" button visible
+
+    When I click on the "Reopen ticket" button
+    Then I should see the "Ticket View" screen
+    And I should see the employee "Charlotte" in the ticket
+
+    When I void the current open ticket with reason "System Test"
+    Then I should be redirected to HOME page
+
+    When I navigate to "Balance" on the navigation bar
+    And I select the "Loyalty" option
+    Then I should be redirected to LOYALTY_BALANCE page
+    And I should see the text "Loyalty Phone Number:" visible
+
+    When I enter the amount "0909090909"
+    And I click on the "SEARCH" button
+    And I wait for the page fully loaded
+    Then I should see the title contain "Jimmy" visible
+    And I should see the text "No rows" visible
