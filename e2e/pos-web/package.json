@@ -19,7 +19,7 @@
 		"@dotenvx/dotenvx": "^1.43.0",
 		"@playwright/test": "^1.52.0",
 		"@types/fs-extra": "^11.0.4",
-		"@types/node": "^22.15.11",
+		"@types/node": "^22.15.17",
 		"@x-test/common": "workspace:*",
 		"allure-commandline": "^2.34.0",
 		"allure-playwright": "^3.2.1",
