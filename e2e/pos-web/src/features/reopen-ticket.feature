@@ -516,10 +516,10 @@ Feature: Reopen tickets
     When I add the "Gift card $50" service to my cart
     Then I should see a popup dialog with title "Activate Gift Card $50.00"
 
-    When I enter the amount "5678"
+    When I enter the amount "6789"
     And I click on the "OK" button in the popup dialog
     Then I should see my cart showing 1 item added
-    And I should see the service "Gift card $50 (5678)" in my cart
+    And I should see the service "Gift card $50 (6789)" in my cart
     And I should see the tax amount non-zero
 
     When I click on the "PAY" button
@@ -555,10 +555,10 @@ Feature: Reopen tickets
     Then I should be redirected to GIFT_CARD_BALANCE page
     And I should see the text "Gift Card" visible
 
-    When I enter the amount "5678"
+    When I enter the amount "6789"
     And I click on the "SEARCH" button
     Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
-    And I should see a popup dialog with content "Do you want to activate gift card #5678"
+    And I should see a popup dialog with content "Do you want to activate gift card #6789"
 
   Scenario: Remove loyalty balance when voiding ticket
     Given I am on the HOME page
