@@ -45,8 +45,8 @@ importers:
   e2e/pos-web:
     devDependencies:
       '@dotenvx/dotenvx':
-        specifier: ^1.43.0
-        version: 1.43.0
+        specifier: ^1.44.0
+        version: 1.44.0
       '@playwright/test':
         specifier: ^1.52.0
         version: 1.52.0
@@ -63,8 +63,8 @@ importers:
         specifier: ^2.34.0
         version: 2.34.0
       allure-playwright:
-        specifier: ^3.2.1
-        version: 3.2.1(@playwright/test@1.52.0)
+        specifier: ^3.2.2
+        version: 3.2.2(@playwright/test@1.52.0)
       fs-extra:
         specifier: ^11.3.0
         version: 11.3.0
@@ -75,8 +75,8 @@ importers:
         specifier: ^8.2.1
         version: 8.2.1(@cucumber/message-streams@4.0.1(@cucumber/messages@27.0.2))(@playwright/test@1.52.0)
       remeda:
-        specifier: ^2.21.3
-        version: 2.21.3
+        specifier: ^2.21.5
+        version: 2.21.5
       rimraf:
         specifier: ^6.0.1
         version: 6.0.1
@@ -351,8 +351,8 @@ packages:
   '@cucumber/tag-expressions@6.1.1':
     resolution: {integrity: sha512-0oj5KTzf2DsR3DhL3hYeI9fP3nyKzs7TQdpl54uJelJ3W3Hlyyet2Hib+8LK7kNnqJsXENnJg9zahRYyrtvNEg==}
 
-  '@dotenvx/dotenvx@1.43.0':
-    resolution: {integrity: sha512-Z8XjM75aWZ/ekUzBjlr/OqQsLWtJY4nVtruxopAt+FlYHfY0/gKl85nD16aEqbTkU53kJcm5psID0L2/sQMmuw==}
+  '@dotenvx/dotenvx@1.44.0':
+    resolution: {integrity: sha512-18Aa+7KP/L2Kj9lxmT4EJZnsCq/xGIHgzU26rdzsKMhjpeT3YY+qin/dNAnIaVHPZnee7kXpZL55M9htd30r7Q==}
     hasBin: true
 
   '@ecies/ciphers@0.2.2':
@@ -789,16 +789,16 @@ packages:
     resolution: {integrity: sha512-+SgVJ9+o7OH43KVCln0KT7VIsXCfMVEvFuYArIFNtS0fWu61UFdeiCYvrlQPC9trEoFhOe2e5i8Xhghwo46iRQ==}
     hasBin: true
 
-  allure-js-commons@3.2.1:
-    resolution: {integrity: sha512-VGLv6u3I9NIm649dYmGpG3X5sOnI0tt7K1WYTVZPiEpnsxBbFEfDr6yAI7q509WWw/5g0VBCEtGEspd6AoYOqA==}
+  allure-js-commons@3.2.2:
+    resolution: {integrity: sha512-qr9r9+HpyNmbaaAtNDK6qXXar7RcYQECf8hOtH/e8DFKZNahIkfFYU0LP4Q7SPbqyAZsGbocTKikVx9L2po+eg==}
     peerDependencies:
-      allure-playwright: 3.2.1
+      allure-playwright: 3.2.2
     peerDependenciesMeta:
       allure-playwright:
         optional: true
 
-  allure-playwright@3.2.1:
-    resolution: {integrity: sha512-IO0lDDz007hlaHH8hZzrvyaw0NR6ZOGBEPI/ANUGbBizFOXcDf9J/nHDCdsNrt/Qa13H4AGGU7sDjtng1evYgA==}
+  allure-playwright@3.2.2:
+    resolution: {integrity: sha512-nBZsUkMOpMfvwuNaHOC+RYwjV6EjJ1NsznlTEeZAjcMSvhmbSPC5HLruDATwUctZu33DFwbk/ub/HhMfFisYHQ==}
     peerDependencies:
       '@playwright/test': '>=1.36.0'
 
@@ -1748,8 +1748,8 @@ packages:
     resolution: {integrity: sha512-iETxpjK6YoRWJG5o6hXLwvjYAoW+FEZn9os0PD/b6AP6xQwsa/Y7lCVgIixBbUPMfhu+i2LtdeAqVTgGlQarfA==}
     hasBin: true
 
-  remeda@2.21.3:
-    resolution: {integrity: sha512-XXrZdLA10oEOQhLLzEJEiFFSKi21REGAkHdImIb4rt/XXy8ORGXh5HCcpUOsElfPNDb+X6TA/+wkh+p2KffYmg==}
+  remeda@2.21.5:
+    resolution: {integrity: sha512-kXzS4ITQBoLNoec4CMj4GThW7/TG94l186/FEMKPHKN3PeY42xluSLIZMEda3nkqolQJrJ0oCet1rp3UGLx1Yg==}
 
   require-directory@2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
@@ -2001,8 +2001,8 @@ packages:
     resolution: {integrity: sha512-t0rzBq87m3fVcduHDUFhKmyyX+9eo6WQjZvf51Ea/M0Q7+T374Jp1aUiyUl0GKxp8M/OETVHSDvmkyPgvX+X2w==}
     engines: {node: '>=10'}
 
-  type-fest@4.40.0:
-    resolution: {integrity: sha512-ABHZ2/tS2JkvH1PEjxFDTUWC8dB5OsIGZP4IFLhR293GqT5Y5qB1WwL2kMPYhQW9DVgVD8Hd7I8gjwPIf5GFkw==}
+  type-fest@4.41.0:
+    resolution: {integrity: sha512-TeTSQ6H5YHvpqVwBRcnLDCBnDOHWYu7IvGbHT6N8AOymcr9PJGjc1GTtiWZTYg0NCgYwvnYWEkVChQAr9bjfwA==}
     engines: {node: '>=16'}
 
   typescript@5.7.3:
@@ -2414,7 +2414,7 @@ snapshots:
 
   '@cucumber/tag-expressions@6.1.1': {}
 
-  '@dotenvx/dotenvx@1.43.0':
+  '@dotenvx/dotenvx@1.44.0':
     dependencies:
       commander: 11.1.0
       dotenv: 16.4.7
@@ -2789,16 +2789,16 @@ snapshots:
 
   allure-commandline@2.34.0: {}
 
-  allure-js-commons@3.2.1(allure-playwright@3.2.1(@playwright/test@1.52.0)):
+  allure-js-commons@3.2.2(allure-playwright@3.2.2(@playwright/test@1.52.0)):
     dependencies:
       md5: 2.3.0
     optionalDependencies:
-      allure-playwright: 3.2.1(@playwright/test@1.52.0)
+      allure-playwright: 3.2.2(@playwright/test@1.52.0)
 
-  allure-playwright@3.2.1(@playwright/test@1.52.0):
+  allure-playwright@3.2.2(@playwright/test@1.52.0):
     dependencies:
       '@playwright/test': 1.52.0
-      allure-js-commons: 3.2.1(allure-playwright@3.2.1(@playwright/test@1.52.0))
+      allure-js-commons: 3.2.2(allure-playwright@3.2.2(@playwright/test@1.52.0))
 
   ansi-escapes@4.3.2:
     dependencies:
@@ -3737,9 +3737,9 @@ snapshots:
 
   regexp-tree@0.1.27: {}
 
-  remeda@2.21.3:
+  remeda@2.21.5:
     dependencies:
-      type-fest: 4.40.0
+      type-fest: 4.41.0
 
   require-directory@2.1.1: {}
 
@@ -3960,7 +3960,7 @@ snapshots:
 
   type-fest@0.21.3: {}
 
-  type-fest@4.40.0: {}
+  type-fest@4.41.0: {}
 
   typescript@5.7.3: {}
 
