@@ -999,21 +999,30 @@ When(
 
 		// Define the time slot map with proper typing
 		const timeSlotMap: Record<string, number> = {
-			'07:00 AM': 1,
-			'08:00 AM': 2,
-			'09:00 AM': 3,
-			'10:00 AM': 4,
-			'11:00 AM': 5,
-			'12:00 PM': 6,
-			'01:00 PM': 7,
-			'02:00 PM': 8,
-			'03:00 PM': 9,
-			'04:00 PM': 10,
-			'05:00 PM': 11,
-			'06:00 PM': 12,
-			'07:00 PM': 13,
-			'08:00 PM': 14,
-			'09:00 PM': 15,
+			'12:00 AM': 1,
+			'01:00 AM': 2,
+			'02:00 AM': 3,
+			'03:00 AM': 4,
+			'04:00 AM': 5,
+			'05:00 AM': 6,
+			'06:00 AM': 7,
+			'07:00 AM': 8,
+			'08:00 AM': 9,
+			'09:00 AM': 10,
+			'10:00 AM': 11,
+			'11:00 AM': 12,
+			'12:00 PM': 13,
+			'01:00 PM': 14,
+			'02:00 PM': 15,
+			'03:00 PM': 16,
+			'04:00 PM': 17,
+			'05:00 PM': 18,
+			'06:00 PM': 19,
+			'07:00 PM': 20,
+			'08:00 PM': 21,
+			'09:00 PM': 22,
+			'10:00 PM': 23,
+			'11:00 PM': 24,
 		};
 
 		// Get the row index from the specified time slot
@@ -1437,5 +1446,34 @@ Then(
 			.locator('.MuiBox-root')
 			.getByRole('button', { name: text });
 		await expect(buttonElement).toBeVisible();
+	},
+);
+
+Then('I should see the service hint', async ({ page }) => {
+	const serviceHint = page.locator('[data-testid="QuestionMarkIcon"]');
+	await expect(serviceHint).toBeVisible();
+});
+
+Then(
+	'I should see the hint details {string}',
+	async ({ page }, text: string) => {
+		const hintDetails = page.locator('.MuiTypography-root').getByText(text);
+		await expect(hintDetails).toBeVisible();
+		await expect(hintDetails).toContainText(text);
+	},
+);
+
+Then('I should see the pin appointment', async ({ page }) => {
+	const pinAppointment = page.locator('.xWaitingList__item--label');
+	await expect(pinAppointment).toBeVisible();
+});
+
+Then(
+	'I should not see the customer {string} in the waiting list',
+	async ({ page }, customer: string) => {
+		const customerElement = page
+			.locator('div[data-field="customerInfo"]')
+			.getByText(customer, { exact: true });
+		await expect(customerElement).not.toBeVisible();
 	},
 );
