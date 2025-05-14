@@ -993,59 +993,32 @@ When(
 	'I double click on the time slot at {string}',
 	async ({ page }, timeSlot: string) => {
 		await page.waitForLoadState('networkidle', { timeout: 60000 });
-
-		// Wait for DOM to be fully loaded
 		await page.waitForLoadState('domcontentloaded', { timeout: 60000 });
 
-		// Define the time slot map with proper typing
-		const timeSlotMap: Record<string, number> = {
-			'12:00 AM': 1,
-			'01:00 AM': 2,
-			'02:00 AM': 3,
-			'03:00 AM': 4,
-			'04:00 AM': 5,
-			'05:00 AM': 6,
-			'06:00 AM': 7,
-			'07:00 AM': 8,
-			'08:00 AM': 9,
-			'09:00 AM': 10,
-			'10:00 AM': 11,
-			'11:00 AM': 12,
-			'12:00 PM': 13,
-			'01:00 PM': 14,
-			'02:00 PM': 15,
-			'03:00 PM': 16,
-			'04:00 PM': 17,
-			'05:00 PM': 18,
-			'06:00 PM': 19,
-			'07:00 PM': 20,
-			'08:00 PM': 21,
-			'09:00 PM': 22,
-			'10:00 PM': 23,
-			'11:00 PM': 24,
-		};
+		// Dynamically generate time slot map
+		const timeSlotMap: Record<string, number> = {};
+		for (let hour = 0; hour < 24; hour++) {
+			const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+			const period = hour < 12 ? 'AM' : 'PM';
+			const label = `${hour12.toString().padStart(2, '0')}:00 ${period}`;
+			timeSlotMap[label] = hour + 1;
+		}
 
-		// Get the row index from the specified time slot
 		const rowIndex = timeSlotMap[timeSlot];
 
-		// Validate the provided time slot
 		if (!rowIndex) {
 			throw new Error(
 				`Time slot "${timeSlot}" is not valid. Valid options are: ${Object.keys(timeSlotMap).join(', ')}`,
 			);
 		}
 
-		// Find the row corresponding to the time slot (using nth which is 0-based)
 		const targetRow = page
 			.locator('#scheduler_table tbody tr')
 			.nth(rowIndex - 1);
-
 		const targetCell = targetRow.locator('td.e-work-cells');
 
 		await expect(targetCell).toBeVisible({ timeout: 60000 });
-
 		await targetCell.scrollIntoViewIfNeeded();
-
 		await targetCell.dblclick();
 	},
 );
