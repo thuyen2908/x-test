@@ -1,5 +1,5 @@
 @regression @smoke @slow
-Feature: Turn detail
+Feature: Turn details
 
   Scenario: Verify the specific queue loads correctly employees
     Given I am on the HOME page
