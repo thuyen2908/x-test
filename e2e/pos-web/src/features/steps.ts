@@ -1450,3 +1450,37 @@ Then(
 		await expect(customerElement).not.toBeVisible();
 	},
 );
+
+Then(
+	'I should see the last ticket of payment {string}',
+	async ({ page }, amount: string) => {
+		const lastPaymentCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="paymentTotal"]', { hasText: amount })
+			.last();
+
+		await expect(lastPaymentCell).toBeVisible();
+		await lastPaymentCell.scrollIntoViewIfNeeded();
+		await expect(lastPaymentCell).toContainText(amount);
+	},
+);
+
+When(
+	'I click on the last row for payment {string} to expand details',
+	async ({ page }, amount: string) => {
+		const lastPaymentCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="paymentTotal"]', { hasText: amount })
+			.last();
+		await expect(lastPaymentCell).toBeVisible();
+		await lastPaymentCell.scrollIntoViewIfNeeded();
+		await lastPaymentCell.click();
+	},
+);
+
+When('I select the {string} option', async ({ page }, option: string) => {
+	const optionElement = page.locator('.MuiListItem-root').getByText(option);
+	await expect(optionElement).toBeVisible();
+	await expect(optionElement).toContainText(option);
+	await optionElement.click();
+});
