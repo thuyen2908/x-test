@@ -1007,7 +1007,9 @@ When(
 				timeSlotMap[label] = index++;
 			}
 		}
+
 		const rowIndex = timeSlotMap[timeSlot];
+
 		// Validate the provided time slot
 		if (!rowIndex) {
 			throw new Error(
@@ -1435,6 +1437,50 @@ Then(
 			.locator('.MuiBox-root')
 			.getByRole('button', { name: text });
 		await expect(buttonElement).toBeVisible();
+	},
+);
+
+Then('I should see the service hint', async ({ page }) => {
+	const serviceHint = page.locator('[data-testid="QuestionMarkIcon"]');
+	await expect(serviceHint).toBeVisible();
+});
+
+Then(
+	'I should see the hint details {string}',
+	async ({ page }, text: string) => {
+		const hintDetails = page.locator('.MuiTypography-root').getByText(text);
+		await expect(hintDetails).toBeVisible();
+		await expect(hintDetails).toContainText(text);
+	},
+);
+
+Then('I should see the pin appointment', async ({ page }) => {
+	const pinAppointment = page.locator('.xWaitingList__item--label');
+	await expect(pinAppointment).toBeVisible();
+});
+
+Then(
+	'I should not see the customer {string} in the waiting list',
+	async ({ page }, customer: string) => {
+		const customerElement = page
+			.locator('div[data-field="customerInfo"]')
+			.getByText(customer, { exact: true });
+		await expect(customerElement).not.toBeVisible();
+	},
+);
+
+Then(
+	'I should see the employees displayed correctly in turn details',
+	async ({ page }) => {
+		const expectedEmployees = ['Addison', 'Anna', 'Emily'];
+
+		const employeeElements = page.locator('tbody tr td:first-child div[title]');
+		await expect(employeeElements).toHaveCount(expectedEmployees.length);
+
+		for (let i = 0; i < expectedEmployees.length; i++) {
+			const employeeName = await employeeElements.nth(i).innerText();
+			expect(employeeName.trim()).toBe(expectedEmployees[i]);
+		}
 	},
 );
 

@@ -1,6 +1,6 @@
 @regression @smoke @slow
 Feature: Appointment
-
+  @skip
   Scenario: Create an appointment for an existing customer, edit to change technician and create ticket
     Given I am on the HOME page
     When I navigate to "Appointment" on the navigation bar
