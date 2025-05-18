@@ -995,31 +995,49 @@ When(
 		await page.waitForLoadState('networkidle', { timeout: 60000 });
 		await page.waitForLoadState('domcontentloaded', { timeout: 60000 });
 
-		// Dynamically generate time slot map
+		// Dynamically generate time slot map (e.g. Time interval 20 minutes)
 		const timeSlotMap: Record<string, number> = {};
+		let index = 1;
 		for (let hour = 0; hour < 24; hour++) {
-			const hour12 = hour % 12 === 0 ? 12 : hour % 12;
-			const period = hour < 12 ? 'AM' : 'PM';
-			const label = `${hour12.toString().padStart(2, '0')}:00 ${period}`;
-			timeSlotMap[label] = hour + 1;
+			for (const minute of [0, 20, 40]) {
+				const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+				const period = hour < 12 ? 'AM' : 'PM';
+				const minuteStr = minute.toString().padStart(2, '0');
+				const label = `${hour12.toString().padStart(2, '0')}:${minuteStr} ${period}`;
+				timeSlotMap[label] = index++;
+			}
 		}
 
 		const rowIndex = timeSlotMap[timeSlot];
 
+		// Validate the provided time slot
 		if (!rowIndex) {
 			throw new Error(
 				`Time slot "${timeSlot}" is not valid. Valid options are: ${Object.keys(timeSlotMap).join(', ')}`,
 			);
 		}
 
+		// Find the row corresponding to the time slot (using nth which is 0-based)
 		const targetRow = page
 			.locator('#scheduler_table tbody tr')
 			.nth(rowIndex - 1);
+
 		const targetCell = targetRow.locator('td.e-work-cells');
 
 		await expect(targetCell).toBeVisible({ timeout: 60000 });
+
 		await targetCell.scrollIntoViewIfNeeded();
-		await targetCell.dblclick();
+
+		// Get the bounding box of the cell
+		const box = await targetCell.boundingBox();
+		if (!box) throw new Error('Could not get bounding box for target cell.');
+
+		// Calculate right-bottom position
+		const x = box.x + box.width - 5; // small padding from the edge
+		const y = box.y + box.height - 5;
+
+		// Double click at the bottom-right corner
+		await page.mouse.click(x, y, { clickCount: 2 });
 	},
 );
 
@@ -1499,3 +1517,67 @@ When('I select the {string} option', async ({ page }, option: string) => {
 	await expect(optionElement).toContainText(option);
 	await optionElement.click();
 });
+
+When(
+	'I select the last booking in the time slot at {string}',
+	async ({ page }, time: string) => {
+		const timeTrimmed = time.trim(); // e.g., "09:20 AM"
+		// Find the last appointment in the time slot
+		const appointmentDiv = page
+			.locator(`.e-appointment:has-text("${timeTrimmed}")`)
+			.last();
+		await expect(appointmentDiv).toBeVisible();
+		await expect(appointmentDiv).toContainText(timeTrimmed);
+		await appointmentDiv.click();
+	},
+);
+
+Then(
+	'I should see the color header for Any Technician displayed correctly',
+	async ({ page }) => {
+		// Locate the header element that contains "Any Technician"
+		const header = page.locator(
+			'.header-cover-full-data:has-text("Any Technician")',
+		);
+
+		// Assert the background color is as expected
+		await expect(header).toHaveCSS('background-color', 'rgb(0, 0, 0)');
+	},
+);
+
+Then(
+	'I should see the color header for employee {string} displayed correctly',
+	async ({ page }, employee: string) => {
+		// Locate the header element that contains the employee name
+		const header = page.locator(
+			`.header-cover-full-data:has-text("${employee}")`,
+		);
+		// Assert the background color is as expected
+		await expect(header).toHaveCSS('background-color', 'rgb(26, 84, 142)');
+	},
+);
+
+Then('I should see the employees sorted correctly', async ({ page }) => {
+	// Locate all employee name elements in the header
+	const employeeLocators = page.locator('.header-title');
+
+	// Get the visible text content of each employee
+	const employeeNames = await employeeLocators.allTextContents();
+
+	// Define the expected list in correct order
+	const expectedOrder = ['Any Technician', 'Bella', 'Addison', 'Anna'];
+
+	// Assert actual matches expected exactly
+	expect(employeeNames).toEqual(expectedOrder);
+});
+
+Then(
+	'I should see the appointment status {string}',
+	async ({ page }, status: string) => {
+		const statusElement = page.locator('.box-option').getByText(status, {
+			exact: true,
+		});
+		await expect(statusElement).toBeVisible();
+		await expect(statusElement).toContainText(status);
+	},
+);
