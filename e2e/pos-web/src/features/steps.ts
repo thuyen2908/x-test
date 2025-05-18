@@ -993,50 +993,32 @@ When(
 	'I double click on the time slot at {string}',
 	async ({ page }, timeSlot: string) => {
 		await page.waitForLoadState('networkidle', { timeout: 60000 });
-
-		// Wait for DOM to be fully loaded
 		await page.waitForLoadState('domcontentloaded', { timeout: 60000 });
 
-		// Define the time slot map with proper typing
-		const timeSlotMap: Record<string, number> = {
-			'07:00 AM': 1,
-			'08:00 AM': 2,
-			'09:00 AM': 3,
-			'10:00 AM': 4,
-			'11:00 AM': 5,
-			'12:00 PM': 6,
-			'01:00 PM': 7,
-			'02:00 PM': 8,
-			'03:00 PM': 9,
-			'04:00 PM': 10,
-			'05:00 PM': 11,
-			'06:00 PM': 12,
-			'07:00 PM': 13,
-			'08:00 PM': 14,
-			'09:00 PM': 15,
-		};
+		// Dynamically generate time slot map
+		const timeSlotMap: Record<string, number> = {};
+		for (let hour = 0; hour < 24; hour++) {
+			const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+			const period = hour < 12 ? 'AM' : 'PM';
+			const label = `${hour12.toString().padStart(2, '0')}:00 ${period}`;
+			timeSlotMap[label] = hour + 1;
+		}
 
-		// Get the row index from the specified time slot
 		const rowIndex = timeSlotMap[timeSlot];
 
-		// Validate the provided time slot
 		if (!rowIndex) {
 			throw new Error(
 				`Time slot "${timeSlot}" is not valid. Valid options are: ${Object.keys(timeSlotMap).join(', ')}`,
 			);
 		}
 
-		// Find the row corresponding to the time slot (using nth which is 0-based)
 		const targetRow = page
 			.locator('#scheduler_table tbody tr')
 			.nth(rowIndex - 1);
-
 		const targetCell = targetRow.locator('td.e-work-cells');
 
 		await expect(targetCell).toBeVisible({ timeout: 60000 });
-
 		await targetCell.scrollIntoViewIfNeeded();
-
 		await targetCell.dblclick();
 	},
 );
@@ -1437,6 +1419,35 @@ Then(
 			.locator('.MuiBox-root')
 			.getByRole('button', { name: text });
 		await expect(buttonElement).toBeVisible();
+	},
+);
+
+Then('I should see the service hint', async ({ page }) => {
+	const serviceHint = page.locator('[data-testid="QuestionMarkIcon"]');
+	await expect(serviceHint).toBeVisible();
+});
+
+Then(
+	'I should see the hint details {string}',
+	async ({ page }, text: string) => {
+		const hintDetails = page.locator('.MuiTypography-root').getByText(text);
+		await expect(hintDetails).toBeVisible();
+		await expect(hintDetails).toContainText(text);
+	},
+);
+
+Then('I should see the pin appointment', async ({ page }) => {
+	const pinAppointment = page.locator('.xWaitingList__item--label');
+	await expect(pinAppointment).toBeVisible();
+});
+
+Then(
+	'I should not see the customer {string} in the waiting list',
+	async ({ page }, customer: string) => {
+		const customerElement = page
+			.locator('div[data-field="customerInfo"]')
+			.getByText(customer, { exact: true });
+		await expect(customerElement).not.toBeVisible();
 	},
 );
 
