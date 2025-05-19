@@ -236,6 +236,17 @@ Then(
 	},
 );
 
+Then(
+	'I should see multiple {string} technicians in the waiting list',
+	async ({ page }, technician: string) => {
+		const technicianElements = await page
+			.locator('div[data-field="technicianNickNames"]')
+			.getByText(technician, { exact: true })
+			.all();
+		expect(technicianElements.length).toBeGreaterThan(1);
+	},
+);
+
 Then('I should see the {string} name', async ({ page }, name: string) => {
 	const nameElement = page.locator('.xPayment__card--input').getByText(name);
 	await expect(nameElement).toContainText(name);
@@ -1300,7 +1311,11 @@ Then(
 Then(
 	'I should see the categories displayed correctly in check-in',
 	async ({ page }) => {
-		const expectedCategories = ['MANI & PEDI', 'FULL SET & FILL IN'];
+		const expectedCategories = [
+			'MANI & PEDI',
+			'FULL SET & FILL IN',
+			'ADDITIONAL SERVICE',
+		];
 
 		const categoryElements = page.locator('[role="tablist"] span');
 		await expect(categoryElements).toHaveCount(expectedCategories.length);
