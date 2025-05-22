@@ -16,7 +16,7 @@ Feature: Refund
     When I enter the amount "10"
     And I click on the "OK" button
     Then I should see the text "Ticket View" visible
-    And I should see the employee "Christ" in the ticket
+    And I should see the user info "Christ" in the ticket
     And I should see the "Manicure" service
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 2 item added

@@ -45,7 +45,7 @@ Feature: Check In
 
     When I click on the "Create Ticket" button
     Then I should see the "Ticket View" screen
-    And I should see the employee "Anna" in the ticket
+    And I should see the user info "Anna" in the ticket
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -99,7 +99,7 @@ Feature: Check In
 
     When I click on the "Create Ticket" button
     Then I should see the "Ticket View" screen
-    And I should see the employee "Emily" in the ticket
+    And I should see the user info "Emily" in the ticket
     And I should see my cart showing 2 item added
     And I should see the tax amount non-zero
     And I should see the service "Manicure" in my cart
@@ -158,7 +158,7 @@ Feature: Check In
 
     When I click on the "Create Ticket" button
     Then I should see the "Ticket View" screen
-    And I should see the employee "Anna" in the ticket
+    And I should see the user info "Anna" in the ticket
     And I should see the service hint
     And I should see the hint details "MANI & PEDI (Next Available)"
 
@@ -241,7 +241,7 @@ Feature: Check In
 
     When I click on the "Create Ticket" button
     Then I should see the "Ticket View" screen
-    And I should see the employee "Anna" in the ticket
+    And I should see the user info "Anna" in the ticket
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -300,7 +300,7 @@ Feature: Check In
 
     When I click on the "Create Ticket" button
     Then I should see the "Ticket View From Appointment" screen
-    And I should see the employee "Anna" in the ticket
+    And I should see the user info "Anna" in the ticket
     And I should see the service hint
     And I should see the hint details "MANI & PEDI (Next Available)"
 
@@ -363,3 +363,69 @@ Feature: Check In
     When I click on the "confirm" button in the popup dialog
     Then I should not see the customer "Delete" in the waiting list
 
+  Scenario: Update the user info when changing technician for ticket check-in
+    Given I am on the HOME page
+    When I wait for the page fully loaded
+    And I click on the "Check In" label in the header
+    Then I should be redirected to WAITING_LIST page
+
+    When I click on the "Add Customer" button in the waiting page
+    Then I should see the text "Create Waiting" visible
+    And I should see the "Next Available Service" service
+
+    When I click on the Select customer
+    And I click on the "Click Here To Add Customers" button
+    Then I should see a popup dialog with title "Create New Customer"
+    And I should see the loyalty program "2 Points = $1" visible
+
+    When I fill the new customer name "Check-in"
+    And I fill the new customer phone
+    And I click on the "SAVE" button in the create new customer dialog
+    Then I should see a new customer "Check-in" on ticket
+
+    When I add the "Acrylic removal" service to my cart
+    Then I should see a popup dialog with title "Pick Technician"
+    When I click on the "Victoria" text inside the content section of the opening dialog
+    Then I should see the service "Acrylic removal" in my cart
+    And I should see the duration "30 mins" in my cart
+    And I should see the employee "Victoria" in my cart
+
+    When I click on the "SAVE" button
+    Then I should be redirected to WAITING_LIST page
+
+    Then I should see the customer "Check-in" in the waiting list
+    And I should see the service "Acrylic removal" in the waiting list
+    And I should see the technician "Victoria" in the waiting list
+
+    When I click on the last row for customer "Check-in" to expand details
+    Then I should see the "Create Ticket" button visible
+
+    When I click on the "Create Ticket" button
+    Then I should see the "Ticket View" screen
+    And I should see the user info "Victoria" in the ticket
+    And I should see the "Pedicure" service
+
+    When I add the "Pedicure" service to my cart
+    Then I should see the service "Pedicure" in my cart
+
+    When I click on the item "Technician" button
+    Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
+    When I select the "Pedicure" service in the dialog
+    And I select the "Anna" employee in the dialog
+    And I click on the "Apply" button in the dialog
+    Then I should see the "Anna" employee in my cart
+
+    When I click on the remove item service "Acrylic removal"
+    Then I should not see the service "Acrylic removal" in my cart
+    And I should see the user info "Anna" in the ticket
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the text "PAYMENT HISTORY" visible
+    And I should see the button with id "payment" visible
+
+    When I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page

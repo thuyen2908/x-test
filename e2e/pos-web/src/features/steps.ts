@@ -505,7 +505,7 @@ When('I enter the amount {string}', async ({ page }, amount: string) => {
 });
 
 Then(
-	'I should see the employee {string} in the ticket',
+	'I should see the user info {string} in the ticket',
 	async ({ page }, employee: string) => {
 		const headerContent = page.locator('.xHeader__content');
 
@@ -1558,10 +1558,7 @@ Then(
 );
 
 Then('I should see the employees sorted correctly', async ({ page }) => {
-	// Locate all employee name elements in the header
 	const employeeLocators = page.locator('.header-title');
-
-	// Get the visible text content of each employee
 	const employeeNames = await employeeLocators.allTextContents();
 
 	// Define the expected list in correct order
@@ -1579,5 +1576,16 @@ Then(
 		});
 		await expect(statusElement).toBeVisible();
 		await expect(statusElement).toContainText(status);
+	},
+);
+
+When(
+	'I click on the remove item service {string}',
+	async ({ page }, service: string) => {
+		const serviceContainer = page
+			.locator('.xTicketItems__info')
+			.filter({ has: page.locator('.itemName', { hasText: service }) });
+
+		await serviceContainer.locator('.xTicketItems__delete').click();
 	},
 );
