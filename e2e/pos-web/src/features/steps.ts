@@ -507,9 +507,9 @@ When('I enter the amount {string}', async ({ page }, amount: string) => {
 Then(
 	'I should see the user info {string} in the ticket',
 	async ({ page }, employee: string) => {
-		const headerContent = page.locator('.xHeader__content');
+		const primaryTechnician = page.locator('.xHeader__content');
 
-		await expect(headerContent).toContainText(employee);
+		await expect(primaryTechnician).toContainText(employee);
 	},
 );
 
