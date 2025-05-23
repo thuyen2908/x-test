@@ -1,5 +1,6 @@
 import { expect } from '@playwright/test';
 import { createBdd } from 'playwright-bdd';
+import type { DataTable } from 'playwright-bdd';
 
 import { constants } from '#const';
 import type { PageId } from '#types';
@@ -1579,5 +1580,58 @@ Then(
 		});
 		await expect(statusElement).toBeVisible();
 		await expect(statusElement).toContainText(status);
+	},
+);
+
+Then(
+	'I should see an employee row with:',
+	async ({ page }, dataTable: DataTable) => {
+		// Convert DataTable to a more usable format (key-value pairs)
+		const expectedData = dataTable.rowsHash();
+
+		// Find the row containing the employee name
+		const employeeRow = page.locator('.MuiDataGrid-row').filter({
+			has: page.locator('.MuiDataGrid-cell[data-field="fullName"]', {
+				hasText: expectedData.fullName,
+			}),
+		});
+
+		// Ensure the row exists
+		await expect(employeeRow).toBeVisible();
+
+		// Create a helper function to get cell text
+		const getCellText = async (fieldName: string): Promise<string> => {
+			const cell = employeeRow.locator(
+				`.MuiDataGrid-cell[data-field="${fieldName}"]`,
+			);
+			return ((await cell.textContent()) || '').trim();
+		};
+
+		// Verify each field from the data table
+		for (const [field, expectedValue] of Object.entries(expectedData)) {
+			// Handle special cases
+			if (field === 'isAddToApptBook') {
+				// For boolean fields, check for the presence of the check icon
+				const hasCheckIcon = await employeeRow
+					.locator(
+						'.MuiDataGrid-cell[data-field="employeeSalon.isAddToApptBook"] [data-testid="CheckIcon"]',
+					)
+					.isVisible();
+
+				expect(hasCheckIcon).toBe(expectedValue.toLowerCase() === 'true');
+				continue;
+			}
+
+			// Handle fields with nested properties
+			if (field === 'apptSortOrder') {
+				const actualValue = await getCellText('employeeSalon.apptSortOrder');
+				expect(actualValue).toBe(expectedValue);
+				continue;
+			}
+
+			// For regular fields
+			const actualValue = await getCellText(field);
+			expect(actualValue).toBe(expectedValue);
+		}
 	},
 );
