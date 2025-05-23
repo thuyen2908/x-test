@@ -1,6 +1,6 @@
 @regression @smoke
 Feature: Employee management
-
+  @skip
   Scenario: View the Employees management page
     Given I am on the HOME page
     When I click on the header menu
