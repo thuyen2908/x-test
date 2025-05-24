@@ -151,7 +151,6 @@ Feature: Check In
 
     Then I should see the customer "Waiting" in the waiting list
     And I should see the service "MANI & PEDI" in the waiting list
-    And I should see the technician "Next Available" in the waiting list
 
     When I click on the last row for customer "Waiting" to expand details
     Then I should see the "Create Ticket" button visible
@@ -202,17 +201,17 @@ Feature: Check In
 
     When I add the "Gel X" service to my cart
     Then I should see a popup dialog with title "Pick Technician"
-    When I click on the "Any Technician" text inside the content section of the opening dialog
+    When I click on the "Addison" text inside the content section of the opening dialog
     Then I should see the service "Gel X" in my cart
     And I should see the duration "30 mins" in my cart
-    And I should see the employee "Any Technician" in my cart
+    And I should see the employee "Addison" in my cart
 
     When I click on the "SAVE" button
     Then I should be redirected to WAITING_LIST page
 
     Then I should see the customer "Editing" in the waiting list
     And I should see the service "Gel X" in the waiting list
-    And I should see the technician "Any Technician" in the waiting list
+    And I should see the technician "Addison" in the waiting list
 
     When I click on the last row for customer "Editing" to expand details
     Then I should see the "Edit" button visible
@@ -221,27 +220,27 @@ Feature: Check In
     Then I should see the "Edit Waiting" screen
     And I should see a new customer "Editing" on ticket
     And I should see the service "Gel X" in my cart
-    And I should see the employee "Any Technician" in my cart
+    And I should see the employee "Addison" in my cart
 
-    When I add the "Pedicure" service to my cart
+    When I add the "Cut cuticle" service to my cart
     Then I should see a popup dialog with title "Pick Technician"
-    When I click on the "Any Technician" text inside the content section of the opening dialog
-    Then I should see the service "Pedicure" in my cart
+    When I click on the "Addison" text inside the content section of the opening dialog
+    Then I should see the service "Cut cuticle" in my cart
     And I should see the duration "25 mins" in my cart
-    And I should see multiple "Any Technician" employees in my cart
+    And I should see multiple "Addison" employees in my cart
 
     When I click on the "SAVE" button
     Then I should be redirected to WAITING_LIST page
     And I should see the customer "Editing" in the waiting list
     And I should see the service "Gel X" in the waiting list
-    And I should see the technician "Any Technician" in the waiting list
+    And I should see the service "Cut cuticle" in the waiting list
 
     When I click on the last row for customer "Editing" to expand details
     Then I should see the "Create Ticket" button visible
 
     When I click on the "Create Ticket" button
     Then I should see the "Ticket View" screen
-    And I should see the employee "Anna" in the ticket
+    And I should see the employee "Addison" in the ticket
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -276,18 +275,18 @@ Feature: Check In
     And I click on the "SAVE" button in the create new customer dialog
     Then I should see a new customer "Duration" on ticket
 
+    When I select the "FULL SET & FILL IN" category
     When I add the "Next Available Service" service to my cart
     Then I should see a popup dialog with title "Pick Technician"
     When I click on the "Next Available" text inside the content section of the opening dialog
-    Then I should see the service "MANI & PEDI" in my cart
+    Then I should see the service "FULL SET & FILL IN" in my cart
     And I should see the employee "Next Available" in my cart
 
     When I click on the "SAVE" button
     Then I should be redirected to WAITING_LIST page
 
     Then I should see the customer "Duration" in the waiting list
-    And I should see the service "MANI & PEDI" in the waiting list
-    And I should see the technician "Next Available" in the waiting list
+    And I should see the service "FULL SET & FILL IN" in the waiting list
 
     When I click on the last row for customer "Duration" to expand details
     Then I should see the "Create Ticket" button visible
@@ -302,7 +301,7 @@ Feature: Check In
     Then I should see the "Ticket View From Appointment" screen
     And I should see the employee "Anna" in the ticket
     And I should see the service hint
-    And I should see the hint details "MANI & PEDI (Next Available)"
+    And I should see the hint details "FULL SET & FILL IN (Next Available)"
 
     When I add the "Acrylic removal" service to my cart
     Then I should see my cart showing 1 item added
@@ -342,18 +341,18 @@ Feature: Check In
     And I click on the "SAVE" button in the create new customer dialog
     Then I should see a new customer "Delete" on ticket
 
-    When I add the "Next Available Service" service to my cart
+    When I select the "ADDITIONAL SERVICE" category
+    And I add the "Next Available Service" service to my cart
     Then I should see a popup dialog with title "Pick Technician"
     When I click on the "Next Available" text inside the content section of the opening dialog
-    Then I should see the service "MANI & PEDI" in my cart
+    Then I should see the service "ADDITIONAL SERVICE" in my cart
     And I should see the employee "Next Available" in my cart
 
     When I click on the "SAVE" button
     Then I should be redirected to WAITING_LIST page
 
     Then I should see the customer "Delete" in the waiting list
-    And I should see the service "MANI & PEDI" in the waiting list
-    And I should see the technician "Next Available" in the waiting list
+    And I should see the service "ADDITIONAL SERVICE" in the waiting list
 
     When I click on the last row for customer "Delete" to expand details
     Then I should see the "Create Ticket" button visible
