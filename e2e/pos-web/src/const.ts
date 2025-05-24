@@ -79,6 +79,17 @@ export class Const {
 			[PageId.TICKET_ADJUSTMENT]: `${baseURL}/management/ticket-adjustment`,
 			[PageId.PAYROLL]: `${baseURL}/management/payroll`,
 			[PageId.TURN_DETAILS]: `${baseURL}/turn-details`,
+			[PageId.EMPLOYEES]: `${baseURL}/management/employees`,
+			[PageId.CATEGORIES]: `${baseURL}/management/categories`,
+			[PageId.PRODUCTS]: `${baseURL}/management/products`,
+			[PageId.TAX]: `${baseURL}/management/tax`,
+			[PageId.DISCOUNT]: `${baseURL}/management/discount`,
+			[PageId.DEPARTMENT]: `${baseURL}/management/department`,
+			[PageId.VOID_REASONS]: `${baseURL}/management/void-reasons`,
+			[PageId.APPOINTMENT_COLOR]: `${baseURL}/management/appointment-color`,
+			[PageId.APPOINTMENT_TYPES]: `${baseURL}/management/appointment-types`,
+			[PageId.CUSTOMERS]: `${baseURL}/management/customers`,
+			[PageId.CLOSE_OUT]: `${baseURL}/management/close-out`,
 			[PageId.TICKET_PAYMENTS]: `${baseURL}/management/ticket-payment`,
 		} as const;
 	}
