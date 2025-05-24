@@ -209,7 +209,7 @@ Feature: Appointment
     When I select the "Anna" employee from the technician dropdown
     Then I should see the title "Anna"
 
-    When I double click on the time slot at "10:00 AM"
+    When I double click on the time slot at "06:00 AM"
     Then I should see the "Create Appointment" screen
     And I should see the "Manicure" service
 
@@ -252,14 +252,14 @@ Feature: Appointment
 
     When I wait for the page fully loaded
     Then I should see the title "Any Technician"
-    When I select the last booking in the time slot at "10:00 AM"
+    When I select the last booking in the time slot at "06:00 AM"
     And I click on the "Edit" button
 
     Then I should see the "Edit Appointment" screen
     And I should see the service "Manicure" in my cart
     And I should see the employee "Anna" in my cart
     And I should see a new customer "Booking" on ticket
-    And I should see the time "10:00 AM" in my cart
+    And I should see the time "06:00 AM" in my cart
     And I should see the appointment status "Chosen Tech"
     And I should see the appointment status "None"
     And I should see the appointment status "Completed"

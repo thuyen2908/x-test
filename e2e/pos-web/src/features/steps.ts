@@ -28,6 +28,17 @@ Then(
 );
 
 Then(
+	'I should not see the employee {string} in the employee list',
+	async ({ page }, employeeName: string) => {
+		const employeeList = page.locator('div.xQueueList');
+
+		await expect(
+			employeeList.getByText(employeeName, { exact: true }),
+		).not.toBeVisible();
+	},
+);
+
+Then(
 	'I should see the {string} screen',
 	async ({ page }, screenName: string) => {
 		const screenTitle = page
@@ -222,6 +233,17 @@ Then(
 			.all();
 
 		expect(employeeElements.length).toBeGreaterThan(1);
+	},
+);
+
+Then(
+	'I should see multiple {string} technicians in the waiting list',
+	async ({ page }, technician: string) => {
+		const technicianElements = await page
+			.locator('div[data-field="technicianNickNames"]')
+			.getByText(technician, { exact: true })
+			.all();
+		expect(technicianElements.length).toBeGreaterThan(1);
 	},
 );
 
@@ -1289,7 +1311,11 @@ Then(
 Then(
 	'I should see the categories displayed correctly in check-in',
 	async ({ page }) => {
-		const expectedCategories = ['MANI & PEDI', 'FULL SET & FILL IN'];
+		const expectedCategories = [
+			'MANI & PEDI',
+			'FULL SET & FILL IN',
+			'ADDITIONAL SERVICE',
+		];
 
 		const categoryElements = page.locator('[role="tablist"] span');
 		await expect(categoryElements).toHaveCount(expectedCategories.length);
@@ -1579,5 +1605,23 @@ Then(
 		});
 		await expect(statusElement).toBeVisible();
 		await expect(statusElement).toContainText(status);
+	},
+);
+
+When(
+	'I click to clock in for employee {string}',
+	async ({ page }, employeeNickname: string) => {
+		const row = page.locator('.MuiDataGrid-row', {
+			has: page.locator(
+				`.MuiDataGrid-cell[data-field="nickName"]:has-text("${employeeNickname}")`,
+			),
+		});
+
+		const clockInIcon = row.locator('[data-testid="ClockInIconIcon"]');
+
+		await expect(row).toBeVisible();
+		await clockInIcon.scrollIntoViewIfNeeded();
+		await expect(clockInIcon).toBeVisible();
+		await clockInIcon.click();
 	},
 );
