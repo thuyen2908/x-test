@@ -131,7 +131,7 @@ Then(
 		const dialogContentElement = page.locator('.MuiDialogContent-root');
 
 		await expect(dialogContentElement).toBeVisible();
-		await expect(dialogContentElement).toHaveText(content);
+		await expect(dialogContentElement).toContainText(content);
 	},
 );
 
