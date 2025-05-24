@@ -280,17 +280,32 @@ class xPage {
 		// click confirm action button
 		await this.clickOnActionButtonOfOpeningDialog('CONFIRM');
 
-		const successfullyClockedInToast = locators.toast.getByText(
-			'clocked in successfully',
-		); // in case of new session
-		const alreadyClockedInToast = locators.toast.getByText('has clocked in'); // in case there's an existing session
+		if (timesheetAction === 'in') {
+			const successfullyClockedInToast = locators.toast.getByText(
+				'clocked in successfully',
+			); // in case of new session
+			const alreadyClockedInToast = locators.toast.getByText('has clocked in'); // in case there's an existing session
 
-		// expect a toast message indicating the result of the operation
-		await expect(
-			successfullyClockedInToast.or(alreadyClockedInToast),
-		).toBeVisible();
+			// expect a toast message indicating the result of the operation
+			await expect(
+				successfullyClockedInToast.or(alreadyClockedInToast),
+			).toBeVisible();
+		} else if (timesheetAction === 'out') {
+			const successfullyClockedOutToast = locators.toast.getByText(
+				'clocked out successfully',
+			); // in case of clock out
+			const alreadyClockedOutToast =
+				locators.toast.getByText('has not clocked in'); // in case there's no existing session
+
+			// expect a toast message indicating the result of the operation
+			await expect(
+				successfullyClockedOutToast.or(alreadyClockedOutToast),
+			).toBeVisible();
+		}
 
 		// if the dialog is still visible, close it
-		if (await enterPasswordDialog.isVisible()) await this.closeOpeningDialog();
+		if (await enterPasswordDialog.isVisible()) {
+			await this.closeOpeningDialog();
+		}
 	}
 }
