@@ -79,6 +79,7 @@ export class Const {
 			[PageId.TICKET_ADJUSTMENT]: `${baseURL}/management/ticket-adjustment`,
 			[PageId.PAYROLL]: `${baseURL}/management/payroll`,
 			[PageId.TURN_DETAILS]: `${baseURL}/turn-details`,
+			[PageId.TICKET_PAYMENTS]: `${baseURL}/management/ticket-payment`,
 		} as const;
 	}
 

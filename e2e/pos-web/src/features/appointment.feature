@@ -289,3 +289,15 @@ Feature: Appointment
     And I should see the appointment status "Chosen Tech"
     And I should see the appointment status "None"
     And I should see the appointment status "Completed"
+
+  Scenario: Enable Zoom In / Zoom Out
+    Given I am on the HOME page
+    When I navigate to "Appointment" on the navigation bar
+    Then I should be redirected to APPOINTMENT page
+
+    When I wait for the page fully loaded
+    Then I should see the title "Any Technician"
+    And I should see the icon zoom out
+
+    When I click on the icon zoom out
+    Then I should see a popup dialog with content "Zoom In / Zoom Out"
