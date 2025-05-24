@@ -21,7 +21,7 @@
 	},
 	"devDependencies": {
 		"@commitlint/types": "^19.8.1",
-		"@types/node": "^22.15.18",
+		"@types/node": "^22.15.21",
 		"@x-test/common": "workspace:*",
 		"rimraf": "^6.0.1",
 		"rollup-plugin-node-externals": "^8.0.0",

@@ -6,7 +6,7 @@ Feature: Quick sale tickets
     When I navigate to "Quick Sale" on the navigation bar
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
-    And I should see the employee "Christ" in the ticket
+    And I should see the user info "Christ" in the ticket
 
     When I add the "Bill" customer
     Then I should see a new customer "Bill" on ticket

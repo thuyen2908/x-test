@@ -90,6 +90,7 @@ export class Const {
 			[PageId.APPOINTMENT_TYPES]: `${baseURL}/management/appointment-types`,
 			[PageId.CUSTOMERS]: `${baseURL}/management/customers`,
 			[PageId.CLOSE_OUT]: `${baseURL}/management/close-out`,
+			[PageId.TICKET_PAYMENTS]: `${baseURL}/management/ticket-payment`,
 		} as const;
 	}
 

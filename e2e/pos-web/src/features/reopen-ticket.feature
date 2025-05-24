@@ -39,7 +39,7 @@ Feature: Reopen tickets
 
     When I click on the "Reopen ticket" button
     Then I should see the "Ticket View" screen
-    And I should see the employee "Chloe" in the ticket
+    And I should see the user info "Chloe" in the ticket
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -86,7 +86,7 @@ Feature: Reopen tickets
 
     When I click on the "Reopen ticket" button
     Then I should see the "Ticket View" screen
-    And I should see the employee "Ethan" in the ticket
+    And I should see the user info "Ethan" in the ticket
 
     When I click on the item "Technician" button
     Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
@@ -144,7 +144,7 @@ Feature: Reopen tickets
 
     When I click on the "Reopen ticket" button
     Then I should see the "Ticket View" screen
-    And I should see the employee "Mia" in the ticket
+    And I should see the user info "Mia" in the ticket
 
     When I click on the item "Technician" button
     Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
@@ -204,7 +204,7 @@ Feature: Reopen tickets
 
     When I click on the "Reopen ticket" button
     Then I should see the "Ticket View" screen
-    And I should see the employee "Angie" in the ticket
+    And I should see the user info "Angie" in the ticket
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -258,7 +258,7 @@ Feature: Reopen tickets
 
     When I click on the "Reopen ticket" button
     Then I should see the "Ticket View" screen
-    And I should see the employee "Samantha" in the ticket
+    And I should see the user info "Samantha" in the ticket
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -334,7 +334,7 @@ Feature: Reopen tickets
 
     When I click on the "Reopen ticket" button
     Then I should see the "Ticket View" screen
-    And I should see the employee "Daniel" in the ticket
+    And I should see the user info "Daniel" in the ticket
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -385,7 +385,7 @@ Feature: Reopen tickets
 
     When I click on the "Reopen ticket" button
     Then I should see the "Ticket View" screen
-    And I should see the employee "Julia" in the ticket
+    And I should see the user info "Julia" in the ticket
 
     When I add the "Pedicure" service to my cart
     Then I should see my cart showing 2 item added
@@ -437,7 +437,7 @@ Feature: Reopen tickets
 
     When I click on the "Reopen ticket" button
     Then I should see the "Ticket View" screen
-    And I should see the employee "Daisy" in the ticket
+    And I should see the user info "Daisy" in the ticket
 
     When I void the current open ticket with reason "System Test"
     Then I should be redirected to HOME page
@@ -479,7 +479,7 @@ Feature: Reopen tickets
 
     When I click on the "Reopen ticket" button
     Then I should see the "Ticket View" screen
-    And I should see the employee "Evelyn" in the ticket
+    And I should see the user info "Evelyn" in the ticket
 
     When I click on the item "VOID ITEM" button
     Then I should see a popup dialog with title "VOID MULTIPLE"
@@ -545,7 +545,7 @@ Feature: Reopen tickets
 
     When I click on the "Reopen ticket" button
     Then I should see the "Ticket View" screen
-    And I should see the employee "Isabella" in the ticket
+    And I should see the user info "Isabella" in the ticket
 
     When I void the current open ticket with no reason
     Then I should be redirected to HOME page
@@ -592,7 +592,7 @@ Feature: Reopen tickets
 
     When I click on the "Reopen ticket" button
     Then I should see the "Ticket View" screen
-    And I should see the employee "Charlotte" in the ticket
+    And I should see the user info "Charlotte" in the ticket
 
     When I void the current open ticket with reason "System Test"
     Then I should be redirected to HOME page

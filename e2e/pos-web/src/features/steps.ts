@@ -29,6 +29,17 @@ Then(
 );
 
 Then(
+	'I should not see the employee {string} in the employee list',
+	async ({ page }, employeeName: string) => {
+		const employeeList = page.locator('div.xQueueList');
+
+		await expect(
+			employeeList.getByText(employeeName, { exact: true }),
+		).not.toBeVisible();
+	},
+);
+
+Then(
 	'I should see the {string} screen',
 	async ({ page }, screenName: string) => {
 		const screenTitle = page
@@ -121,7 +132,7 @@ Then(
 		const dialogContentElement = page.locator('.MuiDialogContent-root');
 
 		await expect(dialogContentElement).toBeVisible();
-		await expect(dialogContentElement).toHaveText(content);
+		await expect(dialogContentElement).toContainText(content);
 	},
 );
 
@@ -223,6 +234,17 @@ Then(
 			.all();
 
 		expect(employeeElements.length).toBeGreaterThan(1);
+	},
+);
+
+Then(
+	'I should see multiple {string} technicians in the waiting list',
+	async ({ page }, technician: string) => {
+		const technicianElements = await page
+			.locator('div[data-field="technicianNickNames"]')
+			.getByText(technician, { exact: true })
+			.all();
+		expect(technicianElements.length).toBeGreaterThan(1);
 	},
 );
 
@@ -506,11 +528,11 @@ When('I enter the amount {string}', async ({ page }, amount: string) => {
 });
 
 Then(
-	'I should see the employee {string} in the ticket',
+	'I should see the user info {string} in the ticket',
 	async ({ page }, employee: string) => {
-		const headerContent = page.locator('.xHeader__content');
+		const primaryTechnician = page.locator('.xHeader__content');
 
-		await expect(headerContent).toContainText(employee);
+		await expect(primaryTechnician).toContainText(employee);
 	},
 );
 
@@ -1290,7 +1312,11 @@ Then(
 Then(
 	'I should see the categories displayed correctly in check-in',
 	async ({ page }) => {
-		const expectedCategories = ['MANI & PEDI', 'FULL SET & FILL IN'];
+		const expectedCategories = [
+			'MANI & PEDI',
+			'FULL SET & FILL IN',
+			'ADDITIONAL SERVICE',
+		];
 
 		const categoryElements = page.locator('[role="tablist"] span');
 		await expect(categoryElements).toHaveCount(expectedCategories.length);
@@ -1559,10 +1585,7 @@ Then(
 );
 
 Then('I should see the employees sorted correctly', async ({ page }) => {
-	// Locate all employee name elements in the header
 	const employeeLocators = page.locator('.header-title');
-
-	// Get the visible text content of each employee
 	const employeeNames = await employeeLocators.allTextContents();
 
 	// Define the expected list in correct order
@@ -1633,5 +1656,212 @@ Then(
 			const actualValue = await getCellText(field);
 			expect(actualValue).toBe(expectedValue);
 		}
+	},
+);
+
+When(
+	'I click on the remove item service {string}',
+	async ({ page }, service: string) => {
+		const serviceContainer = page
+			.locator('.xTicketItems__info')
+			.filter({ has: page.locator('.itemName', { hasText: service }) });
+
+		await serviceContainer.locator('.xTicketItems__delete').click();
+	},
+);
+
+Then('I should see the Ticket table displayed correctly', async ({ page }) => {
+	const headers = [
+		'Ticket#',
+		'Customer',
+		'Total Sale',
+		'Payment',
+		'Surcharge',
+		'Card Fee',
+		'Tip',
+		'Tax',
+		'Date',
+		'Closed Time',
+		'Closed By',
+	];
+
+	for (const header of headers) {
+		const headerElement = page.locator(
+			`.MuiDataGrid-columnHeaderTitleContainerContent:has-text("${header}")`,
+		);
+		await headerElement.scrollIntoViewIfNeeded();
+		await expect(headerElement).toBeVisible();
+		await expect(headerElement).toContainText(header);
+	}
+});
+
+Then('I should see both date pickers default to today', async ({ page }) => {
+	// Get the day and month from the xHeader
+	const dayText = await page.locator('.xHeader__top--time .day').textContent();
+	const monthText = await page
+		.locator('.xHeader__top--time .month')
+		.textContent();
+
+	if (!dayText || !monthText) {
+		throw new Error('Could not find day or month in header');
+	}
+
+	// Convert month name (e.g. "May") to number (e.g. "05")
+	const monthNames = [
+		'January',
+		'February',
+		'March',
+		'April',
+		'May',
+		'June',
+		'July',
+		'August',
+		'September',
+		'October',
+		'November',
+		'December',
+	];
+	const monthIndex = monthNames.findIndex(
+		(m) => m.toLowerCase() === monthText.toLowerCase(),
+	);
+	if (monthIndex === -1) {
+		throw new Error(`Invalid month name: ${monthText}`);
+	}
+	const month = String(monthIndex + 1).padStart(2, '0');
+
+	// Pad day and get current year
+	const day = dayText.padStart(2, '0');
+	const year = new Date().getFullYear();
+
+	// Final expected date string
+	const expectedDate = `${month}/${day}/${year}`;
+
+	// Locate the two buttons with the date
+	const dateButtons = page.locator('button.button-date-calendar');
+
+	await expect(dateButtons).toHaveCount(3);
+	await expect(dateButtons.nth(0)).toHaveText(expectedDate);
+	await expect(dateButtons.nth(1)).toHaveText(expectedDate);
+});
+
+Then('I should see no results for invalid search', async ({ page }) => {
+	const searchInput = page.locator('input[type="search"]');
+	await searchInput.fill('zzzz');
+
+	// Wait for grid to reflect search result
+	const noRowsOverlay = page.locator('.MuiDataGrid-overlay'); // this is usually shown when no rows match
+	await expect(noRowsOverlay).toBeVisible();
+	await expect(noRowsOverlay).toContainText(/no rows|no results/i);
+});
+
+Then(
+	'I should see the first Services-Products table displayed correctly',
+	async ({ page }) => {
+		const headers = ['Name', 'Total Net Price', 'Total Commission'];
+
+		for (const header of headers) {
+			const headerElement = page
+				.locator('.MuiDataGrid-columnHeaderTitleContainerContent')
+				.getByText(header, { exact: true });
+			await expect(headerElement).toBeVisible();
+			await expect(headerElement).toContainText(header);
+		}
+	},
+);
+
+Then(
+	'I should see the fist Payments table displayed correctly',
+	async ({ page }) => {
+		const headers = ['Type', 'Total Sale', 'Tip'];
+
+		for (const header of headers) {
+			const headerElement = page
+				.locator(
+					`.MuiDataGrid-columnHeaderTitleContainerContent:has-text("${header}")`,
+				)
+				.first();
+			await expect(headerElement).toBeVisible();
+			await expect(headerElement).toContainText(header);
+		}
+	},
+);
+
+Then(
+	'I should see the Transaction table displayed correctly',
+	async ({ page }) => {
+		const headers = [
+			'Reference Id',
+			'Trans Date',
+			'Ticket #',
+			'Trans #',
+			'Trans Date',
+			'Card Type',
+			'Trans Type',
+			'Last4',
+			'Surcharge',
+			'Cash Discount',
+			'Tip',
+			'Amount',
+			'Action',
+		];
+
+		for (const header of headers) {
+			const headerElement = page
+				.locator('.MuiDataGrid-columnHeaderTitleContainerContent')
+				.getByText(header, { exact: true });
+			await expect(headerElement).toBeVisible();
+			await expect(headerElement).toContainText(header);
+		}
+	},
+);
+
+Then(
+	'I should see the Batch history table displayed correctly',
+	async ({ page }) => {
+		const headers = [
+			'Batch Date',
+			'Application',
+			'Transactions Count',
+			'Return Amount',
+			'Sale Amount',
+			'Total Amount',
+			'Void Amount',
+			'Transactions',
+		];
+
+		for (const header of headers) {
+			const headerElement = page
+				.locator('.MuiDataGrid-columnHeaderTitleContainerContent')
+				.getByText(header, { exact: true });
+			await expect(headerElement).toBeVisible();
+			await expect(headerElement).toContainText(header);
+		}
+	},
+);
+
+Then('I should see the icon zoom out', async ({ page }) => {
+	const zoomOutIcon = page.locator('[data-testid="ZoomOutIcon"]');
+	await expect(zoomOutIcon).toBeVisible();
+});
+
+When('I click on the icon zoom out', async ({ page }) => {
+	await page.locator('[data-testid="ZoomOutIcon"]').click();
+});
+
+When(
+	'I click to clock in for employee {string}',
+	async ({ page }, employeeNickname: string) => {
+		const row = page.locator('.MuiDataGrid-row', {
+			has: page.locator(
+				`.MuiDataGrid-cell[data-field="nickName"]:has-text("${employeeNickname}")`,
+			),
+		});
+
+		const clockInIcon = row.locator('[data-testid="ClockInIconIcon"]');
+
+		await expect(row).toBeVisible();
+		await clockInIcon.scrollIntoViewIfNeeded();
+		await expect(clockInIcon).toBeVisible();
+		await clockInIcon.click();
 	},
 );

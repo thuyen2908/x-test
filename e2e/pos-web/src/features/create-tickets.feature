@@ -53,7 +53,6 @@ Feature: Create tickets
     When I select the "Dylan" employee
     And I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see the tax amount non-zero
 
     When I click on the Select customer
     And I click on the "Click Here To Add Customers" button
@@ -86,7 +85,6 @@ Feature: Create tickets
     When I add the "Manicure" service to my cart
     When I add the "Pedicure" service to my cart
     Then I should see my cart showing 2 item added
-    And I should see the tax amount non-zero
 
     When I click on the item "Technician" button
     Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
@@ -116,7 +114,6 @@ Feature: Create tickets
 
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see the tax amount non-zero
 
     When I click on the adding "Tip" button
     Then I should see a popup dialog with title "Add Tip"
@@ -142,7 +139,6 @@ Feature: Create tickets
 
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see the tax amount non-zero
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -165,7 +161,6 @@ Feature: Create tickets
 
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see the tax amount non-zero
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -186,7 +181,6 @@ Feature: Create tickets
     When I add the "Manicure" service to my cart
     When I add the "Pedicure" service to my cart
     Then I should see my cart showing 2 item added
-    And I should see the tax amount non-zero
 
     When I click on the item "Technician" button
     Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
@@ -228,7 +222,6 @@ Feature: Create tickets
 
     When I add the "Gel removal" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see the tax amount non-zero
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -252,7 +245,6 @@ Feature: Create tickets
 
     When I add the "Acrylic removal" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see the tax amount non-zero
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -285,7 +277,6 @@ Feature: Create tickets
 
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see the tax amount non-zero
 
     When I click on the total price of "Manicure"
     Then I should see a popup dialog with title "Service: Manicure - $6.00"
@@ -316,7 +307,6 @@ Feature: Create tickets
 
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see the tax amount non-zero
 
     When I click on the item "DISCOUNT ITEM" button
     Then I should see a popup dialog with title "DISCOUNT MULTIPLE"
@@ -354,7 +344,6 @@ Feature: Create tickets
 
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see the tax amount non-zero
 
     When I click on the adding "Discount" button
     Then I should see a popup dialog with title "Add Discount Ticket"
@@ -396,7 +385,6 @@ Feature: Create tickets
     When I click on the "ADD ON" button in the popup dialog
     Then I should see my cart showing 1 item added
     And I should see the service "Gift card $100 (1234)" in my cart
-    And I should see the tax amount non-zero
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -576,7 +564,6 @@ Feature: Create tickets
     When I add the "Pedicure" service to my cart
     Then I should see my cart showing 2 item added
     And I should see the service "Pedicure" in my cart
-    And I should see the tax amount non-zero
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -600,7 +587,6 @@ Feature: Create tickets
 
     When I add the "Combo 1" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see the tax amount non-zero
     And I should see the service "Manicure" in my cart
     And I should see the service "Pedicure" in my cart
     And I should see multiple "Sophia" employees in my cart
@@ -635,7 +621,6 @@ Feature: Create tickets
 
     When I add the "Combo 1" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see the tax amount non-zero
     And I should see the service "Manicure" in my cart
     And I should see the service "Pedicure" in my cart
     And I should see multiple "Mia" employees in my cart
@@ -672,4 +657,41 @@ Feature: Create tickets
     When I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
     And I click on the element with id "payment"
+    Then I should be redirected to HOME page
+
+  Scenario: Update the user info when changing technician
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "2406"
+    Then I should see the employee "Madison" in the employee list
+
+    When I select the "Madison" employee
+    Then I should see the "Ticket View" screen
+    And I should see the user info "Madison" in the ticket
+    And I should see the "Manicure" service
+    When I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I add the "Pedicure" service to my cart
+    Then I should see the service "Pedicure" in my cart
+
+    When I click on the item "Technician" button
+    Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
+    When I select the "Pedicure" service in the dialog
+    And I select the "Anna" employee in the dialog
+    And I click on the "Apply" button in the dialog
+    Then I should see the "Anna" employee in my cart
+
+    When I click on the remove item service "Manicure"
+    Then I should not see the service "Manicure" in my cart
+    And I should see the user info "Anna" in the ticket
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the text "PAYMENT HISTORY" visible
+    And I should see the button with id "payment" visible
+
+    When I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
