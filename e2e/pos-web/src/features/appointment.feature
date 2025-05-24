@@ -46,7 +46,7 @@ Feature: Appointment
     And I select the last booking in the time slot at "07:00 AM"
     And I click on the "Create Ticket" button
     Then I should see the "Ticket View From Appointment" screen
-    And I should see the employee "Addison" in the ticket
+    And I should see the user info "Addison" in the ticket
     And I should see the service "Manicure" in my cart
     And I should see the employee "Addison" in my cart
 
@@ -123,7 +123,7 @@ Feature: Appointment
     When I select the last booking in the time slot at "09:20 AM"
     And I click on the "Create Ticket" button
     Then I should see the "Ticket View From Appointment" screen
-    And I should see the employee "Addison" in the ticket
+    And I should see the user info "Addison" in the ticket
     And I should see the service "Manicure" in my cart
     And I should see the employee "Addison" in my cart
 

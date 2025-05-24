@@ -658,3 +658,40 @@ Feature: Create tickets
     And I fill the last 4 digits of card number "1234"
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
+
+  Scenario: Update the user info when changing technician
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "2406"
+    Then I should see the employee "Madison" in the employee list
+
+    When I select the "Madison" employee
+    Then I should see the "Ticket View" screen
+    And I should see the user info "Madison" in the ticket
+    And I should see the "Manicure" service
+    When I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I add the "Pedicure" service to my cart
+    Then I should see the service "Pedicure" in my cart
+
+    When I click on the item "Technician" button
+    Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
+    When I select the "Pedicure" service in the dialog
+    And I select the "Anna" employee in the dialog
+    And I click on the "Apply" button in the dialog
+    Then I should see the "Anna" employee in my cart
+
+    When I click on the remove item service "Manicure"
+    Then I should not see the service "Manicure" in my cart
+    And I should see the user info "Anna" in the ticket
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the text "PAYMENT HISTORY" visible
+    And I should see the button with id "payment" visible
+
+    When I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page
