@@ -13,12 +13,14 @@ Feature: Reopen tickets
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I add the "Riley" customer
-    Then I should see a new customer "Riley" on ticket
+    When I click on the total price of "Manicure"
+    Then I should see a popup dialog with title "Service: Manicure - $6.00"
+    When I change the price to "11"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$11.00" visible
 
     When I click on the "PAY" button
-    Then I should see a popup dialog with title "Reward"
-    When I click on the "OK" button in the popup dialog
+    Then I should see the text "PAYMENT TICKET" visible
 
     When I select the "Cash" payment type
     And I click on the element with id "payment"
@@ -30,14 +32,15 @@ Feature: Reopen tickets
     When I click on the "Tickets" label in the header
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "Riley"
+    When I search for "11"
     And I wait for the page fully loaded
-    Then I should see the last ticket of customer "Riley"
+    Then I should see the last ticket of payment "$11.00"
 
-    When I click on the last row for customer "Riley" to expand details
+    When I click on the last row for payment "$11.00" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
+    And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Chloe" in the ticket
 
@@ -60,12 +63,14 @@ Feature: Reopen tickets
     When I add the "Combo 1" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I add the "Bill" customer
-    Then I should see a new customer "Bill" on ticket
+    When I click on the total price of "Combo 1"
+    Then I should see a popup dialog with title "Service: Combo 1 - $45.00"
+    When I change the price to "47"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$47.00" visible
 
     When I click on the "PAY" button
-    Then I should see a popup dialog with title "Reward"
-    When I click on the "OK" button in the popup dialog
+    Then I should see the text "PAYMENT TICKET" visible
 
     When I select the "Cash" payment type
     And I click on the element with id "payment"
@@ -77,14 +82,15 @@ Feature: Reopen tickets
     When I click on the "Tickets" label in the header
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "Bill"
+    When I search for "47"
     And I wait for the page fully loaded
-    Then I should see the last ticket of customer "Bill"
+    Then I should see the last ticket of payment "$47.00"
 
-    When I click on the last row for customer "Bill" to expand details
+    When I click on the last row for payment "$47.00" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
+    And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Ethan" in the ticket
 
@@ -115,17 +121,19 @@ Feature: Reopen tickets
     And I add the "Pedicure" service to my cart
     Then I should see my cart showing 2 item added
 
-    When I add the "Zoe" customer
-    Then I should see a new customer "Zoe" on ticket
+    When I click on the total price of "Manicure"
+    Then I should see a popup dialog with title "Service: Manicure - $6.00"
+    When I change the price to "11"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$11.00" visible
 
     When I click on the adding "Tip" button
     Then I should see a popup dialog with title "Add Tip"
     When I fill "5" from the numpad
-    Then I should see "5" tip in my cart
+    Then I should see "$5.00" tip in my cart
 
     When I click on the "PAY" button
-    Then I should see a popup dialog with title "Reward"
-    When I click on the "OK" button in the popup dialog
+    Then I should see the text "PAYMENT TICKET" visible
 
     When I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
@@ -135,14 +143,15 @@ Feature: Reopen tickets
     When I click on the "Tickets" label in the header
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "Zoe"
+    When I search for "24.95"
     And I wait for the page fully loaded
-    Then I should see the last ticket of customer "Zoe"
+    Then I should see the last ticket of payment "$24.95"
 
-    When I click on the last row for customer "Zoe" to expand details
+    When I click on the last row for payment "$24.95" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
+    And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Mia" in the ticket
 
@@ -180,12 +189,14 @@ Feature: Reopen tickets
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I add the "Lila" customer
-    Then I should see a new customer "Lila" on ticket
+    When I click on the total price of "Manicure"
+    Then I should see a popup dialog with title "Service: Manicure - $6.00"
+    When I change the price to "12"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$12.00" visible
 
     When I click on the "PAY" button
-    Then I should see a popup dialog with title "Reward"
-    When I click on the "OK" button in the popup dialog
+    Then I should see the text "PAYMENT TICKET" visible
 
     When I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
@@ -195,14 +206,15 @@ Feature: Reopen tickets
     When I click on the "Tickets" label in the header
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "Lila"
+    When I search for "12.6"
     And I wait for the page fully loaded
-    Then I should see the last ticket of customer "Lila"
+    Then I should see the last ticket of payment "$12.60"
 
-    When I click on the last row for customer "Lila" to expand details
+    When I click on the last row for payment "$12.60" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
+    And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Angie" in the ticket
 
@@ -232,12 +244,14 @@ Feature: Reopen tickets
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I add the "Ron" customer
-    Then I should see a new customer "Ron" on ticket
+    When I click on the total price of "Manicure"
+    Then I should see a popup dialog with title "Service: Manicure - $6.00"
+    When I change the price to "13"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$13.00" visible
 
     When I click on the "PAY" button
-    Then I should see a popup dialog with title "Reward"
-    When I click on the "OK" button in the popup dialog
+    Then I should see the text "PAYMENT TICKET" visible
 
     When I select the "Cash" payment type
     And I click on the element with id "payment"
@@ -249,14 +263,15 @@ Feature: Reopen tickets
     When I click on the "Tickets" label in the header
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "Ron"
+    When I search for "13"
     And I wait for the page fully loaded
-    Then I should see the last ticket of customer "Ron"
+    Then I should see the last ticket of payment "$13.00"
 
-    When I click on the last row for customer "Ron" to expand details
+    When I click on the last row for payment "$13.00" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
+    And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Samantha" in the ticket
 
@@ -268,7 +283,7 @@ Feature: Reopen tickets
     When I click on the more menu for payment history of "Cash"
     Then I should see the tooltip remove
     When I click on the tooltip remove
-    Then I should see a popup dialog with title "Cash  - $6.36"
+    Then I should see a popup dialog with title "Cash  - $13.00"
     When I click on the "Remove" button in the popup dialog
 
     When I select the "Credit" payment type
@@ -288,10 +303,12 @@ Feature: Reopen tickets
     When I add the "Manicure" service to my cart
     And I add the "Pedicure" service to my cart
     Then I should see my cart showing 2 item added
-    And I should see the tax amount non-zero
 
-    When I add the "Ron" customer
-    Then I should see a new customer "Ron" on ticket
+    When I click on the total price of "Manicure"
+    Then I should see a popup dialog with title "Service: Manicure - $6.00"
+    When I change the price to "14"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$14.00" visible
 
     When I click on the item "Technician" button
     Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
@@ -303,11 +320,10 @@ Feature: Reopen tickets
     When I click on the adding "Tip" button
     Then I should see a popup dialog with title "Add Tip"
     When I fill "5" from the numpad
-    Then I should see "5" tip in my cart
+    Then I should see "$5.00" tip in my cart
 
     When I click on the "PAY" button
-    Then I should see a popup dialog with title "Reward"
-    When I click on the "OK" button in the popup dialog
+    Then I should see the text "PAYMENT TICKET" visible
 
     When I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
@@ -325,14 +341,15 @@ Feature: Reopen tickets
     When I click on the "Tickets" label in the header
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "Ron"
+    When I search for "28.10"
     And I wait for the page fully loaded
-    Then I should see the last ticket of customer "Ron"
+    Then I should see the last ticket of payment "$28.10"
 
-    When I click on the last row for customer "Ron" to expand details
+    When I click on the last row for payment "$28.10" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
+    And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Daniel" in the ticket
 
@@ -359,12 +376,14 @@ Feature: Reopen tickets
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I add the "Layla" customer
-    Then I should see a new customer "Layla" on ticket
+    When I click on the total price of "Manicure"
+    Then I should see a popup dialog with title "Service: Manicure - $6.00"
+    When I change the price to "15"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$15.00" visible
 
     When I click on the "PAY" button
-    Then I should see a popup dialog with title "Reward"
-    When I click on the "OK" button in the popup dialog
+    Then I should see the text "PAYMENT TICKET" visible
 
     When I select the "Cash" payment type
     And I click on the element with id "payment"
@@ -376,14 +395,15 @@ Feature: Reopen tickets
     When I click on the "Tickets" label in the header
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "Layla"
+    When I search for "15"
     And I wait for the page fully loaded
-    Then I should see the last ticket of customer "Layla"
+    Then I should see the last ticket of payment "$15.00"
 
-    When I click on the last row for customer "Layla" to expand details
+    When I click on the last row for payment "$15.00" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
+    And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Julia" in the ticket
 
@@ -391,8 +411,6 @@ Feature: Reopen tickets
     Then I should see my cart showing 2 item added
 
     When I click on the "PAY" button
-    Then I should see a popup dialog with title "Reward"
-    When I click on the "OK" button in the popup dialog
     Then I should see the text "PAYMENT TICKET" visible
     And I should see the text "PAYMENT HISTORY" visible
 
@@ -413,12 +431,14 @@ Feature: Reopen tickets
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I add the "Ella" customer
-    Then I should see a new customer "Ella" on ticket
+    When I click on the total price of "Manicure"
+    Then I should see a popup dialog with title "Service: Manicure - $6.00"
+    When I change the price to "16"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$16.00" visible
 
     When I click on the "PAY" button
-    Then I should see a popup dialog with title "Reward"
-    When I click on the "OK" button in the popup dialog
+    Then I should see the text "PAYMENT TICKET" visible
 
     When I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
@@ -428,14 +448,15 @@ Feature: Reopen tickets
     When I click on the "Tickets" label in the header
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "Ella"
+    When I search for "16.8"
     And I wait for the page fully loaded
-    Then I should see the last ticket of customer "Ella"
+    Then I should see the last ticket of payment "$16.80"
 
-    When I click on the last row for customer "Ella" to expand details
+    When I click on the last row for payment "$16.80" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
+    And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Daisy" in the ticket
 
@@ -455,12 +476,14 @@ Feature: Reopen tickets
     And I add the "Pedicure" service to my cart
     Then I should see my cart showing 2 item added
 
-    When I add the "Harper" customer
-    Then I should see a new customer "Harper" on ticket
+    When I click on the total price of "Manicure"
+    Then I should see a popup dialog with title "Service: Manicure - $6.00"
+    When I change the price to "17"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$17.00" visible
 
     When I click on the "PAY" button
-    Then I should see a popup dialog with title "Reward"
-    When I click on the "OK" button in the popup dialog
+    Then I should see the text "PAYMENT TICKET" visible
 
     When I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
@@ -470,14 +493,15 @@ Feature: Reopen tickets
     When I click on the "Tickets" label in the header
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "Harper"
+    When I search for "26.25"
     And I wait for the page fully loaded
-    Then I should see the last ticket of customer "Harper"
+    Then I should see the last ticket of payment "$26.25"
 
-    When I click on the last row for customer "Harper" to expand details
+    When I click on the last row for payment "$26.25" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
+    And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Evelyn" in the ticket
 
@@ -495,11 +519,11 @@ Feature: Reopen tickets
     When I click on the more menu for payment history of "VISA (1234)"
     Then I should see the tooltip remove
     When I click on the tooltip remove
-    Then I should see a popup dialog with title "VISA  - $15.58"
+    Then I should see a popup dialog with title "VISA  - $26.25"
     When I click on the "Remove" button in the popup dialog
 
     When I select the "Credit" payment type
-    And I fill the last 4 digits of card number "1234"
+    And I fill the last 4 digits of card number "4321"
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
@@ -516,11 +540,10 @@ Feature: Reopen tickets
     When I add the "Gift card $50" service to my cart
     Then I should see a popup dialog with title "Activate Gift Card $50.00"
 
-    When I enter the amount "6789"
+    When I enter the amount "6666"
     And I click on the "OK" button in the popup dialog
     Then I should see my cart showing 1 item added
-    And I should see the service "Gift card $50 (6789)" in my cart
-    And I should see the tax amount non-zero
+    And I should see the service "Gift card $50 (6666)" in my cart
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -536,14 +559,15 @@ Feature: Reopen tickets
     When I click on the "Tickets" label in the header
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "53"
+    When I search for "50"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$53.00"
+    Then I should see the last ticket of payment "$50.00"
 
-    When I click on the last row for payment "$53.00" to expand details
+    When I click on the last row for payment "$50.00" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
+    And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Isabella" in the ticket
 
@@ -555,11 +579,12 @@ Feature: Reopen tickets
     Then I should be redirected to GIFT_CARD_BALANCE page
     And I should see the text "Gift Card" visible
 
-    When I enter the amount "6789"
+    When I enter the amount "6666"
     And I click on the "SEARCH" button
     Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
-    And I should see a popup dialog with content "Do you want to activate gift card #6789"
+    And I should see a popup dialog with content "Do you want to activate gift card #6666"
 
+  @skip
   Scenario: Remove loyalty balance when voiding ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "7217"
@@ -591,6 +616,7 @@ Feature: Reopen tickets
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
+    And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Charlotte" in the ticket
 

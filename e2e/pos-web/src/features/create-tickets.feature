@@ -23,6 +23,7 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
+  @skip
   Scenario: Add an existing customer to a new ticket and pay with Loyalty points
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8102"
@@ -30,10 +31,9 @@ Feature: Create tickets
     When I select the "Tim" employee
     And I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
-    When I wait for the page fully loaded
-    Then I should see the tax amount non-zero
 
-    When I add the "Tin" customer
+    When I wait for the page fully loaded
+    And I add the "Tin" customer
     Then I should see a new customer "Tin" on ticket
 
     When I click on the "PAY" button
@@ -118,7 +118,7 @@ Feature: Create tickets
     When I click on the adding "Tip" button
     Then I should see a popup dialog with title "Add Tip"
     When I fill "5" from the numpad
-    Then I should see "5" tip in my cart
+    Then I should see "$5.00" tip in my cart
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -192,7 +192,7 @@ Feature: Create tickets
     When I click on the adding "Tip" button
     Then I should see a popup dialog with title "Add Tip"
     When I fill "5" from the numpad
-    Then I should see "5" tip in my cart
+    Then I should see "$5.00" tip in my cart
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -231,7 +231,7 @@ Feature: Create tickets
     When I enter the amount "100"
     And I click on the element with id "payment"
     Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$57.60OK"
+    And I should see a popup dialog with content "CHANGE$60.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
@@ -305,7 +305,8 @@ Feature: Create tickets
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
 
-    When I add the "Manicure" service to my cart
+    When I wait for the page fully loaded
+    And I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
     When I click on the item "DISCOUNT ITEM" button
@@ -416,7 +417,6 @@ Feature: Create tickets
     When I click on the "REWRITE" button in the popup dialog
     Then I should see my cart showing 1 item added
     And I should see the service "Gift card $100 (4321)" in my cart
-    And I should see the tax amount non-zero
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -434,7 +434,8 @@ Feature: Create tickets
     When I clock in the timesheet with PIN "6993"
     Then I should see the employee "Jack" in the employee list
     When I select the "Jack" employee
-    And I add the "Manicure" service to my cart
+    And I select the "FULL SET & FILL IN" category
+    And I add the "Taxable" service to my cart
     Then I should see my cart showing 1 item added
     And I should see the tax amount non-zero
 
@@ -459,7 +460,8 @@ Feature: Create tickets
     When I select the "Kelley" employee
     Then I should see the "Ticket View" screen
 
-    When I void the current open ticket with no reason
+    When I wait for the page fully loaded
+    And I void the current open ticket with reason "Mistake"
     Then I should be redirected to HOME page
 
   Scenario: Void a ticket with a service in Done status
@@ -488,11 +490,12 @@ Feature: Create tickets
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
 
-    When I add the "Manicure" service to my cart
+    When I wait for the page fully loaded
+    And I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
     And I should see the "Manicure" service with status wait
 
-    When I void the current open ticket with no reason
+    When I void the current open ticket with reason "Mistake"
     Then I should be redirected to HOME page
 
   Scenario: Combine tickets

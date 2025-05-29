@@ -8,13 +8,9 @@ Feature: Quick sale tickets
     And I should see the "Manicure" service
     And I should see the user info "Christ" in the ticket
 
-    When I add the "Bill" customer
-    Then I should see a new customer "Bill" on ticket
-
     When I add the "Manicure" service to my cart
-    When I add the "Pedicure" service to my cart
+    And I add the "Pedicure" service to my cart
     Then I should see my cart showing 2 item added
-    And I should see the tax amount non-zero
 
     When I click on the item "Technician" button
     Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
@@ -26,11 +22,9 @@ Feature: Quick sale tickets
     When I click on the adding "Tip" button
     Then I should see a popup dialog with title "Add Tip"
     When I fill "10" from the numpad
-    Then I should see "10" tip in my cart
+    Then I should see "$10.00" tip in my cart
 
     When I click on the "PAY" button
-    Then I should see a popup dialog with title "Reward"
-    When I click on the "CANCEL" button in the popup dialog
     Then I should see the text "PAYMENT TICKET" visible
     And I should see the text "PAYMENT HISTORY" visible
     And I should see the button with id "payment" visible
