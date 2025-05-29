@@ -983,7 +983,7 @@ Then(
 );
 
 When(
-	'I click on the last row for customer {string} to expand details',
+	'I click on the first row for customer {string} to expand details',
 	async ({ page }, customerInfo: string) => {
 		const resultRow = page.locator('.MuiDataGrid-row').filter({
 			has: page.locator('[data-field="customerInfo"]', {

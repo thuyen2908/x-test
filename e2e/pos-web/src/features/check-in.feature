@@ -42,7 +42,7 @@ Feature: Check In
     And I should see the service "Combo 1" in the waiting list
     And I should see the technician "Any Technician" in the waiting list
 
-    When I click on the last row for customer "Check-in" to expand details
+    When I click on the first row for customer "Check-in" to expand details
     Then I should see the "Create Ticket" button visible
 
     When I click on the "Create Ticket" button
@@ -100,7 +100,7 @@ Feature: Check In
     And I should see the technician "Emily" in the waiting list
     And I should see the technician "Claire" in the waiting list
 
-    When I click on the last row for customer "Alice" to expand details
+    When I click on the first row for customer "Alice" to expand details
     Then I should see the "Create Ticket" button visible
 
     When I click on the "Create Ticket" button
@@ -160,7 +160,7 @@ Feature: Check In
     Then I should see the customer "Waiting" in the waiting list
     And I should see the service "MANI & PEDI" in the waiting list
 
-    When I click on the last row for customer "Waiting" to expand details
+    When I click on the first row for customer "Waiting" to expand details
     Then I should see the "Create Ticket" button visible
 
     When I click on the "Create Ticket" button
@@ -223,7 +223,7 @@ Feature: Check In
     And I should see the service "Gel X" in the waiting list
     And I should see the technician "Addison" in the waiting list
 
-    When I click on the last row for customer "Editing" to expand details
+    When I click on the first row for customer "Editing" to expand details
     Then I should see the "Edit" button visible
 
     When I click on the "Edit" button
@@ -247,7 +247,7 @@ Feature: Check In
     And I should see the service "Gel X" in the waiting list
     And I should see the service "Cut cuticle" in the waiting list
 
-    When I click on the last row for customer "Editing" to expand details
+    When I click on the first row for customer "Editing" to expand details
     Then I should see the "Create Ticket" button visible
 
     When I click on the "Create Ticket" button
@@ -303,7 +303,7 @@ Feature: Check In
     Then I should see the customer "Duration" in the waiting list
     And I should see the service "FULL SET & FILL IN" in the waiting list
 
-    When I click on the last row for customer "Duration" to expand details
+    When I click on the first row for customer "Duration" to expand details
     Then I should see the "Create Ticket" button visible
 
     When I click on the "Make Appt" button
@@ -371,7 +371,7 @@ Feature: Check In
     Then I should see the customer "Delete" in the waiting list
     And I should see the service "ADDITIONAL SERVICE" in the waiting list
 
-    When I click on the last row for customer "Delete" to expand details
+    When I click on the first row for customer "Delete" to expand details
     Then I should see the "Create Ticket" button visible
 
     When I click on the "Delete" button
@@ -417,7 +417,7 @@ Feature: Check In
     And I should see the technician "Victoria" in the waiting list
 
     When I wait for the page fully loaded
-    And I click on the last row for customer "Update-user" to expand details
+    And I click on the first row for customer "Update-user" to expand details
     Then I should see the "Create Ticket" button visible
 
     When I click on the "Create Ticket" button

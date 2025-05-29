@@ -299,3 +299,4 @@ Feature: Appointment
 
     When I click on the icon zoom out
     Then I should see a popup dialog with content "Zoom In / Zoom Out"
+
