@@ -19,7 +19,7 @@
 		"@dotenvx/dotenvx": "^1.44.1",
 		"@playwright/test": "^1.52.0",
 		"@types/fs-extra": "^11.0.4",
-		"@types/node": "^22.15.26",
+		"@types/node": "^22.15.27",
 		"@x-test/common": "workspace:*",
 		"allure-commandline": "^2.34.0",
 		"allure-playwright": "^3.2.2",
@@ -29,6 +29,6 @@
 		"remeda": "^2.22.3",
 		"rimraf": "^6.0.1",
 		"typescript": "^5.8.3",
-		"zod": "^3.25.39"
+		"zod": "^3.25.41"
 	}
 }
