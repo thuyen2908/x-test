@@ -153,7 +153,6 @@ Feature: Appointment
     Then I should see the title "Any Technician"
     And I should see the employees sorted correctly
 
-  @skip
   Scenario: Update appointment status Check-In
     Given I am on the HOME page
     When I navigate to "Appointment" on the navigation bar
@@ -218,7 +217,6 @@ Feature: Appointment
     And I should see the appointment status "None"
     And I should see the appointment status "Check In"
 
-  @skip
   Scenario: Update appointment status Complete
     Given I am on the HOME page
     When I navigate to "Appointment" on the navigation bar
@@ -229,7 +227,7 @@ Feature: Appointment
     When I select the "Anna" employee from the technician dropdown
     Then I should see the title "Anna"
 
-    When I double click on the time slot at "06:00 AM"
+    When I double click on the time slot at "10:00 AM"
     Then I should see the "Create Appointment" screen
     And I should see the "Manicure" service
 
@@ -301,3 +299,4 @@ Feature: Appointment
 
     When I click on the icon zoom out
     Then I should see a popup dialog with content "Zoom In / Zoom Out"
+

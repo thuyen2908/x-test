@@ -293,7 +293,7 @@ When('I fill {string} from the numpad', async ({ page }, amount: string) => {
 Then('I should see {string} tip in my cart', async ({ page }, tip: string) => {
 	const tipElement = page.locator('ul.xCharge').getByText(tip);
 
-	await expect(tipElement).toContainText(tip);
+	await expect(tipElement).toHaveText(tip);
 });
 
 When(
@@ -494,7 +494,8 @@ Then(
 	async ({ page }, customer: string) => {
 		const customerElement = page
 			.locator('div[data-field="customerInfo"]')
-			.getByText(customer, { exact: true });
+			.getByText(customer, { exact: true })
+			.first();
 		await expect(customerElement).toHaveText(customer);
 	},
 );
@@ -504,7 +505,8 @@ Then(
 	async ({ page }, service: string) => {
 		const serviceElement = page
 			.locator('div[data-field="categoryNames"]')
-			.getByText(service, { exact: true });
+			.getByText(service, { exact: true })
+			.first();
 		await expect(serviceElement).toHaveText(service);
 	},
 );
@@ -514,7 +516,8 @@ Then(
 	async ({ page }, technician: string) => {
 		const technicianElement = page
 			.locator('div[data-field="technicianNickNames"]')
-			.getByText(technician, { exact: true });
+			.getByText(technician, { exact: true })
+			.first();
 		await expect(technicianElement).toHaveText(technician);
 	},
 );
@@ -633,9 +636,10 @@ When('I enter a note {string}', async ({ page }, note: string) => {
 Then(
 	'I should see the total price {string} visible',
 	async ({ page }, price: string) => {
-		await expect(page.locator('.xTicketItems__total .price')).toContainText(
-			price,
-		);
+		const priceElement = page.locator('.xTicketItems__total .price', {
+			hasText: price,
+		});
+		await expect(priceElement).toBeVisible();
 	},
 );
 
@@ -979,16 +983,16 @@ Then(
 );
 
 When(
-	'I click on the last row for customer {string} to expand details',
+	'I click on the first row for customer {string} to expand details',
 	async ({ page }, customerInfo: string) => {
 		const resultRow = page.locator('.MuiDataGrid-row').filter({
 			has: page.locator('[data-field="customerInfo"]', {
 				hasText: customerInfo,
 			}),
 		});
-		const lastRow = resultRow.last();
-		await lastRow.scrollIntoViewIfNeeded();
-		await lastRow.click();
+		const firstRow = resultRow.first();
+		await firstRow.scrollIntoViewIfNeeded();
+		await firstRow.click();
 	},
 );
 
@@ -1152,6 +1156,7 @@ Then(
 			.locator('div.xMenu__link li')
 			.filter({ hasText: label });
 		await expect(labelElement).toBeVisible();
+		await labelElement.scrollIntoViewIfNeeded();
 	},
 );
 
@@ -1529,6 +1534,7 @@ When(
 	'I click on the last row for payment {string} to expand details',
 	async ({ page }, amount: string) => {
 		const lastPaymentCell = page
+			.locator('.MuiDataGrid-virtualScrollerContent')
 			.locator('.MuiDataGrid-row')
 			.locator('[data-field="paymentTotal"]', { hasText: amount })
 			.last();
@@ -1863,5 +1869,16 @@ When(
 		await clockInIcon.scrollIntoViewIfNeeded();
 		await expect(clockInIcon).toBeVisible();
 		await clockInIcon.click();
+	},
+);
+
+Then(
+	'I should see the first ticket with total {string}',
+	async ({ page }, amount: string) => {
+		const totalElement = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="ticketTotals"]', { hasText: amount })
+			.first();
+		await expect(totalElement).toBeVisible();
 	},
 );

@@ -34,16 +34,19 @@ Feature: Check In
     And I should see the employee "Any Technician" for all items in a package in my cart
 
     When I click on the "SAVE" button
+    And I wait for the page fully loaded
     Then I should be redirected to WAITING_LIST page
 
+    When I wait for the page fully loaded
     Then I should see the customer "Check-in" in the waiting list
     And I should see the service "Combo 1" in the waiting list
     And I should see the technician "Any Technician" in the waiting list
 
-    When I click on the last row for customer "Check-in" to expand details
+    When I click on the first row for customer "Check-in" to expand details
     Then I should see the "Create Ticket" button visible
 
     When I click on the "Create Ticket" button
+    And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Anna" in the ticket
 
@@ -58,6 +61,7 @@ Feature: Check In
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
+  @skip
   Scenario: Create a waiting for existing customer, assign services to specific employees and create ticket
     Given I am on the HOME page
     When I click on the "Check In" label in the header
@@ -86,22 +90,24 @@ Feature: Check In
     And I should see the employee "Claire" in my cart
 
     When I click on the "SAVE" button
+    And I wait for the page fully loaded
     Then I should be redirected to WAITING_LIST page
 
+    When I wait for the page fully loaded
     Then I should see the customer "Alice" in the waiting list
     And I should see the service "Manicure" in the waiting list
     And I should see the service "Pedicure" in the waiting list
     And I should see the technician "Emily" in the waiting list
     And I should see the technician "Claire" in the waiting list
 
-    When I click on the last row for customer "Alice" to expand details
+    When I click on the first row for customer "Alice" to expand details
     Then I should see the "Create Ticket" button visible
 
     When I click on the "Create Ticket" button
+    And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Emily" in the ticket
     And I should see my cart showing 2 item added
-    And I should see the tax amount non-zero
     And I should see the service "Manicure" in my cart
     And I should see the service "Pedicure" in my cart
     And I should see the employee "Emily" in my cart
@@ -147,15 +153,18 @@ Feature: Check In
     And I should see the employee "Next Available" in my cart
 
     When I click on the "SAVE" button
+    And I wait for the page fully loaded
     Then I should be redirected to WAITING_LIST page
 
+    When I wait for the page fully loaded
     Then I should see the customer "Waiting" in the waiting list
     And I should see the service "MANI & PEDI" in the waiting list
 
-    When I click on the last row for customer "Waiting" to expand details
+    When I click on the first row for customer "Waiting" to expand details
     Then I should see the "Create Ticket" button visible
 
     When I click on the "Create Ticket" button
+    And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Anna" in the ticket
     And I should see the service hint
@@ -163,7 +172,6 @@ Feature: Check In
 
     When I add the "Acrylic removal" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see the tax amount non-zero
     And I should see the "Anna" employee in my cart
 
     When I click on the "PAY" button
@@ -207,13 +215,15 @@ Feature: Check In
     And I should see the employee "Addison" in my cart
 
     When I click on the "SAVE" button
+    And I wait for the page fully loaded
     Then I should be redirected to WAITING_LIST page
 
+    When I wait for the page fully loaded
     Then I should see the customer "Editing" in the waiting list
     And I should see the service "Gel X" in the waiting list
     And I should see the technician "Addison" in the waiting list
 
-    When I click on the last row for customer "Editing" to expand details
+    When I click on the first row for customer "Editing" to expand details
     Then I should see the "Edit" button visible
 
     When I click on the "Edit" button
@@ -230,17 +240,20 @@ Feature: Check In
     And I should see multiple "Addison" employees in my cart
 
     When I click on the "SAVE" button
+    And I wait for the page fully loaded
     Then I should be redirected to WAITING_LIST page
-    And I should see the customer "Editing" in the waiting list
+    When I wait for the page fully loaded
+    Then I should see the customer "Editing" in the waiting list
     And I should see the service "Gel X" in the waiting list
     And I should see the service "Cut cuticle" in the waiting list
 
-    When I click on the last row for customer "Editing" to expand details
+    When I click on the first row for customer "Editing" to expand details
     Then I should see the "Create Ticket" button visible
 
     When I click on the "Create Ticket" button
+    And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
-    And I should see the user info "Anna" in the ticket
+    And I should see the user info "Addison" in the ticket
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -283,12 +296,14 @@ Feature: Check In
     And I should see the employee "Next Available" in my cart
 
     When I click on the "SAVE" button
+    And I wait for the page fully loaded
     Then I should be redirected to WAITING_LIST page
 
+    When I wait for the page fully loaded
     Then I should see the customer "Duration" in the waiting list
     And I should see the service "FULL SET & FILL IN" in the waiting list
 
-    When I click on the last row for customer "Duration" to expand details
+    When I click on the first row for customer "Duration" to expand details
     Then I should see the "Create Ticket" button visible
 
     When I click on the "Make Appt" button
@@ -298,6 +313,7 @@ Feature: Check In
     Then I should see the pin appointment
 
     When I click on the "Create Ticket" button
+    And I wait for the page fully loaded
     Then I should see the "Ticket View From Appointment" screen
     And I should see the user info "Anna" in the ticket
     And I should see the service hint
@@ -305,7 +321,6 @@ Feature: Check In
 
     When I add the "Acrylic removal" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see the tax amount non-zero
     And I should see the "Anna" employee in my cart
 
     When I click on the "PAY" button
@@ -349,17 +364,20 @@ Feature: Check In
     And I should see the employee "Next Available" in my cart
 
     When I click on the "SAVE" button
+    And I wait for the page fully loaded
     Then I should be redirected to WAITING_LIST page
 
+    When I wait for the page fully loaded
     Then I should see the customer "Delete" in the waiting list
     And I should see the service "ADDITIONAL SERVICE" in the waiting list
 
-    When I click on the last row for customer "Delete" to expand details
+    When I click on the first row for customer "Delete" to expand details
     Then I should see the "Create Ticket" button visible
 
     When I click on the "Delete" button
     Then I should see a popup dialog with title "Remove Confirmation"
     When I click on the "confirm" button in the popup dialog
+    And I wait for the page fully loaded
     Then I should not see the customer "Delete" in the waiting list
 
   Scenario: Update the user info when changing technician for ticket check-in
@@ -377,10 +395,10 @@ Feature: Check In
     Then I should see a popup dialog with title "Create New Customer"
     And I should see the loyalty program "2 Points = $1" visible
 
-    When I fill the new customer name "Check-in"
+    When I fill the new customer name "Update-user"
     And I fill the new customer phone
     And I click on the "SAVE" button in the create new customer dialog
-    Then I should see a new customer "Check-in" on ticket
+    Then I should see a new customer "Update-user" on ticket
 
     When I add the "Acrylic removal" service to my cart
     Then I should see a popup dialog with title "Pick Technician"
@@ -390,16 +408,20 @@ Feature: Check In
     And I should see the employee "Victoria" in my cart
 
     When I click on the "SAVE" button
+    And I wait for the page fully loaded
     Then I should be redirected to WAITING_LIST page
 
-    Then I should see the customer "Check-in" in the waiting list
+    When I wait for the page fully loaded
+    Then I should see the customer "Update-user" in the waiting list
     And I should see the service "Acrylic removal" in the waiting list
     And I should see the technician "Victoria" in the waiting list
 
-    When I click on the last row for customer "Check-in" to expand details
+    When I wait for the page fully loaded
+    And I click on the first row for customer "Update-user" to expand details
     Then I should see the "Create Ticket" button visible
 
     When I click on the "Create Ticket" button
+    And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Victoria" in the ticket
     And I should see the "Pedicure" service

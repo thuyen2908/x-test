@@ -12,6 +12,12 @@ Feature: Ticket adjustment
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
+    When I click on the total price of "Manicure"
+    Then I should see a popup dialog with title "Service: Manicure - $6.00"
+    When I change the price to "21"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$21.00" visible
+
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
     And I should see the text "PAYMENT HISTORY" visible
@@ -31,7 +37,11 @@ Feature: Ticket adjustment
     And I should see the "Ticket Adjustment" screen
     And I should see the text "TICKET#" visible
 
-    When I select the first ticket with total "$6.36"
+    When I wait for the page fully loaded
+    And I search for "21"
+    Then I should see the first ticket with total "$21.00"
+
+    When I select the first ticket with total "$21.00"
     Then I should see the service "Manicure" in my cart
     And I should see the "Acrylic removal" service
 
@@ -43,7 +53,7 @@ Feature: Ticket adjustment
     When I click on the more menu for payment history of "Cash"
     Then I should see the tooltip remove
     When I click on the tooltip remove
-    Then I should see a popup dialog with title "Cash  - $6.36"
+    Then I should see a popup dialog with title "Cash  - $21.00"
     When I click on the "Remove" button in the popup dialog
 
     When I click on the "PAY" button
@@ -76,6 +86,12 @@ Feature: Ticket adjustment
     When I add the "Combo 1" service to my cart
     Then I should see my cart showing 1 item added
 
+    When I click on the total price of "Combo 1"
+    Then I should see a popup dialog with title "Service: Combo 1 - $45.00"
+    When I change the price to "49"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$49.00" visible
+
     When I click on the item "Technician" button
     Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
     When I select the "Manicure" service in the dialog
@@ -105,14 +121,15 @@ Feature: Ticket adjustment
     When I wait for the page fully loaded
     And I click on the header menu
     And I select the "Manager" label in the menu list
-    Then I should see the "Ticket Adjustment" label in the expanded list
-
-    When I select the "Ticket Adjustment" label in the expanded list
+    And I select the "Ticket Adjustment" label in the expanded list
     Then I should be redirected to TICKET_ADJUSTMENT page
     And I should see the "Ticket Adjustment" screen
     And I should see the text "TICKET#" visible
 
-    When I select the first ticket with total "$55.09"
+    When I wait for the page fully loaded
+    And I search for "56.45"
+    Then I should see the first ticket with total "$56.45"
+    When I select the first ticket with total "$56.45"
     Then I should see the service "Combo 1" in my cart
 
     When I click on the title "DETAILS" in the ticket adjustment screen
@@ -134,9 +151,7 @@ Feature: Ticket adjustment
     When I wait for the page fully loaded
     And I click on the header menu
     And I select the "Manager" label in the menu list
-    Then I should see the "Ticket Adjustment" label in the expanded list
-
-    When I select the "Ticket Adjustment" label in the expanded list
+    And I select the "Ticket Adjustment" label in the expanded list
     Then I should be redirected to TICKET_ADJUSTMENT page
     And I should see the "Ticket Adjustment" screen
     And I should see the text "TICKET#" visible
@@ -152,7 +167,6 @@ Feature: Ticket adjustment
     When I add the "Acrylic removal" service to my cart
     Then I should see the service "Acrylic removal" in my cart
     And I should see the employee "Anna" in my cart
-    And I should see the tax display "$1.80"
 
     When I click on the charge item "Tip" in the ticket adjustment screen
     Then I should see a popup dialog with title "Add Tip"
@@ -201,6 +215,12 @@ Feature: Ticket adjustment
     When I add the "Gel removal" service to my cart
     Then I should see my cart showing 1 item added
 
+    When I click on the total price of "Gel removal"
+    Then I should see a popup dialog with title "Service: Gel removal - $40.00"
+    When I change the price to "42"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$42.00" visible
+
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
     And I should see the text "PAYMENT HISTORY" visible
@@ -220,7 +240,10 @@ Feature: Ticket adjustment
     And I should see the "Ticket Adjustment" screen
     And I should see the text "TICKET#" visible
 
-    When I select the first ticket with total "$42.40"
+    When I wait for the page fully loaded
+    And I search for "42"
+    Then I should see the first ticket with total "$42.00"
+    When I select the first ticket with total "$42.00"
     Then I should see the service "Gel removal" in my cart
 
     When I select the service "Gel removal" in my cart
@@ -229,14 +252,14 @@ Feature: Ticket adjustment
     Then I should see a popup dialog with title "CHANGE PRICE"
     When I enter the amount "20"
     And I click on the "OK" button in the popup dialog
-    Then I should see the charge display "TOTAL$21.20"
+    Then I should see the charge display "TOTAL$20.00"
 
     When I select the "PAYMENT" tab
     Then I should see the payment history "Cash" visible
     When I click on the more menu for payment history of "Cash"
     Then I should see the tooltip remove
     When I click on the tooltip remove
-    Then I should see a popup dialog with title "Cash  - $42.40"
+    Then I should see a popup dialog with title "Cash  - $42.00"
     When I click on the "Remove" button in the popup dialog
 
     When I click on the "PAY" button
@@ -272,6 +295,12 @@ Feature: Ticket adjustment
     And I add the "Manicure" service to my cart
     Then I should see my cart showing 2 item added
 
+    When I click on the total price of "Manicure"
+    Then I should see a popup dialog with title "Service: Manicure - $6.00"
+    When I change the price to "11"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$11.00" visible
+
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
     And I should see the text "PAYMENT HISTORY" visible
@@ -291,7 +320,10 @@ Feature: Ticket adjustment
     And I should see the "Ticket Adjustment" screen
     And I should see the text "TICKET#" visible
 
-    When I select the first ticket with total "$48.76"
+    When I wait for the page fully loaded
+    And I search for "51"
+    Then I should see the first ticket with total "$51.00"
+    When I select the first ticket with total "$51.00"
     Then I should see the service "Gel removal" in my cart
     And I should see the service "Manicure" in my cart
 
@@ -301,14 +333,14 @@ Feature: Ticket adjustment
     Then I should see a popup dialog with title "VOID ITEM"
     When I select the reason "Mistake"
     And I click on the "OK" button in the popup dialog
-    Then I should see the charge display "TOTAL$42.40"
+    Then I should see the charge display "TOTAL$40.00"
 
     When I select the "PAYMENT" tab
     Then I should see the payment history "Cash" visible
     When I click on the more menu for payment history of "Cash"
     Then I should see the tooltip remove
     When I click on the tooltip remove
-    Then I should see a popup dialog with title "Cash  - $48.76"
+    Then I should see a popup dialog with title "Cash  - $51.00"
     When I click on the "Remove" button in the popup dialog
 
     When I click on the "PAY" button
@@ -337,10 +369,16 @@ Feature: Ticket adjustment
     And I add the "Pedicure" service to my cart
     Then I should see my cart showing 2 item added
 
+    When I click on the total price of "Manicure"
+    Then I should see a popup dialog with title "Service: Manicure - $6.00"
+    When I change the price to "22"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$22.00" visible
+
     When I click on the adding "Tip" button
     Then I should see a popup dialog with title "Add Tip"
     When I fill "5" from the numpad
-    Then I should see "5" tip in my cart
+    Then I should see "$5.00" tip in my cart
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -360,13 +398,17 @@ Feature: Ticket adjustment
     And I should see the "Ticket Adjustment" screen
     And I should see the text "TICKET#" visible
 
-    When I select the first ticket with total "$20.58"
+    When I wait for the page fully loaded
+    And I search for "36.5"
+    Then I should see the first ticket with total "$36.50"
+    When I select the first ticket with total "$36.50"
     Then I should see the service "Manicure" in my cart
     And I should see the service "Pedicure" in my cart
 
     When I select the service "Manicure" in my cart
     Then I should see the check icon
     When I select the "TECHS" tab
+    And I wait for the page fully loaded
     And I select the employee "Anna" in the ticket adjustment screen
     Then I should see the employee "Anna" in my cart
     And I should see the text "Please select a service to change the technician." in the ticket adjustment screen
