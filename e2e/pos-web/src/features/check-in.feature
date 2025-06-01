@@ -169,6 +169,7 @@ Feature: Check In
     And I should see the user info "Anna" in the ticket
     And I should see the service hint
     And I should see the hint details "MANI & PEDI (Next Available)"
+    And I should see the "Acrylic removal" service
 
     When I add the "Acrylic removal" service to my cart
     Then I should see my cart showing 1 item added

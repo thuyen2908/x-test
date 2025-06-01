@@ -306,7 +306,8 @@ Feature: Create tickets
     And I should see the "Manicure" service
 
     When I wait for the page fully loaded
-    And I add the "Manicure" service to my cart
+    Then I should see the "Manicure" service
+    When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
     When I click on the item "DISCOUNT ITEM" button
@@ -491,7 +492,8 @@ Feature: Create tickets
     And I should see the "Manicure" service
 
     When I wait for the page fully loaded
-    And I add the "Manicure" service to my cart
+    Then I should see the "Manicure" service
+    When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
     And I should see the "Manicure" service with status wait
 

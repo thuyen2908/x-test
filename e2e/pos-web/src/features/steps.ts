@@ -989,7 +989,9 @@ When(
 			has: page.locator('[data-field="customerInfo"]', {
 				hasText: customerInfo,
 			}),
+			hasNot: page.locator('[data-color]:not([data-color="wait"])'),
 		});
+
 		const firstRow = resultRow.first();
 		await firstRow.scrollIntoViewIfNeeded();
 		await firstRow.click();
