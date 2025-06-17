@@ -15,9 +15,9 @@ Feature: Reopen tickets
 
     When I click on the total price of "Manicure"
     Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "11"
+    When I change the price to "11.5"
     And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$11.00" visible
+    Then I should see the total price "$11.50" visible
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -32,11 +32,11 @@ Feature: Reopen tickets
     When I click on the "Tickets" label in the header
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "11"
+    When I search for "11.5"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$11.00"
+    Then I should see the last ticket of payment "$11.50"
 
-    When I click on the last row for payment "$11.00" to expand details
+    When I click on the last row for payment "$11.50" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
