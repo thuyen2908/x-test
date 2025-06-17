@@ -103,8 +103,8 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
       rollup-plugin-node-externals:
-        specifier: ^8.0.0
-        version: 8.0.0(rollup@4.39.0)
+        specifier: ^8.0.1
+        version: 8.0.1(rollup@4.39.0)
       rollup-plugin-visualizer:
         specifier: ^6.0.3
         version: 6.0.3(rollup@4.39.0)
@@ -137,8 +137,8 @@ importers:
         specifier: ^6.0.1
         version: 6.0.1
       rollup-plugin-node-externals:
-        specifier: ^8.0.0
-        version: 8.0.0(rollup@4.39.0)
+        specifier: ^8.0.1
+        version: 8.0.1(rollup@4.39.0)
       typescript:
         specifier: ^5.8.3
         version: 5.8.3
@@ -1786,8 +1786,8 @@ packages:
     engines: {node: 20 || >=22}
     hasBin: true
 
-  rollup-plugin-node-externals@8.0.0:
-    resolution: {integrity: sha512-2HIOpWsWn5DqBoYl6iCAmB4kd5GoGbF68PR4xKR1YBPvywiqjtYvDEjHFodyqRL51iAMDITP074Zxs0OKs6F+g==}
+  rollup-plugin-node-externals@8.0.1:
+    resolution: {integrity: sha512-j6uve/BPEyHCmQuXpu5/LT5qXw69QLIi6YnFrs6F7tmGFXjkFDT0zqZMt0KaMuWSvkcxJFBklsKfYYoKKEPwyw==}
     engines: {node: '>= 21 || ^20.6.0 || ^18.19.0'}
     peerDependencies:
       rollup: ^4.0.0
@@ -3773,7 +3773,7 @@ snapshots:
       glob: 11.0.0
       package-json-from-dist: 1.0.1
 
-  rollup-plugin-node-externals@8.0.0(rollup@4.39.0):
+  rollup-plugin-node-externals@8.0.1(rollup@4.39.0):
     dependencies:
       rollup: 4.39.0
 
