@@ -989,6 +989,7 @@ When(
 			has: page.locator('[data-field="customerInfo"]', {
 				hasText: customerInfo,
 			}),
+			hasNot: page.locator('[data-color]:not([data-color="wait"])'),
 		});
 		const firstRow = resultRow.first();
 		await firstRow.scrollIntoViewIfNeeded();
@@ -1424,7 +1425,10 @@ When(
 		await page.waitForTimeout(500);
 
 		// Check if any dialog is visible
-		const dialogVisible = await page.locator('div[role="dialog"]').isVisible();
+		const dialogVisible = await page
+			.locator('div[role="dialog"]')
+			.locator('#draggable-dialog-title')
+			.isVisible();
 
 		if (dialogVisible === true) {
 			// Look for the confirm button
@@ -1504,7 +1508,7 @@ Then(
 Then(
 	'I should see the employees displayed correctly in turn details',
 	async ({ page }) => {
-		const expectedEmployees = ['Addison', 'Anna', 'Emily'];
+		const expectedEmployees = ['Addison', 'Anna', 'Avery', 'Emily', 'Jessica'];
 
 		const employeeElements = page.locator('tbody tr td:first-child div[title]');
 		await expect(employeeElements).toHaveCount(expectedEmployees.length);
@@ -1880,5 +1884,104 @@ Then(
 			.locator('[data-field="ticketTotals"]', { hasText: amount })
 			.first();
 		await expect(totalElement).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the turn number for {string} is 0.0',
+	async ({ page }, name: string) => {
+		const employeeItem = page.locator('li.xEmployeeItem').filter({
+			has: page.locator('.nickname', { hasText: name }),
+		});
+
+		const turnLabel = employeeItem.locator('.MuiChip-label', {
+			hasText: 'Turn: 0.0',
+		});
+		await expect(turnLabel).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the turn number for {string} is 1.0',
+	async ({ page }, name: string) => {
+		const employeeItem = page.locator('li.xEmployeeItem').filter({
+			has: page.getByText(name, { exact: true }),
+		});
+		const turnLabel = employeeItem.getByText('Turn: 1.0', { exact: true });
+		await expect(turnLabel).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the Round 1 for {string}',
+	async ({ page }, name: string) => {
+		const row = page.locator('td').filter({
+			has: page.getByTitle(name),
+		});
+		const roundLabel = row
+			.locator('.MuiChip-root', { hasText: 'Round' })
+			.locator('.MuiChip-label', { hasText: '1' });
+		await expect(roundLabel).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the Round 0 for {string}',
+	async ({ page }, name: string) => {
+		const row = page.locator('td').filter({
+			has: page.getByTitle(name),
+		});
+		const roundLabel = row
+			.locator('.MuiChip-root', { hasText: 'Round' })
+			.locator('.MuiChip-label', { hasText: '0' });
+		await expect(roundLabel).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the Turn 1.00 for {string}',
+	async ({ page }, name: string) => {
+		const row = page.locator('td').filter({
+			has: page.getByTitle(name),
+		});
+		const turnLabel = row
+			.locator('.MuiChip-root', { hasText: 'Turn' })
+			.locator('.MuiChip-label', { hasText: '1.00' });
+		await expect(turnLabel).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the Turn 0.00 for {string}',
+	async ({ page }, name: string) => {
+		const row = page.locator('td').filter({
+			has: page.getByTitle(name),
+		});
+		const turnLabel = row
+			.locator('.MuiChip-root', { hasText: 'Turn' })
+			.locator('.MuiChip-label', { hasText: '0.00' });
+		await expect(turnLabel).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the Auto Turn 1.00 for {string}',
+	async ({ page }, name: string) => {
+		const row = page.locator('tr').filter({
+			has: page.locator(`[title="${name}"]`),
+		});
+		const autoTurn = row.locator('td[turntype="AutoTicket"]', {
+			hasText: '1.00',
+		});
+		await expect(autoTurn).toBeVisible();
+	},
+);
+
+When(
+	'I click on the queue {string} button',
+	async ({ page }, queue: string) => {
+		const queueButton = page.locator('.MuiButtonBase-root', { hasText: queue });
+		await expect(queueButton).toBeVisible();
+		await queueButton.click();
 	},
 );

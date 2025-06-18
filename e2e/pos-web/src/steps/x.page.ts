@@ -227,7 +227,7 @@ class xPage {
 		const dialog = locators.dialog();
 		const dialogContent = locators.dialogContent(dialog);
 
-		await dialogContent.getByText(text, { exact: true }).click();
+		await dialogContent.getByText(text, { exact: true }).last().click();
 	}
 
 	/**
