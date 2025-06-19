@@ -679,7 +679,7 @@ Feature: Reopen tickets
     And I should see the business info "BLANC NAILS 1032 YONKERS AVE Yonkers, NY 10704 (707) 707-1122" on the receipt
 
     Then I should see the date is today on the receipt
-    And I should see the customer name "Loyaly" on the receipt
+    And I should see the customer name "Loyalty" on the receipt
     And I should see the point "70 = $0.70" on the receipt
 
     Then I should see the service quantity "1" on the receipt
@@ -695,7 +695,7 @@ Feature: Reopen tickets
     Then I should see the CHANGE amount "$0.00" on the receipt
 
     Then I should see the payment label "PAYMENT DETAILS" on the receipt
-    And I should see the payment method "Cash - $50.00" on the receipt
+    And I should see the payment method "Cash - $35.50" on the receipt
     And I should see the cash payment amount "$35.50" on the receipt
 
     Then I should see the message "Come back again soon..." on the receipt
