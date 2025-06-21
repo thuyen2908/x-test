@@ -633,3 +633,76 @@ Feature: Reopen tickets
     And I wait for the page fully loaded
     Then I should see the title contain "Jimmy" visible
     And I should see the text "No rows" visible
+
+  Scenario: View the loyalty point on Receipt
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "2883"
+    Then I should see the employee "Gabriella" in the employee list
+    When I select the "Gabriella" employee
+    And I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I click on the total price of "Manicure"
+    Then I should see a popup dialog with title "Service: Manicure - $6.00"
+    When I change the price to "35.5"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$35.50" visible
+
+    When I click on the Select customer
+    And I click on the "Click Here To Add Customers" button
+    Then I should see a popup dialog with title "Create New Customer"
+    And I should see the loyalty program "2 Points = $1" visible
+
+    When I fill the new customer name "Loyalty"
+    And I fill the new customer phone
+    And I click on the "SAVE" button in the create new customer dialog
+    Then I should see a new customer "Loyalty" on ticket
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+
+    When I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page
+
+    When I click on the "Tickets" label in the header
+    Then I should be redirected to CLOSED_TICKETS page
+
+    When I search for "35.5"
+    And I wait for the page fully loaded
+    Then I should see the last ticket of payment "$35.50"
+
+    When I click on the last row for payment "$35.50" to expand details
+    Then I should see the store logo on the receipt
+    And I should see the business info "BLANC NAILS 1032 YONKERS AVE Yonkers, NY 10704 (707) 707-1122" on the receipt
+
+    Then I should see the date is today on the receipt
+    And I should see the customer name "Loyalty" on the receipt
+    And I should see the point "70 = $0.70" on the receipt
+
+    Then I should see the service quantity "1" on the receipt
+    And I should see the service name "Manicure" on the receipt
+    And I should see the technician name "Gabriella" on the receipt
+    And I should see the service price "$35.50" on the receipt
+
+    Then I should see the TIP amount "$0.00" on the receipt
+    And I should see the SUBTOTAL "$35.50" on the receipt
+    And I should see the TAX "$0.00" on the receipt
+    And I should see the TOTAL "$35.50" on the receipt
+
+    Then I should see the CHANGE amount "$0.00" on the receipt
+
+    Then I should see the payment label "PAYMENT DETAILS" on the receipt
+    And I should see the payment method "Cash - $35.50" on the receipt
+    And I should see the cash payment amount "$35.50" on the receipt
+
+    Then I should see the message "Come back again soon..." on the receipt
+    And I should see the message "Thank you <3" on the receipt
+
+    Then I should see the tip guide "10% TIP = $3.55" on the receipt
+    And I should see the tip guide "15% TIP = $5.32" on the receipt
+    And I should see the tip guide "20% TIP = $7.10" on the receipt
+
+    Then I should see the QR code on the receipt

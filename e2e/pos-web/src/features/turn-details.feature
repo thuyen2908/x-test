@@ -164,3 +164,89 @@ Feature: Turn details
 
     When I void the current open ticket with reason "System Test"
     Then I should be redirected to HOME page
+
+  Scenario: Manually adding decrease a turn reorders the employee queue
+    Given I am on the HOME page
+    When I navigate to "Turn" on the navigation bar
+    Then I should be redirected to TURN_DETAILS page
+
+    When I wait for the page fully loaded
+    Then I should see the text "Technicians" visible
+    And I should see the text "All" visible
+    When I click on the "Nails" button
+    Then I should see the Round 0 for "Leah"
+    And I should see the Turn 0.00 for "Leah"
+
+    When I double click on the first turn detail for "Leah"
+    Then I should see a popup dialog containing the title "Nails"
+    And I should see a popup dialog with content "Technician: Leah"
+
+    When I enter the amount "1"
+    And I click on the "DECREASE" button in the popup dialog
+
+    When I wait for the page fully loaded
+    Then I should see the Auto Turn -1.00 for "Leah"
+
+    When I back to HOME page
+    Then I should see the employee "Leah" listed first in the employee list
+
+    When I navigate to "Turn" on the navigation bar
+    Then I should be redirected to TURN_DETAILS page
+
+    When I wait for the page fully loaded
+    Then I should see the text "Technicians" visible
+    And I should see the text "All" visible
+    When I click on the "Nails" button
+    Then I should see the Round 1 for "Leah"
+    And I should see the Turn -1.00 for "Leah"
+
+    When I double click on the first turn detail for "Leah"
+    Then I should see a popup dialog containing the title "Nails"
+    When I click on the "DELETE TURN" button in the popup dialog
+
+    When I wait for the page fully loaded
+    Then I should see the Turn 0.00 for "Leah"
+    And I should see the Round 0 for "Leah"
+
+  Scenario: Manually adding increase a turn reorders the employee queue
+    Given I am on the HOME page
+    When I navigate to "Turn" on the navigation bar
+    Then I should be redirected to TURN_DETAILS page
+
+    When I wait for the page fully loaded
+    Then I should see the text "Technicians" visible
+    And I should see the text "All" visible
+    When I click on the "Nails" button
+    Then I should see the Round 0 for "Amelia"
+    And I should see the Turn 0.00 for "Amelia"
+
+    When I double click on the first turn detail for "Amelia"
+    Then I should see a popup dialog containing the title "Nails"
+    And I should see a popup dialog with content "Technician: Amelia"
+
+    When I enter the amount "20"
+    And I click on the "INCREASE" button in the popup dialog
+
+    When I wait for the page fully loaded
+    Then I should see the Auto Turn 20.00 for "Amelia"
+
+    When I back to HOME page
+    Then I should see the employee "Amelia" listed last in the employee list
+
+    When I navigate to "Turn" on the navigation bar
+    Then I should be redirected to TURN_DETAILS page
+
+    When I wait for the page fully loaded
+    Then I should see the text "Technicians" visible
+    And I should see the text "All" visible
+    When I click on the "Nails" button
+    Then I should see the Round 1 for "Amelia"
+    And I should see the Turn 20.00 for "Amelia"
+
+    When I double click on the first turn detail for "Amelia"
+    Then I should see a popup dialog containing the title "Nails"
+    When I click on the "DELETE TURN" button in the popup dialog
+
+    When I wait for the page fully loaded
+    Then I should see the Turn 0.00 for "Amelia"
+    And I should see the Round 0 for "Amelia"
