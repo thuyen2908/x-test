@@ -170,7 +170,7 @@ Feature: Create tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-  Scenario: Split tip on ticket after paying by Credit card
+  Scenario: Split tip by Percent on ticket after paying by Credit card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0202"
     Then I should see the employee "Brian" in the employee list
@@ -398,6 +398,20 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
+    When I wait for the page fully loaded
+    And I navigate to "Balance" on the navigation bar
+    And I select the "Gift Card" option
+    Then I should be redirected to GIFT_CARD_BALANCE page
+    And I should see the text "Gift Card" visible
+
+    When I enter the amount "1234"
+    And I click on the "SEARCH" button
+    And I wait for the page fully loaded
+    Then I should see the text "DETAILS" visible
+    And I should see the first date is today in the gift card detail list
+    And I should see the first type "ActivateAddOn" in the gift card detail list
+    And I should see the first amount "$100.00" in the gift card detail list
+
   Scenario: Sell a Gift Card rewrite amount
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5362"
@@ -428,6 +442,20 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
+
+    When I wait for the page fully loaded
+    And I navigate to "Balance" on the navigation bar
+    And I select the "Gift Card" option
+    Then I should be redirected to GIFT_CARD_BALANCE page
+    And I should see the text "Gift Card" visible
+
+    When I enter the amount "4321"
+    And I click on the "SEARCH" button
+    And I wait for the page fully loaded
+    Then I should see the text "DETAILS" visible
+    And I should see the first date is today in the gift card detail list
+    And I should see the first type "OverwriteAdjust" in the gift card detail list
+    And I should see the first amount "($100.00)" in the gift card detail list
 
   Scenario: Remove tax in ticket
     Given I am on the HOME page
@@ -687,6 +715,137 @@ Feature: Create tickets
     When I click on the remove item service "Manicure"
     Then I should not see the service "Manicure" in my cart
     And I should see the user info "Anna" in the ticket
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the text "PAYMENT HISTORY" visible
+    And I should see the button with id "payment" visible
+
+    When I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page
+
+  Scenario: Select Tech to split tip by percent
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "3030"
+    Then I should see the employee "Kayla" in the employee list
+    When I select the "Kayla" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+
+    When I add the "Manicure" service to my cart
+    When I add the "Pedicure" service to my cart
+    When I add the "Cut cuticle" service to my cart
+    Then I should see my cart showing 3 item added
+
+    When I click on the item "Technician" button
+    Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
+    When I select the "Manicure" service in the dialog
+    And I select the "Kelley" employee in the dialog
+    And I select the "Pedicure" service in the dialog
+    And I select the "Savannah" employee in the dialog
+    And I click on the "Apply" button in the dialog
+    Then I should see the "Kelley" employee in my cart
+    And I should see the "Savannah" employee in my cart
+
+    When I click on the adding "Tip" button
+    Then I should see a popup dialog with title "Add Tip"
+    When I fill "5" from the numpad
+    Then I should see "$5.00" tip in my cart
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the text "PAYMENT HISTORY" visible
+    And I should see the button with id "payment" visible
+
+    When I select the "Credit" payment type
+    And I fill the last 4 digits of card number "1234"
+    And I click on the element with id "payment"
+    Then I should see the employee "Kayla" visible in the split tip screen
+    And I should see the employee "Kelley" visible in the split tip screen
+    And I should see the employee "Savannah" visible in the split tip screen
+    And I should see the text "TOTAL TIP" visible in the split tip screen
+    And I should see the total tip "5" visible in the split tip screen
+
+    When I click on the "Select Techs" button in the split tip screen
+    And I select the employee "Kayla" in the split tip screen
+    And I select the employee "Savannah" in the split tip screen
+    And I click on the "Percent Split" button in the split tip screen
+    Then I should see the split tips amount for employee "Kayla" is non-zero
+    And I should see the split tips amount for employee "Savannah" is non-zero
+    And I should see the split tips amount for employee "Kelley" is zero
+    When I click on the "CLOSE TICKET" button
+    Then I should be redirected to HOME page
+
+  Scenario: Cannot pay more than the Gift card Balance
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "4040"
+    Then I should see the employee "Aubrey" in the employee list
+    When I select the "Aubrey" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+
+    When I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I click on the total price of "Manicure"
+    Then I should see a popup dialog with title "Service: Manicure - $6.00"
+    When I change the price to "35.7"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$35.70" visible
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+
+    When I select the "Gift" payment type
+    Then I should see the "ID GIFT CARD" name
+    When I fill the Gift card with "20"
+    And I click on the "CHECK BALANCE" button
+    And I click on the element with id "payment"
+    And I click on the element with id "payment"
+    Then I should see the toast message "Gift Card #20 does not have enough funds to pay" visible
+
+    When I select the "Cash" payment type
+    And I click on the element with id "payment"
+    Then I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page
+
+    When I click on the "Tickets" label in the header
+    Then I should be redirected to CLOSED_TICKETS page
+
+    When I search for "35.7"
+    And I wait for the page fully loaded
+    Then I should see the last ticket of payment "$35.70"
+
+    When I click on the last row for payment "$35.70" to expand details
+    Then I should see the "Reopen ticket" button visible
+
+    When I click on the "Reopen ticket" button
+    And I wait for the page fully loaded
+    Then I should see the "Ticket View" screen
+    And I should see the user info "Aubrey" in the ticket
+
+    When I void the current open ticket with reason "System Test"
+    Then I should be redirected to HOME page
+
+  Scenario: Select service to change technician
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "8226"
+    Then I should see the employee "Lauren" in the employee list
+
+    When I select the "Lauren" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+    When I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I select the "Manicure" service in my cart
+    Then I should see a popup dialog with title "Change Technician"
+    When I click on the "Addison" text inside the content section of the opening dialog
+    Then I should see the employee "Addison" in my cart
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible

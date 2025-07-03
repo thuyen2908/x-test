@@ -53,8 +53,11 @@ Feature: Ticket adjustment
     When I click on the more menu for payment history of "Cash"
     Then I should see the tooltip remove
     When I click on the tooltip remove
-    Then I should see a popup dialog with title "Cash  - $21.00"
+    Then I should see a popup dialog with title "VOID PAYMENT"
+    And  I should see a popup dialog with content "Cash   - $21.00"
     When I click on the "Remove" button in the popup dialog
+    Then I should see a second popup dialog with title "Confirm Void Payment"
+    When I click on the "Yes, void it" button in the popup dialog
 
     When I click on the "PAY" button
     Then I should see a popup dialog with title "PAYMENT TICKET"
@@ -259,8 +262,11 @@ Feature: Ticket adjustment
     When I click on the more menu for payment history of "Cash"
     Then I should see the tooltip remove
     When I click on the tooltip remove
-    Then I should see a popup dialog with title "Cash  - $42.00"
+    Then I should see a popup dialog with title "VOID PAYMENT"
+    And  I should see a popup dialog with content "Cash   - $42.00"
     When I click on the "Remove" button in the popup dialog
+    Then I should see a second popup dialog with title "Confirm Void Payment"
+    When I click on the "Yes, void it" button in the popup dialog
 
     When I click on the "PAY" button
     Then I should see a popup dialog with title "PAYMENT TICKET"
@@ -340,8 +346,11 @@ Feature: Ticket adjustment
     When I click on the more menu for payment history of "Cash"
     Then I should see the tooltip remove
     When I click on the tooltip remove
-    Then I should see a popup dialog with title "Cash  - $51.00"
+    Then I should see a popup dialog with title "VOID PAYMENT"
+    And  I should see a popup dialog with content "Cash   - $51.00"
     When I click on the "Remove" button in the popup dialog
+    Then I should see a second popup dialog with title "Confirm Void Payment"
+    When I click on the "Yes, void it" button in the popup dialog
 
     When I click on the "PAY" button
     Then I should see a popup dialog with title "PAYMENT TICKET"

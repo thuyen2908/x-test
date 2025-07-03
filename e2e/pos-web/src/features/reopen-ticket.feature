@@ -378,9 +378,9 @@ Feature: Reopen tickets
 
     When I click on the total price of "Manicure"
     Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "15"
+    When I change the price to "15.5"
     And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$15.00" visible
+    Then I should see the total price "$15.50" visible
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -395,11 +395,11 @@ Feature: Reopen tickets
     When I click on the "Tickets" label in the header
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "15"
+    When I search for "15.5"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$15.00"
+    Then I should see the last ticket of payment "$15.50"
 
-    When I click on the last row for payment "$15.00" to expand details
+    When I click on the last row for payment "$15.50" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -540,10 +540,10 @@ Feature: Reopen tickets
     When I add the "Gift card $50" service to my cart
     Then I should see a popup dialog with title "Activate Gift Card $50.00"
 
-    When I enter the amount "6666"
+    When I enter the amount "4546"
     And I click on the "OK" button in the popup dialog
     Then I should see my cart showing 1 item added
-    And I should see the service "Gift card $50 (6666)" in my cart
+    And I should see the service "Gift card $50 (4546)" in my cart
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -574,15 +574,15 @@ Feature: Reopen tickets
     When I void the current open ticket with no reason
     Then I should be redirected to HOME page
 
-    When I navigate to "Balance" on the navigation bar
+    When I click on the "Balance" label in the header
     And I select the "Gift Card" option
     Then I should be redirected to GIFT_CARD_BALANCE page
     And I should see the text "Gift Card" visible
 
-    When I enter the amount "6666"
+    When I enter the amount "4546"
     And I click on the "SEARCH" button
     Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
-    And I should see a popup dialog with content "Do you want to activate gift card #6666"
+    And I should see a popup dialog with content "Do you want to activate gift card #4546"
 
   @skip
   Scenario: Remove loyalty balance when voiding ticket

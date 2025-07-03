@@ -310,6 +310,7 @@ Feature: Check In
     Then I should see a popup dialog with title "ENTER DURATION"
     When I enter the amount "10"
     And I click on the "OK" button in the popup dialog
+		And I wait for the page fully loaded
     Then I should see the pin appointment
 
     When I click on the "Create Ticket" button
@@ -319,7 +320,7 @@ Feature: Check In
     And I should see the service hint
     And I should see the hint details "FULL SET & FILL IN (Next Available)"
 
-    When I add the "Acrylic removal" service to my cart
+    When I add the "Full set" service to my cart
     Then I should see my cart showing 1 item added
     And I should see the "Anna" employee in my cart
 
