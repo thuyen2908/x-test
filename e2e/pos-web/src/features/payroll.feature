@@ -8,11 +8,14 @@ Feature: Payroll
     And I select the "Payroll" label in the expanded list
     Then I should be redirected to PAYROLL page
     And I should see the "Payroll" screen
+    And I should see both date pickers default to today
     And I should see the "Recalculation" button disable
     And I should see the "Save" button disable
-    And I should see the "Print" button disable
+    And I should see the print button "Print" visible
 
-    When I select the employee "Anna"
+    When I wait for the page fully loaded
+    And I search for "Anna"
+    And I select the employee "Anna"
     And I wait for the page fully loaded
     Then I should see the technician name "Anna"
     And I should see the payroll type "Commission"
@@ -43,7 +46,9 @@ Feature: Payroll
     Then I should be redirected to PAYROLL page
     And I should see the "Payroll" screen
 
-    When I select the employee "Anna"
+    When I wait for the page fully loaded
+    And I search for "Anna"
+    And I select the employee "Anna"
     And I wait for the page fully loaded
     And I click on the "PAYROLL DETAILS" tab
     Then I should see the text "Date" visible
@@ -59,7 +64,8 @@ Feature: Payroll
     Then I should be redirected to PAYROLL page
     And I should see the "Payroll" screen
 
-    When I select the employee "Anna"
+    When I search for "Anna"
+    And I select the employee "Anna"
     And I wait for the page fully loaded
     And I click on the "TIMESHEET" tab
     Then I should see the text "Date" visible

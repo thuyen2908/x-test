@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test';
-import { createBdd } from 'playwright-bdd';
 import type { DataTable } from 'playwright-bdd';
+import { createBdd } from 'playwright-bdd';
 
 import { constants } from '#const';
 import type { PageId } from '#types';
@@ -21,6 +21,17 @@ Then(
 	'I should see the employee {string} in the employee list',
 	async ({ page }, employeeName: string) => {
 		const employeeList = page.locator('div.xQueueList');
+
+		await expect(
+			employeeList.getByText(employeeName, { exact: true }),
+		).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the employee {string} in the payroll list',
+	async ({ page }, employeeName: string) => {
+		const employeeList = page.locator('div.MuiDataGrid-virtualScrollerContent');
 
 		await expect(
 			employeeList.getByText(employeeName, { exact: true }),
@@ -337,6 +348,16 @@ Then(
 	},
 );
 
+When(
+	'I select the employee {string} in the split tip screen',
+	async ({ page }, employee: string) => {
+		const employeeElement = page
+			.locator('.xSplitTip__employee')
+			.getByText(employee, { exact: true });
+		await employeeElement.click();
+	},
+);
+
 Then(
 	'I should see the text {string} visible in the split tip screen',
 	async ({ page }, text: string) => {
@@ -432,6 +453,31 @@ Then('I should see all split tips non-zero', async ({ page }) => {
 	expect(allTips.every((tip) => !tip.includes('0.00'))).toBeTruthy();
 });
 
+Then(
+	'I should see the split tips amount for employee {string} is non-zero',
+	async ({ page }, employee: string) => {
+		const tipValues = page
+			.locator('.xSplitTip__employee')
+			.getByText(employee, { exact: true })
+			.locator('.tip.row')
+			.locator('span.value');
+		const allTips = await tipValues.allTextContents();
+		expect(allTips).not.toContain('0.00');
+		expect(allTips.every((tip) => !tip.includes('0.00'))).toBeTruthy();
+	},
+);
+
+Then(
+	'I should see the split tips amount for employee {string} is zero',
+	async ({ page }, employeeName) => {
+		const employeeItem = page.locator('.xSplitTip__item').filter({
+			has: page.locator(`.name:has-text("${employeeName}")`),
+		});
+		const tipValue = employeeItem.locator('.tip .value');
+		await expect(tipValue).toHaveText('$0.00');
+	},
+);
+
 When(
 	'I click on the {string} label in the header',
 	async ({ page }, label: string) => {
@@ -495,7 +541,7 @@ Then(
 		const customerElement = page
 			.locator('div[data-field="customerInfo"]')
 			.getByText(customer, { exact: true })
-			.first();
+			.last();
 		await expect(customerElement).toHaveText(customer);
 	},
 );
@@ -506,7 +552,7 @@ Then(
 		const serviceElement = page
 			.locator('div[data-field="categoryNames"]')
 			.getByText(service, { exact: true })
-			.first();
+			.last();
 		await expect(serviceElement).toHaveText(service);
 	},
 );
@@ -517,7 +563,7 @@ Then(
 		const technicianElement = page
 			.locator('div[data-field="technicianNickNames"]')
 			.getByText(technician, { exact: true })
-			.first();
+			.last();
 		await expect(technicianElement).toHaveText(technician);
 	},
 );
@@ -652,6 +698,38 @@ Then(
 			.locator('.MuiDataGrid-cell[data-field="giftCardLogType"]');
 
 		await expect(firstTypeCell).toHaveAttribute('title', type);
+	},
+);
+
+Then(
+	'I should see the first amount {string} in the gift card detail list',
+	async ({ page }, amount: string) => {
+		const firstAmountCell = page
+			.locator('.MuiDataGrid-row')
+			.first()
+			.locator('.MuiDataGrid-cell[data-field="amount"]');
+
+		await expect(firstAmountCell).toHaveText(amount);
+	},
+);
+
+Then(
+	'I should see the first date is today in the gift card detail list',
+	async ({ page }) => {
+		const firstDateCell = page
+			.locator('.MuiDataGrid-row')
+			.first()
+			.locator('.MuiDataGrid-cell[data-field="date"]');
+		const today = new Date();
+		const formattedToday = today
+			.toLocaleDateString('en-US', {
+				year: 'numeric',
+				month: '2-digit',
+				day: '2-digit',
+			})
+			.replace(/\//g, '/'); // e.g., 06/18/2025
+
+		await expect(firstDateCell).toContainText(formattedToday);
 	},
 );
 
@@ -1491,7 +1569,7 @@ Then(
 );
 
 Then('I should see the pin appointment', async ({ page }) => {
-	const pinAppointment = page.locator('.xWaitingList__item--label');
+	const pinAppointment = page.locator('.xWaitingList__item--label').last();
 	await expect(pinAppointment).toBeVisible();
 });
 
@@ -1706,52 +1784,18 @@ Then('I should see the Ticket table displayed correctly', async ({ page }) => {
 });
 
 Then('I should see both date pickers default to today', async ({ page }) => {
-	// Get the day and month from the xHeader
-	const dayText = await page.locator('.xHeader__top--time .day').textContent();
-	const monthText = await page
-		.locator('.xHeader__top--time .month')
-		.textContent();
+	const today = new Date();
+	const formattedToday = today.toLocaleDateString('en-US', {
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit',
+	}); // Example: "07/03/2025"
 
-	if (!dayText || !monthText) {
-		throw new Error('Could not find day or month in header');
-	}
+	const datePickers = page.locator('button.button-date-calendar');
 
-	// Convert month name (e.g. "May") to number (e.g. "05")
-	const monthNames = [
-		'January',
-		'February',
-		'March',
-		'April',
-		'May',
-		'June',
-		'July',
-		'August',
-		'September',
-		'October',
-		'November',
-		'December',
-	];
-	const monthIndex = monthNames.findIndex(
-		(m) => m.toLowerCase() === monthText.toLowerCase(),
-	);
-	if (monthIndex === -1) {
-		throw new Error(`Invalid month name: ${monthText}`);
-	}
-	const month = String(monthIndex + 1).padStart(2, '0');
-
-	// Pad day and get current year
-	const day = dayText.padStart(2, '0');
-	const year = new Date().getFullYear();
-
-	// Final expected date string
-	const expectedDate = `${month}/${day}/${year}`;
-
-	// Locate the two buttons with the date
-	const dateButtons = page.locator('button.button-date-calendar');
-
-	await expect(dateButtons).toHaveCount(3);
-	await expect(dateButtons.nth(0)).toHaveText(expectedDate);
-	await expect(dateButtons.nth(1)).toHaveText(expectedDate);
+	await expect(datePickers).toHaveCount(3);
+	await expect(datePickers.nth(0)).toHaveText(formattedToday);
+	await expect(datePickers.nth(1)).toHaveText(formattedToday);
 });
 
 Then('I should see no results for invalid search', async ({ page }) => {
@@ -1983,5 +2027,34 @@ When(
 		const queueButton = page.locator('.MuiButtonBase-root', { hasText: queue });
 		await expect(queueButton).toBeVisible();
 		await queueButton.click();
+	},
+);
+
+Then(
+	'I should see the toast message {string} visible',
+	async ({ page }, message: string) => {
+		const toastMessage = page.locator('.MuiAlert-message', {
+			hasText: message,
+		});
+		await expect(toastMessage).toBeVisible();
+	},
+);
+
+When(
+	'I select the {string} service in my cart',
+	async ({ page }, service: string) => {
+		const serviceButton = page.locator('.xTicketItems__name', {
+			hasText: service,
+		});
+		await expect(serviceButton).toBeVisible();
+		await serviceButton.click();
+	},
+);
+
+Then(
+	'I should see the print button {string} visible',
+	async ({ page }, button: string) => {
+		const printButton = page.getByRole('button', { name: button });
+		await expect(printButton).toBeVisible();
 	},
 );
