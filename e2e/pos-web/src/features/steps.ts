@@ -2051,6 +2051,18 @@ When(
 	},
 );
 
+When(
+	'I double click on the first turn detail for {string}',
+	async ({ page }, name: string) => {
+		const row = page.locator('tr').filter({
+			has: page.locator(`[title="${name}"]`),
+		});
+		const firstTurnDetail = row.locator('td').nth(1);
+		await expect(firstTurnDetail).toBeVisible();
+		await firstTurnDetail.dblclick();
+	},
+);
+
 Then(
 	'I should see the print button {string} visible',
 	async ({ page }, button: string) => {
@@ -2058,3 +2070,266 @@ Then(
 		await expect(printButton).toBeVisible();
 	},
 );
+
+Then(
+	'I should see the Auto Turn -1.00 for {string}',
+	async ({ page }, name: string) => {
+		const row = page.locator('tr').filter({
+			has: page.locator(`[title="${name}"]`),
+		});
+		const manualTurn = row.locator('td[turntype="Manual"]', {
+			hasText: /-1\.00.*M/,
+		});
+		await expect(manualTurn).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the Auto Turn 20.00 for {string}',
+	async ({ page }, name: string) => {
+		const row = page.locator('tr').filter({
+			has: page.locator(`[title="${name}"]`),
+		});
+		const manualTurn = row.locator('td[turntype="Manual"]', {
+			hasText: /20\.00.*M/,
+		});
+		await expect(manualTurn).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the employee {string} listed first in the employee list',
+	async ({ page }, employeeName: string) => {
+		const firstEmployee = page
+			.locator('div.xQueueList li.xEmployeeItem')
+			.first();
+
+		await expect(firstEmployee).toContainText(employeeName);
+	},
+);
+
+Then(
+	'I should see the employee {string} listed last in the employee list',
+	async ({ page }, employeeName: string) => {
+		const lastEmployee = page.locator('div.xQueueList li.xEmployeeItem').last();
+
+		await expect(lastEmployee).toContainText(employeeName);
+	},
+);
+
+Then(
+	'I should see the Turn -1.00 for {string}',
+	async ({ page }, name: string) => {
+		const row = page.locator('td').filter({
+			has: page.getByTitle(name),
+		});
+		const turnLabel = row
+			.locator('.MuiChip-root', { hasText: 'Turn' })
+			.locator('.MuiChip-label', { hasText: '-1.00' });
+		await expect(turnLabel).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the Turn 20.00 for {string}',
+	async ({ page }, name: string) => {
+		const row = page.locator('td').filter({
+			has: page.getByTitle(name),
+		});
+		const turnLabel = row
+			.locator('.MuiChip-root', { hasText: 'Turn' })
+			.locator('.MuiChip-label', { hasText: '20.00' });
+		await expect(turnLabel).toBeVisible();
+	},
+);
+
+Then('I should see the store logo on the receipt', async ({ page }) => {
+	await expect(page.locator('img[alt="BLANC"]')).toBeVisible();
+});
+
+Then(
+	'I should see the business info {string} on the receipt',
+	async ({ page }, businessInfo: string) => {
+		const businessInfoLocator = page.locator('.flex-3').first();
+
+		const actualText = await businessInfoLocator.innerText();
+		const normalizedActual = actualText.replace(/\s+/g, ' ').trim();
+		const normalizedExpected = businessInfo.replace(/\s+/g, ' ').trim();
+
+		expect(normalizedActual).toBe(normalizedExpected);
+	},
+);
+
+Then('I should see the date is today on the receipt', async ({ page }) => {
+	const dateCell = page.locator(
+		'table.mt-1 td.left-column:has-text("Date") + td',
+	);
+	const receiptDateText = await dateCell.innerText();
+	const today = new Date();
+
+	const formattedToday = today
+		.toLocaleDateString('en-US', {
+			year: 'numeric',
+			month: '2-digit',
+			day: '2-digit',
+		})
+		.replace(/\//g, '/'); // e.g., 06/18/2025
+
+	expect(receiptDateText).toContain(formattedToday);
+});
+
+Then(
+	'I should see the customer name {string} on the receipt',
+	async ({ page }, customerName: string) => {
+		const customerCell = page.locator(
+			'table.mt-1 td.left-column:has-text("Customer") + td',
+		);
+		const receiptCustomerText = await customerCell.innerText();
+		expect(receiptCustomerText).toContain(customerName);
+	},
+);
+
+Then(
+	'I should see the point {string} on the receipt',
+	async ({ page }, point: string) => {
+		const pointCell = page.locator(
+			'table.mt-1 td.left-column:has-text("Point") + td',
+		);
+		const actualPoint = await pointCell.innerText();
+		expect(actualPoint.trim()).toBe(point);
+	},
+);
+
+Then(
+	'I should see the service quantity {string} on the receipt',
+	async ({ page }, qty: string) => {
+		const qtyCell = page.locator('.ticket-item .flex-05', { hasText: qty });
+		await expect(qtyCell).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the service name {string} on the receipt',
+	async ({ page }, item: string) => {
+		const serviceName = page.locator('.ticket-item .flex-3', { hasText: item });
+		await expect(serviceName).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the technician name {string} on the receipt',
+	async ({ page }, name: string) => {
+		const technicianName = page.locator('.ticket-item #userInfo', {
+			hasText: name,
+		});
+		await expect(technicianName).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the service price {string} on the receipt',
+	async ({ page }, price: string) => {
+		const priceCell = page.locator('.ticket-item .align-right', {
+			hasText: price,
+		});
+		await expect(priceCell).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the TIP amount {string} on the receipt',
+	async ({ page }, tip: string) => {
+		const tipCell = page.locator('tr:has-text("TIP") .align-right', {
+			hasText: tip,
+		});
+		await expect(tipCell).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the SUBTOTAL {string} on the receipt',
+	async ({ page }, subtotal: string) => {
+		const subtotalCell = page.locator('tr:has-text("SUBTOTAL") .align-right', {
+			hasText: subtotal,
+		});
+		await expect(subtotalCell).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the TAX {string} on the receipt',
+	async ({ page }, tax: string) => {
+		const taxCell = page.locator('tr:has-text("TAX") .align-right', {
+			hasText: tax,
+		});
+		await expect(taxCell).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the TOTAL {string} on the receipt',
+	async ({ page }, total: string) => {
+		const totalCell = page
+			.locator('tr:has-text("TOTAL") .align-right', {
+				hasText: total,
+			})
+			.last();
+		await expect(totalCell).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the CHANGE amount {string} on the receipt',
+	async ({ page }, change: string) => {
+		const changeCell = page.locator('tr:has-text("CHANGE") .align-right', {
+			hasText: change,
+		});
+		await expect(changeCell).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the payment label {string} on the receipt',
+	async ({ page }, label: string) => {
+		const paymentLabel = page.locator('.align-center.mt-1', { hasText: label });
+		await expect(paymentLabel).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the payment method {string} on the receipt',
+	async ({ page }, method: string) => {
+		const paymentMethod = page.locator('td', { hasText: method });
+		await expect(paymentMethod).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the cash payment amount {string} on the receipt',
+	async ({ page }, amount: string) => {
+		const paymentAmount = page.locator('tr:has-text("Cash") .align-right', {
+			hasText: amount,
+		});
+		await expect(paymentAmount).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the message {string} on the receipt',
+	async ({ page }, msg: string) => {
+		const message = page.locator('.align-center', { hasText: msg });
+		await expect(message).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the tip guide {string} on the receipt',
+	async ({ page }, msg: string) => {
+		const message = page.locator('td', { hasText: msg });
+		await expect(message).toBeVisible();
+	},
+);
+
+Then('I should see the QR code on the receipt', async ({ page }) => {
+	await expect(page.locator('.qr img')).toBeVisible();
+});

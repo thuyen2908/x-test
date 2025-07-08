@@ -4,7 +4,7 @@
 	"version": "0.0.0",
 	"type": "module",
 	"author": "tech@xsofts.vn",
-	"packageManager": "pnpm@10.12.1",
+	"packageManager": "pnpm@10.12.4",
 	"engineStrict": true,
 	"engines": {
 		"node": "^20 || ^22",
@@ -27,9 +27,15 @@
 		}
 	},
 	"pnpm": {
-		"onlyBuiltDependencies": ["esbuild", "lefthook"]
+		"onlyBuiltDependencies": [
+			"esbuild",
+			"lefthook"
+		]
 	},
-	"workspaces": ["packages/*", "e2e/*"],
+	"workspaces": [
+		"packages/*",
+		"e2e/*"
+	],
 	"scripts": {
 		"postinstall": "pnpm playwright:install-browsers && pnpm turbo build",
 		"cz": "cz",
@@ -42,14 +48,14 @@
 		"e2e:test": "turbo test --filter='./e2e/*'"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.0.0",
+		"@biomejs/biome": "2.0.6",
 		"@commitlint/cli": "^19.8.1",
 		"@commitlint/config-conventional": "^19.8.1",
 		"@commitlint/types": "^19.8.1",
 		"@x-test/toolchains": "workspace:*",
 		"commitizen": "^4.3.1",
 		"cz-conventional-changelog": "^3.3.0",
-		"lefthook": "^1.11.14",
+		"lefthook": "^1.11.16",
 		"rimraf": "^6.0.1",
 		"turbo": "^2.5.4",
 		"typescript": "^5.8.3"
