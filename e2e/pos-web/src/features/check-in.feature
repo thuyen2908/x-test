@@ -316,6 +316,7 @@ Feature: Check In
     Then I should see a popup dialog with title "ENTER DURATION"
     When I enter the amount "10"
     And I click on the "OK" button in the popup dialog
+		And I wait for the page fully loaded
     Then I should see the pin appointment
 
     When I click on the "Create Ticket" button

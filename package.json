@@ -27,9 +27,15 @@
 		}
 	},
 	"pnpm": {
-		"onlyBuiltDependencies": ["esbuild", "lefthook"]
+		"onlyBuiltDependencies": [
+			"esbuild",
+			"lefthook"
+		]
 	},
-	"workspaces": ["packages/*", "e2e/*"],
+	"workspaces": [
+		"packages/*",
+		"e2e/*"
+	],
 	"scripts": {
 		"postinstall": "pnpm playwright:install-browsers && pnpm turbo build",
 		"cz": "cz",
