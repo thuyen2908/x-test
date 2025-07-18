@@ -1612,6 +1612,31 @@ Then(
 	},
 );
 
+Then(
+	'I should see the last ticket of Cash payment {string}',
+	async ({ page }, amount: string) => {
+		const rows = page.locator('.MuiDataGrid-row');
+
+		const matchingRow = rows
+			.filter({
+				has: page.locator('[data-field="paymentMethod"]', { hasText: 'Cash' }),
+			})
+			.filter({
+				has: page.locator('[data-field="paymentTotal"]', { hasText: amount }),
+			})
+			.last();
+
+		await expect(matchingRow).toBeVisible();
+		await matchingRow.scrollIntoViewIfNeeded();
+
+		const methodCell = matchingRow.locator('[data-field="paymentMethod"]');
+		const amountCell = matchingRow.locator('[data-field="paymentTotal"]');
+
+		await expect(methodCell).toHaveText('Cash');
+		await expect(amountCell).toHaveText(amount);
+	},
+);
+
 When(
 	'I click on the last row for payment {string} to expand details',
 	async ({ page }, amount: string) => {
@@ -2144,36 +2169,35 @@ Then(
 );
 
 Then('I should see the store logo on the receipt', async ({ page }) => {
-	await expect(page.locator('img[alt="BLANC"]')).toBeVisible();
+	await expect(page.locator('img[alt="BLANC NAILS"]')).toBeVisible();
 });
 
 Then(
 	'I should see the business info {string} on the receipt',
 	async ({ page }, businessInfo: string) => {
-		const businessInfoLocator = page.locator('.flex-3').first();
-
-		const actualText = await businessInfoLocator.innerText();
-		const normalizedActual = actualText.replace(/\s+/g, ' ').trim();
+		const businessInfoLocators = page.locator(
+			'div[style*="text-align: center"][style*="flex-direction: column"] > span',
+		);
+		const actualTexts = await businessInfoLocators.allInnerTexts();
+		const normalizedActual = actualTexts.join(' ').replace(/\s+/g, ' ').trim();
 		const normalizedExpected = businessInfo.replace(/\s+/g, ' ').trim();
-
 		expect(normalizedActual).toBe(normalizedExpected);
 	},
 );
 
 Then('I should see the date is today on the receipt', async ({ page }) => {
-	const dateCell = page.locator(
-		'table.mt-1 td.left-column:has-text("Date") + td',
-	);
+	const dateCell = page
+		.locator('table >> text=Date')
+		.locator('xpath=following-sibling::td[1]');
 	const receiptDateText = await dateCell.innerText();
 	const today = new Date();
-
 	const formattedToday = today
 		.toLocaleDateString('en-US', {
 			year: 'numeric',
 			month: '2-digit',
 			day: '2-digit',
 		})
-		.replace(/\//g, '/'); // e.g., 06/18/2025
+		.replace(/\//g, '/');
 
 	expect(receiptDateText).toContain(formattedToday);
 });
@@ -2181,9 +2205,9 @@ Then('I should see the date is today on the receipt', async ({ page }) => {
 Then(
 	'I should see the customer name {string} on the receipt',
 	async ({ page }, customerName: string) => {
-		const customerCell = page.locator(
-			'table.mt-1 td.left-column:has-text("Customer") + td',
-		);
+		const customerCell = page
+			.locator('table >> text=Customer')
+			.locator('xpath=following-sibling::td[1]');
 		const receiptCustomerText = await customerCell.innerText();
 		expect(receiptCustomerText).toContain(customerName);
 	},
@@ -2192,9 +2216,9 @@ Then(
 Then(
 	'I should see the point {string} on the receipt',
 	async ({ page }, point: string) => {
-		const pointCell = page.locator(
-			'table.mt-1 td.left-column:has-text("Point") + td',
-		);
+		const pointCell = page
+			.locator('table >> text=Point')
+			.locator('xpath=following-sibling::td[1]');
 		const actualPoint = await pointCell.innerText();
 		expect(actualPoint.trim()).toBe(point);
 	},
@@ -2203,45 +2227,45 @@ Then(
 Then(
 	'I should see the service quantity {string} on the receipt',
 	async ({ page }, qty: string) => {
-		const qtyCell = page.locator('.ticket-item .flex-05', { hasText: qty });
-		await expect(qtyCell).toBeVisible();
+		const serviceRow = page.locator('div[style*="display: flex"] >> nth=3');
+		const qtyCell = serviceRow.locator('div').nth(0);
+		await expect(qtyCell).toHaveText(qty);
 	},
 );
 
 Then(
 	'I should see the service name {string} on the receipt',
 	async ({ page }, item: string) => {
-		const serviceName = page.locator('.ticket-item .flex-3', { hasText: item });
-		await expect(serviceName).toBeVisible();
+		const serviceRow = page.locator('div[style*="display: flex"] >> nth=3');
+		const serviceName = serviceRow.locator('div').nth(1);
+		await expect(serviceName).toHaveText(item);
 	},
 );
 
 Then(
 	'I should see the technician name {string} on the receipt',
 	async ({ page }, name: string) => {
-		const technicianName = page.locator('.ticket-item #userInfo', {
-			hasText: name,
-		});
-		await expect(technicianName).toBeVisible();
+		const serviceRow = page.locator('div[style*="display: flex"] >> nth=3');
+		const technicianName = serviceRow.locator('div').nth(2);
+		await expect(technicianName).toHaveText(name);
 	},
 );
 
 Then(
 	'I should see the service price {string} on the receipt',
 	async ({ page }, price: string) => {
-		const priceCell = page.locator('.ticket-item .align-right', {
-			hasText: price,
-		});
-		await expect(priceCell).toBeVisible();
+		const serviceRow = page.locator('div[style*="display: flex"] >> nth=3');
+		const priceCell = serviceRow.locator('div').nth(3);
+		await expect(priceCell).toHaveText(price);
 	},
 );
 
 Then(
 	'I should see the TIP amount {string} on the receipt',
 	async ({ page }, tip: string) => {
-		const tipCell = page.locator('tr:has-text("TIP") .align-right', {
-			hasText: tip,
-		});
+		const tipCell = page
+			.locator('tr', { hasText: 'TIP' })
+			.locator('td', { hasText: tip });
 		await expect(tipCell).toBeVisible();
 	},
 );
@@ -2249,9 +2273,9 @@ Then(
 Then(
 	'I should see the SUBTOTAL {string} on the receipt',
 	async ({ page }, subtotal: string) => {
-		const subtotalCell = page.locator('tr:has-text("SUBTOTAL") .align-right', {
-			hasText: subtotal,
-		});
+		const subtotalCell = page
+			.locator('tr', { hasText: 'SUBTOTAL' })
+			.locator('td', { hasText: subtotal });
 		await expect(subtotalCell).toBeVisible();
 	},
 );
@@ -2259,9 +2283,9 @@ Then(
 Then(
 	'I should see the TAX {string} on the receipt',
 	async ({ page }, tax: string) => {
-		const taxCell = page.locator('tr:has-text("TAX") .align-right', {
-			hasText: tax,
-		});
+		const taxCell = page
+			.locator('tr', { hasText: 'TAX' })
+			.locator('td', { hasText: tax });
 		await expect(taxCell).toBeVisible();
 	},
 );
@@ -2270,9 +2294,8 @@ Then(
 	'I should see the TOTAL {string} on the receipt',
 	async ({ page }, total: string) => {
 		const totalCell = page
-			.locator('tr:has-text("TOTAL") .align-right', {
-				hasText: total,
-			})
+			.locator('tr', { hasText: 'TOTAL' })
+			.locator('td', { hasText: total })
 			.last();
 		await expect(totalCell).toBeVisible();
 	},
@@ -2281,9 +2304,9 @@ Then(
 Then(
 	'I should see the CHANGE amount {string} on the receipt',
 	async ({ page }, change: string) => {
-		const changeCell = page.locator('tr:has-text("CHANGE") .align-right', {
-			hasText: change,
-		});
+		const changeCell = page
+			.locator('tr', { hasText: 'CHANGE' })
+			.locator('td', { hasText: change });
 		await expect(changeCell).toBeVisible();
 	},
 );
@@ -2291,7 +2314,7 @@ Then(
 Then(
 	'I should see the payment label {string} on the receipt',
 	async ({ page }, label: string) => {
-		const paymentLabel = page.locator('.align-center.mt-1', { hasText: label });
+		const paymentLabel = page.locator('p', { hasText: label });
 		await expect(paymentLabel).toBeVisible();
 	},
 );
@@ -2299,7 +2322,7 @@ Then(
 Then(
 	'I should see the payment method {string} on the receipt',
 	async ({ page }, method: string) => {
-		const paymentMethod = page.locator('td', { hasText: method });
+		const paymentMethod = page.locator('table >> td', { hasText: method });
 		await expect(paymentMethod).toBeVisible();
 	},
 );
@@ -2307,17 +2330,16 @@ Then(
 Then(
 	'I should see the cash payment amount {string} on the receipt',
 	async ({ page }, amount: string) => {
-		const paymentAmount = page.locator('tr:has-text("Cash") .align-right', {
-			hasText: amount,
-		});
-		await expect(paymentAmount).toBeVisible();
+		const cashRow = page.locator('tr', { hasText: 'Cash' });
+		const cashAmountCell = cashRow.locator('td').nth(2);
+		await expect(cashAmountCell).toHaveText(amount);
 	},
 );
 
 Then(
 	'I should see the message {string} on the receipt',
 	async ({ page }, msg: string) => {
-		const message = page.locator('.align-center', { hasText: msg });
+		const message = page.locator('.render-bill', { hasText: msg });
 		await expect(message).toBeVisible();
 	},
 );
@@ -2325,11 +2347,12 @@ Then(
 Then(
 	'I should see the tip guide {string} on the receipt',
 	async ({ page }, msg: string) => {
-		const message = page.locator('td', { hasText: msg });
+		const message = page.locator('.render-bill', { hasText: msg });
 		await expect(message).toBeVisible();
 	},
 );
 
 Then('I should see the QR code on the receipt', async ({ page }) => {
-	await expect(page.locator('.qr img')).toBeVisible();
+	const qrCode = page.locator('.render-bill .e-qrcode');
+	await expect(qrCode).toBeVisible();
 });

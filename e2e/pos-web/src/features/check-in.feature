@@ -327,7 +327,7 @@ Feature: Check In
     And I should see the hint details "FULL SET & FILL IN (Next Available)"
 
     When I wait for the page fully loaded
-    And I add the "Acrylic removal" service to my cart
+    And I add the "Fill gel" service to my cart
     Then I should see my cart showing 1 item added
     And I should see the "Anna" employee in my cart
 

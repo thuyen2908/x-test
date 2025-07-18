@@ -106,7 +106,8 @@ Feature: Turn details
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
-    And I should see the employee "Avery" in the employee list
+    When I wait for the page fully loaded
+    Then I should see the employee "Avery" in the employee list
     And I should see the turn number for "Avery" is 1.0
 
     When I click on the "Tickets" label in the header
