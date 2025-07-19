@@ -246,9 +246,9 @@ Feature: Reopen tickets
 
     When I click on the total price of "Manicure"
     Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "13"
+    When I change the price to "23.5"
     And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$13.00" visible
+    Then I should see the total price "$23.50" visible
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -263,11 +263,11 @@ Feature: Reopen tickets
     When I click on the "Tickets" label in the header
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "13"
+    When I search for "23.5"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$13.00"
+    Then I should see the last ticket of Cash payment "$23.50"
 
-    When I click on the last row for payment "$13.00" to expand details
+    When I click on the last row for payment "$23.50" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -283,7 +283,7 @@ Feature: Reopen tickets
     When I click on the more menu for payment history of "Cash"
     Then I should see the tooltip remove
     When I click on the tooltip remove
-    Then I should see a popup dialog with title "Cash  - $13.00"
+    Then I should see a popup dialog with title "Cash  - $23.50"
     When I click on the "Remove" button in the popup dialog
 
     When I select the "Credit" payment type
@@ -535,15 +535,22 @@ Feature: Reopen tickets
     Then I should see the "Ticket View" screen
     And I should see the "GIFT CARD" category
 
+    When I add the "Acrylic removal" service to my cart
+    And I click on the total price of "Acrylic removal"
+    Then I should see a popup dialog with title "Service: Acrylic removal - $30.00"
+    When I change the price to "27.5"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$27.50" visible
+
     When I select the "GIFT CARD" category
     Then I should see the "Gift card $50" service
     When I add the "Gift card $50" service to my cart
     Then I should see a popup dialog with title "Activate Gift Card $50.00"
 
-    When I enter the amount "4546"
+    When I enter the amount "1703"
     And I click on the "OK" button in the popup dialog
     Then I should see my cart showing 1 item added
-    And I should see the service "Gift card $50 (4546)" in my cart
+    And I should see the service "Gift card $50 (1703)" in my cart
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -559,11 +566,11 @@ Feature: Reopen tickets
     When I click on the "Tickets" label in the header
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "50"
+    When I search for "77.5"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$50.00"
+    Then I should see the last ticket of Cash payment "$77.50"
 
-    When I click on the last row for payment "$50.00" to expand details
+    When I click on the last row for payment "$77.50" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -572,17 +579,106 @@ Feature: Reopen tickets
     And I should see the user info "Isabella" in the ticket
 
     When I void the current open ticket with no reason
+    And I wait for the page fully loaded
     Then I should be redirected to HOME page
 
-    When I click on the "Balance" label in the header
+    When I navigate to "Appointment" on the navigation bar
+    And I click on the "Balance" label in the header
     And I select the "Gift Card" option
     Then I should be redirected to GIFT_CARD_BALANCE page
     And I should see the text "Gift Card" visible
 
-    When I enter the amount "4546"
+    When I enter the amount "1703"
     And I click on the "SEARCH" button
+    And I wait for the page fully loaded
     Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
-    And I should see a popup dialog with content "Do you want to activate gift card #4546"
+    And I should see a popup dialog with content "Do you want to activate gift card #1703"
+
+  Scenario: Sell a new Gift Card then void item Gift Card
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "6727"
+    Then I should see the employee "Alexis" in the employee list
+    When I select the "Alexis" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "GIFT CARD" category
+
+    When I add the "Acrylic removal" service to my cart
+    And I click on the total price of "Acrylic removal"
+    Then I should see a popup dialog with title "Service: Acrylic removal - $30.00"
+    When I change the price to "25.7"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$25.70" visible
+
+    When I select the "GIFT CARD" category
+    Then I should see the "Gift card $50" service
+    When I add the "Gift card $50" service to my cart
+    Then I should see a popup dialog with title "Activate Gift Card $50.00"
+
+    When I enter the amount "0103"
+    And I click on the "OK" button in the popup dialog
+    Then I should see my cart showing 2 item added
+    And I should see the service "Gift card $50 (0103)" in my cart
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the text "PAYMENT HISTORY" visible
+    And I should see the button with id "payment" visible
+
+    When I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page
+
+    When I click on the "Tickets" label in the header
+    Then I should be redirected to CLOSED_TICKETS page
+
+    When I search for "75.7"
+    And I wait for the page fully loaded
+    Then I should see the last ticket of Cash payment "$75.70"
+
+    When I click on the last row for payment "$75.70" to expand details
+    Then I should see the "Reopen ticket" button visible
+
+    When I click on the "Reopen ticket" button
+    And I wait for the page fully loaded
+    Then I should see the "Ticket View" screen
+    And I should see the user info "Alexis" in the ticket
+
+    When I click on the item "VOID ITEM" button
+    Then I should see a popup dialog with title "VOID MULTIPLE"
+    When I select the "Gift card $50 (0103)" service in the dialog
+    And I click on the "Void Items" button in the dialog
+    Then I should see my cart showing 1 item added
+
+    When I wait for the page fully loaded
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+
+    When I click on the more menu for payment history of "Cash"
+    Then I should see the tooltip remove
+    When I click on the tooltip remove
+    Then I should see a popup dialog with title "Cash  - $75.70"
+    When I click on the "Remove" button in the popup dialog
+    When I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    And I wait for the page fully loaded
+    Then I should be redirected to HOME page
+
+    When I navigate to "Appointment" on the navigation bar
+    And I click on the "Balance" label in the header
+    And I select the "Gift Card" option
+    And I wait for the page fully loaded
+    Then I should be redirected to GIFT_CARD_BALANCE page
+    And I should see the text "Gift Card" visible
+
+    When I enter the amount "0103"
+    And I click on the "SEARCH" button
+    And I wait for the page fully loaded
+    Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
+    And I should see a popup dialog with content "Do you want to activate gift card #0103"
 
   @skip
   Scenario: Remove loyalty balance when voiding ticket

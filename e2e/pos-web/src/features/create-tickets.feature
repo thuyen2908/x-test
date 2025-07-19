@@ -399,8 +399,10 @@ Feature: Create tickets
     Then I should be redirected to HOME page
 
     When I wait for the page fully loaded
-    And I navigate to "Balance" on the navigation bar
+    And I navigate to "Appointment" on the navigation bar
+    And I click on the "Balance" label in the header
     And I select the "Gift Card" option
+    And I wait for the page fully loaded
     Then I should be redirected to GIFT_CARD_BALANCE page
     And I should see the text "Gift Card" visible
 
@@ -444,8 +446,10 @@ Feature: Create tickets
     Then I should be redirected to HOME page
 
     When I wait for the page fully loaded
-    And I navigate to "Balance" on the navigation bar
+    And I navigate to "Appointment" on the navigation bar
+    And I click on the "Balance" label in the header
     And I select the "Gift Card" option
+    And I wait for the page fully loaded
     Then I should be redirected to GIFT_CARD_BALANCE page
     And I should see the text "Gift Card" visible
 
