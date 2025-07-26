@@ -16,7 +16,7 @@
 		"test:debug": "pnpm test --debug"
 	},
 	"devDependencies": {
-		"@dotenvx/dotenvx": "^1.48.0",
+		"@dotenvx/dotenvx": "^1.48.3",
 		"@playwright/test": "^1.54.1",
 		"@types/fs-extra": "^11.0.4",
 		"@types/node": "^22.16.5",
@@ -29,6 +29,6 @@
 		"remeda": "^2.26.1",
 		"rimraf": "^6.0.1",
 		"typescript": "^5.8.3",
-		"zod": "^4.0.5"
+		"zod": "^4.0.10"
 	}
 }

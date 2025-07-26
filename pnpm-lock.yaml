@@ -45,8 +45,8 @@ importers:
   e2e/pos-web:
     devDependencies:
       '@dotenvx/dotenvx':
-        specifier: ^1.48.0
-        version: 1.48.0
+        specifier: ^1.48.3
+        version: 1.48.3
       '@playwright/test':
         specifier: ^1.54.1
         version: 1.54.1
@@ -84,8 +84,8 @@ importers:
         specifier: ^5.8.3
         version: 5.8.3
       zod:
-        specifier: ^4.0.5
-        version: 4.0.5
+        specifier: ^4.0.10
+        version: 4.0.10
 
   packages/common:
     dependencies:
@@ -93,8 +93,8 @@ importers:
         specifier: ^1.3.3
         version: 1.3.3
       zod:
-        specifier: ^4.0.5
-        version: 4.0.5
+        specifier: ^4.0.10
+        version: 4.0.10
     devDependencies:
       '@types/node':
         specifier: ^22.16.5
@@ -112,11 +112,11 @@ importers:
         specifier: ^5.8.3
         version: 5.8.3
       vite:
-        specifier: ^7.0.5
-        version: 7.0.5(@types/node@22.16.5)(jiti@2.4.2)(yaml@2.7.0)
+        specifier: ^7.0.6
+        version: 7.0.6(@types/node@22.16.5)(jiti@2.4.2)(yaml@2.7.0)
       vite-plugin-dts:
         specifier: ^4.5.4
-        version: 4.5.4(@types/node@22.16.5)(rollup@4.44.1)(typescript@5.8.3)(vite@7.0.5(@types/node@22.16.5)(jiti@2.4.2)(yaml@2.7.0))
+        version: 4.5.4(@types/node@22.16.5)(rollup@4.44.1)(typescript@5.8.3)(vite@7.0.6(@types/node@22.16.5)(jiti@2.4.2)(yaml@2.7.0))
 
   packages/toolchains:
     dependencies:
@@ -143,8 +143,8 @@ importers:
         specifier: ^5.8.3
         version: 5.8.3
       vite:
-        specifier: ^7.0.5
-        version: 7.0.5(@types/node@22.16.5)(jiti@2.4.2)(yaml@2.7.0)
+        specifier: ^7.0.6
+        version: 7.0.6(@types/node@22.16.5)(jiti@2.4.2)(yaml@2.7.0)
 
 packages:
 
@@ -348,8 +348,8 @@ packages:
   '@cucumber/tag-expressions@6.2.0':
     resolution: {integrity: sha512-KIF0eLcafHbWOuSDWFw0lMmgJOLdDRWjEL1kfXEWrqHmx2119HxVAr35WuEd9z542d3Yyg+XNqSr+81rIKqEdg==}
 
-  '@dotenvx/dotenvx@1.48.0':
-    resolution: {integrity: sha512-UrAKBvUYl8SwCyYa8U8lND4rkdPbd7uOPtCPeiObeg5B44yrdH2ioO0tLfsGAGoenLmf6IpN6be4eT4gXxyzjQ==}
+  '@dotenvx/dotenvx@1.48.3':
+    resolution: {integrity: sha512-7Tk0Rzgz0SEkaJRGijbKtVDHHztHz9fyXwcDT86VtD1fGVRirk4aBKUud1PEQdhwcg+jDblKGoXeA+I7J60CxQ==}
     hasBin: true
 
   '@ecies/ciphers@0.2.2':
@@ -1690,6 +1690,10 @@ packages:
     resolution: {integrity: sha512-M7BAV6Rlcy5u+m6oPhAPFgJTzAioX/6B0DxyvDlo9l8+T3nLKbrczg2WLUyzd45L8RqfUMyGPzekbMvX2Ldkwg==}
     engines: {node: '>=12'}
 
+  picomatch@4.0.3:
+    resolution: {integrity: sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q==}
+    engines: {node: '>=12'}
+
   pkg-types@1.3.0:
     resolution: {integrity: sha512-kS7yWjVFCkIw9hqdJBoMxDdzEngmkr5FXeWZZfQ6GoYacjVnsW6l2CcYW/0ThD0vF4LPJgVYnrg4d0uuhwYQbg==}
 
@@ -2055,8 +2059,8 @@ packages:
       vite:
         optional: true
 
-  vite@7.0.5:
-    resolution: {integrity: sha512-1mncVwJxy2C9ThLwz0+2GKZyEXuC3MyWtAAlNftlZZXZDP3AJt5FmwcMit/IGGaNZ8ZOB2BNO/HFUB+CpN0NQw==}
+  vite@7.0.6:
+    resolution: {integrity: sha512-MHFiOENNBd+Bd9uvc8GEsIzdkn1JxMmEeYX35tI3fv0sJBUTfW5tQsoaOwuY4KhBI09A3dUJ/DXf2yxPVPUceg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
@@ -2158,8 +2162,8 @@ packages:
     resolution: {integrity: sha512-b4JR1PFR10y1mKjhHY9LaGo6tmrgjit7hxVIeAmyMw3jegXR4dhYqLaQF5zMXZxY7tLpMyJeLjr1C4rLmkVe8g==}
     engines: {node: '>=12.20'}
 
-  zod@4.0.5:
-    resolution: {integrity: sha512-/5UuuRPStvHXu7RS+gmvRf4NXrNxpSllGwDnCBcJZtQsKrviYXm54yDGV2KYNLT5kq0lHGcl7lqWJLgSaG+tgA==}
+  zod@4.0.10:
+    resolution: {integrity: sha512-3vB+UU3/VmLL2lvwcY/4RV2i9z/YU0DTV/tDuYjrwmx5WeJ7hwy+rGEEx8glHp6Yxw7ibRbKSaIFBgReRPe5KA==}
 
 snapshots:
 
@@ -2420,7 +2424,7 @@ snapshots:
 
   '@cucumber/tag-expressions@6.2.0': {}
 
-  '@dotenvx/dotenvx@1.48.0':
+  '@dotenvx/dotenvx@1.48.3':
     dependencies:
       commander: 11.1.0
       dotenv: 16.4.7
@@ -3155,6 +3159,10 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.2
 
+  fdir@6.4.6(picomatch@4.0.3):
+    optionalDependencies:
+      picomatch: 4.0.3
+
   figures@3.2.0:
     dependencies:
       escape-string-regexp: 1.0.5
@@ -3675,6 +3683,8 @@ snapshots:
 
   picomatch@4.0.2: {}
 
+  picomatch@4.0.3: {}
+
   pkg-types@1.3.0:
     dependencies:
       confbox: 0.1.8
@@ -3922,8 +3932,8 @@ snapshots:
 
   tinyglobby@0.2.14:
     dependencies:
-      fdir: 6.4.6(picomatch@4.0.2)
-      picomatch: 4.0.2
+      fdir: 6.4.6(picomatch@4.0.3)
+      picomatch: 4.0.3
 
   tmp@0.0.33:
     dependencies:
@@ -3992,7 +4002,7 @@ snapshots:
 
   uuid@11.0.5: {}
 
-  vite-plugin-dts@4.5.4(@types/node@22.16.5)(rollup@4.44.1)(typescript@5.8.3)(vite@7.0.5(@types/node@22.16.5)(jiti@2.4.2)(yaml@2.7.0)):
+  vite-plugin-dts@4.5.4(@types/node@22.16.5)(rollup@4.44.1)(typescript@5.8.3)(vite@7.0.6(@types/node@22.16.5)(jiti@2.4.2)(yaml@2.7.0)):
     dependencies:
       '@microsoft/api-extractor': 7.51.0(@types/node@22.16.5)
       '@rollup/pluginutils': 5.1.4(rollup@4.44.1)
@@ -4005,17 +4015,17 @@ snapshots:
       magic-string: 0.30.17
       typescript: 5.8.3
     optionalDependencies:
-      vite: 7.0.5(@types/node@22.16.5)(jiti@2.4.2)(yaml@2.7.0)
+      vite: 7.0.6(@types/node@22.16.5)(jiti@2.4.2)(yaml@2.7.0)
     transitivePeerDependencies:
       - '@types/node'
       - rollup
       - supports-color
 
-  vite@7.0.5(@types/node@22.16.5)(jiti@2.4.2)(yaml@2.7.0):
+  vite@7.0.6(@types/node@22.16.5)(jiti@2.4.2)(yaml@2.7.0):
     dependencies:
       esbuild: 0.25.2
-      fdir: 6.4.6(picomatch@4.0.2)
-      picomatch: 4.0.2
+      fdir: 6.4.6(picomatch@4.0.3)
+      picomatch: 4.0.3
       postcss: 8.5.6
       rollup: 4.44.1
       tinyglobby: 0.2.14
@@ -4081,4 +4091,4 @@ snapshots:
 
   yocto-queue@1.1.1: {}
 
-  zod@4.0.5: {}
+  zod@4.0.10: {}
