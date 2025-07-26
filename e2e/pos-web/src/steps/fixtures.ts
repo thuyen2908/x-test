@@ -1,8 +1,7 @@
 import { test as base, createBdd } from 'playwright-bdd';
 
-import { type TestConfig, getConfig } from '../test-config';
+import { getConfig, type TestConfig } from '../test-config';
 import { TestStorage } from '../test-storage';
-
 import { HomePage } from './home.page';
 import { LoginPage } from './login.page';
 import { TicketViewPage } from './ticket-view.page';

@@ -1,4 +1,4 @@
-import { type Locator, type Page, expect } from '@playwright/test';
+import { expect, type Locator, type Page } from '@playwright/test';
 import { Fixture, Given, When } from 'playwright-bdd/decorators';
 
 import { constants } from '#const';
@@ -6,7 +6,6 @@ import type { PageId, TestOptions } from '#types';
 
 import type { TestConfig } from '../test-config';
 import type { TestStorage } from '../test-storage';
-
 import type { TimesheetAction } from './parameters';
 
 declare global {

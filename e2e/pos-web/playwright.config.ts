@@ -1,17 +1,16 @@
 import {
-	type PlaywrightTestProject,
-	type ReporterDescription,
 	defineConfig,
 	devices,
+	type PlaywrightTestProject,
+	type ReporterDescription,
 } from '@playwright/test';
 import { defineBddConfig } from 'playwright-bdd';
 
-import type { Fixtures } from './src/steps/fixtures';
-import { UserRole } from './src/types/common';
-
 import { constants } from './src/const';
 import { env } from './src/env';
+import { type Fixtures } from './src/steps/fixtures';
 import { getConfig } from './src/test-config';
+import { UserRole } from './src/types/common';
 
 const isCI = env.isCI;
 const baseURL = env.baseURL;

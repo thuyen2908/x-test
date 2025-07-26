@@ -19,6 +19,15 @@
 
 			"suspicious": {
 				"noConsole": "warn"
+			},
+
+			"style": {
+				"useImportType": {
+					"level": "warn",
+					"options": {
+						"style": "inlineType"
+					}
+				}
 			}
 		}
 	},
@@ -26,6 +35,28 @@
 		"formatter": {
 			"quoteStyle": "single",
 			"jsxQuoteStyle": "single"
+		}
+	},
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": {
+					"level": "on",
+					"options": {
+						"groups": [
+							[":NODE:", ":BUN:"],
+							":BLANK_LINE:",
+							[":PACKAGE:", ":PACKAGE_WITH_PROTOCOL:", "!@x-test/**"],
+							":BLANK_LINE:",
+							["@x-test/**", ":ALIAS:"],
+							":BLANK_LINE:",
+							":URL:",
+							":BLANK_LINE:",
+							["../**", ":PATH:"]
+						]
+					}
+				}
+			}
 		}
 	}
 }

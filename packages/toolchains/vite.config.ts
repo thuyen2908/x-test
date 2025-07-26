@@ -1,7 +1,6 @@
 import path from 'node:path';
 
 import nodeExternals from 'rollup-plugin-node-externals';
-
 import { defineConfig, normalizePath } from 'vite';
 
 const ENTRIES = {

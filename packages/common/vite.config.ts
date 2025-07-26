@@ -2,9 +2,8 @@ import path from 'node:path';
 
 import nodeExternals from 'rollup-plugin-node-externals';
 import { visualizer } from 'rollup-plugin-visualizer';
-import dts from 'vite-plugin-dts';
-
 import { defineConfig, normalizePath } from 'vite';
+import dts from 'vite-plugin-dts';
 
 const ENTRIES = {
 	index: normalizePath(path.resolve(__dirname, 'src/shared/index.ts')),

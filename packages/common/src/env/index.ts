@@ -18,7 +18,7 @@ declare global {
 /**
  * An utility class to safely parse and access environment variables
  */
-export class Env<TSchema extends z.AnyZodObject = z.AnyZodObject> {
+export class Env<TSchema extends z.ZodObject = z.ZodObject> {
 	/**
 	 * The final environment schema
 	 */
