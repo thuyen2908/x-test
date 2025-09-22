@@ -55,7 +55,7 @@ Feature: Create tickets
     Then I should see my cart showing 1 item added
 
     When I click on the Select customer
-    And I click on the "Click Here To Add Customers" button
+    And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
     And I should see the loyalty program "2 Points = $1" visible
 
@@ -123,6 +123,8 @@ Feature: Create tickets
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
     And I should see the text "PAYMENT HISTORY" visible
+    And I should see the card price amount "$11.30" visible
+    And I should see the cash price amount "$11.00" visible
 
     When I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
@@ -347,7 +349,7 @@ Feature: Create tickets
     Then I should see my cart showing 1 item added
 
     When I click on the adding "Discount" button
-    Then I should see a popup dialog with title "Add Discount Ticket"
+    Then I should see a popup dialog with title "Discount Ticket"
     And I should see the "Owner Absorbs" option is checked
 
     When I select the discount "Open Discount"
@@ -400,8 +402,8 @@ Feature: Create tickets
 
     When I wait for the page fully loaded
     And I navigate to "Appointment" on the navigation bar
-    And I click on the "Balance" label in the header
-    And I select the "Gift Card" option
+    And I navigate to "Balance" on the navigation bar
+    And I navigate to "Gift Card" on the navigation bar
     And I wait for the page fully loaded
     Then I should be redirected to GIFT_CARD_BALANCE page
     And I should see the text "Gift Card" visible
@@ -447,8 +449,8 @@ Feature: Create tickets
 
     When I wait for the page fully loaded
     And I navigate to "Appointment" on the navigation bar
-    And I click on the "Balance" label in the header
-    And I select the "Gift Card" option
+    And I navigate to "Balance" on the navigation bar
+    And I navigate to "Gift Card" on the navigation bar
     And I wait for the page fully loaded
     Then I should be redirected to GIFT_CARD_BALANCE page
     And I should see the text "Gift Card" visible
@@ -458,8 +460,8 @@ Feature: Create tickets
     And I wait for the page fully loaded
     Then I should see the text "DETAILS" visible
     And I should see the first date is today in the gift card detail list
-    And I should see the first type "OverwriteAdjust" in the gift card detail list
-    And I should see the first amount "($100.00)" in the gift card detail list
+    And I should see the first type "Overwrite" in the gift card detail list
+    And I should see the first amount "$100.00" in the gift card detail list
 
   Scenario: Remove tax in ticket
     Given I am on the HOME page
@@ -553,6 +555,7 @@ Feature: Create tickets
     When I click on the item "COMBINE TICKET" button
     Then I should see a popup dialog with title "Combine Ticket"
     When I click on the "Sarah" text inside the content section of the opening dialog
+    And I click on the "Combine Ticket" button in the popup dialog
     Then I should see a second popup dialog with title "Confirm Combine Ticket"
     When I click on the "confirm" button in the popup dialog
 
@@ -817,7 +820,7 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-    When I click on the "Tickets" label in the header
+    When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
     When I search for "35.7"
@@ -861,3 +864,6 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
+
+  @skip
+  Scenario: Add discount ticket while paying
