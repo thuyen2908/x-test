@@ -72,6 +72,7 @@ export class Const {
 			[PageId.LOGIN]: `${baseURL}/login`,
 			[PageId.TICKET_VIEW]: `${baseURL}/tickets`,
 			[PageId.WAITING_LIST]: `${baseURL}/waiting-list`,
+			[PageId.CREATE_WAITING]: `${baseURL}/waiting-list/create`,
 			[PageId.GIFT_CARD_BALANCE]: `${baseURL}/gift-card-balance`,
 			[PageId.LOYALTY_BALANCE]: `${baseURL}/loyalty-balance`,
 			[PageId.CLOSED_TICKETS]: `${baseURL}/closed-tickets`,

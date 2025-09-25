@@ -173,6 +173,10 @@ When(
 	},
 );
 
+When('I close the popup dialog', async ({ page }) => {
+	await page.locator('button[title="Close"]').click();
+});
+
 Then('I should see the tax amount non-zero', async ({ page }) => {
 	const chargeTax = page.locator('.xCharge__taxes');
 
@@ -184,7 +188,7 @@ When(
 	'I select the {string} payment type',
 	async ({ page }, paymentType: string) => {
 		const paymentTypeButton = page
-			.locator('.xPayment__type')
+			.locator('.paymentType')
 			.getByText(paymentType, { exact: true });
 		await expect(paymentTypeButton).toBeVisible();
 
@@ -292,10 +296,9 @@ When(
 
 When(
 	'I click on the adding {string} button',
-	async ({ page }, button: string) => {
-		const buttonElement = page.locator('.xCharge').getByText(button);
+	async ({ page }, adding: string) => {
+		const buttonElement = page.locator('.xCharge').getByText(adding);
 		await expect(buttonElement).toBeVisible();
-
 		await buttonElement.click();
 	},
 );
@@ -327,9 +330,9 @@ When(
 				.click();
 		}
 
-		await expect(page.locator('.xPayment__card--number-digits')).toContainText(
-			number,
-		);
+		await expect(
+			page.locator('.xTicketFunctions__payment--input'),
+		).toContainText(number);
 	},
 );
 
@@ -557,6 +560,12 @@ Then(
 	},
 );
 
+Then('I should see the new customer icon', async ({ page }) => {
+	await expect(
+		page.locator('[data-testid="NewCustomerIconIcon"]').last(),
+	).toBeVisible();
+});
+
 Then(
 	'I should see the service {string} in the waiting list',
 	async ({ page }, service: string) => {
@@ -633,10 +642,12 @@ When('I select the title {string}', async ({ page }, name: string) => {
 Then(
 	'I should see the payment history {string} visible',
 	async ({ page }, paymentHistory: string) => {
-		const paymentHistoryElement = page
-			.locator('.xPayment__history--nameType')
-			.getByText(paymentHistory);
-		await expect(paymentHistoryElement).toHaveText(paymentHistory);
+		const paymentHistoryElement = page.locator(
+			'.xTicketFunctions__payment--history li',
+		);
+
+		await expect(paymentHistoryElement).toBeVisible();
+		await expect(paymentHistoryElement).toContainText(paymentHistory);
 	},
 );
 
@@ -1325,6 +1336,65 @@ When(
 			.locator('.xTicketItems__content')
 			.getByText(service, { exact: true });
 		await serviceElement.click();
+	},
+);
+
+Then('I should see the ticket function menu', async ({ page }) => {
+	const ticketFunctionMenu = page.locator('ul.xTicketFunctions__menu');
+	await expect(ticketFunctionMenu).toBeVisible();
+});
+
+When('I select the group {string}', async ({ page }, group: string) => {
+	const groupElement = page
+		.locator('ul.xCharge__tax--action li')
+		.getByText(group, { exact: true });
+	await expect(groupElement).toBeVisible();
+	await groupElement.click();
+});
+
+When(
+	'I select the {string} employee in the list item employee',
+	async ({ page }, employee: string) => {
+		const employeeElement = page
+			.locator('ul.emp_layout_queue li.xEmployeeItem .nickName')
+			.getByText(employee, { exact: true });
+		await expect(employeeElement).toBeVisible();
+		await employeeElement.click();
+	},
+);
+
+Then(
+	'I should see a ticket functions title {string}',
+	async ({ page }, title: string) => {
+		const titleElement = page
+			.locator('.xTicketFunctions__title')
+			.getByText(title);
+		await expect(titleElement).toBeVisible();
+	},
+);
+
+When('I select the {string} on the menu', async ({ page }, menu: string) => {
+	const menuElement = page
+		.locator('ul.xTicketFunctions__menu li')
+		.getByText(menu);
+	await expect(menuElement).toBeVisible();
+	await menuElement.click();
+});
+
+When('I click on search', async ({ page }) => {
+	const searchIcon = page.locator('[data-testid="XSearchIcon"]');
+	await searchIcon.click();
+});
+
+Then(
+	'I should see the selected {string} tab on the Home page',
+	async ({ page }, tab: string) => {
+		const tabElement = page.locator('button.MuiTab-root.Mui-selected', {
+			hasText: tab,
+		});
+
+		await expect(tabElement).toBeVisible();
+		await expect(tabElement).toHaveAttribute('aria-selected', 'true');
 	},
 );
 

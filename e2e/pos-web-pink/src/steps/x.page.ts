@@ -67,10 +67,10 @@ class xPage {
 		const draggableDialog = (dialogTitle: string) =>
 			dialog(dialogTitle, 'draggable-dialog-title');
 
-		const pageHeader = page.locator('div.xMenu');
+		const pageHeader = page.locator('div.xHeader__main');
 
-		const companyProfile = pageHeader.locator('div.xCompanyProfile');
-		const merchantInfo = companyProfile.locator('div.xHeader__info');
+		const companyProfile = pageHeader.locator('div.xMerchantInfo');
+		const merchantInfo = pageHeader.locator('div.xMerchantInfo');
 
 		return {
 			/**
@@ -131,13 +131,13 @@ class xPage {
 			/**
 			 * Locate the name of the Salon on the top right corner of the page
 			 */
-			merchantName: merchantInfo.locator(
+			merchantName: companyProfile.locator(
 				'div.merchantInfo__dbaName > span.label',
 			),
 			/**
 			 * Locate the contact information (address, phone number,...) on the top right corner of the page
 			 */
-			merchantContact: merchantInfo.locator('div.merchantInfo__address'),
+			merchantContact: companyProfile.locator('div.merchantInfo__address'),
 
 			/**
 			 * Locate a Navigation Menu item

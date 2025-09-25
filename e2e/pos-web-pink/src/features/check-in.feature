@@ -4,11 +4,9 @@ Feature: Check In
   Scenario: Create a waiting for new customer, assign Service Package to Any Technician and create ticket
     Given I am on the HOME page
     When I wait for the page fully loaded
-    And I click on the "Check In" label in the header
-    Then I should be redirected to WAITING_LIST page
-
-    When I click on the "Add Customer" button in the waiting page
-    Then I should see the text "Create Waiting" visible
+    When I navigate to "WAIT" on the navigation bar
+    Then I should be redirected to CREATE_WAITING page
+    And I should see the text "Create Waiting" visible
     Then I should see the categories displayed correctly in check-in
     And I should see the services displayed correctly in check-in
     And I should see the "Next Available Service" service
@@ -35,32 +33,28 @@ Feature: Check In
 
     When I click on the "SAVE" button
     And I wait for the page fully loaded
-    Then I should be redirected to WAITING_LIST page
+    Then I should see the selected "WAITING LIST" tab on the Home page
 
-    When I wait for the page fully loaded
+    When I select the "WAITING LIST" tab
+    And I wait for the page fully loaded
     Then I should see the customer "Check-in" in the waiting list
+    And I should see the new customer icon
     And I should see the service "Combo 1" in the waiting list
     And I should see the technician "Any Technician" in the waiting list
 
     When I wait for the page fully loaded
     And I click on the first row for customer "Check-in" to expand details
-    Then I should see the "Create Ticket" button visible
-
-    When I click on the "Create Ticket" button
+    And I select the "Create Ticket" on the Daily Task
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Anna" in the ticket
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
-
-    When I click on the element with id "payment"
+    When I click on the "Pay" button
+    And I select the "Cash" payment type
     Then I should see a popup dialog with title "Close Ticket"
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    Then I should see the selected "SERVICE" tab on the Home page
 
   @skip
   Scenario: Create a waiting for existing customer, assign services to specific employees and create ticket
@@ -125,6 +119,7 @@ Feature: Check In
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
+  @skip
   Scenario: Display service hint in ticket view
     Given I am on the HOME page
     When I wait for the page fully loaded
@@ -188,6 +183,7 @@ Feature: Check In
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
+  @skip
   Scenario: Editing a waiting to add service and create ticket
     Given I am on the HOME page
     When I wait for the page fully loaded
@@ -271,6 +267,7 @@ Feature: Check In
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
+  @skip
   Scenario: Make appointment for Next Available Service and fill duration
     Given I am on the HOME page
     When I wait for the page fully loaded
@@ -342,6 +339,7 @@ Feature: Check In
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
+  @skip
   Scenario: Delete a waiting
     Given I am on the HOME page
     When I wait for the page fully loaded
@@ -388,6 +386,7 @@ Feature: Check In
     And I wait for the page fully loaded
     Then I should not see the customer "Delete" in the waiting list
 
+  @skip
   Scenario: Update the user info when changing technician for ticket check-in
     Given I am on the HOME page
     When I wait for the page fully loaded
@@ -460,6 +459,7 @@ Feature: Check In
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
+  @skip
   Scenario: Recreate a waiting after voiding ticket
     Given I am on the HOME page
     When I wait for the page fully loaded

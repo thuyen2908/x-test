@@ -15,16 +15,12 @@ Feature: Create tickets
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
-
-    When I click on the element with id "payment"
+    When I click on the "Pay" button
+    And I select the "Cash" payment type
     Then I should see a popup dialog with title "Close Ticket"
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    Then I should see the selected "SERVICE" tab on the Home page
 
   @skip
   Scenario: Add an existing customer to a new ticket and pay with Loyalty points
@@ -49,10 +45,12 @@ Feature: Create tickets
     When I redeem my loyalty points
     Then I should be redirected to HOME page
 
-  @skip
   Scenario: Create a new customer on the fly
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "0917"
+    When I click on the functions
+    And I select the "Clock In" on the Daily Task
+    And I enter password with PIN "0917"
+    And I click on the "CONFIRM" button in the popup dialog
     Then I should see the employee "Dylan" in the employee list
     When I select the "Dylan" employee
     And I add the "Manicure" service to my cart
@@ -68,20 +66,19 @@ Feature: Create tickets
     And I click on the "SAVE" button in the create new customer dialog
     Then I should see a new customer "Guest" on ticket
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-
-    When I click on the element with id "payment"
+    When I click on the "Pay" button
+    And I select the "Cash" payment type
     Then I should see a popup dialog with title "Close Ticket"
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    Then I should see the selected "SERVICE" tab on the Home page
 
-  @skip
   Scenario: Create a ticket with multiple technicians
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "2860"
+    When I click on the functions
+    And I select the "Clock In" on the Daily Task
+    And I enter password with PIN "2860"
+    And I click on the "CONFIRM" button in the popup dialog
     Then I should see the employee "Tina" in the employee list
     When I select the "Tina" employee
     Then I should see the "Ticket View" screen
@@ -91,28 +88,26 @@ Feature: Create tickets
     When I add the "Pedicure" service to my cart
     Then I should see my cart showing 2 item added
 
-    When I click on the item "Technician" button
-    Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
-    When I select the "Manicure" service in the dialog
-    And I select the "Anna" employee in the dialog
-    And I click on the "Apply" button in the dialog
+    When I select the service "Pedicure" in my cart
+    Then I should see the ticket function menu
+    When I select the "Anna" employee in the list item employee
+    Then I should see a popup dialog with title "SELECT TURN GROUP"
+    When I select the group "Nails"
     Then I should see the "Anna" employee in my cart
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
-
-    When I click on the element with id "payment"
+    When I click on the "Pay" button
+    And I select the "Cash" payment type
     Then I should see a popup dialog with title "Close Ticket"
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    Then I should see the selected "SERVICE" tab on the Home page
 
-  @skip
   Scenario: Create a ticket, add Tip and pay with Credit card
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "0101"
+    When I click on the functions
+    And I select the "Clock In" on the Daily Task
+    And I enter password with PIN "0101"
+    And I click on the "CONFIRM" button in the popup dialog
     Then I should see the employee "Laura" in the employee list
     When I select the "Laura" employee
     Then I should see the "Ticket View" screen
@@ -122,23 +117,24 @@ Feature: Create tickets
     Then I should see my cart showing 1 item added
 
     When I click on the adding "Tip" button
-    Then I should see a popup dialog with title "Add Tip"
+    Then I should see a ticket functions title "ENTER TIP AMOUNT"
     When I fill "5" from the numpad
     Then I should see "$5.00" tip in my cart
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-
-    When I select the "Credit" payment type
+    When I click on the "Pay" button
+    And I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
-    And I click on the element with id "payment"
-    Then I should be redirected to HOME page
+    And I select the "VISA" on the menu
+    Then I should see the payment history "VISA (1234)$6.33 + $5.00" visible
+    When I click on the "Close Ticket" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
-  @skip
   Scenario: Create a ticket and pay with Gift Card type
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "0404"
+    When I click on the functions
+    And I select the "Clock In" on the Daily Task
+    And I enter password with PIN "4"
+    And I click on the "CONFIRM" button in the popup dialog
     Then I should see the employee "Emma" in the employee list
     When I select the "Emma" employee
     Then I should see the "Ticket View" screen
@@ -147,21 +143,22 @@ Feature: Create tickets
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
+    When I click on the "Pay" button
+    And I select the "Gift" payment type
+    And I fill the last 4 digits of card number "1111"
+    And I click on search
+    And I wait for the page fully loaded
+    And I click on the "OK" button
+    Then I should see the payment history "Gift (1111)$6.00" visible
+    When I click on the "Close Ticket" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
-    When I select the "Gift" payment type
-    Then I should see the "ID GIFT CARD" name
-    When I fill the Gift card with "1111"
-    And I click on the "CHECK BALANCE" button
-    And I click on the element with id "payment"
-    Then I should be redirected to HOME page
-
-  @skip
-  Scenario: Create a ticket and pay with Zelle type
+  Scenario: Create a ticket and pay with Debit type
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "0505"
+    When I click on the functions
+    And I select the "Clock In" on the Daily Task
+    And I enter password with PIN "0505"
+    And I click on the "CONFIRM" button in the popup dialog
     Then I should see the employee "Hanna" in the employee list
     When I select the "Hanna" employee
     Then I should see the "Ticket View" screen
@@ -170,13 +167,13 @@ Feature: Create tickets
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-
-    When I select the "Zelle" payment type
-    And I click on the element with id "payment"
-    Then I should be redirected to HOME page
+    When I click on the "Pay" button
+    And I select the "Debit" payment type
+    And I fill the last 4 digits of card number "1234"
+    And I click on the "OK" button
+    Then I should see the payment history "DEBIT (1234)$6.00" visible
+    When I click on the "Close Ticket" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
   @skip
   Scenario: Split tip by Percent on ticket after paying by Credit card
