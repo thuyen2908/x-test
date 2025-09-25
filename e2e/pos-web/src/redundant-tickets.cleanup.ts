@@ -23,10 +23,10 @@ export const cleanupRedundantTickets = async ({
 		const ongoingTickets = Array.from(testStorage.ongoingTickets);
 		const context = await browser.newContext();
 
-		console.info('On-going tickets:', ongoingTickets);
+		//console.info('On-going tickets:', ongoingTickets);
 
 		if (!ongoingTickets.length) {
-			console.info('No on-going tickets to clean up');
+			//console.info('No on-going tickets to clean up');
 			return;
 		}
 
@@ -45,13 +45,11 @@ export const cleanupRedundantTickets = async ({
 				.ticketById(ticketNumber)
 				.isVisible();
 			if (!isTicketExist) {
-				console.info(
-					`Ticket #${ticketNumber} does not exist, skipping cleanup...`,
-				);
+				//console.info(`Ticket #${ticketNumber} does not exist, skipping cleanup...`,);
 				return;
 			}
 
-			console.info(`Cleaning up ticket #${ticketNumber}...`);
+			//console.info(`Cleaning up ticket #${ticketNumber}...`);
 			await homePage.selectTicketById(ticketNumber);
 
 			await expect(ticketViewPage.locators.pageName).toHaveText(
@@ -59,7 +57,7 @@ export const cleanupRedundantTickets = async ({
 			);
 			await ticketViewPage.voidTicket();
 
-			console.info(`Ticket #${ticketNumber} cleaned up successfully`);
+			//console.info(`Ticket #${ticketNumber} cleaned up successfully`);
 		});
 
 		await Promise.all(cleanupTasks);
