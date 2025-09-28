@@ -99,7 +99,7 @@ export default defineConfig<Fixtures>({
 
 	use: {
 		trace: isCI ? 'on-first-retry' : 'retain-on-first-failure',
-
+		viewport: { width: 1920, height: 1080 },
 		// general config for all projects
 		baseURL,
 		timezoneId: getConfig().timezone,
