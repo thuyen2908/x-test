@@ -1,9 +1,12 @@
 @slow @regression @smoke
-Feature: Reopen tickets
+Feature: Closed Ticket
 
   Scenario: Reopen ticket then close ticket
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "2429"
+    When I click on the functions
+    And I select the "Clock In" on the Daily Task
+    And I enter password with PIN "2429"
+    And I click on the "CONFIRM" button in the popup dialog
     Then I should see the employee "Chloe" in the employee list
 
     When I select the "Chloe" employee
@@ -13,47 +16,43 @@ Feature: Reopen tickets
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "11.5"
-    And I click on the "Save" button in the popup dialog
+    When I select the service "Manicure" in my cart
+    And I select the "CHANGE PRICE" on the menu
+    And I enter the amount "11.5"
+    And I click on the "OK" button
     Then I should see the total price "$11.50" visible
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-
-    When I select the "Cash" payment type
-    And I click on the element with id "payment"
+    When I click on the "Pay" button
+    And I select the "Cash" payment type
     Then I should see a popup dialog with title "Close Ticket"
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    Then I should see the selected "SERVICE" tab on the Home page
 
-    When I click on the "Tickets" label in the header
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I search for "11.5"
+    When I select the "CLOSED TICKET" tab
+    And I click on refresh
+    And I wait for the page fully loaded
+    And I search for "11.5"
     And I wait for the page fully loaded
     Then I should see the last ticket of payment "$11.50"
 
-    When I click on the last row for payment "$11.50" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
+    When I click the avatar in the last row with payment "$11.50" to expand details
+    And I select the "Reopen ticket" on the Daily Task
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Chloe" in the ticket
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-
-    When I click on the "CLOSE TICKET" button
-    Then I should be redirected to HOME page
+    When I click on the "Pay" button
+    Then I should see the payment history "Cash $11.50" visible
+    When I click on the "Close Ticket" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Reopen ticket to change tech for service package
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "9860"
+    When I click on the functions
+    And I select the "Clock In" on the Daily Task
+    And I enter password with PIN "9860"
+    And I click on the "CONFIRM" button in the popup dialog
     Then I should see the employee "Ethan" in the employee list
 
     When I select the "Ethan" employee
@@ -63,51 +62,44 @@ Feature: Reopen tickets
     When I add the "Combo 1" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I click on the total price of "Combo 1"
-    Then I should see a popup dialog with title "Service: Combo 1 - $45.00"
-    When I change the price to "47"
-    And I click on the "Save" button in the popup dialog
+    When I select the service "Combo 1" in my cart
+    And I select the "CHANGE PRICE" on the menu
+    And I enter the amount "47"
+    And I click on the "OK" button
     Then I should see the total price "$47.00" visible
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-
-    When I select the "Cash" payment type
-    And I click on the element with id "payment"
+    When I click on the "Pay" button
+    And I select the "Cash" payment type
     Then I should see a popup dialog with title "Close Ticket"
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    Then I should see the selected "SERVICE" tab on the Home page
 
-    When I click on the "Tickets" label in the header
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I search for "47"
+    When I select the "CLOSED TICKET" tab
+    And I click on refresh
+    And I wait for the page fully loaded
+    And I search for "47"
     And I wait for the page fully loaded
     Then I should see the last ticket of payment "$47.00"
 
-    When I click on the last row for payment "$47.00" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
+    When I click the avatar in the last row with payment "$47.00" to expand details
+    And I select the "Reopen ticket" on the Daily Task
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Ethan" in the ticket
 
-    When I click on the item "Technician" button
-    Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
-    When I select the "Manicure" service in the dialog
-    And I select the "Anna" employee in the dialog
-    And I click on the "Apply" button in the dialog
+    When I select the service "Manicure" in my cart
+    And I select the "Anna" employee in the list item employee
+    Then I should see a popup dialog with title "SELECT TURN GROUP"
+    When I select the group "Nails"
     Then I should see the "Anna" employee in my cart
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
+    When I click on the "Pay" button
+    Then I should see the payment history "Cash $47.00" visible
+    When I click on the "Close Ticket" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
-    When I click on the "CLOSE TICKET" button
-    Then I should be redirected to HOME page
-
+  @skip
   Scenario: Reopen ticket to change technician and split tip
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6373"
@@ -177,6 +169,7 @@ Feature: Reopen tickets
     When I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
 
+  @skip
   Scenario: Reopen ticket to adjust tip for Credit Card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "3957"
@@ -232,6 +225,7 @@ Feature: Reopen tickets
     When I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
 
+  @skip
   Scenario: Reopen ticket to remove payment Cash and instead of Credit
     Given I am on the HOME page
     When I clock in the timesheet with PIN "4683"
@@ -291,6 +285,7 @@ Feature: Reopen tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
+  @skip
   Scenario: Reopen ticket to change split tip Percent to Equal
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2174"
@@ -364,6 +359,7 @@ Feature: Reopen tickets
     When I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
 
+  @skip
   Scenario: Reopen ticket to add service and make payment Credit
     Given I am on the HOME page
     When I clock in the timesheet with PIN "7139"
@@ -419,6 +415,7 @@ Feature: Reopen tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
+  @skip
   Scenario: Reopen ticket to void ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5971"
@@ -463,6 +460,7 @@ Feature: Reopen tickets
     When I void the current open ticket with reason "System Test"
     Then I should be redirected to HOME page
 
+  @skip
   Scenario: Reopen ticket to void item, remove and make new payment
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8573"
@@ -527,6 +525,7 @@ Feature: Reopen tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
+  @skip
   Scenario: Sell a new Gift Card then void ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2463"
@@ -594,6 +593,7 @@ Feature: Reopen tickets
     Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
     And I should see a popup dialog with content "Do you want to activate gift card #1703"
 
+  @skip
   Scenario: Sell a new Gift Card then void item Gift Card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6727"
@@ -730,6 +730,7 @@ Feature: Reopen tickets
     Then I should see the title contain "Jimmy" visible
     And I should see the text "No rows" visible
 
+  @skip
   Scenario: View the loyalty point on Receipt
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2883"

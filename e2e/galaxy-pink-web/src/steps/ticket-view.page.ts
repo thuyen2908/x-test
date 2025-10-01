@@ -27,6 +27,10 @@ class TicketViewPage extends xPage {
 		const { page } = this;
 
 		return {
+			/**
+			 * Expose the flexible ticket function title locator from xPage
+			 * @example this.locators.ticketFunctionTitle('SELECT VOID REASON')
+			 */
 			...super.locators,
 
 			/**

@@ -3,9 +3,9 @@ Feature: Ticket Payments
 
   Scenario: Display the correct page title and nav tabs
     Given I am on the HOME page
+    When I click on the functions
+    And I select the "Ticket Payments" on the Daily Task
     When I wait for the page fully loaded
-    And I click on the header menu
-    And I select the "Ticket Payments" label in the menu list
     Then I should be redirected to TICKET_PAYMENTS page
     And I should see the "Ticket Payments" screen
     And I should see the Ticket table displayed correctly

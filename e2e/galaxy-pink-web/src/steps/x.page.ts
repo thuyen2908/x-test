@@ -64,6 +64,7 @@ class xPage {
 				has: page.locator(`#${id}`),
 			});
 		};
+
 		const draggableDialog = (dialogTitle: string) =>
 			dialog(dialogTitle, 'draggable-dialog-title');
 

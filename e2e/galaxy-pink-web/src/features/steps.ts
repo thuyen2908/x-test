@@ -148,6 +148,17 @@ Then(
 	},
 );
 
+When(
+	'I select the change charge action {string}',
+	async ({ page }, action: string) => {
+		const actionElement = page
+			.locator('ul.xCharge__tax--action li')
+			.getByText(action);
+		await expect(actionElement).toHaveText(action);
+		await actionElement.click();
+	},
+);
+
 Then(
 	'I should see a popup dialog with content {string}',
 	async ({ page }, content: string) => {
@@ -355,7 +366,7 @@ Then(
 	'I should see the employee {string} visible in the split tip screen',
 	async ({ page }, employee: string) => {
 		const employeeElement = page
-			.locator('.xSplitTip__employee')
+			.locator('.xTicketFunsSplitTip__techs')
 			.getByText(employee, { exact: true });
 
 		await expect(employeeElement).toHaveText(employee);
@@ -366,7 +377,7 @@ When(
 	'I select the employee {string} in the split tip screen',
 	async ({ page }, employee: string) => {
 		const employeeElement = page
-			.locator('.xSplitTip__employee')
+			.locator('.xTicketFunsSplitTip__list--nickName')
 			.getByText(employee, { exact: true });
 		await employeeElement.click();
 	},
@@ -387,8 +398,7 @@ Then(
 	'I should see the total tip {string} visible in the split tip screen',
 	async ({ page }, totalTip: string) => {
 		const totalTipElement = page
-			.locator('.xPayment__numpad.xSplitTip')
-			.locator('.xSplitTip__numpad--tip')
+			.locator('.xTicketFunctions__payment--sums')
 			.getByText(totalTip);
 
 		await expect(totalTipElement).toContainText(totalTip);
@@ -447,21 +457,19 @@ When('I redeem my loyalty points', async ({ page }) => {
 When(
 	'I click on the {string} button in the split tip screen',
 	async ({ page }, button: string) => {
-		const buttonElement = page
-			.locator('.xPayment__numpad.xSplitTip')
-			.getByRole('button', { name: button });
+		const buttonElement = page.locator('ul.xTicketFunsSplitTip__btns li', {
+			hasText: button,
+		});
 
 		await expect(buttonElement).toBeVisible();
-
 		await buttonElement.click();
 	},
 );
 
 Then('I should see all split tips non-zero', async ({ page }) => {
-	const tipValues = page
-		.locator('.xSplitTip__employee')
-		.locator('.tip.row')
-		.locator('span.value');
+	const tipValues = page.locator(
+		'.xTicketFunsSplitTip__list dl:has(dt:text("Tip:")) dd',
+	);
 	const allTips = await tipValues.allTextContents();
 	expect(allTips).not.toContain('0.00');
 	expect(allTips.every((tip) => !tip.includes('0.00'))).toBeTruthy();
@@ -484,10 +492,17 @@ Then(
 Then(
 	'I should see the split tips amount for employee {string} is zero',
 	async ({ page }, employeeName) => {
-		const employeeItem = page.locator('.xSplitTip__item').filter({
-			has: page.locator(`.name:has-text("${employeeName}")`),
-		});
-		const tipValue = employeeItem.locator('.tip .value');
+		const employeeItem = page
+			.locator('ul.xTicketFunsSplitTip__list > li')
+			.filter({
+				has: page.locator('span.xTicketFunsSplitTip__list--nickName', {
+					hasText: employeeName,
+				}),
+			});
+		const tipValue = employeeItem
+			.locator('dl')
+			.filter({ has: page.locator('dt', { hasText: 'Tip:' }) })
+			.locator('dd');
 		await expect(tipValue).toHaveText('$0.00');
 	},
 );
@@ -590,9 +605,12 @@ Then(
 
 When('I enter the amount {string}', async ({ page }, amount: string) => {
 	for (const digit of amount) {
-		await page
-			.locator(`button.key:has(span.text-num:has-text("${digit}"))`)
-			.click();
+		const keyLocator =
+			digit === '.'
+				? page.locator('button.key:has(span.text-dot)')
+				: page.locator(`button.key:has(span.text-num:has-text("${digit}"))`);
+
+		await keyLocator.click();
 	}
 });
 
@@ -642,12 +660,26 @@ When('I select the title {string}', async ({ page }, name: string) => {
 Then(
 	'I should see the payment history {string} visible',
 	async ({ page }, paymentHistory: string) => {
-		const paymentHistoryElement = page.locator(
-			'.xTicketFunctions__payment--history li',
-		);
+		const paymentHistoryElement = page
+			.locator('.xTicketFunctions__payment--history li')
+			.last();
 
 		await expect(paymentHistoryElement).toBeVisible();
 		await expect(paymentHistoryElement).toContainText(paymentHistory);
+	},
+);
+
+When(
+	'I select the payment history {string}',
+	async ({ page }, paymentHistory: string) => {
+		const paymentHistoryElement = page
+			.locator('.xTicketFunctions__payment--history li')
+			.last();
+
+		await expect(paymentHistoryElement).toBeVisible();
+		await expect(paymentHistoryElement).toContainText(paymentHistory);
+
+		await paymentHistoryElement.click();
 	},
 );
 
@@ -697,8 +729,9 @@ When(
 );
 
 When('I enter a note {string}', async ({ page }, note: string) => {
-	await page.locator("[placeholder='Enter your note']").fill(note);
-	await page.getByRole('button', { name: 'Save' }).click();
+	const input = page.locator('.xTicketFunctions__req').locator('[name="note"]');
+	await input.fill(note);
+	await expect(input).toHaveValue(note);
 });
 
 Then(
@@ -741,7 +774,7 @@ Then(
 		const firstDateCell = page
 			.locator('.MuiDataGrid-row')
 			.first()
-			.locator('.MuiDataGrid-cell[data-field="date"]');
+			.locator('.MuiDataGrid-cell[data-field="createdAt"]');
 		const today = new Date();
 		const formattedToday = today
 			.toLocaleDateString('en-US', {
@@ -805,6 +838,57 @@ Then(
 	},
 );
 
+Then(
+	'I should see the {string} option is active',
+	async ({ page }, discount: string) => {
+		const discountElement = page
+			.locator('.listDiscount__commission li')
+			.getByText(discount);
+		await expect(discountElement).toBeVisible();
+		await expect(discountElement).toHaveClass(/active/);
+	},
+);
+
+Then(
+	'I should see the {string} discount type is active',
+	async ({ page }, type: string) => {
+		const discountElement = page
+			.locator('ul.xTicketFunctions__type li')
+			.getByText(type);
+		await expect(discountElement).toBeVisible();
+		await expect(discountElement).toHaveClass(/active/);
+	},
+);
+
+When('I select the {string} discount type', async ({ page }, type: string) => {
+	const discountElement = page
+		.locator('ul.xTicketFunctions__type li')
+		.getByText(type);
+	await expect(discountElement).toHaveText(type);
+	await discountElement.click();
+});
+
+Then('I should see the discount sorted correctly', async ({ page }) => {
+	const discountItems = page.locator('.listDiscount__item ul li p');
+	const count = await discountItems.count();
+
+	const texts: string[] = [];
+
+	for (let i = 0; i < count; i++) {
+		texts.push((await discountItems.nth(i).innerText()).trim());
+	}
+	const expectedOrder = [
+		'Open Discount',
+		'$3 Off',
+		'$5 Off',
+		'5% Off',
+		'10% Off',
+		'20% Off',
+	];
+
+	await expect(texts).toEqual(expectedOrder);
+});
+
 When('I select the discount {string}', async ({ page }, discount: string) => {
 	const discountElement = page
 		.locator('.MuiListItem-gutters')
@@ -848,12 +932,69 @@ Then(
 );
 
 Then(
+	'I should see the discount ticket detail {string} in my cart',
+	async ({ page }, discount: string) => {
+		const discountElement = page.locator('.TicketDiscount');
+		await expect(discountElement).toContainText(discount);
+	},
+);
+
+Then('I should see {string} in my cart', async ({ page }, charge: string) => {
+	const parenIndex = charge.indexOf('(');
+	const dollarIndex = charge.indexOf('$');
+
+	let label = charge;
+	let amount: string | undefined;
+
+	if (parenIndex > 0 && charge.includes(')', parenIndex)) {
+		label = charge.slice(0, parenIndex).trim();
+		amount = charge.slice(parenIndex).trim();
+	} else if (dollarIndex > 0) {
+		label = charge.slice(0, dollarIndex).trim();
+		amount = charge.slice(dollarIndex).trim();
+	}
+
+	const chargeItem = page
+		.locator('ul.xCharge li')
+		.filter({ has: page.locator('span', { hasText: label }) });
+
+	await expect(chargeItem).toBeVisible();
+	await expect(chargeItem.locator('span').first()).toHaveText(label);
+
+	if (amount) {
+		await expect(chargeItem.locator('span').nth(1)).toContainText(amount);
+	} else {
+		await expect(chargeItem).toContainText(charge);
+	}
+});
+
+Then(
 	'I should see the {string} absorption type in my cart',
 	async ({ page }, type: string) => {
 		const typeElement = page
 			.locator('.xTicketItems__discount--title')
 			.getByText(type);
 		await expect(typeElement).toContainText(type);
+	},
+);
+
+When(
+	'I select the discount absorb type {string}',
+	async ({ page }, type: string) => {
+		const typeElement = page
+			.locator('ul.listDiscount__commission li')
+			.getByText(type);
+		await expect(typeElement).toHaveText(type);
+		await typeElement.click();
+	},
+);
+
+When(
+	'I click on the {string} button on the header',
+	async ({ page }, button: string) => {
+		const buttonElement = page.locator('.xBtn').getByText(button);
+		await expect(buttonElement).toHaveText(button);
+		await buttonElement.click();
 	},
 );
 
@@ -1012,6 +1153,13 @@ When(
 		await expect(waitStatusElement).toBeVisible();
 
 		await waitStatusElement.click();
+
+		const doneStatusElement = page
+			.locator('.xTicketItems__actions')
+			.getByRole('button', { name: 'Done' });
+		await expect(doneStatusElement).toBeVisible();
+
+		await doneStatusElement.click();
 	},
 );
 
@@ -1094,7 +1242,6 @@ When(
 			hasNot: page.locator('[data-color]:not([data-color="wait"])'),
 		});
 		const firstRow = resultRow.first();
-		await firstRow.scrollIntoViewIfNeeded();
 		await firstRow.click();
 	},
 );
@@ -1344,6 +1491,17 @@ Then('I should see the ticket function menu', async ({ page }) => {
 	await expect(ticketFunctionMenu).toBeVisible();
 });
 
+When(
+	'I select the function {string} on the menu',
+	async ({ page }, menu: string) => {
+		const menuElement = page
+			.locator('ul.xTicketFunctions__menu li')
+			.getByText(menu, { exact: true });
+		await expect(menuElement).toBeVisible();
+		await menuElement.click();
+	},
+);
+
 When('I select the group {string}', async ({ page }, group: string) => {
 	const groupElement = page
 		.locator('ul.xCharge__tax--action li')
@@ -1356,7 +1514,8 @@ When(
 	'I select the {string} employee in the list item employee',
 	async ({ page }, employee: string) => {
 		const employeeElement = page
-			.locator('ul.emp_layout_queue li.xEmployeeItem .nickName')
+			//.locator('ul.emp_layout_queue li.xEmployeeItem .nickName')
+			.locator('li.xEmployeeItem')
 			.getByText(employee, { exact: true });
 		await expect(employeeElement).toBeVisible();
 		await employeeElement.click();
@@ -1731,6 +1890,25 @@ When(
 		await expect(lastPaymentCell).toBeVisible();
 		await lastPaymentCell.scrollIntoViewIfNeeded();
 		await lastPaymentCell.click();
+	},
+);
+
+When(
+	'I click the avatar in the last row with payment {string} to expand details',
+	async ({ page }, amount: string) => {
+		const targetRow = page
+			.locator('.MuiDataGrid-virtualScrollerContent')
+			.locator('.MuiDataGrid-row')
+			.filter({
+				has: page.locator('[data-field="paymentTotal"]', { hasText: amount }),
+			})
+			.last();
+		await targetRow.scrollIntoViewIfNeeded();
+		await expect(targetRow).toBeVisible();
+
+		const avatarCell = targetRow.locator('[data-field="avatar"]');
+		await expect(avatarCell).toBeVisible();
+		await avatarCell.click();
 	},
 );
 
@@ -2170,6 +2348,10 @@ When(
 		await firstTurnDetail.dblclick();
 	},
 );
+
+When('I click on refresh', async ({ page }) => {
+	await page.locator('[data-testid="RefreshOutlinedIconIcon"]').click();
+});
 
 Then(
 	'I should see the print button {string} visible',
