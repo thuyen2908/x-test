@@ -12,7 +12,7 @@ Feature: Timesheet
   Scenario: Clock in others and clock out
     Given I am on the HOME page
     When I navigate to "Timesheet" on the navigation bar
-    And I select the "Clock In Others" option
+    And I navigate to "Clock In Others" on the navigation bar
     Then I should see a popup dialog with title "Clock In Others"
 
     When I wait for the page fully loaded

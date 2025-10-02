@@ -29,7 +29,7 @@ Feature: Reopen tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-    When I click on the "Tickets" label in the header
+    When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
     When I search for "11.5"
@@ -79,7 +79,7 @@ Feature: Reopen tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-    When I click on the "Tickets" label in the header
+    When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
     When I search for "47"
@@ -140,7 +140,7 @@ Feature: Reopen tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-    When I click on the "Tickets" label in the header
+    When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
     When I search for "24.95"
@@ -203,7 +203,7 @@ Feature: Reopen tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-    When I click on the "Tickets" label in the header
+    When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
     When I search for "12.6"
@@ -260,7 +260,7 @@ Feature: Reopen tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-    When I click on the "Tickets" label in the header
+    When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
     When I search for "23.5"
@@ -338,7 +338,7 @@ Feature: Reopen tickets
     When I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
 
-    When I click on the "Tickets" label in the header
+    When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
     When I search for "28.10"
@@ -392,7 +392,7 @@ Feature: Reopen tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-    When I click on the "Tickets" label in the header
+    When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
     When I search for "15.5"
@@ -445,7 +445,7 @@ Feature: Reopen tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-    When I click on the "Tickets" label in the header
+    When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
     When I search for "16.8"
@@ -490,7 +490,7 @@ Feature: Reopen tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-    When I click on the "Tickets" label in the header
+    When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
     When I search for "26.25"
@@ -563,7 +563,7 @@ Feature: Reopen tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-    When I click on the "Tickets" label in the header
+    When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
     When I search for "77.5"
@@ -583,8 +583,8 @@ Feature: Reopen tickets
     Then I should be redirected to HOME page
 
     When I navigate to "Appointment" on the navigation bar
-    And I click on the "Balance" label in the header
-    And I select the "Gift Card" option
+    And I navigate to "Balance" on the navigation bar
+    And I navigate to "Gift Card" on the navigation bar
     Then I should be redirected to GIFT_CARD_BALANCE page
     And I should see the text "Gift Card" visible
 
@@ -614,10 +614,10 @@ Feature: Reopen tickets
     When I add the "Gift card $50" service to my cart
     Then I should see a popup dialog with title "Activate Gift Card $50.00"
 
-    When I enter the amount "0103"
+    When I enter the amount "0203"
     And I click on the "OK" button in the popup dialog
     Then I should see my cart showing 2 item added
-    And I should see the service "Gift card $50 (0103)" in my cart
+    And I should see the service "Gift card $50 (0203)" in my cart
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -630,7 +630,7 @@ Feature: Reopen tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-    When I click on the "Tickets" label in the header
+    When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
     When I search for "75.7"
@@ -647,7 +647,7 @@ Feature: Reopen tickets
 
     When I click on the item "VOID ITEM" button
     Then I should see a popup dialog with title "VOID MULTIPLE"
-    When I select the "Gift card $50 (0103)" service in the dialog
+    When I select the "Gift card $50 (0203)" service in the dialog
     And I click on the "Void Items" button in the dialog
     Then I should see my cart showing 1 item added
 
@@ -668,17 +668,17 @@ Feature: Reopen tickets
     Then I should be redirected to HOME page
 
     When I navigate to "Appointment" on the navigation bar
-    And I click on the "Balance" label in the header
-    And I select the "Gift Card" option
+    And I navigate to "Balance" on the navigation bar
+    And I navigate to "Gift Card" on the navigation bar
     And I wait for the page fully loaded
     Then I should be redirected to GIFT_CARD_BALANCE page
     And I should see the text "Gift Card" visible
 
-    When I enter the amount "0103"
+    When I enter the amount "0203"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
     Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
-    And I should see a popup dialog with content "Do you want to activate gift card #0103"
+    And I should see a popup dialog with content "Do you want to activate gift card #0203"
 
   @skip
   Scenario: Remove loyalty balance when voiding ticket
@@ -701,7 +701,7 @@ Feature: Reopen tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-    When I click on the "Tickets" label in the header
+    When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
     When I search for "Jimmy"
@@ -744,8 +744,33 @@ Feature: Reopen tickets
     And I click on the "Save" button in the popup dialog
     Then I should see the total price "$35.50" visible
 
+    When I click on the adding "Discount" button
+    Then I should see a popup dialog with title "Discount Ticket"
+    And I should see the "Owner Absorbs" option is checked
+
+    When I select the discount "Open Discount"
+    Then I should see the discount type "Percent" visible
+    When I enter the discount percent "10"
+    And I click on the "Add" button in the popup dialog
+    Then I should see the discount ticket non-zero
+
+    When I click on the item "DISCOUNT ITEM" button
+    Then I should see a popup dialog with title "DISCOUNT MULTIPLE"
+    When I select the "Manicure" service in the dialog
+    Then I should see the "Owner Absorbs" option is checked
+
+    When I select the discount "Open Discount"
+    And I select the type "Amount" option
+    Then I should see the discount type "Amount" visible
+    When I enter the discount amount "3"
+    And I click on the "Add Value" button in the popup dialog
+    And I click on the "Apply" button in the popup dialog
+    Then I should see the "Open Discount" discount in my cart
+    And I should see the "Owner Absorbs" absorption type in my cart
+    And I should see discount "$3.00" in my cart
+
     When I click on the Select customer
-    And I click on the "Click Here To Add Customers" button
+    And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
     And I should see the loyalty program "2 Points = $1" visible
 
@@ -757,48 +782,53 @@ Feature: Reopen tickets
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
 
-    When I click on the element with id "payment"
+    When I enter the amount "100"
+    And I click on the element with id "payment"
     Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
+    And I should see a popup dialog with content "CHANGE$70.75OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-    When I click on the "Tickets" label in the header
+    When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "35.5"
+    When I search for "29.25"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$35.50"
+    Then I should see the last ticket of payment "$29.25"
 
-    When I click on the last row for payment "$35.50" to expand details
+    When I click on the last row for payment "$29.25" to expand details
     Then I should see the store logo on the receipt
     And I should see the business info "BLANC NAILS 1032 YONKERS AVE Yonkers, NY 10704 (707) 707-1122" on the receipt
 
     Then I should see the date is today on the receipt
     And I should see the customer name "Loyalty" on the receipt
-    And I should see the point "70 = $0.70" on the receipt
+    And I should see the point "58 = $0.58" on the receipt
 
     Then I should see the service quantity "1" on the receipt
     And I should see the service name "Manicure" on the receipt
     And I should see the technician name "Gabriella" on the receipt
     And I should see the service price "$35.50" on the receipt
+    And I should see the discount item name "Open Discount" on the receipt
+    And I should see the discount item amount "($3.00)" on the receipt
 
-    Then I should see the TIP amount "$0.00" on the receipt
-    And I should see the SUBTOTAL "$35.50" on the receipt
+    Then I should see the discount ticket name "Open Discount" on the receipt
+    And I should see the discount ticket amount "($3.25)" on the receipt
+    And I should see the TIP amount "$0.00" on the receipt
+    And I should see the SUBTOTAL "$29.25" on the receipt
     And I should see the TAX "$0.00" on the receipt
-    And I should see the TOTAL "$35.50" on the receipt
+    And I should see the TOTAL "$29.25" on the receipt
 
-    Then I should see the CHANGE amount "$0.00" on the receipt
+    Then I should see the CHANGE amount "$70.75" on the receipt
 
     Then I should see the payment label "PAYMENT DETAILS" on the receipt
-    And I should see the payment method "Cash - $35.50" on the receipt
-    And I should see the cash payment amount "$35.50" on the receipt
+    And I should see the payment method "Cash - $100.00" on the receipt
+    And I should see the cash payment amount "$29.25" on the receipt
 
     Then I should see the message "Come back again soon..." on the receipt
     And I should see the message "Thank you <3" on the receipt
 
-    Then I should see the tip guide "10% TIP = $3.55" on the receipt
-    And I should see the tip guide "15% TIP = $5.32" on the receipt
-    And I should see the tip guide "20% TIP = $7.10" on the receipt
+    Then I should see the tip guide "10% TIP = $2.92" on the receipt
+    And I should see the tip guide "15% TIP = $4.39" on the receipt
+    And I should see the tip guide "20% TIP = $5.85" on the receipt
 
     Then I should see the QR code on the receipt

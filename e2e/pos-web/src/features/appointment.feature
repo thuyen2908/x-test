@@ -67,6 +67,8 @@ Feature: Appointment
     Then I should be redirected to APPOINTMENT page
 
     When I wait for the page fully loaded
+    And I click on the sync appointment icon
+    And I wait for the page fully loaded
     Then I should see the title "Any Technician"
     When I select the "Anna" employee from the technician dropdown
     Then I should see the title "Anna"
@@ -80,7 +82,7 @@ Feature: Appointment
     And I should see the duration "20 minutes"
 
     When I click on the Select customer
-    And I click on the "Click Here To Add Customers" button
+    And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
     And I should see the loyalty program "2 Points = $1" visible
 
@@ -159,6 +161,7 @@ Feature: Appointment
     Then I should be redirected to APPOINTMENT page
 
     When I wait for the page fully loaded
+    And I click on the sync appointment icon
     Then I should see the title "Any Technician"
     When I select the "Anna" employee from the technician dropdown
     Then I should see the title "Anna"
@@ -172,7 +175,7 @@ Feature: Appointment
     And I should see the duration "20 minutes"
 
     When I click on the Select customer
-    And I click on the "Click Here To Add Customers" button
+    And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
     And I should see the loyalty program "2 Points = $1" visible
 
@@ -190,6 +193,7 @@ Feature: Appointment
     Then I should see the title "Anna"
 
     When I select the last booking in the time slot at "08:00 AM"
+    And I wait for the page fully loaded
     And I click on the "Create Ticket" button
     Then I should see the "Ticket View From Appointment" screen
     And I should see the service "Manicure" in my cart
@@ -223,11 +227,13 @@ Feature: Appointment
     Then I should be redirected to APPOINTMENT page
 
     When I wait for the page fully loaded
+    And I click on the sync appointment icon
     Then I should see the title "Any Technician"
     When I select the "Anna" employee from the technician dropdown
     Then I should see the title "Anna"
 
     When I double click on the time slot at "08:20 AM"
+    And I wait for the page fully loaded
     Then I should see the "Create Appointment" screen
     And I should see the "Manicure" service
     Then I should see the time "08:20 AM" in my cart
@@ -237,7 +243,7 @@ Feature: Appointment
     And I should see the duration "20 minutes"
 
     When I click on the Select customer
-    And I click on the "Click Here To Add Customers" button
+    And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
     And I should see the loyalty program "2 Points = $1" visible
 
@@ -300,4 +306,51 @@ Feature: Appointment
 
     When I click on the icon zoom out
     Then I should see a popup dialog with content "Zoom In / Zoom Out"
+
+  @skip
+  Scenario: Drag and drop the appointment
+    Given I am on the HOME page
+    When I navigate to "Appointment" on the navigation bar
+    Then I should be redirected to APPOINTMENT page
+
+    When I wait for the page fully loaded
+    Then I should see the title "Any Technician"
+    When I select the "Anna" employee from the technician dropdown
+    Then I should see the title "Anna"
+
+    When I double click on the time slot at "12:00 AM"
+    Then I should see the "Create Appointment" screen
+    And I should see the "Manicure" service
+
+    When I add the "Manicure" service to my cart
+    Then I should see the service "Manicure" in my cart
+    And I should see the duration "20 minutes"
+
+    When I click on the Select customer
+    And I click on the "CLICK HERE TO ADD CUSTOMER" button
+    Then I should see a popup dialog with title "Create New Customer"
+    And I should see the loyalty program "2 Points = $1" visible
+
+    When I fill the new customer name "DnD"
+    And I fill the new customer phone
+    And I click on the "SAVE" button in the create new customer dialog
+    Then I should see a new customer "DnD" on ticket
+
+    When I click on the "SAVE" button
+    And I handle the Confirm Validate Time dialog if it appears
+    Then I should be redirected to APPOINTMENT page
+    Then I should see the title "Any Technician"
+    When I select the "Anna" employee from the technician dropdown
+    Then I should see the title "Anna"
+
+    When I drag the appointment from "12:00 AM"
+    And I drop it to "01:00 AM"
+    When I select the last booking in the time slot at "01:00 AM"
+    And I wait for the page fully loaded
+    And I click on the "Edit" button
+    Then I should see the "Edit Appointment" screen
+    And I should see the service "Manicure" in my cart
+    And I should see the employee "Anna" in my cart
+    And I should see a new customer "DnD" on ticket
+    And I should see the time "01:00 AM" in my cart
 

@@ -1,5 +1,5 @@
 @slow @regression @smoke
-Feature: Ticket adjustment
+Feature: Fix Ticket
 
   Scenario: Add service, remove Cash instead of Credit and adjust tip
     Given I am on the HOME page
@@ -159,7 +159,7 @@ Feature: Ticket adjustment
     And I should see the "Ticket Adjustment" screen
     And I should see the text "TICKET#" visible
 
-    When I click on the "Create Ticket" button
+    When I click on the "CREATE TICKET" button
     Then I should see a popup dialog containing the title "Create Ticket"
 
     When I click on the "Anna" text inside the content section of the opening dialog
@@ -178,10 +178,9 @@ Feature: Ticket adjustment
     Then I should see the charge display "Tip$10.00"
 
     When I click on the charge item "Discount" in the ticket adjustment screen
-    Then I should see a popup dialog with title "Add Discount Ticket"
+    Then I should see a popup dialog with title "DISCOUNT TICKET"
     And I should see the "Owner Absorbs" option is checked
     When I select the discount "$5 Off"
-    And I click on the "Add" button in the popup dialog
     Then I should see the charge display "Discount($5.00)"
 
     When I select the service "Acrylic removal" in my cart
@@ -190,7 +189,6 @@ Feature: Ticket adjustment
     Then I should see a popup dialog with title "DISCOUNT ITEM"
     And I should see the "Owner Absorbs" option is checked
     When I select the discount "10% Off"
-    And I click on the "OK" button in the popup dialog
     Then I should see the "10% Off" discount in my cart
 
     When I click on the "PAY" button
@@ -438,3 +436,98 @@ Feature: Ticket adjustment
     When I click on the "SAVE" button in the popup dialog
     And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
+
+  Scenario: Void a sell Gift Card
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "5720"
+    Then I should see the employee "Mackenzie" in the employee list
+    When I select the "Mackenzie" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "GIFT CARD" category
+
+    When I add the "Acrylic removal" service to my cart
+    And I click on the total price of "Acrylic removal"
+    Then I should see a popup dialog with title "Service: Acrylic removal - $30.00"
+    When I change the price to "26.7"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$26.70" visible
+
+    When I select the "GIFT CARD" category
+    Then I should see the "Gift card $50" service
+    When I add the "Gift card $50" service to my cart
+    Then I should see a popup dialog with title "Activate Gift Card $50.00"
+
+    When I enter the amount "0403"
+    And I click on the "OK" button in the popup dialog
+    Then I should see my cart showing 2 item added
+    And I should see the service "Gift card $50 (0403)" in my cart
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the text "PAYMENT HISTORY" visible
+    And I should see the button with id "payment" visible
+
+    When I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page
+
+    When I wait for the page fully loaded
+    And I click on the header menu
+    And I select the "Manager" label in the menu list
+    And I select the "Ticket Adjustment" label in the expanded list
+    Then I should be redirected to TICKET_ADJUSTMENT page
+    And I should see the "Ticket Adjustment" screen
+    And I should see the text "TICKET#" visible
+
+    When I wait for the page fully loaded
+    And I search for "76.7"
+    Then I should see the first ticket with total "$76.70"
+    When I select the first ticket with total "$76.70"
+    Then I should see the service "Acrylic removal" in my cart
+    And I should see the service "Gift card $50 (0403)" in my cart
+
+    When I select the service "Gift card $50 (0403)" in my cart
+    Then I should see the check icon
+    When I click on the action "VOID ITEM" button
+    Then I should not see the service "Gift card $50 (0403)" in my cart
+    And I should see the charge display "TOTAL$26.70"
+
+    When I select the "PAYMENT" tab
+    Then I should see the payment history "Cash" visible
+    When I click on the more menu for payment history of "Cash"
+    Then I should see the tooltip remove
+    When I click on the tooltip remove
+    Then I should see a popup dialog with title "VOID PAYMENT"
+    And  I should see a popup dialog with content "Cash   - $76.70"
+    When I click on the "Remove" button in the popup dialog
+    Then I should see a second popup dialog with title "Confirm Void Payment"
+    When I click on the "Yes, void it" button in the popup dialog
+
+    When I click on the "PAY" button
+    Then I should see a popup dialog with title "PAYMENT TICKET"
+    When I click on the element with id "payment"
+    Then I should see the payment history "Cash" visible
+    And I should see the payment history amount "$26.70" visible
+
+    When I click on the "CONFIRM" button
+    Then I should see a popup dialog with title "Confirm Save Ticket"
+    When I click on the "SAVE" button in the popup dialog
+    And I wait for the page fully loaded
+    Then I should see the text "Please select a ticket." in the ticket adjustment screen
+
+    When I back to HOME page
+    And I wait for the page fully loaded
+    And I navigate to "Appointment" on the navigation bar
+    And I navigate to "Balance" on the navigation bar
+    And I navigate to "Gift Card" on the navigation bar
+    And I wait for the page fully loaded
+    Then I should be redirected to GIFT_CARD_BALANCE page
+    And I should see the text "Gift Card" visible
+
+    When I enter the amount "0403"
+    And I click on the "SEARCH" button
+    And I wait for the page fully loaded
+    Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
+    And I should see a popup dialog with content "Do you want to activate gift card #0403"

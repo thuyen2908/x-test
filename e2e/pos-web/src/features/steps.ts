@@ -86,7 +86,7 @@ Then(
 	'I should see my cart showing {int} item added',
 	async ({ page }, itemCount: number) => {
 		const itemCountElement = page.locator(
-			'svg[data-testid="LocalPrintshopIcon"] + span',
+			'svg[data-testid="PrintTicketIconIcon"] + span',
 		);
 
 		await expect(itemCountElement).toBeVisible();
@@ -124,6 +124,29 @@ When(
 		await expect(element).toBeVisible();
 
 		await element.click();
+	},
+);
+
+Then(
+	'I should see the card price amount {string} visible',
+	async ({ page }, amount: string) => {
+		const cardPrice = page.locator(
+			'.xPayment__total.xPayment__box dl:has(dt:text("Card Price")) dd',
+		);
+
+		await expect(cardPrice).toBeVisible();
+		await expect(cardPrice).toContainText(amount);
+	},
+);
+
+Then(
+	'I should see the cash price amount {string} visible',
+	async ({ page }, amount: string) => {
+		await expect(
+			page.locator(
+				'.xPayment__total.xPayment__box dl:has(dt:text("Cash Price")) dd',
+			),
+		).toContainText(amount);
 	},
 );
 
@@ -482,7 +505,7 @@ When(
 	'I click on the {string} label in the header',
 	async ({ page }, label: string) => {
 		const labelElement = page
-			.locator('.xHeader__content')
+			.locator('.xNavbar')
 			.getByText(label, { exact: true });
 
 		await expect(labelElement).toBeVisible();
@@ -630,6 +653,16 @@ Then(
 );
 
 Then(
+	'I should see the payment history amount {string} visible',
+	async ({ page }, amount: string) => {
+		const paymentHistoryElement = page
+			.locator('.xPayment__history--price')
+			.getByText(amount);
+		await expect(paymentHistoryElement).toHaveText(amount);
+	},
+);
+
+Then(
 	'I should see the number {string} visible',
 	async ({ page }, number: string) => {
 		const numberElement = page
@@ -697,7 +730,8 @@ Then(
 			.first()
 			.locator('.MuiDataGrid-cell[data-field="giftCardLogType"]');
 
-		await expect(firstTypeCell).toHaveAttribute('title', type);
+		await expect(firstTypeCell).toHaveAttribute('title', new RegExp(type));
+		await expect(firstTypeCell).toContainText(type);
 	},
 );
 
@@ -709,7 +743,7 @@ Then(
 			.first()
 			.locator('.MuiDataGrid-cell[data-field="amount"]');
 
-		await expect(firstAmountCell).toHaveText(amount);
+		await expect(firstAmountCell).toContainText(amount);
 	},
 );
 
@@ -719,7 +753,7 @@ Then(
 		const firstDateCell = page
 			.locator('.MuiDataGrid-row')
 			.first()
-			.locator('.MuiDataGrid-cell[data-field="date"]');
+			.locator('.MuiDataGrid-cell[data-field="createdAt"]');
 		const today = new Date();
 		const formattedToday = today
 			.toLocaleDateString('en-US', {
@@ -968,6 +1002,19 @@ Then(
 );
 
 Then(
+	'I should see the {string} service with status start',
+	async ({ page }, service: string) => {
+		const serviceWithStartStatus = page
+			.locator('.xTicketItems__wrap', {
+				hasText: service,
+			})
+			.filter({ has: page.locator('.status:text("S")') });
+
+		await expect(serviceWithStartStatus).toBeVisible();
+	},
+);
+
+Then(
 	'I should not see the service {string} in my cart',
 	async ({ page }, service: string) => {
 		const serviceElement = page
@@ -988,6 +1035,13 @@ When(
 		await expect(waitStatusElement).toBeVisible();
 
 		await waitStatusElement.click();
+
+		const doneStatusElement = page
+			.locator('.xTicketItems__actions')
+			.getByRole('button', { name: 'Done' });
+		await expect(doneStatusElement).toBeVisible();
+
+		await doneStatusElement.click();
 	},
 );
 
@@ -1070,7 +1124,6 @@ When(
 			hasNot: page.locator('[data-color]:not([data-color="wait"])'),
 		});
 		const firstRow = resultRow.first();
-		await firstRow.scrollIntoViewIfNeeded();
 		await firstRow.click();
 	},
 );
@@ -1512,7 +1565,7 @@ When(
 			// Look for the confirm button
 			const confirmButton = page
 				.locator('button.MuiButton-containedPrimary.button_dialog_options')
-				.getByRole('button', { name: 'confirm', exact: true });
+				.filter({ hasText: 'confirm' });
 			await expect(confirmButton).toBeVisible();
 			await confirmButton.click({ force: true });
 		}
@@ -1671,6 +1724,26 @@ When(
 		await appointmentDiv.click();
 	},
 );
+
+When('I drag the appointment from {string}', async ({ page }, time: string) => {
+	const timeTrimmed = time.trim(); // e.g., "09:20 AM"
+	const appointmentDiv = page
+		.locator(`.e-appointment:has-text("${timeTrimmed}")`)
+		.first();
+	await expect(appointmentDiv).toBeVisible();
+	await expect(appointmentDiv).toContainText(timeTrimmed);
+	await appointmentDiv.dragTo(page.locator('.e-resource-area'));
+});
+
+When('I drop it to {string}', async ({ page }, time: string) => {
+	const timeTrimmed = time.trim(); // e.g., "09:20 AM"
+	const appointmentDiv = page
+		.locator(`.e-appointment:has-text("${timeTrimmed}")`)
+		.last();
+	await expect(appointmentDiv).toBeVisible();
+	await expect(appointmentDiv).toContainText(timeTrimmed);
+	await appointmentDiv.drop(page.locator('.e-resource-area'));
+});
 
 Then(
 	'I should see the color header for Any Technician displayed correctly',
@@ -1959,8 +2032,8 @@ Then(
 Then(
 	'I should see the turn number for {string} is 0.0',
 	async ({ page }, name: string) => {
-		const employeeItem = page.locator('li.xEmployeeItem').filter({
-			has: page.locator('.nickname', { hasText: name }),
+		const employeeItem = page.locator('li.xEmployeeItem', {
+			has: page.getByText(name, { exact: true }),
 		});
 
 		const turnLabel = employeeItem.locator('.MuiChip-label', {
@@ -2261,6 +2334,40 @@ Then(
 );
 
 Then(
+	'I should see the discount item name {string} on the receipt',
+	async ({ page }, name: string) => {
+		const discountItem = page.locator('div[style*="display: flex"] >> nth=4');
+		const discountCell = discountItem.locator('div').nth(1);
+		await expect(discountCell).toHaveText(name);
+	},
+);
+
+Then(
+	'I should see the discount item amount {string} on the receipt',
+	async ({ page }, discount: string) => {
+		const discountItem = page.locator('div[style*="display: flex"] >> nth=4');
+		const discountCell = discountItem.locator('div').nth(3);
+		await expect(discountCell).toHaveText(discount);
+	},
+);
+
+Then(
+	'I should see the discount ticket name {string} on the receipt',
+	async ({ page }, name: string) => {
+		const discountTicket = page.locator('tr', { hasText: name });
+		await expect(discountTicket).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the discount ticket amount {string} on the receipt',
+	async ({ page }, amount: string) => {
+		const discountTicket = page.locator('tr', { hasText: amount });
+		await expect(discountTicket).toBeVisible();
+	},
+);
+
+Then(
 	'I should see the TIP amount {string} on the receipt',
 	async ({ page }, tip: string) => {
 		const tipCell = page
@@ -2331,7 +2438,7 @@ Then(
 	'I should see the cash payment amount {string} on the receipt',
 	async ({ page }, amount: string) => {
 		const cashRow = page.locator('tr', { hasText: 'Cash' });
-		const cashAmountCell = cashRow.locator('td').nth(2);
+		const cashAmountCell = cashRow.locator('td').nth(1);
 		await expect(cashAmountCell).toHaveText(amount);
 	},
 );
@@ -2355,4 +2462,10 @@ Then(
 Then('I should see the QR code on the receipt', async ({ page }) => {
 	const qrCode = page.locator('.render-bill .e-qrcode');
 	await expect(qrCode).toBeVisible();
+});
+
+When('I click on the sync appointment icon', async ({ page }) => {
+	const syncAppt = page.locator('[data-testid="IconSyncApptIcon"]');
+	await expect(syncAppt).toBeVisible();
+	await syncAppt.click();
 });

@@ -4,7 +4,7 @@ Feature: Check In
   Scenario: Create a waiting for new customer, assign Service Package to Any Technician and create ticket
     Given I am on the HOME page
     When I wait for the page fully loaded
-    And I click on the "Check In" label in the header
+    And I navigate to "Check In" on the navigation bar
     Then I should be redirected to WAITING_LIST page
 
     When I click on the "Add Customer" button in the waiting page
@@ -14,7 +14,7 @@ Feature: Check In
     And I should see the "Next Available Service" service
 
     When I click on the Select customer
-    And I click on the "Click Here To Add Customers" button
+    And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
     And I should see the loyalty program "2 Points = $1" visible
 
@@ -65,7 +65,7 @@ Feature: Check In
   @skip
   Scenario: Create a waiting for existing customer, assign services to specific employees and create ticket
     Given I am on the HOME page
-    When I click on the "Check In" label in the header
+    When I navigate to "Check In" on the navigation bar
     Then I should be redirected to WAITING_LIST page
 
     When I click on the "Add Customer" button
@@ -128,7 +128,7 @@ Feature: Check In
   Scenario: Display service hint in ticket view
     Given I am on the HOME page
     When I wait for the page fully loaded
-    And I click on the "Check In" label in the header
+    And I navigate to "Check In" on the navigation bar
     Then I should be redirected to WAITING_LIST page
 
     When I click on the "Add Customer" button in the waiting page
@@ -138,7 +138,7 @@ Feature: Check In
     And I should see the "Next Available Service" service
 
     When I click on the Select customer
-    And I click on the "Click Here To Add Customers" button
+    And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
     And I should see the loyalty program "2 Points = $1" visible
 
@@ -191,7 +191,7 @@ Feature: Check In
   Scenario: Editing a waiting to add service and create ticket
     Given I am on the HOME page
     When I wait for the page fully loaded
-    And I click on the "Check In" label in the header
+    And I navigate to "Check In" on the navigation bar
     Then I should be redirected to WAITING_LIST page
 
     When I click on the "Add Customer" button in the waiting page
@@ -201,7 +201,7 @@ Feature: Check In
     And I should see the "Next Available Service" service
 
     When I click on the Select customer
-    And I click on the "Click Here To Add Customers" button
+    And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
     And I should see the loyalty program "2 Points = $1" visible
 
@@ -274,7 +274,7 @@ Feature: Check In
   Scenario: Make appointment for Next Available Service and fill duration
     Given I am on the HOME page
     When I wait for the page fully loaded
-    And I click on the "Check In" label in the header
+    And I navigate to "Check In" on the navigation bar
     Then I should be redirected to WAITING_LIST page
 
     When I click on the "Add Customer" button in the waiting page
@@ -284,7 +284,7 @@ Feature: Check In
     And I should see the "Next Available Service" service
 
     When I click on the Select customer
-    And I click on the "Click Here To Add Customers" button
+    And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
     And I should see the loyalty program "2 Points = $1" visible
 
@@ -345,7 +345,7 @@ Feature: Check In
   Scenario: Delete a waiting
     Given I am on the HOME page
     When I wait for the page fully loaded
-    And I click on the "Check In" label in the header
+    And I navigate to "Check In" on the navigation bar
     Then I should be redirected to WAITING_LIST page
 
     When I click on the "Add Customer" button in the waiting page
@@ -355,7 +355,7 @@ Feature: Check In
     And I should see the "Next Available Service" service
 
     When I click on the Select customer
-    And I click on the "Click Here To Add Customers" button
+    And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
     And I should see the loyalty program "2 Points = $1" visible
 
@@ -391,7 +391,7 @@ Feature: Check In
   Scenario: Update the user info when changing technician for ticket check-in
     Given I am on the HOME page
     When I wait for the page fully loaded
-    And I click on the "Check In" label in the header
+    And I navigate to "Check In" on the navigation bar
     Then I should be redirected to WAITING_LIST page
 
     When I click on the "Add Customer" button in the waiting page
@@ -399,7 +399,7 @@ Feature: Check In
     And I should see the "Next Available Service" service
 
     When I click on the Select customer
-    And I click on the "Click Here To Add Customers" button
+    And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
     And I should see the loyalty program "2 Points = $1" visible
 
@@ -463,14 +463,14 @@ Feature: Check In
   Scenario: Recreate a waiting after voiding ticket
     Given I am on the HOME page
     When I wait for the page fully loaded
-    And I click on the "Check In" label in the header
+    And I navigate to "Check In" on the navigation bar
     Then I should be redirected to WAITING_LIST page
 
     When I click on the "Add Customer" button in the waiting page
     Then I should see the text "Create Waiting" visible
 
     When I click on the Select customer
-    And I click on the "Click Here To Add Customers" button
+    And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
     And I should see the loyalty program "2 Points = $1" visible
 
@@ -508,7 +508,7 @@ Feature: Check In
     And I void the current open ticket with reason "Mistake"
     Then I should be redirected to HOME page
 
-    When I click on the "Check In" label in the header
+    When I navigate to "Check In" on the navigation bar
     Then I should be redirected to WAITING_LIST page
     When I wait for the page fully loaded
     And I click on the first row for customer "Recreate" to expand details
