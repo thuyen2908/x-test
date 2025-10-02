@@ -3,10 +3,7 @@ Feature: Create tickets
 
   Scenario: Create a ticket for the Owner role
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "1234"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "1234"
     Then I should see the employee "Owner" in the employee list
 
     When I select the "Owner" employee
@@ -15,11 +12,7 @@ Feature: Create tickets
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I click on the "Pay" button
-    And I select the "Cash" payment type
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
+    When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
   @skip
@@ -47,10 +40,7 @@ Feature: Create tickets
 
   Scenario: Create a new customer on the fly
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "0917"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "0917"
     Then I should see the employee "Dylan" in the employee list
     When I select the "Dylan" employee
     And I add the "Manicure" service to my cart
@@ -66,19 +56,12 @@ Feature: Create tickets
     And I click on the "SAVE" button in the create new customer dialog
     Then I should see a new customer "Guest" on ticket
 
-    When I click on the "Pay" button
-    And I select the "Cash" payment type
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
+    When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Create a ticket with multiple technicians
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "2860"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "2860"
     Then I should see the employee "Tina" in the employee list
     When I select the "Tina" employee
     Then I should see the "Ticket View" screen
@@ -95,19 +78,12 @@ Feature: Create tickets
     When I select the group "Nails"
     Then I should see the "Anna" employee in my cart
 
-    When I click on the "Pay" button
-    And I select the "Cash" payment type
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
+    When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Create a ticket, add Tip and pay with Credit card
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "0101"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "0101"
     Then I should see the employee "Laura" in the employee list
     When I select the "Laura" employee
     Then I should see the "Ticket View" screen
@@ -116,10 +92,7 @@ Feature: Create tickets
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I click on the adding "Tip" button
-    Then I should see a ticket functions title "ENTER TIP AMOUNT"
-    When I fill "5" from the numpad
-    Then I should see "$5.00" tip in my cart
+    When I add tip amount "5"
 
     When I click on the "Pay" button
     And I select the "Credit" payment type
@@ -131,10 +104,7 @@ Feature: Create tickets
 
   Scenario: Create a ticket and pay with Gift Card type
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "4"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "4"
     Then I should see the employee "Emma" in the employee list
     When I select the "Emma" employee
     Then I should see the "Ticket View" screen
@@ -155,10 +125,7 @@ Feature: Create tickets
 
   Scenario: Create a ticket and pay with Debit type
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "0505"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "0505"
     Then I should see the employee "Hanna" in the employee list
     When I select the "Hanna" employee
     Then I should see the "Ticket View" screen
@@ -177,10 +144,7 @@ Feature: Create tickets
 
   Scenario: Split tip by Percent on ticket after paying by Credit card
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "0202"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "0202"
     Then I should see the employee "Brian" in the employee list
     When I select the "Brian" employee
     Then I should see the "Ticket View" screen
@@ -194,10 +158,7 @@ Feature: Create tickets
     And I select the "Kelley" employee in the list item employee
     Then I should see the "Kelley" employee in my cart
 
-    When I click on the adding "Tip" button
-    Then I should see a ticket functions title "ENTER TIP AMOUNT"
-    When I fill "5" from the numpad
-    Then I should see "$5.00" tip in my cart
+    When I add tip amount "5"
 
     When I click on the "Pay" button
     And I select the "Credit" payment type
@@ -217,10 +178,7 @@ Feature: Create tickets
 
   Scenario: Create a ticket and pay with Cash change
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "9076"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "9076"
     When I select the "Kim" employee
     Then I should see the "Ticket View" screen
     And I should see the "Gel removal" service
@@ -238,10 +196,7 @@ Feature: Create tickets
 
   Scenario: Make multiple payments using Gift Card and Credit
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "1219"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "1219"
     Then I should see the employee "Lisa" in the employee list
 
     When I select the "Lisa" employee
@@ -269,10 +224,7 @@ Feature: Create tickets
 
   Scenario: Change price and add request for service in ticket
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "1828"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "1828"
     Then I should see the employee "Harry" in the employee list
     When I select the "Harry" employee
     Then I should see the "Ticket View" screen
@@ -282,10 +234,7 @@ Feature: Create tickets
     Then I should see my cart showing 1 item added
 
     When I select the service "Manicure" in my cart
-    And I select the "CHANGE PRICE" on the menu
-    And I enter the amount "20"
-    And I click on the "OK" button
-    Then I should see the total price "$20.00" visible
+    And I change price amount "20"
 
     When I select the service "Manicure" in my cart
     And I select the "REQUEST" on the menu
@@ -293,19 +242,12 @@ Feature: Create tickets
     And I click on the "OK" button
     Then I should see the note "Lorem Ipsum" visible
 
-    When I click on the "Pay" button
-    And I select the "Cash" payment type
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
+    When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Add the Open Discount amount for Discount item
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "8623"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "8623"
     Then I should see the employee "Bella" in the employee list
     When I select the "Bella" employee
     Then I should see the "Ticket View" screen
@@ -327,19 +269,12 @@ Feature: Create tickets
     Then I should see the "Open Discount (Original Price)" discount in my cart
     And I should see discount "($3.00)" in my cart
 
-    When I click on the "Pay" button
-    And I select the "Cash" payment type
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
+    When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Add the Open Discount percent for Discount ticket
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "9962"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "9962"
     Then I should see the employee "Ruby" in the employee list
     When I select the "Ruby" employee
     Then I should see the "Ticket View" screen
@@ -364,19 +299,12 @@ Feature: Create tickets
     Then I should see the discount ticket detail "Open Discount 10% (Discounted Price)($0.60)" in my cart
     And I should see "Discount ($0.60)" in my cart
 
-    When I click on the "Pay" button
-    And I select the "Cash" payment type
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
+    When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Apply auto-discount item and change it to another
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "9960"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "9960"
     Then I should see the employee "Brielle" in the employee list
     When I select the "Brielle" employee
     Then I should see the "Ticket View" screen
@@ -397,19 +325,12 @@ Feature: Create tickets
     Then I should see the "$5 Off (Original Price)" discount in my cart
     And I should see discount "($5.00)" in my cart
 
-    When I click on the "Pay" button
-    And I select the "Cash" payment type
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
+    When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Sell a Gift Card add-on amount
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "1010"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "1010"
     Then I should see the employee "Tom" in the employee list
     When I select the "Tom" employee
     Then I should see the "Ticket View" screen
@@ -427,11 +348,7 @@ Feature: Create tickets
     Then I should see my cart showing 1 item added
     And I should see the service "Gift card $100 (1234)" in my cart
 
-    When I click on the "Pay" button
-    And I select the "Cash" payment type
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
+    When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I wait for the page fully loaded
@@ -449,10 +366,7 @@ Feature: Create tickets
 
   Scenario: Sell a Gift Card rewrite amount
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "5362"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "5362"
     Then I should see the employee "Sandy" in the employee list
     When I select the "Sandy" employee
     Then I should see the "Ticket View" screen
@@ -470,11 +384,7 @@ Feature: Create tickets
     Then I should see my cart showing 1 item added
     And I should see the service "Gift card $100 (4321)" in my cart
 
-    When I click on the "Pay" button
-    And I select the "Cash" payment type
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
+    When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I wait for the page fully loaded
@@ -492,10 +402,7 @@ Feature: Create tickets
 
   Scenario: Remove tax in ticket
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "6993"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "6993"
     Then I should see the employee "Jack" in the employee list
     When I select the "Jack" employee
     And I select the "FULL SET & FILL IN" category
@@ -508,19 +415,12 @@ Feature: Create tickets
     When I select the change charge action "Remove Tax"
     Then I should see "Tax $0.00" in my cart
 
-    When I click on the "Pay" button
-    And I select the "Cash" payment type
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
+    When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Void an empty ticket
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "0727"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "0727"
     Then I should see the employee "Kelley" in the employee list
     When I select the "Kelley" employee
     Then I should see the "Ticket View" screen
@@ -533,10 +433,7 @@ Feature: Create tickets
 
   Scenario: Void a ticket with a service in Done status
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "0727"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "0727"
     Then I should see the employee "Kelley" in the employee list
     When I select the "Kelley" employee
     Then I should see the "Ticket View" screen
@@ -556,10 +453,7 @@ Feature: Create tickets
 
   Scenario: Void a ticket with a service in Wait status
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "0727"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "0727"
     Then I should see the employee "Kelley" in the employee list
     When I select the "Kelley" employee
     Then I should see the "Ticket View" screen
@@ -577,10 +471,7 @@ Feature: Create tickets
 
   Scenario: Combine tickets
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "6310"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "6310"
     Then I should see the employee "Sarah" in the employee list
 
     When I select the "Sarah" employee
@@ -606,19 +497,12 @@ Feature: Create tickets
     And I should see the service "Manicure" in my cart
     And I should see the employee "Sarah" in my cart
 
-    When I click on the "Pay" button
-    And I select the "Cash" payment type
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
+    When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Void the item when creating a ticket
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "0404"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "0404"
     Then I should see the employee "Sam" in the employee list
 
     When I select the "Sam" employee
@@ -643,19 +527,12 @@ Feature: Create tickets
     Then I should see my cart showing 2 item added
     And I should see the service "Pedicure" in my cart
 
-    When I click on the "Pay" button
-    And I select the "Cash" payment type
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
+    When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Change Technician for Service package
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "6769"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "6769"
     Then I should see the employee "Sophia" in the employee list
 
     When I select the "Sophia" employee
@@ -674,19 +551,12 @@ Feature: Create tickets
     Then I should see a popup dialog with title "SELECT TURN GROUP"
     When I select the change charge action "Nails"
 
-    When I click on the "Pay" button
-    And I select the "Cash" payment type
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
+    When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Remove payment history and choose another one
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "6373"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "6373"
     Then I should see the employee "Mia" in the employee list
 
     When I select the "Mia" employee
@@ -725,10 +595,7 @@ Feature: Create tickets
 
   Scenario: Update the user info when changing technician
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "2406"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "2406"
     Then I should see the employee "Madison" in the employee list
 
     When I select the "Madison" employee
@@ -752,19 +619,12 @@ Feature: Create tickets
     Then I should not see the service "Manicure" in my cart
     And I should see the user info "Anna" in the ticket
 
-    When I click on the "Pay" button
-    And I select the "Cash" payment type
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
+    When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Select Tech to split tip by percent
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "3030"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "3030"
     Then I should see the employee "Kayla" in the employee list
     When I select the "Kayla" employee
     Then I should see the "Ticket View" screen
@@ -782,10 +642,7 @@ Feature: Create tickets
     Then I should see the "Kelley" employee in my cart
     And I should see the "Savannah" employee in my cart
 
-    When I click on the adding "Tip" button
-    And I enter the amount "5"
-    And I click on the "OK" button
-    Then I should see "Tip $5.00" in my cart
+    When I add tip amount "5"
 
     When I click on the "Pay" button
     And I select the "Credit" payment type
@@ -811,10 +668,7 @@ Feature: Create tickets
 
   Scenario: Cannot pay more than the Gift card Balance
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "4040"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "4040"
     Then I should see the employee "Aubrey" in the employee list
     When I select the "Aubrey" employee
     Then I should see the "Ticket View" screen
@@ -824,10 +678,7 @@ Feature: Create tickets
     Then I should see my cart showing 1 item added
 
     When I select the service "Manicure" in my cart
-    And I select the "CHANGE PRICE" on the menu
-    And I enter the amount "35.7"
-    And I click on the "OK" button
-    Then I should see the total price "$35.70" visible
+    And I change price amount "35.7"
 
     When I click on the "Pay" button
     And I select the "Gift" payment type
@@ -860,8 +711,7 @@ Feature: Create tickets
     And I wait for the page fully loaded
     Then I should see the last ticket of payment "$35.70"
 
-    When I click the avatar in the last row with payment "$35.70" to expand details
-    And I select the "Reopen ticket" on the Daily Task
+    When I reopen ticket with payment amount "$35.70"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Aubrey" in the ticket

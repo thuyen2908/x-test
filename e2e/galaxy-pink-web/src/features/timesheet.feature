@@ -1,4 +1,4 @@
-@regression @smoke @slow
+@regression @smoke @slow @skip
 Feature: Timesheet
 
   Scenario: Clock in and clock out

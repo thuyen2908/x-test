@@ -3,10 +3,7 @@ Feature: Closed Ticket
 
   Scenario: Reopen ticket then close ticket
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "2429"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "2429"
     Then I should see the employee "Chloe" in the employee list
 
     When I select the "Chloe" employee
@@ -17,27 +14,16 @@ Feature: Closed Ticket
     Then I should see my cart showing 1 item added
 
     When I select the service "Manicure" in my cart
-    And I select the "CHANGE PRICE" on the menu
-    And I enter the amount "11.5"
-    And I click on the "OK" button
-    Then I should see the total price "$11.50" visible
+    And I change price amount "11.5"
 
-    When I click on the "Pay" button
-    And I select the "Cash" payment type
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
+    When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I click on refresh
+    And I refresh and search amount "11.5"
     And I wait for the page fully loaded
-    And I search for "11.5"
-    And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$11.50"
 
-    When I click the avatar in the last row with payment "$11.50" to expand details
-    And I select the "Reopen ticket" on the Daily Task
+    And I reopen ticket with payment amount "$11.50"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Chloe" in the ticket
@@ -49,10 +35,7 @@ Feature: Closed Ticket
 
   Scenario: Reopen ticket to change tech for service package
     Given I am on the HOME page
-    When I click on the functions
-    And I select the "Clock In" on the Daily Task
-    And I enter password with PIN "9860"
-    And I click on the "CONFIRM" button in the popup dialog
+    When I clock in the timesheet with PIN "9860"
     Then I should see the employee "Ethan" in the employee list
 
     When I select the "Ethan" employee
@@ -63,27 +46,16 @@ Feature: Closed Ticket
     Then I should see my cart showing 1 item added
 
     When I select the service "Combo 1" in my cart
-    And I select the "CHANGE PRICE" on the menu
-    And I enter the amount "47"
-    And I click on the "OK" button
-    Then I should see the total price "$47.00" visible
+    And I change price amount "47"
 
-    When I click on the "Pay" button
-    And I select the "Cash" payment type
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
+    When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I click on refresh
+    And I refresh and search amount "47"
     And I wait for the page fully loaded
-    And I search for "47"
-    And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$47.00"
 
-    When I click the avatar in the last row with payment "$47.00" to expand details
-    And I select the "Reopen ticket" on the Daily Task
+    When I reopen ticket with payment amount "$47.00"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Ethan" in the ticket
@@ -99,7 +71,6 @@ Feature: Closed Ticket
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
 
-  @skip
   Scenario: Reopen ticket to change technician and split tip
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6373"
@@ -113,63 +84,46 @@ Feature: Closed Ticket
     And I add the "Pedicure" service to my cart
     Then I should see my cart showing 2 item added
 
-    When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "11"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$11.00" visible
+    When I select the service "Manicure" in my cart
+    And I change price amount "11"
 
-    When I click on the adding "Tip" button
-    Then I should see a popup dialog with title "Add Tip"
-    When I fill "5" from the numpad
-    Then I should see "$5.00" tip in my cart
+    When I add tip amount "5"
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-
-    When I select the "Credit" payment type
+    When I click on the "Pay" button
+    And I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
-    And I click on the element with id "payment"
-    Then I should be redirected to HOME page
+    And I select the "VISA" on the menu
 
-    When I click on the "Tickets" label in the header
-    Then I should be redirected to CLOSED_TICKETS page
+    Then I should see the payment history "VISA (1234)$19.57 + $5.00" visible
+    When I click on the "Close Ticket" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
-    When I search for "24.95"
+    When I select the "CLOSED TICKET" tab
+    And I refresh and search amount "24.57"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$24.95"
 
-    When I click on the last row for payment "$24.95" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
+    When I reopen ticket with payment amount "$24.57"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Mia" in the ticket
 
-    When I click on the item "Technician" button
-    Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
-    When I select the "Manicure" service in the dialog
-    And I select the "Anna" employee in the dialog
-    And I click on the "Apply" button in the dialog
+    When I select the service "Manicure" in my cart
+    And I select the "Anna" employee in the list item employee
+    Then I should see a popup dialog with title "SELECT TURN GROUP"
+    When I select the group "Nails"
     Then I should see the "Anna" employee in my cart
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-
+    When I click on the "Pay" button
     When I click on the "SPLIT TIP" button
     Then I should see the employee "Mia" visible in the split tip screen
     And I should see the employee "Anna" visible in the split tip screen
-    And I should see the text "TOTAL TIP" visible in the split tip screen
     And I should see the total tip "5" visible in the split tip screen
 
     When I click on the "Percent Split" button in the split tip screen
     Then I should see all split tips non-zero
-    When I click on the "CLOSE TICKET" button
-    Then I should be redirected to HOME page
+    When I click on the "OK" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
-  @skip
   Scenario: Reopen ticket to adjust tip for Credit Card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "3957"
@@ -183,49 +137,36 @@ Feature: Closed Ticket
     Then I should see my cart showing 1 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "12"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$12.00" visible
+    And I change price amount "12"
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-
-    When I select the "Credit" payment type
+    When I click on the "Pay" button
+    And I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
-    And I click on the element with id "payment"
-    Then I should be redirected to HOME page
+    And I select the "VISA" on the menu
+    Then I should see the payment history "VISA (1234)$12.36" visible
+    When I click on the "Close Ticket" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
-    When I click on the "Tickets" label in the header
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I search for "12.6"
+    When I select the "CLOSED TICKET" tab
+    And I refresh and search amount "12.36"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$12.60"
 
-    When I click on the last row for payment "$12.60" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
+    When I reopen ticket with payment amount "$12.36"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Angie" in the ticket
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the payment history "VISA (1234)" visible
+    When I click on the "Pay" button
+    Then I should see the payment history "VISA (1234)$12.36" visible
 
-    When I click on the adjust tip icon
-    Then I should see a popup dialog with title "Adjust Tip "
-    When I enter the amount "10"
-    And I click on the "Add Tip" button in the popup dialog
-    Then I should see the payment price contain amount "+ $10.00"
+    When I select the payment history "VISA (1234)$12.36"
+    And I enter the amount "10"
+    And I click on the "OK" button
+    Then I should see the payment history "VISA (1234)$12.36 + $10.00" visible
 
-    When I click on the "CLOSE TICKET" button
-    Then I should be redirected to HOME page
+    When I click on the "Close Ticket" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
-  @skip
   Scenario: Reopen ticket to remove payment Cash and instead of Credit
     Given I am on the HOME page
     When I clock in the timesheet with PIN "4683"
@@ -239,53 +180,35 @@ Feature: Closed Ticket
     Then I should see my cart showing 1 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "23.5"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$23.50" visible
+    And I change price amount "23.5"
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
 
-    When I select the "Cash" payment type
-    And I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
-
-    When I click on the "Tickets" label in the header
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I search for "23.5"
+    When I select the "CLOSED TICKET" tab
+    And I refresh and search amount "23.5"
     And I wait for the page fully loaded
-    Then I should see the last ticket of Cash payment "$23.50"
 
-    When I click on the last row for payment "$23.50" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
+    When I reopen ticket with payment amount "$23.50"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Samantha" in the ticket
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    Then I should see the payment history "Cash" visible
+    When I click on the "Pay" button
+    Then I should see the payment history "Cash $23.50" visible
 
-    When I click on the more menu for payment history of "Cash"
-    Then I should see the tooltip remove
-    When I click on the tooltip remove
+    When I select the payment history "Cash $23.50"
     Then I should see a popup dialog with title "Cash  - $23.50"
     When I click on the "Remove" button in the popup dialog
 
     When I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
-    And I click on the element with id "payment"
-    Then I should be redirected to HOME page
+    And I select the "VISA" on the menu
+    Then I should see the payment history "VISA (1234)$24.20" visible
 
-  @skip
+    When I click on the "Close Ticket" button
+    Then I should see the selected "SERVICE" tab on the Home page
+
   Scenario: Reopen ticket to change split tip Percent to Equal
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2174"
@@ -300,66 +223,46 @@ Feature: Closed Ticket
     Then I should see my cart showing 2 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "14"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$14.00" visible
+    And I change price amount "14"
 
-    When I click on the item "Technician" button
-    Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
-    When I select the "Manicure" service in the dialog
-    And I select the "Kelley" employee in the dialog
-    And I click on the "Apply" button in the dialog
+    When I select the service "Manicure" in my cart
+    And I select the "Kelley" employee in the list item employee
     Then I should see the "Kelley" employee in my cart
 
-    When I click on the adding "Tip" button
-    Then I should see a popup dialog with title "Add Tip"
-    When I fill "5" from the numpad
-    Then I should see "$5.00" tip in my cart
+    When I add tip amount "5"
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-
+    When I click on the "Pay" button
     When I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
-    And I click on the element with id "payment"
+    And I select the "VISA" on the menu
+    Then I should see the payment history "VISA (1234)$22.66 + $5.00" visible
+
+    When I click on the "SPLIT TIP" button
     Then I should see the employee "Daniel" visible in the split tip screen
     And I should see the employee "Kelley" visible in the split tip screen
-    And I should see the text "TOTAL TIP" visible in the split tip screen
     And I should see the total tip "5" visible in the split tip screen
 
     When I click on the "Percent Split" button in the split tip screen
     Then I should see all split tips non-zero
-    When I click on the "CLOSE TICKET" button
-    Then I should be redirected to HOME page
+    When I click on the "OK" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
-    When I click on the "Tickets" label in the header
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I search for "28.10"
+    When I select the "CLOSED TICKET" tab
+    And I refresh and search amount "27.66"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$28.10"
 
-    When I click on the last row for payment "$28.10" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
+    When I reopen ticket with payment amount "$27.66"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Daniel" in the ticket
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    Then I should see the payment history "VISA (1234)" visible
-
-    When I click on the "SPLIT TIP" button
+    When I click on the "Pay" button
+    And I click on the "SPLIT TIP" button
     And I click on the "EQUAL SPLIT" button in the split tip screen
     Then I should see all split tips non-zero
-    When I click on the "CLOSE TICKET" button
-    Then I should be redirected to HOME page
+    When I click on the "OK" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
-  @skip
   Scenario: Reopen ticket to add service and make payment Credit
     Given I am on the HOME page
     When I clock in the timesheet with PIN "7139"
@@ -373,32 +276,16 @@ Feature: Closed Ticket
     Then I should see my cart showing 1 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "15.5"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$15.50" visible
+    And I change price amount "15.5"
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
 
-    When I select the "Cash" payment type
-    And I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
-
-    When I click on the "Tickets" label in the header
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I search for "15.5"
+    When I select the "CLOSED TICKET" tab
+    And I refresh and search amount "15.5"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$15.50"
 
-    When I click on the last row for payment "$15.50" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
+    When I reopen ticket with payment amount "$15.5"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Julia" in the ticket
@@ -406,16 +293,16 @@ Feature: Closed Ticket
     When I add the "Pedicure" service to my cart
     Then I should see my cart showing 2 item added
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
+    When I click on the "Pay" button
+    Then I should see the payment history "Cash $15.50" visible
 
     When I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
-    And I click on the element with id "payment"
-    Then I should be redirected to HOME page
+    And I select the "VISA" on the menu
+    Then I should see the payment history "VISA (1234)$8.24" visible
+    When I click on the "Close Ticket" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
-  @skip
   Scenario: Reopen ticket to void ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5971"
@@ -429,38 +316,32 @@ Feature: Closed Ticket
     Then I should see my cart showing 1 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "16"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$16.00" visible
+    And I change price amount "16"
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-
-    When I select the "Credit" payment type
+    When I click on the "Pay" button
+    And I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
-    And I click on the element with id "payment"
-    Then I should be redirected to HOME page
+    And I select the "VISA" on the menu
+    Then I should see the payment history "VISA (1234)$16.48" visible
 
-    When I click on the "Tickets" label in the header
-    Then I should be redirected to CLOSED_TICKETS page
+    When I click on the "Close Ticket" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
-    When I search for "16.8"
+    When I select the "CLOSED TICKET" tab
+    And I refresh and search amount "16.48"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$16.80"
 
-    When I click on the last row for payment "$16.80" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
+    When I reopen ticket with payment amount "$16.48"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Daisy" in the ticket
 
-    When I void the current open ticket with reason "System Test"
-    Then I should be redirected to HOME page
+    When I click on the "Void Ticket" button
+    And I select the reason "System Test"
+    Then I should see a popup dialog with title "Confirm Void"
+    When I click on the "confirm" button in the popup dialog
+    Then I should see the selected "SERVICE" tab on the Home page
 
-  @skip
   Scenario: Reopen ticket to void item, remove and make new payment
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8573"
@@ -475,57 +356,48 @@ Feature: Closed Ticket
     Then I should see my cart showing 2 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "17"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$17.00" visible
+    And I change price amount "17"
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-
-    When I select the "Credit" payment type
+    When I click on the "Pay" button
+    And I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
-    And I click on the element with id "payment"
-    Then I should be redirected to HOME page
+    And I select the "VISA" on the menu
+    Then I should see the payment history "VISA (1234)$25.75" visible
 
-    When I click on the "Tickets" label in the header
-    Then I should be redirected to CLOSED_TICKETS page
+    When I click on the "Close Ticket" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
-    When I search for "26.25"
+    When I select the "CLOSED TICKET" tab
+    And I refresh and search amount "25.75"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$26.25"
 
-    When I click on the last row for payment "$26.25" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
+    When I reopen ticket with payment amount "$25.75"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Evelyn" in the ticket
 
-    When I click on the item "VOID ITEM" button
-    Then I should see a popup dialog with title "VOID MULTIPLE"
-    When I select the "Manicure" service in the dialog
+    When I select the service "Manicure" in my cart
+    And I select the "VOID ITEM" on the menu
     And I select the reason "Wrong Item"
-    And I click on the "Void Items" button in the dialog
     Then I should not see the service "Manicure" in my cart
     And I should see my cart showing 1 item added
 
-    When I click on the "PAY" button
-    Then I should see the payment history "VISA (1234)" visible
+    When I click on the "Pay" button
+    Then I should see the payment history "VISA (1234)$25.75" visible
 
-    When I click on the more menu for payment history of "VISA (1234)"
-    Then I should see the tooltip remove
-    When I click on the tooltip remove
-    Then I should see a popup dialog with title "VISA  - $26.25"
+    When I select the payment history "VISA (1234)$25.75"
+    And I click on the "VOID" button
+    Then I should see a popup dialog with title "VISA  - $25.75"
     When I click on the "Remove" button in the popup dialog
 
     When I select the "Credit" payment type
     And I fill the last 4 digits of card number "4321"
-    And I click on the element with id "payment"
-    Then I should be redirected to HOME page
+    And I select the "VISA" on the menu
+    Then I should see the payment history "VISA (1234)$8.24" visible
 
-  @skip
+    When I click on the "Close Ticket" button
+    Then I should see the selected "SERVICE" tab on the Home page
+
   Scenario: Sell a new Gift Card then void ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2463"
@@ -535,11 +407,8 @@ Feature: Closed Ticket
     And I should see the "GIFT CARD" category
 
     When I add the "Acrylic removal" service to my cart
-    And I click on the total price of "Acrylic removal"
-    Then I should see a popup dialog with title "Service: Acrylic removal - $30.00"
-    When I change the price to "27.5"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$27.50" visible
+    And I select the service "Acrylic removal" in my cart
+    And I change price amount "27.5"
 
     When I select the "GIFT CARD" category
     Then I should see the "Gift card $50" service
@@ -551,41 +420,28 @@ Feature: Closed Ticket
     Then I should see my cart showing 1 item added
     And I should see the service "Gift card $50 (1703)" in my cart
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
 
-    When I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
-
-    When I click on the "Tickets" label in the header
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I search for "77.5"
+    When I select the "CLOSED TICKET" tab
+    And I refresh and search amount "77.5"
     And I wait for the page fully loaded
-    Then I should see the last ticket of Cash payment "$77.50"
 
-    When I click on the last row for payment "$77.50" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
+    When I reopen ticket with payment amount "$77.5"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Isabella" in the ticket
 
-    When I void the current open ticket with no reason
-    And I wait for the page fully loaded
-    Then I should be redirected to HOME page
+    When I click on the "Void Ticket" button
+    And I select the reason "Mistake"
+    Then I should see a popup dialog with title "Confirm Void"
+    When I click on the "confirm" button in the popup dialog
+    Then I should see the selected "SERVICE" tab on the Home page
 
-    When I navigate to "Appointment" on the navigation bar
-    And I click on the "Balance" label in the header
-    And I select the "Gift Card" option
+    When I wait for the page fully loaded
+    And I navigate to "Balance" on the navigation bar
     Then I should be redirected to GIFT_CARD_BALANCE page
-    And I should see the text "Gift Card" visible
+    And I should see the text "Gift Card / Loyalty Balance" visible
 
     When I enter the amount "1703"
     And I click on the "SEARCH" button
