@@ -32,11 +32,14 @@ Feature: Reopen tickets
     When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
+    When I click on refresh
+    And I wait for the page fully loaded
+    Then I should see the toast message "Refresh data ticket successfully." visible
     When I search for "11.5"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$11.50"
+    Then I should see the first ticket of payment "$11.50"
 
-    When I click on the last row for payment "$11.50" to expand details
+    When I click on the first row for payment "$11.50" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -82,11 +85,14 @@ Feature: Reopen tickets
     When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "47"
+    When I click on refresh
+    Then I should see the toast message "Refresh data ticket successfully." visible
+    When I wait for the page fully loaded
+    And I search for "47"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$47.00"
+    Then I should see the first ticket of payment "$47.00"
 
-    When I click on the last row for payment "$47.00" to expand details
+    When I click on the first row for payment "$47.00" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -143,11 +149,14 @@ Feature: Reopen tickets
     When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "24.95"
+    When I click on refresh
+    Then I should see the toast message "Refresh data ticket successfully." visible
+    When I wait for the page fully loaded
+    And I search for "24.95"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$24.95"
+    Then I should see the first ticket of payment "$24.95"
 
-    When I click on the last row for payment "$24.95" to expand details
+    When I click on the first row for payment "$24.95" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -206,11 +215,14 @@ Feature: Reopen tickets
     When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "12.6"
+    When I click on refresh
+    Then I should see the toast message "Refresh data ticket successfully." visible
+    When I wait for the page fully loaded
+    And I search for "12.6"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$12.60"
+    Then I should see the first ticket of payment "$12.60"
 
-    When I click on the last row for payment "$12.60" to expand details
+    When I click on the first row for payment "$12.60" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -263,11 +275,14 @@ Feature: Reopen tickets
     When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "23.5"
+    When I click on refresh
+    Then I should see the toast message "Refresh data ticket successfully." visible
+    When I wait for the page fully loaded
+    And I search for "23.5"
     And I wait for the page fully loaded
-    Then I should see the last ticket of Cash payment "$23.50"
+    Then I should see the first ticket of Cash payment "$23.50"
 
-    When I click on the last row for payment "$23.50" to expand details
+    When I click on the first row for payment "$23.50" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -341,11 +356,14 @@ Feature: Reopen tickets
     When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "28.10"
+    When I click on refresh
+    Then I should see the toast message "Refresh data ticket successfully." visible
+    When I wait for the page fully loaded
+    And I search for "28.10"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$28.10"
+    Then I should see the first ticket of payment "$28.10"
 
-    When I click on the last row for payment "$28.10" to expand details
+    When I click on the first row for payment "$28.10" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -395,11 +413,14 @@ Feature: Reopen tickets
     When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "15.5"
+    When I click on refresh
+    Then I should see the toast message "Refresh data ticket successfully." visible
+    When I wait for the page fully loaded
+    And I search for "15.5"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$15.50"
+    Then I should see the first ticket of payment "$15.50"
 
-    When I click on the last row for payment "$15.50" to expand details
+    When I click on the first row for payment "$15.50" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -448,11 +469,14 @@ Feature: Reopen tickets
     When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "16.8"
+    When I click on refresh
+    Then I should see the toast message "Refresh data ticket successfully." visible
+    When I wait for the page fully loaded
+    And I search for "16.8"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$16.80"
+    Then I should see the first ticket of payment "$16.80"
 
-    When I click on the last row for payment "$16.80" to expand details
+    When I click on the first row for payment "$16.80" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -493,11 +517,14 @@ Feature: Reopen tickets
     When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "26.25"
+    When I click on refresh
+    Then I should see the toast message "Refresh data ticket successfully." visible
+    When I wait for the page fully loaded
+    And I search for "26.25"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$26.25"
+    Then I should see the first ticket of payment "$26.25"
 
-    When I click on the last row for payment "$26.25" to expand details
+    When I click on the first row for payment "$26.25" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -566,11 +593,14 @@ Feature: Reopen tickets
     When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "77.5"
+    When I click on refresh
+    Then I should see the toast message "Refresh data ticket successfully." visible
+    When I wait for the page fully loaded
+    And I search for "77.5"
     And I wait for the page fully loaded
-    Then I should see the last ticket of Cash payment "$77.50"
+    Then I should see the first ticket of Cash payment "$77.50"
 
-    When I click on the last row for payment "$77.50" to expand details
+    When I click on the first row for payment "$77.50" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -633,11 +663,14 @@ Feature: Reopen tickets
     When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "75.7"
+    When I click on refresh
+    Then I should see the toast message "Refresh data ticket successfully." visible
+    When I wait for the page fully loaded
+    And I search for "75.7"
     And I wait for the page fully loaded
-    Then I should see the last ticket of Cash payment "$75.70"
+    Then I should see the first ticket of Cash payment "$75.70"
 
-    When I click on the last row for payment "$75.70" to expand details
+    When I click on the first row for payment "$75.70" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -792,11 +825,14 @@ Feature: Reopen tickets
     When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "29.25"
+    When I click on refresh
+    Then I should see the toast message "Refresh data ticket successfully." visible
+    When I wait for the page fully loaded
+    And I search for "29.25"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$29.25"
+    Then I should see the first ticket of payment "$29.25"
 
-    When I click on the last row for payment "$29.25" to expand details
+    When I click on the first row for payment "$29.25" to expand details
     Then I should see the store logo on the receipt
     And I should see the business info "BLANC NAILS 1032 YONKERS AVE Yonkers, NY 10704 (707) 707-1122" on the receipt
 

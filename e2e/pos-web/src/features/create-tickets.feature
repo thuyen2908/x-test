@@ -825,9 +825,9 @@ Feature: Create tickets
 
     When I search for "35.7"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$35.70"
+    Then I should see the first ticket of payment "$35.70"
 
-    When I click on the last row for payment "$35.70" to expand details
+    When I click on the first row for payment "$35.70" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button

@@ -1,9 +1,8 @@
 import { expect } from '@playwright/test';
-import type { DataTable } from 'playwright-bdd';
-import { createBdd } from 'playwright-bdd';
+import { createBdd, type DataTable } from 'playwright-bdd';
 
 import { constants } from '#const';
-import type { PageId } from '#types';
+import { type PageId } from '#types';
 
 const { When, Then } = createBdd();
 
@@ -1083,6 +1082,26 @@ When('I click on the tooltip remove', async ({ page }) => {
 	await tooltipElement.click();
 });
 
+When('I click on refresh', async ({ page }) => {
+	await page.locator('[data-testid="RefreshIcon"]').click();
+});
+
+When(
+	'I filter the ticket type {string}',
+	async ({ page }, ticketType: string) => {
+		const ticketTypeSelect = page.locator('.xFlex-select');
+		await expect(ticketTypeSelect).toBeVisible();
+		await ticketTypeSelect.click();
+
+		const option = page.getByRole('option', {
+			name: ticketType,
+			exact: true,
+		});
+		await expect(option).toBeVisible();
+		await option.click();
+	},
+);
+
 Then(
 	'I should see the text {string} in the payment history',
 	async ({ page }, text: string) => {
@@ -1652,21 +1671,20 @@ Then(
 );
 
 Then(
-	'I should see the last ticket of payment {string}',
+	'I should see the first ticket of payment {string}',
 	async ({ page }, amount: string) => {
 		const lastPaymentCell = page
 			.locator('.MuiDataGrid-row')
 			.locator('[data-field="paymentTotal"]', { hasText: amount })
-			.last();
+			.first();
 
 		await expect(lastPaymentCell).toBeVisible();
-		await lastPaymentCell.scrollIntoViewIfNeeded();
 		await expect(lastPaymentCell).toContainText(amount);
 	},
 );
 
 Then(
-	'I should see the last ticket of Cash payment {string}',
+	'I should see the first ticket of Cash payment {string}',
 	async ({ page }, amount: string) => {
 		const rows = page.locator('.MuiDataGrid-row');
 
@@ -1680,7 +1698,6 @@ Then(
 			.last();
 
 		await expect(matchingRow).toBeVisible();
-		await matchingRow.scrollIntoViewIfNeeded();
 
 		const methodCell = matchingRow.locator('[data-field="paymentMethod"]');
 		const amountCell = matchingRow.locator('[data-field="paymentTotal"]');
@@ -1691,15 +1708,14 @@ Then(
 );
 
 When(
-	'I click on the last row for payment {string} to expand details',
+	'I click on the first row for payment {string} to expand details',
 	async ({ page }, amount: string) => {
 		const lastPaymentCell = page
 			.locator('.MuiDataGrid-virtualScrollerContent')
 			.locator('.MuiDataGrid-row')
 			.locator('[data-field="paymentTotal"]', { hasText: amount })
-			.last();
+			.first();
 		await expect(lastPaymentCell).toBeVisible();
-		await lastPaymentCell.scrollIntoViewIfNeeded();
 		await lastPaymentCell.click();
 	},
 );
