@@ -1,0 +1,29 @@
+{
+	"extends": "../../tsconfig.json",
+
+	"exclude": [
+		"dist",
+		"test-artifacts",
+		"playwright-report",
+		"allure-results",
+		"allure-report",
+		"playwright.config.ts"
+	],
+
+	"compilerOptions": {
+		"incremental": true,
+		"declaration": false,
+		"declarationMap": false,
+
+		"rootDir": "src",
+		"baseUrl": "src",
+
+		"lib": ["ESNext", "DOM"],
+
+		"paths": {
+			"#types": ["types/common.ts"],
+			"#env": ["env.ts"],
+			"#const": ["const.ts"]
+		}
+	}
+}
