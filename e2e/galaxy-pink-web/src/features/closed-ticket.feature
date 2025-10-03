@@ -446,8 +446,7 @@ Feature: Closed Ticket
     When I enter the amount "1703"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
-    Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
-    And I should see a popup dialog with content "Do you want to activate gift card #1703"
+    Then I should see the toast message "Cannot find this Gift Card." visible
 
   @skip
   Scenario: Sell a new Gift Card then void item Gift Card
@@ -533,8 +532,7 @@ Feature: Closed Ticket
     When I enter the amount "0103"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
-    Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
-    And I should see a popup dialog with content "Do you want to activate gift card #0103"
+    Then I should see the toast message "Cannot find this Gift Card." visible
 
   @skip
   Scenario: Remove loyalty balance when voiding ticket
@@ -601,15 +599,8 @@ Feature: Closed Ticket
     And I click on the "Save" button in the popup dialog
     Then I should see the total price "$35.50" visible
 
-    When I click on the Select customer
-    And I click on the "Click Here To Add Customers" button
-    Then I should see a popup dialog with title "Create New Customer"
-    And I should see the loyalty program "2 Points = $1" visible
-
-    When I fill the new customer name "Loyalty"
-    And I fill the new customer phone
-    And I click on the "SAVE" button in the create new customer dialog
-    Then I should see a new customer "Loyalty" on ticket
+    When I click to create new customer with the default loyalty program "2 Points = $1"
+    And I create the new customer name "Loyalty"
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible

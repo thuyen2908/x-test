@@ -2,11 +2,11 @@ import { expect, type Locator, type Page } from '@playwright/test';
 import { Fixture, Given, When } from 'playwright-bdd/decorators';
 
 import { constants } from '#const';
-import type { PageId, TestOptions } from '#types';
+import { type PageId, type TestOptions } from '#types';
 
-import type { TestConfig } from '../test-config';
-import type { TestStorage } from '../test-storage';
-import type { TimesheetAction } from './parameters';
+import { type TestConfig } from '../test-config';
+import { type TestStorage } from '../test-storage';
+import { type TimesheetAction } from './parameters';
 
 declare global {
 	interface Window {
@@ -104,6 +104,35 @@ class xPage {
 			 * Locate the Toast message container
 			 */
 			toast: page.locator('div.MuiAlert-message'),
+			/**
+			 * Locate the Select customer button
+			 */
+			selectCustomerButton: page.locator('.TicketSearch__customer'),
+			/**
+			 * Locate the button used to add a new customer from the Select customer dialog
+			 */
+			addCustomerButton: page.getByRole('button', {
+				name: 'Click Here To Add Customers',
+				exact: true,
+			}),
+			/**
+			 * Locate the loyalty program selector within the Create New Customer dialog
+			 */
+			loyaltyProgramSelect: page.locator(
+				'#mui-component-select-loyaltyProgramId',
+			),
+			/**
+			 * Locate the first name input inside the Create New Customer dialog
+			 */
+			newCustomerFirstNameInput: page.locator('input[name="firstName"]'),
+			/**
+			 * Locate the cell phone input inside the Create New Customer dialog
+			 */
+			newCustomerPhoneInput: page.locator('input[name="cellPhone"]'),
+			/**
+			 * Locate the customer name displayed on the ticket after assignment
+			 */
+			ticketCustomerName: page.locator('.TicketSearch__customer .mainTitle'),
 
 			/**
 			 * Locate the page's header
@@ -206,9 +235,15 @@ class xPage {
 			 * Locate a Navigation Menu item
 			 */
 			navItem: (itemName: string) =>
-				page.locator('li.xNavbar__item', {
-					hasText: new RegExp(`^${itemName}$`),
-				}),
+				page
+					.locator('li.xNavbar__item')
+					.filter({
+						has: page.locator('span.label', {
+							hasText: itemName,
+							exact: true,
+						}),
+					})
+					.first(),
 		};
 	}
 
@@ -429,6 +464,68 @@ class xPage {
 		const lastPaymentRow = locators.lastPaymentRowByAmount(formattedAmount);
 		await lastPaymentRow.scrollIntoViewIfNeeded();
 		await expect(lastPaymentRow).toBeVisible();
+	}
+
+	@When(
+		'I click to create new customer with the default loyalty program {string}',
+	)
+	public async clickToCreateNewCustomerWithDefaultLoyaltyProgram(
+		program: string,
+	) {
+		const { locators } = this;
+
+		await expect(locators.selectCustomerButton).toBeVisible();
+		await locators.selectCustomerButton.click();
+
+		await expect(locators.addCustomerButton).toBeVisible();
+		await locators.addCustomerButton.click();
+
+		const createCustomerDialog = locators.draggableDialog(
+			'Create New Customer',
+		);
+		await createCustomerDialog.waitFor({ state: 'visible' });
+		await expect(createCustomerDialog).toBeVisible();
+
+		await locators.loyaltyProgramSelect.waitFor({ state: 'attached' });
+		await expect(locators.loyaltyProgramSelect).toBeVisible();
+		await expect(locators.loyaltyProgramSelect).toHaveText(program);
+	}
+
+	@When('I create the new customer name {string}')
+	public async createNewCustomerName(name: string) {
+		const { locators } = this;
+
+		const createCustomerDialog = locators.draggableDialog(
+			'Create New Customer',
+		);
+		await createCustomerDialog.waitFor({ state: 'visible' });
+		await expect(createCustomerDialog).toBeVisible();
+
+		await expect(locators.newCustomerFirstNameInput).toBeVisible();
+		await locators.newCustomerFirstNameInput.fill(name);
+		await expect(locators.newCustomerFirstNameInput).toHaveValue(name);
+
+		const randomPhone = Math.floor(
+			1000000000 + Math.random() * 9000000000,
+		).toString();
+		await expect(locators.newCustomerPhoneInput).toBeVisible();
+		await locators.newCustomerPhoneInput.fill(randomPhone);
+		const formattedPhone = `(${randomPhone.slice(0, 3)}) ${randomPhone.slice(
+			3,
+			6,
+		)}-${randomPhone.slice(6)}`;
+		await expect(locators.newCustomerPhoneInput).toHaveValue(formattedPhone);
+
+		const saveButton = locators.dialogActionButton(
+			createCustomerDialog,
+			'Save',
+		);
+		await expect(saveButton).toBeVisible();
+		await saveButton.click();
+
+		await this.waitForNetworkIdle();
+		await expect(createCustomerDialog).not.toBeVisible();
+		await expect(locators.ticketCustomerName).toHaveText(name);
 	}
 
 	@When('I reopen ticket with payment amount {string}')

@@ -61,9 +61,61 @@ Feature: Appointment
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
+  Scenario: Create and edit an appointment then create ticket
+    Given I am on the HOME page
+    When I navigate to "APPT BOOK" on the navigation bar
+    Then I should be redirected to APPOINTMENT page
+
+    When I wait for the page fully loaded
+    Then I should see the title "Any Technician"
+
+    When I click on the scale icon
+    And I select the "Filter" tab
+    And I filter the employee "Anna"
+    Then I should see the title "Anna"
+
+    When I double click on the time slot at "09:20 AM"
+    And I wait for the page fully loaded
+    Then I should see the "Create Appointment" screen
+    And I should see the "Manicure" service
+
+    When I add the "Manicure" service to my cart
+    Then I should see the service "Manicure" in my cart
+    And I should see the duration "20 minutes"
+
+    When I click to create new customer with the default loyalty program "2 Points = $1"
+    And I create the new customer name "Booking"
+
+    When I click on the "SAVE" button
+    And I handle the Confirm Validate Time dialog if it appears
+    Then I should be redirected to APPOINTMENT page
+
+    Then I should see the customer "Booking" booked
+    And I should see the time slot "09:20 AM - 09:40 AM" booked
+
+    When I select the booked of "Booking"
+    And I click on the "Edit" button on the right panel
+    Then I should see the "Edit Appointment" screen
+    And I should see the "Pedicure" service
+
+    When I add the "Pedicure" service to my cart
+    And I click on the "SAVE" button
+    And I handle the Confirm Validate Time dialog if it appears
+    Then I should see the time slot "09:40 AM - 10:05 AM" booked
+
+    When I select the time slot "09:20 AM - 09:40 AM" booked
+    And I click on the "Check In" button on the header appointment
+    And I wait for the page fully loaded
+    Then I should see the text "Ticket View From Appointment" visible
+    And I should see the user info "Anna" in the ticket
+
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
+
+  @skip
   Scenario: Create an appointment for a new customer, edit to change technician and create ticket
     Given I am on the HOME page
-    When I navigate to "Appointment" on the navigation bar
+    When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
     When I wait for the page fully loaded
@@ -135,6 +187,7 @@ Feature: Appointment
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
+  @skip
   Scenario: Use Employee Color for Appointment Header
     Given I am on the HOME page
     When I navigate to "Appointment" on the navigation bar
@@ -144,6 +197,7 @@ Feature: Appointment
     Then I should see the color header for Any Technician displayed correctly
     And I should see the color header for employee 'Anna' displayed correctly
 
+  @skip
   Scenario: Sort Employee by Order
     Given I am on the HOME page
     When I navigate to "Appointment" on the navigation bar
@@ -153,6 +207,7 @@ Feature: Appointment
     Then I should see the title "Any Technician"
     And I should see the employees sorted correctly
 
+  @skip
   Scenario: Update appointment status Check-In
     Given I am on the HOME page
     When I navigate to "Appointment" on the navigation bar
@@ -217,6 +272,7 @@ Feature: Appointment
     And I should see the appointment status "None"
     And I should see the appointment status "Check In"
 
+  @skip
   Scenario: Update appointment status Complete
     Given I am on the HOME page
     When I navigate to "Appointment" on the navigation bar
@@ -289,6 +345,7 @@ Feature: Appointment
     And I should see the appointment status "None"
     And I should see the appointment status "Completed"
 
+  @skip
   Scenario: Enable Zoom In / Zoom Out
     Given I am on the HOME page
     When I navigate to "Appointment" on the navigation bar

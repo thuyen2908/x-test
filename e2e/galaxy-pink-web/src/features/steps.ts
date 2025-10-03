@@ -1,9 +1,8 @@
 import { expect } from '@playwright/test';
-import type { DataTable } from 'playwright-bdd';
-import { createBdd } from 'playwright-bdd';
+import { createBdd, type DataTable } from 'playwright-bdd';
 
 import { constants } from '#const';
-import type { PageId } from '#types';
+import { type PageId } from '#types';
 
 const { When, Then } = createBdd();
 
@@ -66,7 +65,8 @@ Then(
 	async ({ page }, screenName: string) => {
 		const screenTitle = page
 			.locator('span.pageName')
-			.getByText(screenName, { exact: true });
+			.getByText(screenName, { exact: true })
+			.last();
 
 		await expect(screenTitle).toBeVisible();
 	},
@@ -255,9 +255,7 @@ When(
 Then(
 	'I should see the {string} employee in my cart',
 	async ({ page }, employee: string) => {
-		const employeeElement = page
-			.locator('ul.xTicketItemList')
-			.getByText(employee);
+		const employeeElement = page.locator('.xTicketItems ').getByText(employee);
 		await expect(employeeElement).toContainText(employee);
 	},
 );
@@ -346,6 +344,41 @@ When(
 		).toContainText(number);
 	},
 );
+When(
+	'I fill the last 4 digits of card number {string} on the payment ticket dialog',
+	async ({ page }, number: string) => {
+		for (const digit of number) {
+			await page
+				.locator(`button.key:has(span.text-num:has-text("${digit}"))`)
+				.click();
+		}
+
+		await expect(page.locator('.xPayment__card--number-digits')).toContainText(
+			number,
+		);
+	},
+);
+
+When(
+	'I click on the {string} button in the add tip dialog',
+	async ({ page }, button: string) => {
+		const buttonElement = page
+			.locator('.xTicketFunctions__btn')
+			.getByText(button);
+		await expect(buttonElement).toBeVisible();
+		await buttonElement.click();
+	},
+);
+
+Then(
+	'I should see the payment history amount {string} visible',
+	async ({ page }, amount: string) => {
+		const paymentHistoryElement = page
+			.locator('.xPayment__history--price')
+			.getByText(amount);
+		await expect(paymentHistoryElement).toHaveText(amount);
+	},
+);
 
 When('I click on the Select customer', async ({ page }) => {
 	page.locator('.TicketSearch__customer').click();
@@ -373,6 +406,17 @@ Then(
 	},
 );
 
+Then(
+	'I should see the employee {string} visible in the split tip dialog',
+	async ({ page }, employee: string) => {
+		const employeeElement = page
+			.locator('.xSplitTip__item--content')
+			.getByText(employee, { exact: true });
+
+		await expect(employeeElement).toHaveText(employee);
+	},
+);
+
 When(
 	'I select the employee {string} in the split tip screen',
 	async ({ page }, employee: string) => {
@@ -391,6 +435,17 @@ Then(
 			.getByText(text, { exact: true });
 
 		await expect(textElement).toContainText(text);
+	},
+);
+
+Then(
+	'I should see the total tip {string} visible in the split tip dialog',
+	async ({ page }, totalTip: string) => {
+		const totalTipElement = page
+			.locator('.xSplitTip__numpad--tip')
+			.getByText(totalTip);
+
+		await expect(totalTipElement).toContainText(totalTip);
 	},
 );
 
@@ -458,6 +513,18 @@ When(
 	'I click on the {string} button in the split tip screen',
 	async ({ page }, button: string) => {
 		const buttonElement = page.locator('ul.xTicketFunsSplitTip__btns li', {
+			hasText: button,
+		});
+
+		await expect(buttonElement).toBeVisible();
+		await buttonElement.click();
+	},
+);
+
+When(
+	'I click on the {string} button in the split tip dialog',
+	async ({ page }, button: string) => {
+		const buttonElement = page.locator('.xSplitTip__numpad--btn', {
 			hasText: button,
 		});
 
@@ -666,6 +733,28 @@ Then(
 
 		await expect(paymentHistoryElement).toBeVisible();
 		await expect(paymentHistoryElement).toContainText(paymentHistory);
+	},
+);
+
+Then(
+	'I should see the payment history {string} visible in payment tab',
+	async ({ page }, paymentHistory: string) => {
+		const paymentHistoryElement = page
+			.locator('.xPayment__history--nameType')
+			.getByText(paymentHistory);
+		await expect(paymentHistoryElement).toHaveText(paymentHistory);
+	},
+);
+
+When(
+	'I select the {string} payment type on the payment ticket dialog',
+	async ({ page }, paymentType: string) => {
+		const paymentTypeButton = page
+			.locator('.xPayment__type')
+			.getByText(paymentType, { exact: true });
+		await expect(paymentTypeButton).toBeVisible();
+
+		await paymentTypeButton.click();
 	},
 );
 
@@ -1246,6 +1335,20 @@ When(
 	},
 );
 
+When(
+	'I click on the last row for customer {string} to expand details',
+	async ({ page }, customerInfo: string) => {
+		const resultRow = page.locator('.MuiDataGrid-row').filter({
+			has: page.locator('[data-field="customerInfo"]', {
+				hasText: customerInfo,
+			}),
+			hasNot: page.locator('[data-color]:not([data-color="wait"])'),
+		});
+		const firstRow = resultRow.last();
+		await firstRow.click();
+	},
+);
+
 Then(
 	'I should see the {string} button visible',
 	async ({ page }, text: string) => {
@@ -1317,6 +1420,21 @@ When(
 		await page.mouse.click(x, y, { clickCount: 2 });
 	},
 );
+
+When('I click on the scale icon', async ({ page }) => {
+	await page.locator('.triangle').click();
+});
+
+When('I filter the employee {string}', async ({ page }, employee: string) => {
+	const filterElement = page.getByRole('tab', { name: 'Filter' });
+	await expect(filterElement).toBeVisible();
+
+	await filterElement.click();
+
+	const employeeBox = page.locator('.box-employee-filter').getByText(employee);
+	await expect(employeeBox).toBeVisible();
+	await employeeBox.click();
+});
 
 When(
 	'I select the {string} label in the expanded list',
@@ -1396,6 +1514,42 @@ Then(
 			.last();
 		await expect(appointmentElement).toBeVisible();
 		await expect(appointmentElement).toContainText(customerName);
+	},
+);
+
+Then(
+	'I should see the time slot {string} booked',
+	async ({ page }, timeSlot: string) => {
+		const appointmentElement = page
+			.locator('.e-appointment .event-cellTime')
+			.filter({ hasText: timeSlot })
+			.first();
+		await expect(appointmentElement).toBeVisible();
+		await expect(appointmentElement).toContainText(timeSlot);
+	},
+);
+
+When(
+	'I select the time slot {string} booked',
+	async ({ page }, timeSlot: string) => {
+		const appointmentElement = page
+			.locator('.e-appointment .event-cellTime')
+			.filter({ hasText: timeSlot })
+			.last();
+		await expect(appointmentElement).toBeVisible();
+		await expect(appointmentElement).toContainText(timeSlot);
+
+		await appointmentElement.click();
+	},
+);
+
+When(
+	'I click on the {string} button on the header appointment',
+	async ({ page }, button: string) => {
+		const buttonElement = page
+			.locator('.xMainContent')
+			.getByRole('button', { name: button });
+		await buttonElement.click();
 	},
 );
 
@@ -1744,21 +1898,38 @@ When(
 		// Wait a short time to ensure page is stable
 		await page.waitForTimeout(500);
 
-		// Check if any dialog is visible
-		const dialogVisible = await page
+		const confirmDialog = page
 			.locator('div[role="dialog"]')
-			.locator('#draggable-dialog-title')
-			.isVisible();
+			.filter({
+				has: page.locator('#draggable-dialog-title', {
+					hasText: 'Confirm Validate Time',
+				}),
+			})
+			.last();
 
-		if (dialogVisible === true) {
-			// Look for the confirm button
-			const confirmButton = page
+		if (await confirmDialog.count()) {
+			const confirmButton = confirmDialog
 				.locator('button.MuiButton-containedPrimary.button_dialog_options')
-				.getByRole('button', { name: 'confirm', exact: true });
-			await expect(confirmButton).toBeVisible();
-			await confirmButton.click({ force: true });
+				.filter({ hasText: /confirm/i })
+				.first();
+
+			if (await confirmButton.count()) {
+				await confirmButton.click({ force: true });
+				await page.waitForTimeout(200);
+			}
 		}
 		// If no dialog is visible, this step completes without doing anything
+	},
+);
+
+When(
+	'I click on the {string} button on the right panel',
+	async ({ page }, button: string) => {
+		const buttonElement = page
+			.locator('.btn-wrapper-z-version .wapper-box-btn')
+			.getByRole('button', { name: button });
+		await expect(buttonElement).toBeVisible();
+		await buttonElement.click();
 	},
 );
 

@@ -11,15 +11,8 @@ Feature: Check In
     And I should see the services displayed correctly in check-in
     And I should see the "Next Available Service" service
 
-    When I click on the Select customer
-    And I click on the "Click Here To Add Customers" button
-    Then I should see a popup dialog with title "Create New Customer"
-    And I should see the loyalty program "2 Points = $1" visible
-
-    When I fill the new customer name "Check-in"
-    And I fill the new customer phone
-    And I click on the "SAVE" button in the create new customer dialog
-    Then I should see a new customer "Check-in" on ticket
+    When I click to create new customer with the default loyalty program "2 Points = $1"
+    And I create the new customer name "Check-in"
 
     When I add the "Combo 1" service to my cart
     Then I should see a popup dialog with title "Pick Technician"
@@ -46,11 +39,7 @@ Feature: Check In
     Then I should see the "Ticket View" screen
     And I should see the user info "Anna" in the ticket
 
-    When I click on the "Pay" button
-    And I select the "Cash" payment type
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
+    When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
   @skip
@@ -124,15 +113,8 @@ Feature: Check In
     Then I should see the categories displayed correctly in check-in
     And I should see the services displayed correctly in check-in
 
-    When I click on the Select customer
-    And I click on the "Click Here To Add Customers" button
-    Then I should see a popup dialog with title "Create New Customer"
-    And I should see the loyalty program "2 Points = $1" visible
-
-    When I fill the new customer name "Waiting"
-    And I fill the new customer phone
-    And I click on the "SAVE" button in the create new customer dialog
-    Then I should see a new customer "Waiting" on ticket
+    When I click to create new customer with the default loyalty program "2 Points = $1"
+    And I create the new customer name "Waiting"
 
     When I add the "Next Available Service" service to my cart
     Then I should see a popup dialog with title "Pick Technician"
@@ -162,11 +144,7 @@ Feature: Check In
     Then I should see my cart showing 1 item added
     And I should see the "Anna" employee in my cart
 
-    When I click on the "Pay" button
-    And I select the "Cash" payment type
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
+    When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Editing a waiting to add service and create ticket
@@ -177,15 +155,8 @@ Feature: Check In
     Then I should see the categories displayed correctly in check-in
     And I should see the services displayed correctly in check-in
 
-    When I click on the Select customer
-    And I click on the "Click Here To Add Customers" button
-    Then I should see a popup dialog with title "Create New Customer"
-    And I should see the loyalty program "2 Points = $1" visible
-
-    When I fill the new customer name "Editing"
-    And I fill the new customer phone
-    And I click on the "SAVE" button in the create new customer dialog
-    Then I should see a new customer "Editing" on ticket
+    When I click to create new customer with the default loyalty program "2 Points = $1"
+    And I create the new customer name "Editing"
 
     When I add the "Gel X" service to my cart
     Then I should see a popup dialog with title "Pick Technician"
@@ -234,11 +205,7 @@ Feature: Check In
     Then I should see the "Ticket View" screen
     And I should see the user info "Addison" in the ticket
 
-    When I click on the "Pay" button
-    And I select the "Cash" payment type
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
+    When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Make appointment for Next Available Service and fill duration
@@ -251,15 +218,8 @@ Feature: Check In
     And I should see the services displayed correctly in check-in
     And I should see the "Next Available Service" service
 
-    When I click on the Select customer
-    And I click on the "Click Here To Add Customers" button
-    Then I should see a popup dialog with title "Create New Customer"
-    And I should see the loyalty program "2 Points = $1" visible
-
-    When I fill the new customer name "Duration"
-    And I fill the new customer phone
-    And I click on the "SAVE" button in the create new customer dialog
-    Then I should see a new customer "Duration" on ticket
+    When I click to create new customer with the default loyalty program "2 Points = $1"
+    And I create the new customer name "Duration"
 
     When I select the "FULL SET & FILL IN" category
     When I add the "Next Available Service" service to my cart
@@ -299,11 +259,7 @@ Feature: Check In
     Then I should see my cart showing 1 item added
     And I should see the "Anna" employee in my cart
 
-    When I click on the "Pay" button
-    And I select the "Cash" payment type
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
+    When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
 
@@ -317,15 +273,8 @@ Feature: Check In
     And I should see the services displayed correctly in check-in
     And I should see the "Next Available Service" service
 
-    When I click on the Select customer
-    And I click on the "Click Here To Add Customers" button
-    Then I should see a popup dialog with title "Create New Customer"
-    And I should see the loyalty program "2 Points = $1" visible
-
-    When I fill the new customer name "Delete"
-    And I fill the new customer phone
-    And I click on the "SAVE" button in the create new customer dialog
-    Then I should see a new customer "Delete" on ticket
+    When I click to create new customer with the default loyalty program "2 Points = $1"
+    And I create the new customer name "Delete"
 
     When I select the "ADDITIONAL SERVICE" category
     And I add the "Next Available Service" service to my cart
@@ -360,15 +309,8 @@ Feature: Check In
     And I should see the services displayed correctly in check-in
     And I should see the "Next Available Service" service
 
-    When I click on the Select customer
-    And I click on the "Click Here To Add Customers" button
-    Then I should see a popup dialog with title "Create New Customer"
-    And I should see the loyalty program "2 Points = $1" visible
-
-    When I fill the new customer name "Update-user"
-    And I fill the new customer phone
-    And I click on the "SAVE" button in the create new customer dialog
-    Then I should see a new customer "Update-user" on ticket
+    When I click to create new customer with the default loyalty program "2 Points = $1"
+    And I create the new customer name "Update-user"
 
     When I add the "Acrylic removal" service to my cart
     Then I should see a popup dialog with title "Pick Technician"
@@ -411,11 +353,7 @@ Feature: Check In
     Then I should not see the service "Acrylic removal" in my cart
     And I should see the user info "Anna" in the ticket
 
-    When I click on the "Pay" button
-    And I select the "Cash" payment type
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
+    When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Recreate a waiting after voiding ticket
@@ -428,15 +366,8 @@ Feature: Check In
     And I should see the services displayed correctly in check-in
     And I should see the "Next Available Service" service
 
-    When I click on the Select customer
-    And I click on the "Click Here To Add Customers" button
-    Then I should see a popup dialog with title "Create New Customer"
-    And I should see the loyalty program "2 Points = $1" visible
-
-    When I fill the new customer name "Recreate"
-    And I fill the new customer phone
-    And I click on the "SAVE" button in the create new customer dialog
-    Then I should see a new customer "Recreate" on ticket
+    When I click to create new customer with the default loyalty program "2 Points = $1"
+    And I create the new customer name "Recreate"
 
     When I select the "FULL SET & FILL IN" category
     When I add the "Full set" service to my cart
@@ -474,9 +405,5 @@ Feature: Check In
     And I select the "Create Ticket" on the Daily Task
     Then I should see the "Ticket View" screen
 
-    When I click on the "Pay" button
-    And I select the "Cash" payment type
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
+    When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page

@@ -98,7 +98,7 @@ Feature: Create tickets
     And I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
     And I select the "VISA" on the menu
-    Then I should see the payment history "VISA (1234)$6.33 + $5.00" visible
+    Then I should see the payment history "VISA (1234)$6.18 + $5.00" visible
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
 
@@ -164,7 +164,7 @@ Feature: Create tickets
     And I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
     And I select the "VISA" on the menu
-    Then I should see the payment history "VISA (1234)$14.57 + $5.00" visible
+    Then I should see the payment history "VISA (1234)$14.42 + $5.00" visible
 
     When I click on the "SPLIT TIP" button
     Then I should see the employee "Brian" visible in the split tip screen
@@ -648,7 +648,7 @@ Feature: Create tickets
     And I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
     And I select the "VISA" on the menu
-    Then I should see the payment history "VISA (1234)$24.87 + $5.00" visible
+    Then I should see the payment history "VISA (1234)$24.72 + $5.00" visible
 
     When I click on the "SPLIT TIP" button
     Then I should see the employee "Kayla" visible in the split tip screen

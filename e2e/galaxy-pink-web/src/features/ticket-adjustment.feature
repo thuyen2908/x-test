@@ -13,21 +13,10 @@ Feature: Ticket adjustment
     Then I should see my cart showing 1 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "21"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$21.00" visible
+    And I change price amount "21"
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
-
-    When I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
 
     When I wait for the page fully loaded
     And I click on the header menu
@@ -49,7 +38,7 @@ Feature: Ticket adjustment
     Then I should see the service "Acrylic removal" in my cart
 
     When I select the "PAYMENT" tab
-    Then I should see the payment history "Cash" visible
+    Then I should see the payment history "Cash" visible in payment tab
     When I click on the more menu for payment history of "Cash"
     Then I should see the tooltip remove
     When I click on the tooltip remove
@@ -61,10 +50,10 @@ Feature: Ticket adjustment
 
     When I click on the "PAY" button
     Then I should see a popup dialog with title "PAYMENT TICKET"
-    When I select the "Credit" payment type
-    And I fill the last 4 digits of card number "1234"
+    When I select the "Credit" payment type on the payment ticket dialog
+    And I fill the last 4 digits of card number "1234" on the payment ticket dialog
     And I click on the element with id "payment"
-    Then I should see the payment history "VISA (1234)" visible
+    Then I should see the payment history "VISA (1234)" visible in payment tab
 
     When I click on the adjust tip icon
     Then I should see a popup dialog with title "Adjust Tip "
@@ -90,36 +79,25 @@ Feature: Ticket adjustment
     Then I should see my cart showing 1 item added
 
     When I click on the total price of "Combo 1"
-    Then I should see a popup dialog with title "Service: Combo 1 - $45.00"
-    When I change the price to "49"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$49.00" visible
+    And I change price amount "49"
 
-    When I click on the item "Technician" button
-    Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
-    When I select the "Manicure" service in the dialog
-    And I select the "Kelley" employee in the dialog
-    And I click on the "Apply" button in the dialog
+    When I select the service "Manicure" in my cart
+    And I select the "Kelley" employee in the list item employee
     Then I should see the "Kelley" employee in my cart
 
-    When I click on the adding "Tip" button
-    Then I should see a popup dialog with title "Add Tip"
-    When I fill "5" from the numpad
-    Then I should see "$5.00" tip in my cart
+    When I add tip amount "5"
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-
-    When I select the "Credit" payment type
+    When I click on the "Pay" button
+    And I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
-    And I click on the element with id "payment"
-    Then I should see the text "TOTAL TIP" visible in the split tip screen
+    And I select the "VISA" on the menu
+    Then I should see the payment history "VISA (1234)$50.47 + $5.00" visible
 
-    When I click on the "Percent Split" button in the split tip screen
+    When I click on the "SPLIT TIP" button
+    And I click on the "Percent Split" button in the split tip screen
     Then I should see all split tips non-zero
-    When I click on the "CLOSE TICKET" button
-    Then I should be redirected to HOME page
+    When I click on the "OK" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
     When I wait for the page fully loaded
     And I click on the header menu
@@ -130,9 +108,9 @@ Feature: Ticket adjustment
     And I should see the text "TICKET#" visible
 
     When I wait for the page fully loaded
-    And I search for "56.45"
-    Then I should see the first ticket with total "$56.45"
-    When I select the first ticket with total "$56.45"
+    And I search for "55.47"
+    Then I should see the first ticket with total "$55.47"
+    When I select the first ticket with total "$55.47"
     Then I should see the service "Combo 1" in my cart
 
     When I click on the title "DETAILS" in the ticket adjustment screen
@@ -167,38 +145,38 @@ Feature: Ticket adjustment
     Then I should see the text "NEW TICKET#" in the ticket adjustment screen
     And I should see the "Acrylic removal" service
 
-    When I add the "Acrylic removal" service to my cart
+    When I wait for the page fully loaded
+    And I add the "Acrylic removal" service to my cart
     Then I should see the service "Acrylic removal" in my cart
     And I should see the employee "Anna" in my cart
 
     When I click on the charge item "Tip" in the ticket adjustment screen
-    Then I should see a popup dialog with title "Add Tip"
+    Then I should see a popup dialog with title "ADD TIP TICKET"
     When I enter the amount "10"
-    And I click on the "OK" button in the popup dialog
+    And I click on the "OK" button in the add tip dialog
     Then I should see the charge display "Tip$10.00"
 
     When I click on the charge item "Discount" in the ticket adjustment screen
-    Then I should see a popup dialog with title "Add Discount Ticket"
-    And I should see the "Owner Absorbs" option is checked
+    Then I should see a popup dialog with title "DISCOUNT TICKET"
+    And I should see the "Original Price (Owner)" option is active
     When I select the discount "$5 Off"
-    And I click on the "Add" button in the popup dialog
     Then I should see the charge display "Discount($5.00)"
 
     When I select the service "Acrylic removal" in my cart
     Then I should see the check icon
     When I click on the action "DISCOUNT ITEM" button
     Then I should see a popup dialog with title "DISCOUNT ITEM"
-    And I should see the "Owner Absorbs" option is checked
+    And I should see the "Original Price (Owner)" option is active
     When I select the discount "10% Off"
-    And I click on the "OK" button in the popup dialog
     Then I should see the "10% Off" discount in my cart
+    And I should see discount "($3.00)" in my cart
 
     When I click on the "PAY" button
     Then I should see a popup dialog with title "PAYMENT TICKET"
-    When I select the "Credit" payment type
-    And I fill the last 4 digits of card number "1234"
+    When I select the "Credit" payment type on the payment ticket dialog
+    When I fill the last 4 digits of card number "1234" on the payment ticket dialog
     And I click on the element with id "payment"
-    Then I should see the payment history "VISA (1234)" visible
+    Then I should see the payment history "VISA (1234)" visible in payment tab
     And I should see the payment price contain amount "+ $10.00"
 
     When I click on the "CONFIRM" button
@@ -219,21 +197,10 @@ Feature: Ticket adjustment
     Then I should see my cart showing 1 item added
 
     When I click on the total price of "Gel removal"
-    Then I should see a popup dialog with title "Service: Gel removal - $40.00"
-    When I change the price to "42"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$42.00" visible
+    When I change price amount "42"
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
-
-    When I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
 
     When I wait for the page fully loaded
     And I click on the header menu
@@ -258,7 +225,7 @@ Feature: Ticket adjustment
     Then I should see the charge display "TOTAL$20.00"
 
     When I select the "PAYMENT" tab
-    Then I should see the payment history "Cash" visible
+    Then I should see the payment history "Cash" visible in payment tab
     When I click on the more menu for payment history of "Cash"
     Then I should see the tooltip remove
     When I click on the tooltip remove
@@ -270,12 +237,12 @@ Feature: Ticket adjustment
 
     When I click on the "PAY" button
     Then I should see a popup dialog with title "PAYMENT TICKET"
-    When I select the "Gift" payment type
+    When I select the "Gift" payment type on the payment ticket dialog
     Then I should see the "ID GIFT CARD" name
     When I fill the Gift card with "1111"
     And I click on the "CHECK BALANCE" button
     And I click on the element with id "payment"
-    Then I should see the payment history "Gift (1111)" visible
+    Then I should see the payment history "Gift (1111)" visible in payment tab
 
     When I click on the adjust tip icon
     Then I should see a popup dialog with title "Adjust Tip "
@@ -302,21 +269,10 @@ Feature: Ticket adjustment
     Then I should see my cart showing 2 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "11"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$11.00" visible
+    And I change price amount "11"
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
-
-    When I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
 
     When I wait for the page fully loaded
     And I click on the header menu
@@ -342,7 +298,7 @@ Feature: Ticket adjustment
     Then I should see the charge display "TOTAL$40.00"
 
     When I select the "PAYMENT" tab
-    Then I should see the payment history "Cash" visible
+    Then I should see the payment history "Cash" visible in payment tab
     When I click on the more menu for payment history of "Cash"
     Then I should see the tooltip remove
     When I click on the tooltip remove
@@ -354,10 +310,10 @@ Feature: Ticket adjustment
 
     When I click on the "PAY" button
     Then I should see a popup dialog with title "PAYMENT TICKET"
-    When I select the "Credit" payment type
-    And I fill the last 4 digits of card number "1234"
+    When I select the "Credit" payment type on the payment ticket dialog
+    And I fill the last 4 digits of card number "1234" on the payment ticket dialog
     And I click on the element with id "payment"
-    Then I should see the payment history "VISA (1234)" visible
+    Then I should see the payment history "VISA (1234)" visible in payment tab
 
     When I click on the "CONFIRM" button
     Then I should see a popup dialog with title "Confirm Save Ticket"
@@ -379,25 +335,17 @@ Feature: Ticket adjustment
     Then I should see my cart showing 2 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "22"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$22.00" visible
+    And I change price amount "22"
 
-    When I click on the adding "Tip" button
-    Then I should see a popup dialog with title "Add Tip"
-    When I fill "5" from the numpad
-    Then I should see "$5.00" tip in my cart
+    When I add tip amount "5"
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
-
-    When I select the "Credit" payment type
+    When I click on the "Pay" button
+    And I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
-    And I click on the element with id "payment"
-    Then I should be redirected to HOME page
+    And I select the "VISA" on the menu
+    Then I should see the payment history "VISA (1234)$30.90 + $5.00" visible
+    When I click on the "Close Ticket" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
     When I wait for the page fully loaded
     And I click on the header menu
@@ -408,9 +356,9 @@ Feature: Ticket adjustment
     And I should see the text "TICKET#" visible
 
     When I wait for the page fully loaded
-    And I search for "36.5"
-    Then I should see the first ticket with total "$36.50"
-    When I select the first ticket with total "$36.50"
+    And I search for "35.9"
+    Then I should see the first ticket with total "$35.90"
+    When I select the first ticket with total "$35.90"
     Then I should see the service "Manicure" in my cart
     And I should see the service "Pedicure" in my cart
 
@@ -419,17 +367,19 @@ Feature: Ticket adjustment
     When I select the "TECHS" tab
     And I wait for the page fully loaded
     And I select the employee "Anna" in the ticket adjustment screen
-    Then I should see the employee "Anna" in my cart
+    Then I should see a popup dialog with title "SELECT TURN GROUP"
+    When I select the group "Nails"
+    Then I should see the "Anna" employee in my cart
     And I should see the text "Please select a service to change the technician." in the ticket adjustment screen
 
     When I click on the action "SPLIT TIPS" button
     Then I should see a popup dialog with title "SPLIT TIPS"
-    And I should see the employee "Anna" visible in the split tip screen
-    And I should see the employee "Ava" visible in the split tip screen
+    And I should see the employee "Anna" visible in the split tip dialog
+    And I should see the employee "Ava" visible in the split tip dialog
     And I should see the text "TOTAL TIP" visible in the split tip screen
-    And I should see the total tip "$5.00" visible in the split tip screen
+    And I should see the total tip "$5.00" visible in the split tip dialog
 
-    When I click on the "Percent Split" button in the split tip screen
+    When I click on the "PERCENT SPLIT" button in the split tip dialog
     Then I should see all split tips non-zero
     When I click on the "OK" button in the popup dialog
 
@@ -439,7 +389,6 @@ Feature: Ticket adjustment
     And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
 
-  @skip
   Scenario: Void a sell Gift Card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5720"
@@ -450,10 +399,7 @@ Feature: Ticket adjustment
 
     When I add the "Acrylic removal" service to my cart
     And I click on the total price of "Acrylic removal"
-    Then I should see a popup dialog with title "Service: Acrylic removal - $30.00"
-    When I change the price to "26.7"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$26.70" visible
+    And I change price amount "26.7"
 
     When I select the "GIFT CARD" category
     Then I should see the "Gift card $50" service
@@ -465,16 +411,8 @@ Feature: Ticket adjustment
     Then I should see my cart showing 2 item added
     And I should see the service "Gift card $50 (0403)" in my cart
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
-
-    When I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
 
     When I wait for the page fully loaded
     And I click on the header menu
@@ -498,12 +436,12 @@ Feature: Ticket adjustment
     And I should see the charge display "TOTAL$26.70"
 
     When I select the "PAYMENT" tab
-    Then I should see the payment history "Cash" visible
+    Then I should see the payment history "Cash" visible in payment tab
     When I click on the more menu for payment history of "Cash"
     Then I should see the tooltip remove
     When I click on the tooltip remove
     Then I should see a popup dialog with title "VOID PAYMENT"
-    And  I should see a popup dialog with content "Cash   - $76.70"
+    And  I should see a popup dialog with content "Cash - $76.70"
     When I click on the "Remove" button in the popup dialog
     Then I should see a second popup dialog with title "Confirm Void Payment"
     When I click on the "Yes, void it" button in the popup dialog
@@ -511,7 +449,7 @@ Feature: Ticket adjustment
     When I click on the "PAY" button
     Then I should see a popup dialog with title "PAYMENT TICKET"
     When I click on the element with id "payment"
-    Then I should see the payment history "Cash" visible
+    Then I should see the payment history "Cash" visible in payment tab
     And I should see the payment history amount "$26.70" visible
 
     When I click on the "CONFIRM" button
@@ -522,15 +460,12 @@ Feature: Ticket adjustment
 
     When I back to HOME page
     And I wait for the page fully loaded
-    And I navigate to "Appointment" on the navigation bar
     And I navigate to "Balance" on the navigation bar
-    And I navigate to "Gift Card" on the navigation bar
     And I wait for the page fully loaded
     Then I should be redirected to GIFT_CARD_BALANCE page
-    And I should see the text "Gift Card" visible
+    And I should see the text "Gift Card / Loyalty Balance" visible
 
     When I enter the amount "0403"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
-    Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
-    And I should see a popup dialog with content "Do you want to activate gift card #0403"
+    Then I should see the toast message "Cannot find this Gift Card." visible
