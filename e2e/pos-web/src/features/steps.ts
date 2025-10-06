@@ -754,14 +754,11 @@ Then(
 			.first()
 			.locator('.MuiDataGrid-cell[data-field="createdAt"]');
 		const today = new Date();
-		const formattedToday = today
-			.toLocaleDateString('en-US', {
-				year: 'numeric',
-				month: '2-digit',
-				day: '2-digit',
-			})
-			.replace(/\//g, '/'); // e.g., 06/18/2025
-
+		const formattedToday = today.toLocaleDateString('en-US', {
+			year: 'numeric',
+			month: '2-digit',
+			day: '2-digit',
+		});
 		await expect(firstDateCell).toContainText(formattedToday);
 	},
 );
@@ -2280,14 +2277,11 @@ Then('I should see the date is today on the receipt', async ({ page }) => {
 		.locator('xpath=following-sibling::td[1]');
 	const receiptDateText = await dateCell.innerText();
 	const today = new Date();
-	const formattedToday = today
-		.toLocaleDateString('en-US', {
-			year: 'numeric',
-			month: '2-digit',
-			day: '2-digit',
-		})
-		.replace(/\//g, '/');
-
+	const formattedToday = today.toLocaleDateString('en-US', {
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit',
+	});
 	expect(receiptDateText).toContain(formattedToday);
 });
 
