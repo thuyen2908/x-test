@@ -12,16 +12,8 @@ Feature: Create tickets
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
-
-    When I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
 
   @skip
   Scenario: Add an existing customer to a new ticket and pay with Loyalty points
@@ -55,7 +47,7 @@ Feature: Create tickets
     Then I should see my cart showing 1 item added
 
     When I click on the Select customer
-    And I click on the "CLICK HERE TO ADD CUSTOMER" button
+    And I click on the "Click Here To Add Customers" button
     Then I should see a popup dialog with title "Create New Customer"
     And I should see the loyalty program "2 Points = $1" visible
 
@@ -64,15 +56,8 @@ Feature: Create tickets
     And I click on the "SAVE" button in the create new customer dialog
     Then I should see a new customer "Guest" on ticket
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-
-    When I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Create a ticket with multiple technicians
     Given I am on the HOME page
@@ -86,23 +71,15 @@ Feature: Create tickets
     When I add the "Pedicure" service to my cart
     Then I should see my cart showing 2 item added
 
-    When I click on the item "Technician" button
-    Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
-    When I select the "Manicure" service in the dialog
-    And I select the "Anna" employee in the dialog
-    And I click on the "Apply" button in the dialog
+    When I select the service "Pedicure" in my cart
+    Then I should see the ticket function menu
+    When I select the "Anna" employee in the list item employee
+    Then I should see a popup dialog with title "SELECT TURN GROUP"
+    When I select the group "Nails"
     Then I should see the "Anna" employee in my cart
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
-
-    When I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Create a ticket, add Tip and pay with Credit card
     Given I am on the HOME page
@@ -115,25 +92,19 @@ Feature: Create tickets
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I click on the adding "Tip" button
-    Then I should see a popup dialog with title "Add Tip"
-    When I fill "5" from the numpad
-    Then I should see "$5.00" tip in my cart
+    When I add tip amount "5"
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the card price amount "$11.30" visible
-    And I should see the cash price amount "$11.00" visible
-
-    When I select the "Credit" payment type
+    When I click on the "Pay" button
+    And I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
-    And I click on the element with id "payment"
-    Then I should be redirected to HOME page
+    And I select the "VISA" on the menu
+    Then I should see the payment history "VISA (1234)$6.18 + $5.00" visible
+    When I click on the "Close Ticket" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Create a ticket and pay with Gift Card type
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "0404"
+    When I clock in the timesheet with PIN "4"
     Then I should see the employee "Emma" in the employee list
     When I select the "Emma" employee
     Then I should see the "Ticket View" screen
@@ -142,18 +113,17 @@ Feature: Create tickets
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
+    When I click on the "Pay" button
+    And I select the "Gift" payment type
+    And I fill the last 4 digits of card number "1111"
+    And I click on search
+    And I wait for the page fully loaded
+    And I click on the "OK" button
+    Then I should see the payment history "Gift (1111)$6.00" visible
+    When I click on the "Close Ticket" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
-    When I select the "Gift" payment type
-    Then I should see the "ID GIFT CARD" name
-    When I fill the Gift card with "1111"
-    And I click on the "CHECK BALANCE" button
-    And I click on the element with id "payment"
-    Then I should be redirected to HOME page
-
-  Scenario: Create a ticket and pay with Zelle type
+  Scenario: Create a ticket and pay with Debit type
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0505"
     Then I should see the employee "Hanna" in the employee list
@@ -164,13 +134,13 @@ Feature: Create tickets
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-
-    When I select the "Zelle" payment type
-    And I click on the element with id "payment"
-    Then I should be redirected to HOME page
+    When I click on the "Pay" button
+    And I select the "Debit" payment type
+    And I fill the last 4 digits of card number "1234"
+    And I click on the "OK" button
+    Then I should see the payment history "DEBIT (1234)$6.00" visible
+    When I click on the "Close Ticket" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Split tip by Percent on ticket after paying by Credit card
     Given I am on the HOME page
@@ -184,40 +154,31 @@ Feature: Create tickets
     When I add the "Pedicure" service to my cart
     Then I should see my cart showing 2 item added
 
-    When I click on the item "Technician" button
-    Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
-    When I select the "Manicure" service in the dialog
-    And I select the "Kelley" employee in the dialog
-    And I click on the "Apply" button in the dialog
+    When I select the service "Manicure" in my cart
+    And I select the "Kelley" employee in the list item employee
     Then I should see the "Kelley" employee in my cart
 
-    When I click on the adding "Tip" button
-    Then I should see a popup dialog with title "Add Tip"
-    When I fill "5" from the numpad
-    Then I should see "$5.00" tip in my cart
+    When I add tip amount "5"
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
-
-    When I select the "Credit" payment type
+    When I click on the "Pay" button
+    And I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
-    And I click on the element with id "payment"
+    And I select the "VISA" on the menu
+    Then I should see the payment history "VISA (1234)$14.42 + $5.00" visible
+
+    When I click on the "SPLIT TIP" button
     Then I should see the employee "Brian" visible in the split tip screen
     And I should see the employee "Kelley" visible in the split tip screen
-    And I should see the text "TOTAL TIP" visible in the split tip screen
     And I should see the total tip "5" visible in the split tip screen
 
     When I click on the "Percent Split" button in the split tip screen
     Then I should see all split tips non-zero
-    When I click on the "CLOSE TICKET" button
-    Then I should be redirected to HOME page
+    When I click on the "OK" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Create a ticket and pay with Cash change
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9076"
-    Then I should see the employee "Kim" in the employee list
     When I select the "Kim" employee
     Then I should see the "Ticket View" screen
     And I should see the "Gel removal" service
@@ -225,22 +186,19 @@ Feature: Create tickets
     When I add the "Gel removal" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
-
-    When I enter the amount "100"
-    And I click on the element with id "payment"
+    When I click on the "Pay" button
+    And I enter the amount "100"
+    And I select the "Cash" payment type
     Then I should see a popup dialog with title "Close Ticket"
     And I should see a popup dialog with content "CHANGE$60.00OK"
     When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Make multiple payments using Gift Card and Credit
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1219"
     Then I should see the employee "Lisa" in the employee list
+
     When I select the "Lisa" employee
     Then I should see the "Ticket View" screen
     And I should see the "Acrylic removal" service
@@ -248,28 +206,23 @@ Feature: Create tickets
     When I add the "Acrylic removal" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
-
-    When I select the "Gift" payment type
-    Then I should see the "ID GIFT CARD" name
-    When I fill the Gift card with "1111"
-    And I click on the "CHECK BALANCE" button
-    Then I should see the "AMOUNT" name
-    When I select the title "AMOUNT"
+    When I click on the "Pay" button
     And I enter the amount "10"
-    And I click on the element with id "payment"
-    Then I should see the payment history "Gift (1111)" visible
-    And I should see the payment price "$10.00"
+    And I select the "Gift" payment type
+    And I fill the last 4 digits of card number "1111"
+    And I click on search
+    And I wait for the page fully loaded
+    And I click on the "OK" button
+    Then I should see the payment history "Gift (1111)$10.00" visible
 
     When I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
-    And I click on the element with id "payment"
-    Then I should be redirected to HOME page
+    And I select the "VISA" on the menu
+    Then I should see the payment history "VISA (1234)$20.60" visible
+    When I click on the "Close Ticket" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
-  Scenario: Change price and add note for service in ticket
+  Scenario: Change price and add request for service in ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1828"
     Then I should see the employee "Harry" in the employee list
@@ -280,24 +233,17 @@ Feature: Create tickets
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "10"
-    And I change the quantity to "2"
+    When I select the service "Manicure" in my cart
+    And I change price amount "20"
+
+    When I select the service "Manicure" in my cart
+    And I select the "REQUEST" on the menu
     And I enter a note "Lorem Ipsum"
-    Then I should see the total price "$20.00" visible
-    And I should see the note "Lorem Ipsum" visible
+    And I click on the "OK" button
+    Then I should see the note "Lorem Ipsum" visible
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
-
-    When I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Add the Open Discount amount for Discount item
     Given I am on the HOME page
@@ -311,31 +257,20 @@ Feature: Create tickets
     And I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I click on the item "DISCOUNT ITEM" button
-    Then I should see a popup dialog with title "DISCOUNT MULTIPLE"
-    When I select the "Manicure" service in the dialog
-    Then I should see the "Owner Absorbs" option is checked
+    When I select the service "Manicure" in my cart
+    And I select the "DISCOUNT ITEM" on the menu
+    Then I should see the "Original Price (Owner)" option is active
+    And I should see the discount sorted correctly
 
     When I select the discount "Open Discount"
-    And I select the type "Amount" option
-    Then I should see the discount type "Amount" visible
-    When I enter the discount amount "3"
-    And I click on the "Add Value" button in the popup dialog
-    And I click on the "Apply" button in the popup dialog
-    Then I should see the "Open Discount" discount in my cart
-    And I should see the "Owner Absorbs" absorption type in my cart
-    And I should see discount "$3.00" in my cart
+    Then I should see the "Amount" discount type is active
+    When I enter the amount "3"
+    And I click on the "OK" button
+    Then I should see the "Open Discount (Original Price)" discount in my cart
+    And I should see discount "($3.00)" in my cart
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
-
-    When I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Add the Open Discount percent for Discount ticket
     Given I am on the HOME page
@@ -349,25 +284,49 @@ Feature: Create tickets
     Then I should see my cart showing 1 item added
 
     When I click on the adding "Discount" button
-    Then I should see a popup dialog with title "Discount Ticket"
-    And I should see the "Owner Absorbs" option is checked
+    Then I should see the "Original Price (Owner)" option is active
+    And I should see the discount sorted correctly
+
+    When I select the discount absorb type "Discounted Price (Technician)"
+    Then I should see the "Discounted Price (Technician)" option is active
 
     When I select the discount "Open Discount"
-    Then I should see the discount type "Percent" visible
-    When I enter the discount percent "10"
-    And I click on the "Add" button in the popup dialog
-    Then I should see the discount ticket non-zero
+    And I select the "Percent" discount type
+    Then I should see the "Percent" discount type is active
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
+    When I enter the amount "10"
+    And I click on the "OK" button
+    Then I should see the discount ticket detail "Open Discount 10% (Discounted Price)($0.60)" in my cart
+    And I should see "Discount ($0.60)" in my cart
 
-    When I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
+
+  Scenario: Apply auto-discount item and change it to another
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "9960"
+    Then I should see the employee "Brielle" in the employee list
+    When I select the "Brielle" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+
+    When I wait for the page fully loaded
+    And I select the "ADDITIONAL SERVICE" category
+    And I add the "Ombre" service to my cart
+    Then I should see my cart showing 1 item added
+    And I should see the "Auto-discount (Original Price)" discount in my cart
+    And I should see discount "($3.00)" in my cart
+
+    When I select the service "Ombre" in my cart
+    And I select the "DISCOUNT ITEM" on the menu
+    Then I should see a popup dialog with title "DISCOUNT"
+    When I select the change charge action "Change Discount"
+    And I select the discount "$5 Off"
+    Then I should see the "$5 Off (Original Price)" discount in my cart
+    And I should see discount "($5.00)" in my cart
+
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Sell a Gift Card add-on amount
     Given I am on the HOME page
@@ -389,29 +348,18 @@ Feature: Create tickets
     Then I should see my cart showing 1 item added
     And I should see the service "Gift card $100 (1234)" in my cart
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
-
-    When I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
 
     When I wait for the page fully loaded
-    And I navigate to "Appointment" on the navigation bar
     And I navigate to "Balance" on the navigation bar
-    And I navigate to "Gift Card" on the navigation bar
-    And I wait for the page fully loaded
     Then I should be redirected to GIFT_CARD_BALANCE page
-    And I should see the text "Gift Card" visible
+    And I should see the text "Gift Card / Loyalty Balance" visible
 
     When I enter the amount "1234"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
-    Then I should see the text "DETAILS" visible
+    Then I should see the text "Activity History" visible
     And I should see the first date is today in the gift card detail list
     And I should see the first type "ActivateAddOn" in the gift card detail list
     And I should see the first amount "$100.00" in the gift card detail list
@@ -436,32 +384,21 @@ Feature: Create tickets
     Then I should see my cart showing 1 item added
     And I should see the service "Gift card $100 (4321)" in my cart
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
-
-    When I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
 
     When I wait for the page fully loaded
-    And I navigate to "Appointment" on the navigation bar
     And I navigate to "Balance" on the navigation bar
-    And I navigate to "Gift Card" on the navigation bar
-    And I wait for the page fully loaded
     Then I should be redirected to GIFT_CARD_BALANCE page
-    And I should see the text "Gift Card" visible
+    And I should see the text "Gift Card / Loyalty Balance" visible
 
     When I enter the amount "4321"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
-    Then I should see the text "DETAILS" visible
+    Then I should see the text "Activity History" visible
     And I should see the first date is today in the gift card detail list
-    And I should see the first type "Overwrite" in the gift card detail list
-    And I should see the first amount "$100.00" in the gift card detail list
+    And I should see the first type "OverwriteAdjust" in the gift card detail list
+    And I should see the first amount "($100.00)" in the gift card detail list
 
   Scenario: Remove tax in ticket
     Given I am on the HOME page
@@ -471,21 +408,15 @@ Feature: Create tickets
     And I select the "FULL SET & FILL IN" category
     And I add the "Taxable" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see the tax amount non-zero
+    And I should see "Tax $1.60" in my cart
 
-    When I remove the tax
-    Then I should see the tax display "$0.00"
+    When I click on the adding "Tax" button
+    Then I should see a popup dialog with title "TAX"
+    When I select the change charge action "Remove Tax"
+    Then I should see "Tax $0.00" in my cart
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
-
-    When I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Void an empty ticket
     Given I am on the HOME page
@@ -495,8 +426,10 @@ Feature: Create tickets
     Then I should see the "Ticket View" screen
 
     When I wait for the page fully loaded
-    And I void the current open ticket with reason "Mistake"
-    Then I should be redirected to HOME page
+    And I click on the "Void Ticket" button
+    And I select the reason "Mistake"
+    And I click on the "confirm" button in the popup dialog
+    Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Void a ticket with a service in Done status
     Given I am on the HOME page
@@ -513,8 +446,10 @@ Feature: Create tickets
     When I click the status of "Manicure" to change done
     Then I should see the "Manicure" service with status done
 
-    When I void the current open ticket with reason "Mistake"
-    Then I should be redirected to HOME page
+    When I click on the "Void Ticket" button
+    And I select the reason "Mistake"
+    And I click on the "confirm" button in the popup dialog
+    Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Void a ticket with a service in Wait status
     Given I am on the HOME page
@@ -529,8 +464,10 @@ Feature: Create tickets
     Then I should see my cart showing 1 item added
     And I should see the "Manicure" service with status wait
 
-    When I void the current open ticket with reason "Mistake"
-    Then I should be redirected to HOME page
+    When I click on the "Void Ticket" button
+    And I select the reason "Mistake"
+    And I click on the "confirm" button in the popup dialog
+    Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Combine tickets
     Given I am on the HOME page
@@ -552,27 +489,16 @@ Feature: Create tickets
     When I add the "Pedicure" service to my cart
     Then I should see the service "Pedicure" in my cart
 
-    When I click on the item "COMBINE TICKET" button
-    Then I should see a popup dialog with title "Combine Ticket"
-    When I click on the "Sarah" text inside the content section of the opening dialog
-    And I click on the "Combine Ticket" button in the popup dialog
-    Then I should see a second popup dialog with title "Confirm Combine Ticket"
-    When I click on the "confirm" button in the popup dialog
+    When I click on the "Combine" button on the header
+    And I select the "Sarah" employee in the list item employee
+    And I click on the "OK" button
 
     Then I should see my cart showing 2 item added
     And I should see the service "Manicure" in my cart
     And I should see the employee "Sarah" in my cart
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
-
-    When I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Void the item when creating a ticket
     Given I am on the HOME page
@@ -591,11 +517,9 @@ Feature: Create tickets
     When I click the status of "Manicure" to change done
     Then I should see the "Manicure" service with status done
 
-    When I click on the item "VOID ITEM" button
-    Then I should see a popup dialog with title "VOID MULTIPLE"
-    When I select the "Manicure" service in the dialog
+    When I select the service "Manicure" in my cart
+    And I select the "Void Item" on the menu
     And I select the reason "Mistake"
-    And I click on the "Void Items" button in the dialog
     Then I should not see the service "Manicure" in my cart
     And I should see my cart showing 1 item added
 
@@ -603,16 +527,8 @@ Feature: Create tickets
     Then I should see my cart showing 2 item added
     And I should see the service "Pedicure" in my cart
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
-
-    When I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Change Technician for Service package
     Given I am on the HOME page
@@ -630,23 +546,13 @@ Feature: Create tickets
     And I should see multiple "Sophia" employees in my cart
     And I should see the employee "Sophia" for all items in a package in my cart
 
-    When I click on the item "Technician" button
-    Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
-    When I select the "Manicure" service in the dialog
-    And I select the "Anna" employee in the dialog
-    And I click on the "Apply" button in the dialog
-    Then I should see the "Anna" employee in my cart
+    When I select the service "Manicure" in my cart
+    And I select the "Anna" employee in the list item employee
+    Then I should see a popup dialog with title "SELECT TURN GROUP"
+    When I select the change charge action "Nails"
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
-
-    When I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Remove payment history and choose another one
     Given I am on the HOME page
@@ -664,38 +570,28 @@ Feature: Create tickets
     And I should see multiple "Mia" employees in my cart
     And I should see the employee "Mia" for all items in a package in my cart
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
+    When I click on the "Pay" button
+    And I enter the amount "10"
+    And I select the "Cash" payment type
+    Then I should see the payment history "Cash $10.00" visible
 
-    When I enter the amount "10"
-    And I click on the element with id "payment"
-    Then I should see the payment history "Cash" visible
-    And I should see the payment price "$10.00"
-
-    When I click on the more menu for payment history of "Cash"
-    Then I should see the tooltip remove
-    When I click on the tooltip remove
+    When I select the payment history "Cash $10.00"
     Then I should see a popup dialog with title "Cash  - $10.00"
     When I click on the "Remove" button in the popup dialog
-    Then I should see the text "No transactions found." in the payment history
-
-    When I select the "Gift" payment type
-    Then I should see the "ID GIFT CARD" name
-    When I fill the Gift card with "1111"
-    And I click on the "CHECK BALANCE" button
-    Then I should see the "AMOUNT" name
-    When I select the title "AMOUNT"
     And I enter the amount "10"
-    And I click on the element with id "payment"
-    Then I should see the payment history "Gift (1111)" visible
-    And I should see the payment price "$10.00"
+    And I select the "Gift" payment type
+    And I enter the amount "1111"
+    And I click on search
+    And I wait for the page fully loaded
+    And I click on the "OK" button
+    Then I should see the payment history "Gift (1111)$10.00" visible
 
     When I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
-    And I click on the element with id "payment"
-    Then I should be redirected to HOME page
+    And I select the "VISA" on the menu
+    Then I should see the payment history "VISA (1234)$36.05" visible
+    When I click on the "Close Ticket" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Update the user info when changing technician
     Given I am on the HOME page
@@ -712,27 +608,19 @@ Feature: Create tickets
     When I add the "Pedicure" service to my cart
     Then I should see the service "Pedicure" in my cart
 
-    When I click on the item "Technician" button
-    Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
-    When I select the "Pedicure" service in the dialog
-    And I select the "Anna" employee in the dialog
-    And I click on the "Apply" button in the dialog
+    When I select the service "Pedicure" in my cart
+    And I select the "Anna" employee in the list item employee
+    Then I should see a popup dialog with title "SELECT TURN GROUP"
+    When I select the group "Nails"
     Then I should see the "Anna" employee in my cart
 
-    When I click on the remove item service "Manicure"
+    When I select the service "Manicure" in my cart
+    And I select the "VOID ITEM" on the menu
     Then I should not see the service "Manicure" in my cart
     And I should see the user info "Anna" in the ticket
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
-
-    When I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Select Tech to split tip by percent
     Given I am on the HOME page
@@ -747,33 +635,25 @@ Feature: Create tickets
     When I add the "Cut cuticle" service to my cart
     Then I should see my cart showing 3 item added
 
-    When I click on the item "Technician" button
-    Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
-    When I select the "Manicure" service in the dialog
-    And I select the "Kelley" employee in the dialog
-    And I select the "Pedicure" service in the dialog
-    And I select the "Savannah" employee in the dialog
-    And I click on the "Apply" button in the dialog
+    When I select the service "Manicure" in my cart
+    And I select the "Kelley" employee in the list item employee
+    And I select the service "Pedicure" in my cart
+    And I select the "Savannah" employee in the list item employee
     Then I should see the "Kelley" employee in my cart
     And I should see the "Savannah" employee in my cart
 
-    When I click on the adding "Tip" button
-    Then I should see a popup dialog with title "Add Tip"
-    When I fill "5" from the numpad
-    Then I should see "$5.00" tip in my cart
+    When I add tip amount "5"
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
-
-    When I select the "Credit" payment type
+    When I click on the "Pay" button
+    And I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
-    And I click on the element with id "payment"
+    And I select the "VISA" on the menu
+    Then I should see the payment history "VISA (1234)$24.72 + $5.00" visible
+
+    When I click on the "SPLIT TIP" button
     Then I should see the employee "Kayla" visible in the split tip screen
     And I should see the employee "Kelley" visible in the split tip screen
     And I should see the employee "Savannah" visible in the split tip screen
-    And I should see the text "TOTAL TIP" visible in the split tip screen
     And I should see the total tip "5" visible in the split tip screen
 
     When I click on the "Select Techs" button in the split tip screen
@@ -783,8 +663,8 @@ Feature: Create tickets
     Then I should see the split tips amount for employee "Kayla" is non-zero
     And I should see the split tips amount for employee "Savannah" is non-zero
     And I should see the split tips amount for employee "Kelley" is zero
-    When I click on the "CLOSE TICKET" button
-    Then I should be redirected to HOME page
+    When I click on the "OK" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Cannot pay more than the Gift card Balance
     Given I am on the HOME page
@@ -797,47 +677,52 @@ Feature: Create tickets
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "35.7"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$35.70" visible
+    When I select the service "Manicure" in my cart
+    And I change price amount "35.7"
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
+    When I click on the "Pay" button
+    And I select the "Gift" payment type
+    And I enter the amount "20"
+    And I click on search
+    And I wait for the page fully loaded
+    And I click on the "OK" button
+    And I wait for the page fully loaded
+    Then I should see the payment history "Gift (20)$20.00" visible
 
     When I select the "Gift" payment type
-    Then I should see the "ID GIFT CARD" name
-    When I fill the Gift card with "20"
-    And I click on the "CHECK BALANCE" button
-    And I click on the element with id "payment"
-    And I click on the element with id "payment"
-    Then I should see the toast message "Gift Card #20 does not have enough funds to pay" visible
+    And I enter the amount "20"
+    And I click on search
+    And I wait for the page fully loaded
+    And I click on the "OK" button
+    And I wait for the page fully loaded
+    Then I should see the toast message "Gift Card #20 does not have enough funds to pay." visible
 
-    When I select the "Cash" payment type
-    And I click on the element with id "payment"
-    Then I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "Cancel" button
+    And I select the "Cash" payment type
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    Then I should see the selected "SERVICE" tab on the Home page
 
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
+    When I select the "CLOSED TICKET" tab
+    And I wait for the page fully loaded
 
     When I search for "35.7"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$35.70"
+    Then I should see the last ticket of payment "$35.70"
 
-    When I click on the first row for payment "$35.70" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
+    When I reopen ticket with payment amount "$35.70"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Aubrey" in the ticket
 
-    When I void the current open ticket with reason "System Test"
-    Then I should be redirected to HOME page
+    When I click on the "Void Ticket" button
+    And I select the reason "System Test"
+    Then I should see a popup dialog with title "Confirm Void"
+    When I click on the "confirm" button in the popup dialog
+    Then I should see the selected "SERVICE" tab on the Home page
 
+  @skip
   Scenario: Select service to change technician
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8226"
@@ -864,6 +749,3 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
-
-  @skip
-  Scenario: Add discount ticket while paying

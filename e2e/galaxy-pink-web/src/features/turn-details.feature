@@ -52,14 +52,14 @@ Feature: Turn details
     And I should see the Turn 1.00 for "Jessica"
     And I should see the Auto Turn 1.00 for "Jessica"
 
-    When I navigate to "Tickets" on the navigation bar
+    When I click on the "Tickets" label in the header
     Then I should be redirected to CLOSED_TICKETS page
 
     When I search for "27"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$27.00"
+    Then I should see the last ticket of payment "$27.00"
 
-    When I click on the first row for payment "$27.00" to expand details
+    When I click on the last row for payment "$27.00" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -110,14 +110,14 @@ Feature: Turn details
     Then I should see the employee "Avery" in the employee list
     And I should see the turn number for "Avery" is 1.0
 
-    When I navigate to "Tickets" on the navigation bar
+    When I click on the "Tickets" label in the header
     Then I should be redirected to CLOSED_TICKETS page
 
     When I search for "23.5"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$23.50"
+    Then I should see the last ticket of payment "$23.50"
 
-    When I click on the first row for payment "$23.50" to expand details
+    When I click on the last row for payment "$23.50" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -148,14 +148,14 @@ Feature: Turn details
     And I should see the Round 0 for "Avery"
     And I should see the Turn 0.00 for "Avery"
 
-    When I navigate to "Tickets" on the navigation bar
+    When I click on the "Tickets" label in the header
     Then I should be redirected to CLOSED_TICKETS page
 
     When I search for "23.5"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$23.50"
+    Then I should see the last ticket of payment "$23.50"
 
-    When I click on the first row for payment "$23.50" to expand details
+    When I click on the last row for payment "$23.50" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
