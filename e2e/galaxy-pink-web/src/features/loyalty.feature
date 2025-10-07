@@ -19,7 +19,7 @@ Feature: Loyalty Balance
     And I click on the queue "+$/PTS" button
     Then I should see a popup dialog with title "Enter Point"
 
-    When I enter the amount "50"
+    When I enter the amount "1000"
     And I click on the "OK" button in the popup dialog
     Then I should see a second popup dialog with title "Enter Reason"
     When I click on the "OK" button in the dialog

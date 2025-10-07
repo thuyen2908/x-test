@@ -65,8 +65,7 @@ Then(
 	async ({ page }, screenName: string) => {
 		const screenTitle = page
 			.locator('span.pageName')
-			.getByText(screenName, { exact: true })
-			.last();
+			.getByText(screenName, { exact: true });
 
 		await expect(screenTitle).toBeVisible();
 	},
@@ -255,7 +254,9 @@ When(
 Then(
 	'I should see the {string} employee in my cart',
 	async ({ page }, employee: string) => {
-		const employeeElement = page.locator('.xTicketItems ').getByText(employee);
+		const employeeElement = page
+			.locator('ul.xTicketItemList')
+			.getByText(employee);
 		await expect(employeeElement).toContainText(employee);
 	},
 );
@@ -344,41 +345,6 @@ When(
 		).toContainText(number);
 	},
 );
-When(
-	'I fill the last 4 digits of card number {string} on the payment ticket dialog',
-	async ({ page }, number: string) => {
-		for (const digit of number) {
-			await page
-				.locator(`button.key:has(span.text-num:has-text("${digit}"))`)
-				.click();
-		}
-
-		await expect(page.locator('.xPayment__card--number-digits')).toContainText(
-			number,
-		);
-	},
-);
-
-When(
-	'I click on the {string} button in the add tip dialog',
-	async ({ page }, button: string) => {
-		const buttonElement = page
-			.locator('.xTicketFunctions__btn')
-			.getByText(button);
-		await expect(buttonElement).toBeVisible();
-		await buttonElement.click();
-	},
-);
-
-Then(
-	'I should see the payment history amount {string} visible',
-	async ({ page }, amount: string) => {
-		const paymentHistoryElement = page
-			.locator('.xPayment__history--price')
-			.getByText(amount);
-		await expect(paymentHistoryElement).toHaveText(amount);
-	},
-);
 
 When('I click on the Select customer', async ({ page }) => {
 	page.locator('.TicketSearch__customer').click();
@@ -406,17 +372,6 @@ Then(
 	},
 );
 
-Then(
-	'I should see the employee {string} visible in the split tip dialog',
-	async ({ page }, employee: string) => {
-		const employeeElement = page
-			.locator('.xSplitTip__item--content')
-			.getByText(employee, { exact: true });
-
-		await expect(employeeElement).toHaveText(employee);
-	},
-);
-
 When(
 	'I select the employee {string} in the split tip screen',
 	async ({ page }, employee: string) => {
@@ -435,17 +390,6 @@ Then(
 			.getByText(text, { exact: true });
 
 		await expect(textElement).toContainText(text);
-	},
-);
-
-Then(
-	'I should see the total tip {string} visible in the split tip dialog',
-	async ({ page }, totalTip: string) => {
-		const totalTipElement = page
-			.locator('.xSplitTip__numpad--tip')
-			.getByText(totalTip);
-
-		await expect(totalTipElement).toContainText(totalTip);
 	},
 );
 
@@ -513,18 +457,6 @@ When(
 	'I click on the {string} button in the split tip screen',
 	async ({ page }, button: string) => {
 		const buttonElement = page.locator('ul.xTicketFunsSplitTip__btns li', {
-			hasText: button,
-		});
-
-		await expect(buttonElement).toBeVisible();
-		await buttonElement.click();
-	},
-);
-
-When(
-	'I click on the {string} button in the split tip dialog',
-	async ({ page }, button: string) => {
-		const buttonElement = page.locator('.xSplitTip__numpad--btn', {
 			hasText: button,
 		});
 
@@ -736,28 +668,6 @@ Then(
 	},
 );
 
-Then(
-	'I should see the payment history {string} visible in payment tab',
-	async ({ page }, paymentHistory: string) => {
-		const paymentHistoryElement = page
-			.locator('.xPayment__history--nameType')
-			.getByText(paymentHistory);
-		await expect(paymentHistoryElement).toHaveText(paymentHistory);
-	},
-);
-
-When(
-	'I select the {string} payment type on the payment ticket dialog',
-	async ({ page }, paymentType: string) => {
-		const paymentTypeButton = page
-			.locator('.xPayment__type')
-			.getByText(paymentType, { exact: true });
-		await expect(paymentTypeButton).toBeVisible();
-
-		await paymentTypeButton.click();
-	},
-);
-
 When(
 	'I select the payment history {string}',
 	async ({ page }, paymentHistory: string) => {
@@ -865,11 +775,14 @@ Then(
 			.first()
 			.locator('.MuiDataGrid-cell[data-field="createdAt"]');
 		const today = new Date();
-		const formattedToday = today.toLocaleDateString('en-US', {
-			year: 'numeric',
-			month: '2-digit',
-			day: '2-digit',
-		});
+		const formattedToday = today
+			.toLocaleDateString('en-US', {
+				year: 'numeric',
+				month: '2-digit',
+				day: '2-digit',
+			})
+			.replace(/\//g, '/'); // e.g., 06/18/2025
+
 		await expect(firstDateCell).toContainText(formattedToday);
 	},
 );
@@ -1332,20 +1245,6 @@ When(
 	},
 );
 
-When(
-	'I click on the last row for customer {string} to expand details',
-	async ({ page }, customerInfo: string) => {
-		const resultRow = page.locator('.MuiDataGrid-row').filter({
-			has: page.locator('[data-field="customerInfo"]', {
-				hasText: customerInfo,
-			}),
-			hasNot: page.locator('[data-color]:not([data-color="wait"])'),
-		});
-		const firstRow = resultRow.last();
-		await firstRow.click();
-	},
-);
-
 Then(
 	'I should see the {string} button visible',
 	async ({ page }, text: string) => {
@@ -1417,21 +1316,6 @@ When(
 		await page.mouse.click(x, y, { clickCount: 2 });
 	},
 );
-
-When('I click on the scale icon', async ({ page }) => {
-	await page.locator('.triangle').click();
-});
-
-When('I filter the employee {string}', async ({ page }, employee: string) => {
-	const filterElement = page.getByRole('tab', { name: 'Filter' });
-	await expect(filterElement).toBeVisible();
-
-	await filterElement.click();
-
-	const employeeBox = page.locator('.box-employee-filter').getByText(employee);
-	await expect(employeeBox).toBeVisible();
-	await employeeBox.click();
-});
 
 When(
 	'I select the {string} label in the expanded list',
@@ -1511,42 +1395,6 @@ Then(
 			.last();
 		await expect(appointmentElement).toBeVisible();
 		await expect(appointmentElement).toContainText(customerName);
-	},
-);
-
-Then(
-	'I should see the time slot {string} booked',
-	async ({ page }, timeSlot: string) => {
-		const appointmentElement = page
-			.locator('.e-appointment .event-cellTime')
-			.filter({ hasText: timeSlot })
-			.first();
-		await expect(appointmentElement).toBeVisible();
-		await expect(appointmentElement).toContainText(timeSlot);
-	},
-);
-
-When(
-	'I select the time slot {string} booked',
-	async ({ page }, timeSlot: string) => {
-		const appointmentElement = page
-			.locator('.e-appointment .event-cellTime')
-			.filter({ hasText: timeSlot })
-			.last();
-		await expect(appointmentElement).toBeVisible();
-		await expect(appointmentElement).toContainText(timeSlot);
-
-		await appointmentElement.click();
-	},
-);
-
-When(
-	'I click on the {string} button on the header appointment',
-	async ({ page }, button: string) => {
-		const buttonElement = page
-			.locator('.xMainContent')
-			.getByRole('button', { name: button });
-		await buttonElement.click();
 	},
 );
 
@@ -1895,38 +1743,21 @@ When(
 		// Wait a short time to ensure page is stable
 		await page.waitForTimeout(500);
 
-		const confirmDialog = page
+		// Check if any dialog is visible
+		const dialogVisible = await page
 			.locator('div[role="dialog"]')
-			.filter({
-				has: page.locator('#draggable-dialog-title', {
-					hasText: 'Confirm Validate Time',
-				}),
-			})
-			.last();
+			.locator('#draggable-dialog-title')
+			.isVisible();
 
-		if (await confirmDialog.count()) {
-			const confirmButton = confirmDialog
+		if (dialogVisible === true) {
+			// Look for the confirm button
+			const confirmButton = page
 				.locator('button.MuiButton-containedPrimary.button_dialog_options')
-				.filter({ hasText: /confirm/i })
-				.first();
-
-			if (await confirmButton.count()) {
-				await confirmButton.click({ force: true });
-				await page.waitForTimeout(200);
-			}
+				.getByRole('button', { name: 'confirm', exact: true });
+			await expect(confirmButton).toBeVisible();
+			await confirmButton.click({ force: true });
 		}
 		// If no dialog is visible, this step completes without doing anything
-	},
-);
-
-When(
-	'I click on the {string} button on the right panel',
-	async ({ page }, button: string) => {
-		const buttonElement = page
-			.locator('.btn-wrapper-z-version .wapper-box-btn')
-			.getByRole('button', { name: button });
-		await expect(buttonElement).toBeVisible();
-		await buttonElement.click();
 	},
 );
 
@@ -2389,13 +2220,14 @@ Then(
 	'I should see the turn number for {string} is 0.0',
 	async ({ page }, name: string) => {
 		const employeeItem = page.locator('li.xEmployeeItem').filter({
-			has: page.locator('.nickname', { hasText: name }),
+			has: page.locator('.nickName', { hasText: name }),
 		});
+		await expect(employeeItem).toBeVisible();
 
 		const turnLabel = employeeItem.locator('.MuiChip-label', {
-			hasText: 'Turn: 0.0',
+			hasText: /C\s*=\s*0\.0/,
 		});
-		await expect(turnLabel).toBeVisible();
+		await expect(turnLabel.first()).toBeVisible();
 	},
 );
 
@@ -2403,10 +2235,14 @@ Then(
 	'I should see the turn number for {string} is 1.0',
 	async ({ page }, name: string) => {
 		const employeeItem = page.locator('li.xEmployeeItem').filter({
-			has: page.getByText(name, { exact: true }),
+			has: page.locator('.nickName', { hasText: name }),
 		});
-		const turnLabel = employeeItem.getByText('Turn: 1.0', { exact: true });
-		await expect(turnLabel).toBeVisible();
+		await expect(employeeItem).toBeVisible();
+
+		const turnLabel = employeeItem.locator('.MuiChip-label', {
+			hasText: /C\s*=\s*1\.0/,
+		});
+		await expect(turnLabel.first()).toBeVisible();
 	},
 );
 
@@ -2624,11 +2460,14 @@ Then('I should see the date is today on the receipt', async ({ page }) => {
 		.locator('xpath=following-sibling::td[1]');
 	const receiptDateText = await dateCell.innerText();
 	const today = new Date();
-	const formattedToday = today.toLocaleDateString('en-US', {
-		year: 'numeric',
-		month: '2-digit',
-		day: '2-digit',
-	});
+	const formattedToday = today
+		.toLocaleDateString('en-US', {
+			year: 'numeric',
+			month: '2-digit',
+			day: '2-digit',
+		})
+		.replace(/\//g, '/');
+
 	expect(receiptDateText).toContain(formattedToday);
 });
 

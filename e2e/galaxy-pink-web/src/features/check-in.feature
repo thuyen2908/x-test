@@ -42,20 +42,17 @@ Feature: Check In
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
-  @skip
   Scenario: Create a waiting for existing customer, assign services to specific employees and create ticket
     Given I am on the HOME page
-    When I click on the "Check In" label in the header
-    Then I should be redirected to WAITING_LIST page
-
-    When I click on the "Add Customer" button
-    Then I should see the text "Create Waiting" visible
-    And I should see the categories displayed correctly in check-in
+    When I navigate to "WAIT" on the navigation bar
+    Then I should be redirected to CREATE_WAITING page
+    And I should see the text "Create Waiting" visible
+    Then I should see the categories displayed correctly in check-in
     And I should see the services displayed correctly in check-in
-    And I should see the "Next Available Service" service
 
-    When I add the "Alice" customer
-    Then I should see a new customer "Alice" on ticket
+    When I wait for the page fully loaded
+    And I add the "9999999999" customer
+    Then I should see a new customer "Tin" on ticket
 
     When I add the "Manicure" service to my cart
     Then I should see a popup dialog with title "Pick Technician"
@@ -72,19 +69,17 @@ Feature: Check In
 
     When I click on the "SAVE" button
     And I wait for the page fully loaded
-    Then I should be redirected to WAITING_LIST page
+    Then I should see the selected "WAITING LIST" tab on the Home page
 
     When I wait for the page fully loaded
-    Then I should see the customer "Alice" in the waiting list
+    Then I should see the customer "Tin" in the waiting list
     And I should see the service "Manicure" in the waiting list
     And I should see the service "Pedicure" in the waiting list
     And I should see the technician "Emily" in the waiting list
     And I should see the technician "Claire" in the waiting list
 
-    When I click on the first row for customer "Alice" to expand details
-    Then I should see the "Create Ticket" button visible
-
-    When I click on the "Create Ticket" button
+    When I click on the first row for customer "Tin" to expand details
+    And I select the "Create Ticket" on the Daily Task
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Emily" in the ticket
@@ -94,16 +89,18 @@ Feature: Check In
     And I should see the employee "Emily" in my cart
     And I should see the employee "Claire" in my cart
 
-    When I click on the "PAY" button
+    When I click on the "Pay" button
     Then I should see a popup dialog with title "Reward"
     When I click on the "OK" button in the popup dialog
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
+    Then I should see the text "BALANCE" visible
 
-    When I select the "Credit" payment type
-    And I fill the last 4 digits of card number "1234"
-    And I click on the element with id "payment"
-    Then I should be redirected to HOME page
+    When I redeem my loyalty points
+    Then I should see the text "Current:" visible
+    And I should see the text points used "Points Used: (1400) pts" visible
+    When I click on the "OK" button
+    Then I should see the payment history "Loyalty (1400 pts)$14.00" visible
+    When I click on the "Close Ticket" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Display service hint in ticket view
     Given I am on the HOME page
