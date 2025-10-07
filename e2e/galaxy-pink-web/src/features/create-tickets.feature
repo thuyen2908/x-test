@@ -15,7 +15,6 @@ Feature: Create tickets
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
-  @skip
   Scenario: Add an existing customer to a new ticket and pay with Loyalty points
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8102"
@@ -25,18 +24,21 @@ Feature: Create tickets
     Then I should see my cart showing 1 item added
 
     When I wait for the page fully loaded
-    And I add the "Tin" customer
+    And I add the "9999999999" customer
     Then I should see a new customer "Tin" on ticket
 
-    When I click on the "PAY" button
+    When I click on the "Pay" button
     Then I should see a popup dialog with title "Reward"
     When I click on the "OK" button in the popup dialog
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the text "BALANCE" visible
+    Then I should see the text "BALANCE" visible
 
     When I redeem my loyalty points
-    Then I should be redirected to HOME page
+    Then I should see the text "Current:" visible
+    And I should see the text points used "Points Used: (600) pts" visible
+    When I click on the "OK" button
+    Then I should see the payment history "Loyalty (600 pts)$6.00" visible
+    When I click on the "Close Ticket" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Create a new customer on the fly
     Given I am on the HOME page
@@ -721,31 +723,3 @@ Feature: Create tickets
     Then I should see a popup dialog with title "Confirm Void"
     When I click on the "confirm" button in the popup dialog
     Then I should see the selected "SERVICE" tab on the Home page
-
-  @skip
-  Scenario: Select service to change technician
-    Given I am on the HOME page
-    When I clock in the timesheet with PIN "8226"
-    Then I should see the employee "Lauren" in the employee list
-
-    When I select the "Lauren" employee
-    Then I should see the "Ticket View" screen
-    And I should see the "Manicure" service
-    When I add the "Manicure" service to my cart
-    Then I should see my cart showing 1 item added
-
-    When I select the "Manicure" service in my cart
-    Then I should see a popup dialog with title "Change Technician"
-    When I click on the "Addison" text inside the content section of the opening dialog
-    Then I should see the employee "Addison" in my cart
-
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
-
-    When I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
