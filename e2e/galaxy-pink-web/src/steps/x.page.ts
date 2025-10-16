@@ -598,9 +598,18 @@ class xPage {
 	// 	}
 	// }
 
-	@When('I clock in the timesheet with PIN {string}')
-	public async clockInTimesheetFromFunctions(PIN: string) {
+	@When('I clock {timesheetAction} the timesheet with PIN {string}')
+	public async clockTimesheetFromFunctions(
+		timesheetAction: TimesheetAction,
+		PIN: string,
+	) {
 		const { locators } = this;
+		const normalizedAction = timesheetAction.toLowerCase();
+		if (!['in', 'out'].includes(normalizedAction)) {
+			throw new Error(
+				`Unsupported timesheet action "${timesheetAction}". Use "in" or "out".`,
+			);
+		}
 
 		await this.page
 			.locator('.pageName')
@@ -609,7 +618,9 @@ class xPage {
 
 		await this.page
 			.locator('.dailyTask')
-			.getByText('Clock In', { exact: true })
+			.getByText(normalizedAction === 'out' ? 'Clock Out' : 'Clock In', {
+				exact: true,
+			})
 			.click();
 
 		const enterPasswordDialog = locators.dialog('PASSWORD');
@@ -619,14 +630,26 @@ class xPage {
 
 		await this.clickOnActionButtonOfOpeningDialog('CONFIRM');
 
-		const successfullyClockedInToast = locators.toast.getByText(
-			'clocked in successfully',
-		); // in case of new session
-		const alreadyClockedInToast = locators.toast.getByText('has clocked in'); // in case there's an existing session
+		if (normalizedAction === 'in') {
+			const successfullyClockedInToast = locators.toast.getByText(
+				'clocked in successfully',
+			); // in case of new session
+			const alreadyClockedInToast = locators.toast.getByText('has clocked in'); // in case there's an existing session
 
-		await expect(
-			successfullyClockedInToast.or(alreadyClockedInToast),
-		).toBeVisible();
+			await expect(
+				successfullyClockedInToast.or(alreadyClockedInToast),
+			).toBeVisible();
+		} else {
+			const successfullyClockedOutToast = locators.toast.getByText(
+				'clocked out successfully',
+			); // in case of clock out
+			const alreadyClockedOutToast =
+				locators.toast.getByText('has not clocked in'); // in case there's no existing session
+
+			await expect(
+				successfullyClockedOutToast.or(alreadyClockedOutToast),
+			).toBeVisible();
+		}
 
 		if (await enterPasswordDialog.isVisible()) {
 			await this.closeOpeningDialog();

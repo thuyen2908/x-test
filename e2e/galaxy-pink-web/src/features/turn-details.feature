@@ -75,7 +75,6 @@ Feature: Turn details
     Then I should see the Round 0 for "Jessica"
     And I should see the Turn 0.00 for "Jessica"
 
-  @skip
   Scenario: Turn update when changing technician
     Given I am on the HOME page
     When I clock in the timesheet with PIN "3818"
@@ -146,13 +145,10 @@ Feature: Turn details
     When I click on the "confirm" button in the popup dialog
     Then I should see the selected "SERVICE" tab on the Home page
 
-  @skip
   Scenario: Manually adding decrease a turn reorders the employee queue
     Given I am on the HOME page
-    When I navigate to "Turn" on the navigation bar
-    Then I should be redirected to TURN_DETAILS page
-
-    When I wait for the page fully loaded
+    When I select the "TURN DETAILS" tab
+    And I wait for the page fully loaded
     Then I should see the text "Technicians" visible
     And I should see the text "All" visible
     When I click on the "Nails" button
@@ -169,12 +165,10 @@ Feature: Turn details
     When I wait for the page fully loaded
     Then I should see the Auto Turn -1.00 for "Leah"
 
-    When I back to HOME page
+    When I select the "SERVICE" tab
     Then I should see the employee "Leah" listed first in the employee list
 
-    When I navigate to "Turn" on the navigation bar
-    Then I should be redirected to TURN_DETAILS page
-
+    When I select the "TURN DETAILS" tab
     When I wait for the page fully loaded
     Then I should see the text "Technicians" visible
     And I should see the text "All" visible
@@ -190,12 +184,9 @@ Feature: Turn details
     Then I should see the Turn 0.00 for "Leah"
     And I should see the Round 0 for "Leah"
 
-  @skip
   Scenario: Manually adding increase a turn reorders the employee queue
     Given I am on the HOME page
-    When I navigate to "Turn" on the navigation bar
-    Then I should be redirected to TURN_DETAILS page
-
+    When I select the "TURN DETAILS" tab
     When I wait for the page fully loaded
     Then I should see the text "Technicians" visible
     And I should see the text "All" visible
@@ -213,13 +204,12 @@ Feature: Turn details
     When I wait for the page fully loaded
     Then I should see the Auto Turn 20.00 for "Amelia"
 
+    When I select the "SERVICE" tab
     When I back to HOME page
     Then I should see the employee "Amelia" listed last in the employee list
 
-    When I navigate to "Turn" on the navigation bar
-    Then I should be redirected to TURN_DETAILS page
-
-    When I wait for the page fully loaded
+    When I select the "TURN DETAILS" tab
+    And I wait for the page fully loaded
     Then I should see the text "Technicians" visible
     And I should see the text "All" visible
     When I click on the "Nails" button

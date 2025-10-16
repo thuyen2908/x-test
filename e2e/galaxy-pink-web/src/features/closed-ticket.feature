@@ -21,7 +21,8 @@ Feature: Closed Ticket
 
     When I select the "CLOSED TICKET" tab
     And I click on refresh
-    And I wait for the page fully loaded
+    Then I should see the toast message "Refresh data ticket successfully" visible
+    When I wait for the page fully loaded
     And I search for "11.5"
     And I wait for the page fully loaded
 
@@ -55,7 +56,8 @@ Feature: Closed Ticket
 
     When I select the "CLOSED TICKET" tab
     And I click on refresh
-    And I wait for the page fully loaded
+    Then I should see the toast message "Refresh data ticket successfully" visible
+    When I wait for the page fully loaded
     And I search for "47.00"
     And I wait for the page fully loaded
 
@@ -104,7 +106,8 @@ Feature: Closed Ticket
 
     When I select the "CLOSED TICKET" tab
     And I click on refresh
-    And I wait for the page fully loaded
+    Then I should see the toast message "Refresh data ticket successfully" visible
+    When I wait for the page fully loaded
     And I search for "24.57"
     And I wait for the page fully loaded
 
@@ -155,7 +158,8 @@ Feature: Closed Ticket
 
     When I select the "CLOSED TICKET" tab
     And I click on refresh
-    And I wait for the page fully loaded
+    Then I should see the toast message "Refresh data ticket successfully" visible
+    When I wait for the page fully loaded
     And I search for "12.36"
     And I wait for the page fully loaded
 
@@ -195,7 +199,8 @@ Feature: Closed Ticket
 
     When I select the "CLOSED TICKET" tab
     And I click on refresh
-    And I wait for the page fully loaded
+    Then I should see the toast message "Refresh data ticket successfully" visible
+    When I wait for the page fully loaded
     And I search for "23.50"
     And I wait for the page fully loaded
 
@@ -258,7 +263,10 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I refresh and search amount "27.66"
+    And I click on refresh
+    Then I should see the toast message "Refresh data ticket successfully" visible
+    When I wait for the page fully loaded
+    And I search for "27.66"
     And I wait for the page fully loaded
 
     When I reopen ticket with payment amount "$27.66"
@@ -293,7 +301,8 @@ Feature: Closed Ticket
 
     When I select the "CLOSED TICKET" tab
     And I click on refresh
-    And I wait for the page fully loaded
+    Then I should see the toast message "Refresh data ticket successfully" visible
+    When I wait for the page fully loaded
     And I search for "15.5"
     And I wait for the page fully loaded
 
@@ -341,7 +350,8 @@ Feature: Closed Ticket
 
     When I select the "CLOSED TICKET" tab
     And I click on refresh
-    And I wait for the page fully loaded
+    Then I should see the toast message "Refresh data ticket successfully" visible
+    When I wait for the page fully loaded
     And I search for "16.48"
     And I wait for the page fully loaded
 
@@ -383,7 +393,8 @@ Feature: Closed Ticket
 
     When I select the "CLOSED TICKET" tab
     And I click on refresh
-    And I wait for the page fully loaded
+    Then I should see the toast message "Refresh data ticket successfully" visible
+    When I wait for the page fully loaded
     And I search for "25.75"
     And I wait for the page fully loaded
 
@@ -442,10 +453,17 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I refresh and search amount "77.5"
+    And I click on refresh
     And I wait for the page fully loaded
+    Then I should see the toast message "Refresh data ticket successfully" visible
 
-    When I reopen ticket with payment amount "$77.5"
+    When I wait for the page fully loaded
+    And I search for "77.5"
+    And I wait for the page fully loaded
+    Then I should see the last ticket of Cash payment "$77.5"
+
+    When I click the avatar in the last row with Cash payment "$77.5" to expand details
+    And I select the "Reopen ticket" on the Daily Task
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Isabella" in the ticket
@@ -485,10 +503,10 @@ Feature: Closed Ticket
     When I add the "Gift card $50" service to my cart
     Then I should see a popup dialog with title "Activate Gift Card $50.00"
 
-    When I enter the amount "0503"
+    When I enter the amount "0603"
     And I click on the "OK" button in the popup dialog
     Then I should see my cart showing 2 item added
-    And I should see the service "Gift card $50 (0503)" in my cart
+    And I should see the service "Gift card $50 (0603)" in my cart
 
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
@@ -496,16 +514,19 @@ Feature: Closed Ticket
     When I select the "CLOSED TICKET" tab
     And I wait for the page fully loaded
     And I click on refresh
-    And I wait for the page fully loaded
+    Then I should see the toast message "Refresh data ticket successfully" visible
+    When I wait for the page fully loaded
     And I search for "75.7"
     And I wait for the page fully loaded
+    Then I should see the last ticket of Cash payment "$75.7"
 
-    When I reopen ticket with payment amount "$75.7"
+    When I click the avatar in the last row with Cash payment "$75.7" to expand details
+    And I select the "Reopen ticket" on the Daily Task
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Alexis" in the ticket
 
-    When I select the service "Gift card $50 (0503)" in my cart
+    When I select the service "Gift card $50 (0603)" in my cart
     And I select the "VOID ITEM" on the menu
     Then I should see my cart showing 1 item added
 
@@ -530,7 +551,7 @@ Feature: Closed Ticket
     Then I should be redirected to GIFT_CARD_BALANCE page
     And I should see the text "Gift Card / Loyalty Balance" visible
 
-    When I enter the amount "0503"
+    When I enter the amount "0603"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
     Then I should see the toast message "Cannot find this Gift Card." visible
@@ -605,7 +626,8 @@ Feature: Closed Ticket
     When I select the "CLOSED TICKET" tab
     And I wait for the page fully loaded
     And I click on refresh
-    And I wait for the page fully loaded
+    Then I should see the toast message "Refresh data ticket successfully" visible
+    When I wait for the page fully loaded
     And I search for "11.5"
     And I wait for the page fully loaded
 

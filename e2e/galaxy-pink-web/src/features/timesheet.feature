@@ -1,4 +1,4 @@
-@regression @smoke @slow @skip
+@regression @smoke @slow
 Feature: Timesheet
 
   Scenario: Clock in and clock out
@@ -11,13 +11,16 @@ Feature: Timesheet
 
   Scenario: Clock in others and clock out
     Given I am on the HOME page
-    When I navigate to "Timesheet" on the navigation bar
-    And I select the "Clock In Others" option
-    Then I should see a popup dialog with title "Clock In Others"
+    When I click on the functions
+    And I select the "Clock In Others" on the Daily Task
+    And I wait for the page fully loaded
+    Then I should be redirected to CLOCK_IN_OTHERS page
+    And I should see the text "Clock In Others" visible
 
     When I wait for the page fully loaded
-    And I click to clock in for employee "Ashley"
-    And I click on the "Close" button in the popup dialog
+    And I click button clock in for employee "Ashley"
+    And I back to HOME page
+    And I wait for the page fully loaded
     Then I should see the employee "Ashley" in the employee list
 
     When I clock out the timesheet with PIN "1310"

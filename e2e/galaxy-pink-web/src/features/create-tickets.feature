@@ -121,6 +121,7 @@ Feature: Create tickets
     And I click on search
     And I wait for the page fully loaded
     And I click on the "OK" button
+    And I wait for the page fully loaded
     Then I should see the payment history "Gift (1111)$6.00" visible
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
@@ -399,8 +400,8 @@ Feature: Create tickets
     And I wait for the page fully loaded
     Then I should see the text "Activity History" visible
     And I should see the first date is today in the gift card detail list
-    And I should see the first type "OverwriteAdjust" in the gift card detail list
-    And I should see the first amount "($100.00)" in the gift card detail list
+    And I should see the first type "Overwrite" in the gift card detail list
+    And I should see the first amount "$100.00" in the gift card detail list
 
   Scenario: Remove tax in ticket
     Given I am on the HOME page
@@ -586,6 +587,7 @@ Feature: Create tickets
     And I click on search
     And I wait for the page fully loaded
     And I click on the "OK" button
+    And I wait for the page fully loaded
     Then I should see the payment history "Gift (1111)$10.00" visible
 
     When I select the "Credit" payment type
@@ -683,10 +685,12 @@ Feature: Create tickets
     And I change price amount "35.7"
 
     When I click on the "Pay" button
+    And I enter the amount "20"
     And I select the "Gift" payment type
     And I enter the amount "20"
     And I click on search
-    And I wait for the page fully loaded
+    Then I should see the gift card balance "$20.00" visible
+    When  I wait for the page fully loaded
     And I click on the "OK" button
     And I wait for the page fully loaded
     Then I should see the payment history "Gift (20)$20.00" visible
@@ -695,14 +699,16 @@ Feature: Create tickets
     And I enter the amount "20"
     And I click on search
     And I wait for the page fully loaded
-    And I click on the "OK" button
-    And I wait for the page fully loaded
+    Then I should see the card value "$20.00" visible
+
+    When I click on the "OK" button
     Then I should see the toast message "Gift Card #20 does not have enough funds to pay." visible
 
     When I click on the "Cancel" button
+    And I wait for the page fully loaded
     And I select the "Cash" payment type
     Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
+    And I should see a popup dialog with content "CHANGE$4.30OK"
     When I click on the "OK" button in the popup dialog
     Then I should see the selected "SERVICE" tab on the Home page
 
