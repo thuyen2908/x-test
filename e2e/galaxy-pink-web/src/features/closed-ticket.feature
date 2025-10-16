@@ -20,7 +20,10 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I refresh and search amount "11.5"
+    And I click on refresh
+    Then I should see the toast message "Refresh data ticket successfully" visible
+    When I wait for the page fully loaded
+    And I search for "11.5"
     And I wait for the page fully loaded
 
     And I reopen ticket with payment amount "$11.50"
@@ -52,7 +55,10 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I refresh and search amount "47"
+    And I click on refresh
+    Then I should see the toast message "Refresh data ticket successfully" visible
+    When I wait for the page fully loaded
+    And I search for "47.00"
     And I wait for the page fully loaded
 
     When I reopen ticket with payment amount "$47.00"
@@ -99,7 +105,10 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I refresh and search amount "24.57"
+    And I click on refresh
+    Then I should see the toast message "Refresh data ticket successfully" visible
+    When I wait for the page fully loaded
+    And I search for "24.57"
     And I wait for the page fully loaded
 
     When I reopen ticket with payment amount "$24.57"
@@ -148,7 +157,10 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I refresh and search amount "12.36"
+    And I click on refresh
+    Then I should see the toast message "Refresh data ticket successfully" visible
+    When I wait for the page fully loaded
+    And I search for "12.36"
     And I wait for the page fully loaded
 
     When I reopen ticket with payment amount "$12.36"
@@ -186,7 +198,10 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I refresh and search amount "23.5"
+    And I click on refresh
+    Then I should see the toast message "Refresh data ticket successfully" visible
+    When I wait for the page fully loaded
+    And I search for "23.50"
     And I wait for the page fully loaded
 
     When I reopen ticket with payment amount "$23.50"
@@ -248,7 +263,10 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I refresh and search amount "27.66"
+    And I click on refresh
+    Then I should see the toast message "Refresh data ticket successfully" visible
+    When I wait for the page fully loaded
+    And I search for "27.66"
     And I wait for the page fully loaded
 
     When I reopen ticket with payment amount "$27.66"
@@ -282,7 +300,10 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I refresh and search amount "15.5"
+    And I click on refresh
+    Then I should see the toast message "Refresh data ticket successfully" visible
+    When I wait for the page fully loaded
+    And I search for "15.5"
     And I wait for the page fully loaded
 
     When I reopen ticket with payment amount "$15.5"
@@ -328,7 +349,10 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I refresh and search amount "16.48"
+    And I click on refresh
+    Then I should see the toast message "Refresh data ticket successfully" visible
+    When I wait for the page fully loaded
+    And I search for "16.48"
     And I wait for the page fully loaded
 
     When I reopen ticket with payment amount "$16.48"
@@ -368,7 +392,10 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I refresh and search amount "25.75"
+    And I click on refresh
+    Then I should see the toast message "Refresh data ticket successfully" visible
+    When I wait for the page fully loaded
+    And I search for "25.75"
     And I wait for the page fully loaded
 
     When I reopen ticket with payment amount "$25.75"
@@ -389,11 +416,13 @@ Feature: Closed Ticket
     And I click on the "VOID" button
     Then I should see a popup dialog with title "VISA  - $25.75"
     When I click on the "Remove" button in the popup dialog
+    And I click on the "NO TIPS" button
+    Then I should see the ticket function menu
 
     When I select the "Credit" payment type
     And I fill the last 4 digits of card number "4321"
     And I select the "VISA" on the menu
-    Then I should see the payment history "VISA (1234)$8.24" visible
+    Then I should see the payment history "VISA (4321)$8.24" visible
 
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
@@ -424,10 +453,17 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I refresh and search amount "77.5"
+    And I click on refresh
     And I wait for the page fully loaded
+    Then I should see the toast message "Refresh data ticket successfully" visible
 
-    When I reopen ticket with payment amount "$77.5"
+    When I wait for the page fully loaded
+    And I search for "77.5"
+    And I wait for the page fully loaded
+    Then I should see the last ticket of Cash payment "$77.5"
+
+    When I click the avatar in the last row with Cash payment "$77.5" to expand details
+    And I select the "Reopen ticket" on the Daily Task
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Isabella" in the ticket
@@ -448,7 +484,6 @@ Feature: Closed Ticket
     And I wait for the page fully loaded
     Then I should see the toast message "Cannot find this Gift Card." visible
 
-  @skip
   Scenario: Sell a new Gift Card then void item Gift Card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6727"
@@ -458,78 +493,65 @@ Feature: Closed Ticket
     And I should see the "GIFT CARD" category
 
     When I add the "Acrylic removal" service to my cart
-    And I click on the total price of "Acrylic removal"
-    Then I should see a popup dialog with title "Service: Acrylic removal - $30.00"
-    When I change the price to "25.7"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$25.70" visible
+    Then I should see the service "Acrylic removal" in my cart
+
+    When I select the service "Acrylic removal" in my cart
+    And I change price amount "25.7"
 
     When I select the "GIFT CARD" category
     Then I should see the "Gift card $50" service
     When I add the "Gift card $50" service to my cart
     Then I should see a popup dialog with title "Activate Gift Card $50.00"
 
-    When I enter the amount "0103"
+    When I enter the amount "0603"
     And I click on the "OK" button in the popup dialog
     Then I should see my cart showing 2 item added
-    And I should see the service "Gift card $50 (0103)" in my cart
+    And I should see the service "Gift card $50 (0603)" in my cart
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
 
-    When I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
-
-    When I click on the "Tickets" label in the header
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I search for "75.7"
+    When I select the "CLOSED TICKET" tab
     And I wait for the page fully loaded
-    Then I should see the last ticket of Cash payment "$75.70"
+    And I click on refresh
+    Then I should see the toast message "Refresh data ticket successfully" visible
+    When I wait for the page fully loaded
+    And I search for "75.7"
+    And I wait for the page fully loaded
+    Then I should see the last ticket of Cash payment "$75.7"
 
-    When I click on the last row for payment "$75.70" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
+    When I click the avatar in the last row with Cash payment "$75.7" to expand details
+    And I select the "Reopen ticket" on the Daily Task
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Alexis" in the ticket
 
-    When I click on the item "VOID ITEM" button
-    Then I should see a popup dialog with title "VOID MULTIPLE"
-    When I select the "Gift card $50 (0103)" service in the dialog
-    And I click on the "Void Items" button in the dialog
+    When I select the service "Gift card $50 (0603)" in my cart
+    And I select the "VOID ITEM" on the menu
     Then I should see my cart showing 1 item added
 
-    When I wait for the page fully loaded
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
+    When I click on the "Pay" button
+    Then I should see the payment history "Cash $75.70 " visible
 
-    When I click on the more menu for payment history of "Cash"
-    Then I should see the tooltip remove
-    When I click on the tooltip remove
+    When I select the payment history "Cash $75.70 "
+    And I click on the "VOID" button
     Then I should see a popup dialog with title "Cash  - $75.70"
     When I click on the "Remove" button in the popup dialog
-    When I click on the element with id "payment"
+
+    When I select the "Cash" payment type
     Then I should see a popup dialog with title "Close Ticket"
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     And I wait for the page fully loaded
-    Then I should be redirected to HOME page
+    Then I should see the selected "SERVICE" tab on the Home page
 
-    When I navigate to "Appointment" on the navigation bar
-    And I click on the "Balance" label in the header
-    And I select the "Gift Card" option
+    When I wait for the page fully loaded
+    And I navigate to "Balance" on the navigation bar
     And I wait for the page fully loaded
     Then I should be redirected to GIFT_CARD_BALANCE page
-    And I should see the text "Gift Card" visible
+    And I should see the text "Gift Card / Loyalty Balance" visible
 
-    When I enter the amount "0103"
+    When I enter the amount "0603"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
     Then I should see the toast message "Cannot find this Gift Card." visible
@@ -584,7 +606,6 @@ Feature: Closed Ticket
     Then I should see the title contain "Jimmy" visible
     And I should see the text "No rows" visible
 
-  @skip
   Scenario: View the loyalty point on Receipt
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2883"
@@ -594,25 +615,21 @@ Feature: Closed Ticket
     Then I should see my cart showing 1 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "35.5"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$35.50" visible
+    And I change price amount "35.5"
 
     When I click to create new customer with the default loyalty program "2 Points = $1"
     And I create the new customer name "Loyalty"
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
 
-    When I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
-
-    When I click on the "Tickets" label in the header
-    Then I should be redirected to CLOSED_TICKETS page
+    When I select the "CLOSED TICKET" tab
+    And I wait for the page fully loaded
+    And I click on refresh
+    Then I should see the toast message "Refresh data ticket successfully" visible
+    When I wait for the page fully loaded
+    And I search for "11.5"
+    And I wait for the page fully loaded
 
     When I search for "35.5"
     And I wait for the page fully loaded
@@ -620,7 +637,7 @@ Feature: Closed Ticket
 
     When I click on the last row for payment "$35.50" to expand details
     Then I should see the store logo on the receipt
-    And I should see the business info "BLANC NAILS 1032 YONKERS AVE Yonkers, NY 10704 (707) 707-1122" on the receipt
+    And I should see the business info "PINK NAILS 1032 YONKERS AVE Yonkers Avenel, NJ 07001 (090) 123-4567" on the receipt
 
     Then I should see the date is today on the receipt
     And I should see the customer name "Loyalty" on the receipt
@@ -645,8 +662,8 @@ Feature: Closed Ticket
     Then I should see the message "Come back again soon..." on the receipt
     And I should see the message "Thank you <3" on the receipt
 
-    Then I should see the tip guide "10% TIP = $3.55" on the receipt
-    And I should see the tip guide "15% TIP = $5.32" on the receipt
+    Then I should see the tip guide "15% TIP = $5.32" on the receipt
+    And I should see the tip guide "18% TIP = $6.39" on the receipt
     And I should see the tip guide "20% TIP = $7.10" on the receipt
 
     Then I should see the QR code on the receipt

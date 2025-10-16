@@ -18,10 +18,10 @@ Feature: Gift Card Balance
     When I click on the queue "+$/PTS" button
     Then I should see a popup dialog with title "Enter Amount"
 
-    When I enter the amount "50"
+    When I enter the amount "50" on the second numpad
     And I click on the "OK" button in the popup dialog
     Then I should see a second popup dialog with title "Enter Reason"
-    When I click on the "OK" button in the dialog
+    When I click on the "OK" button in the popup dialog
     And I wait for the page fully loaded
     Then I should see the first type "PosManualAdjust" in the gift card detail list
 

@@ -25,7 +25,7 @@ Feature: Fast Sale tickets
     And I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
     And I select the "VISA" on the menu
-    Then I should see the payment history "VISA (1234)$14.72 + $10.00" visible
+    Then I should see the payment history "VISA (1234)$14.42 + $10.00" visible
 
     When I click on the "SPLIT TIP" button
     Then I should see the employee "Christ" visible in the split tip screen

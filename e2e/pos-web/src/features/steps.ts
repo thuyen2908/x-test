@@ -1597,6 +1597,7 @@ When('I select the type {string}', async ({ page }, type: string) => {
 	await expect(typeElement).toBeVisible();
 	await expect(typeElement).toContainText(type);
 	await typeElement.click();
+	await expect(combobox).toContainText(type);
 });
 
 Then(
@@ -1904,7 +1905,7 @@ Then('I should see both date pickers default to today', async ({ page }) => {
 
 	const datePickers = page.locator('button.button-date-calendar');
 
-	await expect(datePickers).toHaveCount(3);
+	await expect(datePickers).toHaveCount(2);
 	await expect(datePickers.nth(0)).toHaveText(formattedToday);
 	await expect(datePickers.nth(1)).toHaveText(formattedToday);
 });

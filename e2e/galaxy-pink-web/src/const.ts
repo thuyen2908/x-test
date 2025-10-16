@@ -92,6 +92,8 @@ export class Const {
 			[PageId.CUSTOMERS]: `${baseURL}/management/customers`,
 			[PageId.CLOSE_OUT]: `${baseURL}/management/close-out`,
 			[PageId.TICKET_PAYMENTS]: `${baseURL}/management/ticket-payment`,
+			[PageId.CLOCK_IN_OTHERS]: `${baseURL}/clock-in-others`,
+			[PageId.CASH_IN_OUT]: `${baseURL}/management/cash-in-out`,
 		} as const;
 	}
 
