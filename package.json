@@ -4,7 +4,7 @@
 	"version": "0.0.0",
 	"type": "module",
 	"author": "tech@xsofts.vn",
-	"packageManager": "pnpm@10.18.0",
+	"packageManager": "pnpm@10.18.3",
 	"engineStrict": true,
 	"engines": {
 		"node": "^20 || ^22",
@@ -48,7 +48,7 @@
 		"e2e:test": "turbo test --filter='./e2e/*'"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.2.5",
+		"@biomejs/biome": "^2.2.6",
 		"@commitlint/cli": "^20.1.0",
 		"@commitlint/config-conventional": "^20.0.0",
 		"@commitlint/types": "^20.0.0",
