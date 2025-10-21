@@ -42,6 +42,36 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
+  e2e/booking-online:
+    devDependencies:
+      '@dotenvx/dotenvx':
+        specifier: ^1.51.0
+        version: 1.51.0
+      '@playwright/test':
+        specifier: ^1.56.0
+        version: 1.56.0
+      '@types/node':
+        specifier: ^22.18.10
+        version: 22.18.10
+      '@x-test/common':
+        specifier: workspace:*
+        version: link:../../packages/common
+      nodemon:
+        specifier: ^3.1.10
+        version: 3.1.10
+      playwright-bdd:
+        specifier: ^8.4.1
+        version: 8.4.1(@playwright/test@1.56.0)
+      rimraf:
+        specifier: ^6.0.1
+        version: 6.0.1
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      zod:
+        specifier: ^4.1.12
+        version: 4.1.12
+
   e2e/galaxy-pink-web:
     devDependencies:
       '@dotenvx/dotenvx':
@@ -88,51 +118,6 @@ importers:
         version: 4.1.12
 
   e2e/pos-web:
-    devDependencies:
-      '@dotenvx/dotenvx':
-        specifier: ^1.51.0
-        version: 1.51.0
-      '@playwright/test':
-        specifier: ^1.56.0
-        version: 1.56.0
-      '@types/fs-extra':
-        specifier: ^11.0.4
-        version: 11.0.4
-      '@types/node':
-        specifier: ^22.18.10
-        version: 22.18.10
-      '@x-test/common':
-        specifier: workspace:*
-        version: link:../../packages/common
-      allure-commandline:
-        specifier: ^2.34.1
-        version: 2.34.1
-      allure-playwright:
-        specifier: ^3.4.1
-        version: 3.4.1(@playwright/test@1.56.0)
-      fs-extra:
-        specifier: ^11.3.2
-        version: 11.3.2
-      nodemon:
-        specifier: ^3.1.10
-        version: 3.1.10
-      playwright-bdd:
-        specifier: ^8.4.1
-        version: 8.4.1(@playwright/test@1.56.0)
-      remeda:
-        specifier: ^2.32.0
-        version: 2.32.0
-      rimraf:
-        specifier: ^6.0.1
-        version: 6.0.1
-      typescript:
-        specifier: ^5.9.3
-        version: 5.9.3
-      zod:
-        specifier: ^4.1.12
-        version: 4.1.12
-
-  e2e/pos-web-pink:
     devDependencies:
       '@dotenvx/dotenvx':
         specifier: ^1.51.0
