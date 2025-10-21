@@ -1,0 +1,29 @@
+{
+	"name": "@x-test/booking-online",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"description": "E2E test project for the booking-online web application",
+	"scripts": {
+		"clean": "rimraf dist .turbo tsconfig.tsbuildinfo test-artifacts playwright-report",
+		"typecheck": "tsc --noEmit",
+		"bdd:watch": "nodemon -w src -e ts,feature --exec 'pnpm bddgen'",
+		"report": "playwright show-report playwright-report",
+		"pretest": "bddgen",
+		"test": "playwright test",
+		"test:e2e": "playwright test",
+		"test:ui": "pnpm test --ui",
+		"test:debug": "pnpm test --debug"
+	},
+	"devDependencies": {
+		"@dotenvx/dotenvx": "^1.51.0",
+		"@playwright/test": "^1.56.0",
+		"@types/node": "^22.18.10",
+		"@x-test/common": "workspace:*",
+		"nodemon": "^3.1.10",
+		"playwright-bdd": "^8.4.1",
+		"rimraf": "^6.0.1",
+		"typescript": "^5.9.3",
+		"zod": "^4.1.12"
+	}
+}
