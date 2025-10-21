@@ -1,4 +1,3 @@
-import { platform, release, version } from 'node:os';
 import { resolve } from 'node:path';
 
 import { PageId } from '#types';
