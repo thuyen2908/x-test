@@ -17,9 +17,9 @@
 	},
 	"devDependencies": {
 		"@dotenvx/dotenvx": "^1.51.0",
-		"@playwright/test": "^1.56.0",
+		"@playwright/test": "^1.56.1",
 		"@types/fs-extra": "^11.0.4",
-		"@types/node": "^22.18.10",
+		"@types/node": "^22.18.12",
 		"@x-test/common": "workspace:*",
 		"allure-commandline": "^2.34.1",
 		"allure-playwright": "^3.4.1",
