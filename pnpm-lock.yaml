@@ -72,6 +72,36 @@ importers:
         specifier: ^4.1.12
         version: 4.1.12
 
+  e2e/galaxy-in-pink:
+    devDependencies:
+      '@dotenvx/dotenvx':
+        specifier: ^1.51.0
+        version: 1.51.0
+      '@playwright/test':
+        specifier: ^1.56.0
+        version: 1.56.1
+      '@types/node':
+        specifier: ^22.18.10
+        version: 22.18.12
+      '@x-test/common':
+        specifier: workspace:*
+        version: link:../../packages/common
+      nodemon:
+        specifier: ^3.1.10
+        version: 3.1.10
+      playwright-bdd:
+        specifier: ^8.4.1
+        version: 8.4.1(@playwright/test@1.56.1)
+      rimraf:
+        specifier: ^6.0.1
+        version: 6.0.1
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      zod:
+        specifier: ^4.1.12
+        version: 4.1.12
+
   e2e/galaxy-pink-web:
     devDependencies:
       '@dotenvx/dotenvx':
