@@ -1,4 +1,4 @@
-@regression @smoke
+@regression @smoke @slow
 Feature: Menu Categories management
 
   Scenario: View the Menu Categories management page

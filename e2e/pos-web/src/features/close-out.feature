@@ -1,4 +1,4 @@
-@regression @smoke
+@regression @smoke @slow
 Feature: Close Out report
 
   Scenario: View the Close Out page

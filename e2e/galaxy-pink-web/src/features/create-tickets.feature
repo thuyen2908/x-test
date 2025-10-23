@@ -122,7 +122,7 @@ Feature: Create tickets
     And I wait for the page fully loaded
     And I click on the "OK" button
     And I wait for the page fully loaded
-    Then I should see the payment history "Gift (1111)$6.00" visible
+    Then I should see the payment Gift history "Gift (1111) $6.00" visible
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
 
@@ -216,7 +216,7 @@ Feature: Create tickets
     And I click on search
     And I wait for the page fully loaded
     And I click on the "OK" button
-    Then I should see the payment history "Gift (1111)$10.00" visible
+    Then I should see the payment Gift history "Gift (1111) $10.00" visible
 
     When I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
@@ -588,7 +588,7 @@ Feature: Create tickets
     And I wait for the page fully loaded
     And I click on the "OK" button
     And I wait for the page fully loaded
-    Then I should see the payment history "Gift (1111)$10.00" visible
+    Then I should see the payment Gift history "Gift (1111) $10.00" visible
 
     When I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
@@ -693,7 +693,7 @@ Feature: Create tickets
     When  I wait for the page fully loaded
     And I click on the "OK" button
     And I wait for the page fully loaded
-    Then I should see the payment history "Gift (20)$20.00" visible
+    Then I should see the payment Gift history "Gift (20) $20.00" visible
 
     When I select the "Gift" payment type
     And I enter the amount "20"

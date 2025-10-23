@@ -426,6 +426,37 @@ Then(
 	},
 );
 
+Then(
+	'I should see the payment Gift history {string} visible',
+	async ({ page }, paymentGift: string) => {
+		const trimmedGift = paymentGift.trim();
+		const lastSpaceIndex = trimmedGift.lastIndexOf(' ');
+		const expectedName =
+			lastSpaceIndex > -1 ? trimmedGift.slice(0, lastSpaceIndex) : trimmedGift;
+		const expectedAmount =
+			lastSpaceIndex > -1 ? trimmedGift.slice(lastSpaceIndex + 1) : '';
+		let paymentGiftElement = page
+			.locator('ul.xTicketFunctions__payment--list li')
+			.filter({
+				has: page.locator('span.name', { hasText: expectedName }),
+			});
+		if (expectedAmount) {
+			paymentGiftElement = paymentGiftElement.filter({
+				has: page.locator('span.amt', { hasText: expectedAmount }),
+			});
+		}
+		await expect(paymentGiftElement).toBeVisible();
+		await expect(paymentGiftElement.locator('span.name')).toContainText(
+			expectedName,
+		);
+		if (expectedAmount) {
+			await expect(paymentGiftElement.locator('span.amt')).toContainText(
+				expectedAmount,
+			);
+		}
+	},
+);
+
 When('I click on the Select customer', async ({ page }) => {
 	page.locator('.TicketSearch__customer').click();
 });
@@ -1761,7 +1792,7 @@ When('I select the {string} on the menu', async ({ page }, menu: string) => {
 
 When('I click on search', async ({ page }) => {
 	const searchIcon = page.locator('[data-testid="XSearchIcon"]');
-	await searchIcon.click();
+	await searchIcon.click({ force: true });
 });
 
 Then(

@@ -1,4 +1,4 @@
-@regression @smoke
+@regression @smoke @slow
 Feature: Discounts management
 
   Scenario: View the Discounts management page

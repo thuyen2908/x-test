@@ -1,3 +1,4 @@
+@regression @smoke @slow
 Feature: Booking online
 
   Scenario: Booking online for the new customer
@@ -39,11 +40,12 @@ Feature: Booking online
     And I wait for the page fully loaded
     Then I should see the text "How do we say hello?" visible
 
-    When I fill the new customer phone
+    When I enable google Captcha
     And I wait for the page fully loaded
-    And I enable google Captcha
+    And I fill the new customer phone
     And I wait for the page fully loaded
-    And I fill the new customer name "Booking-online"
+    And I fill the first name "Booking-online"
+    And I fill the last name "Auto"
     And I click on the "Submit" button
     And I wait for the page fully loaded
 
