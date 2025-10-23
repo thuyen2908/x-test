@@ -1,4 +1,4 @@
-@regression @smoke
+@regression @smoke @slow
 Feature: Appointment Color management
 
   Scenario: View the Appointment Color management page

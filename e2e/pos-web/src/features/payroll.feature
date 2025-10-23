@@ -1,4 +1,4 @@
-@regression @smoke
+@regression @smoke @slow
 Feature: Payroll
 
   Scenario: Verify employee-specific Single Payroll information loads correctly

@@ -239,20 +239,34 @@ When('I fill the new customer phone', async ({ page }) => {
 	await expect(cellPhone).toHaveValue(formattedPhone);
 });
 
-When(
-	'I fill the new customer name {string}',
+When('I fill the first name {string}', async ({ page }, name: string) => {
+	const firstNameInput = page.locator('input[name="firstName"]');
+	await firstNameInput.click();
+	await firstNameInput.fill(name, { force: true });
+	await expect(firstNameInput).toHaveValue(name);
+});
+
+Then(
+	'I should see the first name value {string}',
 	async ({ page }, name: string) => {
-		const firstName = page.locator('input[name="firstName"]');
-		await firstName.fill(name);
+		const firstName = page.locator('input[name="firstName"]:has-value');
 
 		await expect(firstName).toHaveValue(name);
 	},
 );
 
+When('I fill the last name {string}', async ({ page }, name: string) => {
+	const lastName = page.locator('input[name="lastName"]');
+	await lastName.click();
+	await lastName.fill(name, { force: true });
+	await expect(lastName).toHaveValue(name);
+});
+
 When('I enable google Captcha', async ({ page }) => {
 	const googleCaptcha = page.locator('input[name="googleCaptcha"]');
 	await expect(googleCaptcha).toBeVisible();
-	await googleCaptcha.click();
+	await googleCaptcha.check({ force: true });
+	await expect(googleCaptcha).toBeChecked();
 });
 
 Then('I should see the booked for next day', async ({ page }) => {
@@ -277,5 +291,14 @@ Then(
 		const timeElement = page.locator('.customer-info').getByText(time);
 		await expect(timeElement).toBeVisible();
 		await expect(timeElement).toContainText(time);
+	},
+);
+
+Then(
+	'I should see the fisrt name displayed {string}',
+	async ({ page }, name: string) => {
+		const firstName = page.locator('[name="firstName"]has-value');
+		await expect(firstName).toBeVisible();
+		await expect(firstName).toContainText(name);
 	},
 );

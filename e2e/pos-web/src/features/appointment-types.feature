@@ -1,4 +1,4 @@
-@regression @smoke
+@regression @smoke @slow
 Feature: Appointment Types management
 
   Scenario: View the Appointment Types management page

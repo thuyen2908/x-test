@@ -1,4 +1,4 @@
-@regression @smoke
+@regression @smoke @slow
 Feature: Cash In/Out
 
   Scenario: View the Cash In/Out page

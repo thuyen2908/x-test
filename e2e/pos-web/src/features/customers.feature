@@ -1,4 +1,4 @@
-@regression @smoke
+@regression @smoke @slow
 Feature: Customers management
 
   Scenario: View the Customers management page

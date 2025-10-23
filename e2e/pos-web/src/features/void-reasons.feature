@@ -1,4 +1,4 @@
-@regression @smoke
+@regression @smoke @slow
 Feature: Void reasons management
 
   Scenario: User can view the list of void reasons
