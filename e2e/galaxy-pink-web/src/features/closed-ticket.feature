@@ -460,9 +460,9 @@ Feature: Closed Ticket
     When I wait for the page fully loaded
     And I search for "77.5"
     And I wait for the page fully loaded
-    Then I should see the last ticket of Cash payment "$77.5"
+    Then I should see the last ticket of Cash payment "$77.50"
 
-    When I click the avatar in the last row with Cash payment "$77.5" to expand details
+    When I click the avatar in the last row with Cash payment "$77.50" to expand details
     And I select the "Reopen ticket" on the Daily Task
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
@@ -518,9 +518,9 @@ Feature: Closed Ticket
     When I wait for the page fully loaded
     And I search for "75.7"
     And I wait for the page fully loaded
-    Then I should see the last ticket of Cash payment "$75.7"
+    Then I should see the last ticket of Cash payment "$75.70"
 
-    When I click the avatar in the last row with Cash payment "$75.7" to expand details
+    When I click the avatar in the last row with Cash payment "$75.70" to expand details
     And I select the "Reopen ticket" on the Daily Task
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen

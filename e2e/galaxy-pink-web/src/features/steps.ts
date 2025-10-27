@@ -1380,6 +1380,7 @@ Then(
 
 When('I search for {string}', async ({ page }, text: string) => {
 	await page.locator('input[placeholder="Search…"]').fill(text);
+	await page.waitForTimeout(5000);
 });
 
 Then(
@@ -1793,6 +1794,7 @@ When('I select the {string} on the menu', async ({ page }, menu: string) => {
 When('I click on search', async ({ page }) => {
 	const searchIcon = page.locator('[data-testid="XSearchIcon"]');
 	await searchIcon.click({ force: true });
+	await page.waitForTimeout(5000);
 });
 
 Then(
@@ -1804,6 +1806,7 @@ Then(
 
 		await expect(tabElement).toBeVisible();
 		await expect(tabElement).toHaveAttribute('aria-selected', 'true');
+		await page.waitForTimeout(5000);
 	},
 );
 
