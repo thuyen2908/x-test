@@ -58,6 +58,19 @@ Then(
 	},
 );
 
+Then(
+	'I should see multiple text {string} visible',
+	async ({ page }, text: string) => {
+		const multipleTechnicians = page.getByText(text);
+
+		const count = await multipleTechnicians.count();
+		expect(count).toBeGreaterThan(1);
+		for (let i = 0; i < count; i += 1) {
+			await expect(multipleTechnicians.nth(i)).toBeVisible();
+		}
+	},
+);
+
 Then('I should see the date default to today', async ({ page }) => {
 	const today = new Date();
 
@@ -120,17 +133,26 @@ When(
 Then(
 	'I should see the selected service {string}',
 	async ({ page }, service: string) => {
+		const escapedService = service.replace(/"/g, '\\"');
 		const selectedServiceInput = page.locator(
-			'input[name$=".service.serviceNameDisplay"][placeholder="Service"][readonly]',
+			`input[name$=".service.serviceNameDisplay"][placeholder="Service"][readonly][value="${escapedService}"]`,
 		);
 
+		await expect(selectedServiceInput).toHaveCount(1);
 		await expect(selectedServiceInput).toBeVisible();
 		await expect(selectedServiceInput).toHaveValue(service);
 	},
 );
 
 When('I click to select technician', async ({ page }) => {
-	const selectTechnician = page.locator('[placeholder="Technician"]');
+	const selectTechnician = page.locator('[placeholder="Technician"]').first();
+
+	await expect(selectTechnician).toBeVisible();
+	await selectTechnician.click();
+});
+
+When('I click the last field to select a technician', async ({ page }) => {
+	const selectTechnician = page.locator('[placeholder="Technician"]').last();
 
 	await expect(selectTechnician).toBeVisible();
 	await selectTechnician.click();
@@ -151,26 +173,59 @@ Then('I should see the technicians displayed correctly', async ({ page }) => {
 Then(
 	'I should see the selected technician {string}',
 	async ({ page }, technician: string) => {
+		const escapedTechnician = technician.replace(/"/g, '\\"');
 		const selectedTechnicianInput = page.locator(
-			'input[name$=".employee.name"][placeholder="Technician"][readonly]',
+			`input[name$=".employee.name"][placeholder="Technician"][readonly][value="${escapedTechnician}"]`,
 		);
 
+		await expect(selectedTechnicianInput).toHaveCount(1);
 		await expect(selectedTechnicianInput).toBeVisible();
 		await expect(selectedTechnicianInput).toHaveValue(technician);
 	},
 );
 
-When('I click to add notes', async ({ page }) => {
-	const addNotes = page.locator('.note-area');
+Then(
+	'I should see multiple {string} technicians',
+	async ({ page }, technician: string) => {
+		const anyTechnicians = page.locator(
+			'input[name$=".employee.name"][placeholder="Technician"][readonly]',
+		);
 
-	await expect(addNotes).toBeVisible();
+		const count = await anyTechnicians.count();
+		expect(count).toBeGreaterThan(1);
+		for (let i = 0; i < count; i += 1) {
+			await expect(anyTechnicians.nth(i)).toHaveValue(technician);
+		}
+	},
+);
+
+When('I fill the {string} phone', async ({ page }, phone: string) => {
+	const cellPhone = page.locator('input[name="cellPhone"]');
+	await cellPhone.fill(phone);
+	const maskedValue = await cellPhone.inputValue();
+	const digitsOnly = maskedValue.replace(/\D/g, '');
+	expect(digitsOnly).toBe(phone);
+});
+
+Then(
+	'I should see the customer name {string}',
+	async ({ page }, name: string) => {
+		const customerName = page.locator('input[name="firstName"]');
+		await expect(customerName).toHaveValue(name);
+	},
+);
+
+When('I click to add notes', async ({ page }) => {
+	const addNotes = page.locator('[placeholder="Notes"]').first();
 	await addNotes.click();
 });
 
 When('I enter a note {string}', async ({ page }, note: string) => {
-	const noteTextarea = page.locator(
-		'.note-area textarea[name$=".notes"][placeholder="Notes"]:not([aria-hidden="true"])',
-	);
+	const noteTextarea = page
+		.locator(
+			'textarea[name$=".notes"][placeholder="Notes"]:not([aria-hidden="true"])',
+		)
+		.first();
 
 	await expect(noteTextarea).toBeVisible();
 	await noteTextarea.fill(note);
@@ -267,6 +322,10 @@ When('I enable google Captcha', async ({ page }) => {
 	await expect(googleCaptcha).toBeVisible();
 	await googleCaptcha.check({ force: true });
 	await expect(googleCaptcha).toBeChecked();
+
+	const onRecaptcha = page.locator('.Mui-checked');
+	await expect(onRecaptcha).toBeVisible();
+	await page.waitForTimeout(10000);
 });
 
 Then('I should see the booked for next day', async ({ page }) => {

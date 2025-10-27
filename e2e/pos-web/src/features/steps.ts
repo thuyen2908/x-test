@@ -13,6 +13,7 @@ Then(
 
 		await page.waitForURL(pageUrl);
 		await expect(page).toHaveURL(pageUrl);
+		await page.waitForTimeout(5000);
 	},
 );
 
@@ -1904,10 +1905,12 @@ Then('I should see both date pickers default to today', async ({ page }) => {
 	}); // Example: "07/03/2025"
 
 	const datePickers = page.locator('button.button-date-calendar');
+	const datePickerValues = datePickers.filter({
+		hasText: /\d{2}\/\d{2}\/\d{4}/,
+	});
 
-	await expect(datePickers).toHaveCount(2);
-	await expect(datePickers.nth(0)).toHaveText(formattedToday);
-	await expect(datePickers.nth(1)).toHaveText(formattedToday);
+	await expect(datePickerValues).toHaveCount(2);
+	await expect(datePickerValues).toHaveText([formattedToday, formattedToday]);
 });
 
 Then('I should see no results for invalid search', async ({ page }) => {

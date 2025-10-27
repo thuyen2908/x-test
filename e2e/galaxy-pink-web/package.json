@@ -10,6 +10,7 @@
 		"bdd:watch": "nodemon -w src -e ts,feature --exec 'pnpm bddgen'",
 		"report": "playwright show-report playwright-report",
 		"report:allure": "allure open allure-report",
+		"bddgen": "pnpm exec bddgen --tags 'not @skip'",
 		"pretest": "bddgen --tags 'not @skip'",
 		"test": "playwright test",
 		"test:ui": "pnpm test --ui",
