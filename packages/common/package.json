@@ -30,8 +30,8 @@
 		"zod": "^4.1.12"
 	},
 	"devDependencies": {
-		"@types/node": "^22.18.12",
-		"rimraf": "^6.0.1",
+		"@types/node": "^22.18.13",
+		"rimraf": "^6.1.0",
 		"rollup-plugin-node-externals": "^8.1.1",
 		"rollup-plugin-visualizer": "^6.0.5",
 		"typescript": "^5.9.3",
