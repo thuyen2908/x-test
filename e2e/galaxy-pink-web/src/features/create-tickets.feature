@@ -729,3 +729,25 @@ Feature: Create tickets
     Then I should see a popup dialog with title "Confirm Void"
     When I click on the "confirm" button in the popup dialog
     Then I should see the selected "SERVICE" tab on the Home page
+
+  Scenario: Add the Discount ticket while paying
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "6512"
+    Then I should see the employee "Jasmine" in the employee list
+    When I select the "Jasmine" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+
+    When I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I click on the "Pay" button
+    And I click on the function "DISCOUNT" payment
+    Then I should see the "Original Price (Owner)" option is active
+    And I should see the discount sorted correctly
+
+    When I select the discount "10% Off"
+    Then I should see the discount ticket detail "10% Off (Original Price)($0.60)" in my cart
+
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page

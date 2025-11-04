@@ -76,7 +76,7 @@ Then('I should see the date default to today', async ({ page }) => {
 
 	// Format to match "Sun, 19 Oct 2025" (day before month)
 	const weekday = today.toLocaleDateString('en-US', { weekday: 'short' });
-	const day = today.getDate(); // No padding
+	const day = today.getDate().toString().padStart(2, '0'); // No padding
 	const month = today.toLocaleDateString('en-US', { month: 'short' });
 	const year = today.getFullYear();
 
@@ -238,6 +238,15 @@ When('I click on the {string} button', async ({ page }, button: string) => {
 	await buttonElement.click();
 });
 
+When(
+	'I click on the {string} button again',
+	async ({ page }, button: string) => {
+		const buttonElement = page.getByRole('button', { name: button });
+		await expect(buttonElement).toBeVisible();
+		await buttonElement.click();
+	},
+);
+
 When('I wait for the page fully loaded', async ({ page }) => {
 	await page.waitForLoadState('networkidle');
 });
@@ -267,11 +276,12 @@ When('I select the next date', async ({ page }) => {
 
 	await nextDateButton.click();
 
-	const formattedNextDate = `${nextDate.toLocaleDateString('en-US', {
-		weekday: 'short',
-	})}, ${nextDate.getDate()} ${nextDate.toLocaleDateString('en-US', {
-		month: 'short',
-	})} ${nextDate.getFullYear()}`;
+	const weekday = nextDate.toLocaleDateString('en-US', { weekday: 'short' });
+	const day = nextDate.getDate().toString().padStart(2, '0');
+	const month = nextDate.toLocaleDateString('en-US', { month: 'short' });
+	const year = nextDate.getFullYear();
+
+	const formattedNextDate = `${weekday}, ${day} ${month} ${year}`;
 
 	await expect(dateElement).toHaveValue(formattedNextDate);
 });
@@ -320,7 +330,13 @@ When('I fill the last name {string}', async ({ page }, name: string) => {
 When('I enable google Captcha', async ({ page }) => {
 	const googleCaptcha = page.locator('input[name="googleCaptcha"]');
 	await expect(googleCaptcha).toBeVisible();
-	await googleCaptcha.check({ force: true });
+
+	// Only check if not already checked
+	const isChecked = await googleCaptcha.isChecked();
+	if (!isChecked) {
+		await googleCaptcha.check({ force: true });
+	}
+
 	await expect(googleCaptcha).toBeChecked();
 
 	const onRecaptcha = page.locator('.Mui-checked');
@@ -335,11 +351,12 @@ Then('I should see the booked for next day', async ({ page }) => {
 	nextDate.setDate(nextDate.getDate() + 1);
 	nextDate.setHours(0, 0, 0, 0);
 
-	const formattedNextDate = `${nextDate.toLocaleDateString('en-US', {
-		weekday: 'long',
-	})}, ${nextDate.getDate()} ${nextDate.toLocaleDateString('en-US', {
-		month: 'short',
-	})} ${nextDate.getFullYear()}`;
+	const weekday = nextDate.toLocaleDateString('en-US', { weekday: 'long' });
+	const day = nextDate.getDate().toString().padStart(2, '0');
+	const month = nextDate.toLocaleDateString('en-US', { month: 'short' });
+	const year = nextDate.getFullYear();
+
+	const formattedNextDate = `${weekday}, ${day} ${month} ${year}`;
 
 	await expect(dateElement).toContainText(formattedNextDate);
 });

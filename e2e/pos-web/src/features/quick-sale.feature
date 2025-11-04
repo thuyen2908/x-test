@@ -15,9 +15,9 @@ Feature: Quick sale tickets
     When I click on the item "Technician" button
     Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
     When I select the "Manicure" service in the dialog
-    And I select the "Kelley" employee in the dialog
+    And I select the "Hailey" employee in the dialog
     And I click on the "Apply" button in the dialog
-    Then I should see the "Kelley" employee in my cart
+    Then I should see the "Hailey" employee in my cart
 
     When I click on the adding "Tip" button
     Then I should see a popup dialog with title "Add Tip"
@@ -33,7 +33,7 @@ Feature: Quick sale tickets
     And I fill the last 4 digits of card number "1234"
     And I click on the element with id "payment"
     Then I should see the employee "Christ" visible in the split tip screen
-    And I should see the employee "Kelley" visible in the split tip screen
+    And I should see the employee "Hailey" visible in the split tip screen
     And I should see the text "TOTAL TIP" visible in the split tip screen
     And I should see the total tip "10" visible in the split tip screen
 

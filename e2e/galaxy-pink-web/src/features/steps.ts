@@ -3102,3 +3102,14 @@ Then(
 		await expect(targetCell).toHaveText(valueText);
 	},
 );
+
+When(
+	'I click on the function {string} payment',
+	async ({ page }, option: string) => {
+		const functionButton = page
+			.locator('ul.xTicketFunctions__payment--option li')
+			.getByText(option);
+		await expect(functionButton).toBeVisible();
+		await functionButton.click();
+	},
+);
