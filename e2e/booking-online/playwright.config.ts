@@ -44,7 +44,7 @@ export default defineConfig({
 		screenshot: 'only-on-failure',
 		viewport: { width: 1920, height: 1080 },
 		baseURL,
-		headless: false, // Run tests with visible browser
+		// headless: false, // Run tests with visible browser
 	},
 
 	projects: [

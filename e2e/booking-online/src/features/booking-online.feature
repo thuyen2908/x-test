@@ -48,6 +48,9 @@ Feature: Booking online
     And I fill the last name "Auto"
     And I click on the "Submit" button
     And I wait for the page fully loaded
+    And I enable google Captcha
+    And I wait for the page fully loaded
+    And I click on the "Submit" button again
 
     Then I should see the text "Your appointment has been sent to the " visible
     And I should see the booked for next day
@@ -110,6 +113,9 @@ Feature: Booking online
     When I fill the last name "Auto"
     And I click on the "Submit" button
     And I wait for the page fully loaded
+    And I enable google Captcha
+    And I wait for the page fully loaded
+    And I click on the "Submit" button again
 
     Then I should see the text "Your appointment has been sent to the " visible
     And I should see the booked for next day

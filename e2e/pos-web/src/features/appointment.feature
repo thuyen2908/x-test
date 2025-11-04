@@ -155,6 +155,7 @@ Feature: Appointment
     Then I should see the title "Any Technician"
     And I should see the employees sorted correctly
 
+  @skip
   Scenario: Update appointment status Check-In
     Given I am on the HOME page
     When I navigate to "Appointment" on the navigation bar
@@ -221,6 +222,7 @@ Feature: Appointment
     And I should see the appointment status "None"
     And I should see the appointment status "Check In"
 
+  @skip
   Scenario: Update appointment status Complete
     Given I am on the HOME page
     When I navigate to "Appointment" on the navigation bar

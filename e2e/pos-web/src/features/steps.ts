@@ -13,7 +13,7 @@ Then(
 
 		await page.waitForURL(pageUrl);
 		await expect(page).toHaveURL(pageUrl);
-		await page.waitForTimeout(5000);
+		await page.waitForTimeout(2000);
 	},
 );
 
@@ -2483,3 +2483,59 @@ When('I click on the sync appointment icon', async ({ page }) => {
 	await expect(syncAppt).toBeVisible();
 	await syncAppt.click();
 });
+
+When(
+	'I click on the function {string} payment',
+	async ({ page }, option: string) => {
+		const functionButton = page.locator('ul.xMultiple li').getByText(option);
+		await expect(functionButton).toBeVisible();
+		await functionButton.click();
+	},
+);
+
+When('I click to show earning today', async ({ page }) => {
+	const earningToday = page.locator('[data-testid="TechnicianEarningIcon"]');
+	await expect(earningToday).toBeVisible();
+	await earningToday.click();
+});
+
+When('I enter the password {string}', async ({ page }, password: string) => {
+	for (const digit of password) {
+		await page
+			.locator(`button.key:has(span.text-num:has-text("${digit}"))`)
+			.click();
+	}
+	const confirmButton = page.getByRole('button', { name: 'CONFIRM' });
+	await expect(confirmButton).toBeVisible();
+	await confirmButton.click();
+	await page.waitForTimeout(5000);
+});
+
+Then(
+	'I should see the text {string} on the dialog',
+	async ({ page }, text: string) => {
+		const dialog = page.getByRole('dialog');
+		await expect(dialog).toBeVisible({ timeout: 10000 });
+
+		if (text.includes('$')) {
+			const parts = text.split('$');
+			if (parts.length >= 2) {
+				const label = parts[0]?.trim() || '';
+				const amount = `$${parts[1]?.trim() || ''}`;
+
+				const labelElement = dialog
+					.locator('p')
+					.getByText(label, { exact: true });
+				const amountElement = dialog
+					.locator('p')
+					.getByText(amount, { exact: true });
+				await expect(labelElement).toBeVisible();
+				await expect(amountElement).toBeVisible();
+				return;
+			}
+		}
+
+		const textElement = dialog.locator('p').getByText(text);
+		await expect(textElement).toBeVisible();
+	},
+);
