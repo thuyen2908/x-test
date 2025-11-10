@@ -685,24 +685,24 @@ Feature: Create tickets
     And I change price amount "35.7"
 
     When I click on the "Pay" button
-    And I enter the amount "20"
+    And I enter the amount "2020"
     And I select the "Gift" payment type
-    And I enter the amount "20"
+    And I enter the amount "2020"
     And I click on search
     Then I should see the gift card balance "$20.00" visible
     When  I wait for the page fully loaded
     And I click on the "OK" button
     And I wait for the page fully loaded
-    Then I should see the payment Gift history "Gift (20) $20.00" visible
+    Then I should see the payment Gift history "Gift (2020) $20.00" visible
 
     When I select the "Gift" payment type
-    And I enter the amount "20"
+    And I enter the amount "2020"
     And I click on search
     And I wait for the page fully loaded
     Then I should see the card value "$20.00" visible
 
     When I click on the "OK" button
-    Then I should see the toast message "Gift Card #20 does not have enough funds to pay." visible
+    Then I should see the toast message "Gift Card #2020 does not have enough funds to pay." visible
 
     When I click on the "Cancel" button
     And I wait for the page fully loaded

@@ -1,4 +1,4 @@
-@regression @smoke @slow
+@regression @slow @page
 Feature: Departments management
 
   Scenario: View the Departments management page
