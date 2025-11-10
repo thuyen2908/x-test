@@ -1,4 +1,4 @@
-@regression @smoke @slow @Logging
+@regression @slow @page
 Feature: SMS Log
 
   Scenario: User can view the SMS log page

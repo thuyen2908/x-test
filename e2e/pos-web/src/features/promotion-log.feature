@@ -1,4 +1,4 @@
-@regression @smoke @slow @Logging
+@regression @slow @page
 Feature: Activity Log
 
   Scenario: User can view the activity log page

@@ -1,4 +1,4 @@
-@regression @smoke @slow @Logging
+@regression @slow @page
 Feature: Connection Log
 
   Scenario: User can view the connection log page

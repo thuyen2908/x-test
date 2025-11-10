@@ -1,4 +1,4 @@
-@regression @smoke @slow
+@regression @slow @page
 Feature: Menu Items management
 
   Scenario: View the Menu Items management page

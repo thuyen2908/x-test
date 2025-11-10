@@ -1,4 +1,4 @@
-@regression @smoke @slow @Logging
+@regression @slow @page
 Feature: Waiting log
 
   Scenario: User can view the waiting log page

@@ -1,4 +1,4 @@
-@regression @smoke @slow @Logging
+@regression @slow @page
 Feature: Run Log
 
   Scenario: User can view the run log page
