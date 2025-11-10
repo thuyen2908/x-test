@@ -94,6 +94,12 @@ export class Const {
 			[PageId.TICKET_PAYMENTS]: `${baseURL}/management/ticket-payment`,
 			[PageId.CLOCK_IN_OTHERS]: `${baseURL}/clock-in-others`,
 			[PageId.CASH_IN_OUT]: `${baseURL}/management/cash-in-out`,
+			[PageId.WAIT_LOG]: `${baseURL}/management/wait-log`,
+			[PageId.APPOINTMENT_LOG]: `${baseURL}/management/appointment-log`,
+			[PageId.ACTIVITY_LOG]: `${baseURL}/management/activity-log`,
+			[PageId.SMS_LOG]: `${baseURL}/management/sms-log`,
+			[PageId.RUN_LOG]: `${baseURL}/management/run-log`,
+			[PageId.CONNECTION_LOG]: `${baseURL}/management/connection-log`,
 		} as const;
 	}
 

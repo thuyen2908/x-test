@@ -1,4 +1,4 @@
-@regression @smoke @slow
+@regression @smoke @slow @BackOffice
 Feature: Departments management
 
   Scenario: View the Departments management page

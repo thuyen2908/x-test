@@ -1,4 +1,4 @@
-@regression @smoke @slow
+@regression @smoke @slow @BackOffice
 Feature: Employee management
   @skip
   Scenario: View the Employees management page

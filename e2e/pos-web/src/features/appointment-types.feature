@@ -1,4 +1,4 @@
-@regression @smoke @slow
+@regression @smoke @slow @BackOffice
 Feature: Appointment Types management
 
   Scenario: View the Appointment Types management page
