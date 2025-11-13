@@ -1,0 +1,26 @@
+{
+	"validCustomer": {
+		"email": "test.customer@galaxyme.com",
+		"password": "Test@1234",
+		"firstName": "Test",
+		"lastName": "Customer",
+		"phone": "+1234567890",
+		"role": "CUSTOMER"
+	},
+	"premiumCustomer": {
+		"email": "premium.customer@galaxyme.com",
+		"password": "Premium@1234",
+		"firstName": "Premium",
+		"lastName": "Customer",
+		"phone": "+1234567891",
+		"role": "CUSTOMER"
+	},
+	"vipCustomer": {
+		"email": "vip.customer@galaxyme.com",
+		"password": "Vip@1234",
+		"firstName": "VIP",
+		"lastName": "Customer",
+		"phone": "+1234567892",
+		"role": "CUSTOMER"
+	}
+}

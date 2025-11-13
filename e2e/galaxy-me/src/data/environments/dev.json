@@ -1,0 +1,16 @@
+{
+	"name": "dev",
+	"apiBaseUrl": "https://dev-api.galaxyme.com",
+	"webBaseUrl": "https://dev.galaxyme.com",
+	"features": {
+		"paymentEnabled": true,
+		"appointmentBooking": true,
+		"pushNotifications": false,
+		"biometricAuth": true,
+		"socialLogin": false
+	},
+	"timeout": {
+		"default": 30000,
+		"extended": 60000
+	}
+}
