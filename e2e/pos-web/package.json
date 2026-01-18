@@ -7,11 +7,11 @@
 	"scripts": {
 		"clean": "rimraf dist .turbo tsconfig.tsbuildinfo test-artifacts playwright-report allure-results allure-report",
 		"typecheck": "tsc --noEmit",
-		"bdd:watch": "nodemon -w src -e ts,feature --exec 'pnpm bddgen'",
+		"bdd:watch": "nodemon -w src -e ts,feature --exec \"pnpm bddgen\"",
 		"report": "playwright show-report playwright-report",
 		"report:allure": "allure open allure-report",
-		"pretest": "bddgen --tags 'not @skip'",
-		"bddgen": "pnpm exec bddgen --tags 'not @skip'",
+		"pretest": "bddgen",
+		"bddgen": "pnpm exec bddgen --tags \"not @skip\"",
 		"test": "playwright test",
 		"test:ui": "pnpm run pretest && pnpm exec playwright test --ui",
 		"test:debug": "pnpm test --debug"

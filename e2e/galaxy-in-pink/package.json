@@ -7,9 +7,9 @@
 	"scripts": {
 		"clean": "rimraf dist .turbo tsconfig.tsbuildinfo test-artifacts playwright-report",
 		"typecheck": "tsc --noEmit",
-		"bdd:watch": "nodemon -w src -e ts,feature --exec 'pnpm bddgen'",
+		"bdd:watch": "nodemon -w src -e ts,feature --exec \"pnpm bddgen\"",
 		"report": "playwright show-report playwright-report",
-		"bddgen": "pnpm exec bddgen --tags 'not @skip'",
+		"bddgen": "pnpm exec bddgen --tags \"not @skip\"",
 		"pretest": "bddgen",
 		"test": "playwright test",
 		"test:e2e": "playwright test",
