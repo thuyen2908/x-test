@@ -20,12 +20,12 @@
 		"find-workspaces": "^0.3.1"
 	},
 	"devDependencies": {
-		"@commitlint/types": "^20.0.0",
-		"@types/node": "^24.10.0",
+		"@commitlint/types": "^20.3.1",
+		"@types/node": "^24.10.9",
 		"@x-test/common": "workspace:*",
-		"rimraf": "^6.1.0",
+		"rimraf": "^6.1.2",
 		"rollup-plugin-node-externals": "^8.1.2",
 		"typescript": "^5.9.3",
-		"vite": "^7.2.2"
+		"vite": "^7.3.1"
 	}
 }
