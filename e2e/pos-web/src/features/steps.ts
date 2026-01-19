@@ -2259,7 +2259,7 @@ Then(
 );
 
 Then('I should see the store logo on the receipt', async ({ page }) => {
-	await expect(page.locator('img[alt="BLANC NAILS"]')).toBeVisible();
+	await expect(page.locator('img[alt="BLUE SALON"]')).toBeVisible();
 });
 
 Then(
