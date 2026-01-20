@@ -1222,7 +1222,9 @@ When(
 	async ({ page }, label: string) => {
 		const labelElement = page
 			.locator('div.xMenu__link span')
-			.filter({ hasText: label });
+			.getByText(label, { exact: true });
+
+		await expect(labelElement).toBeVisible();
 		await labelElement.click();
 	},
 );
