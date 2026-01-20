@@ -34,7 +34,7 @@ Feature: Reopen tickets
 
     When I click on refresh
     And I wait for the page fully loaded
-    Then I should see the toast message "Refresh data ticket successfully." visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I search for "11.5"
     And I wait for the page fully loaded
     Then I should see the first ticket of payment "$11.50"
@@ -86,7 +86,7 @@ Feature: Reopen tickets
     Then I should be redirected to CLOSED_TICKETS page
 
     When I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully." visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
     And I search for "47"
     And I wait for the page fully loaded
@@ -150,7 +150,7 @@ Feature: Reopen tickets
     Then I should be redirected to CLOSED_TICKETS page
 
     When I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully." visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
     And I search for "24.95"
     And I wait for the page fully loaded
@@ -216,7 +216,7 @@ Feature: Reopen tickets
     Then I should be redirected to CLOSED_TICKETS page
 
     When I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully." visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
     And I search for "12.6"
     And I wait for the page fully loaded
@@ -276,7 +276,7 @@ Feature: Reopen tickets
     Then I should be redirected to CLOSED_TICKETS page
 
     When I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully." visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
     And I search for "23.5"
     And I wait for the page fully loaded
@@ -357,7 +357,7 @@ Feature: Reopen tickets
     Then I should be redirected to CLOSED_TICKETS page
 
     When I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully." visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
     And I search for "28.10"
     And I wait for the page fully loaded
@@ -414,7 +414,7 @@ Feature: Reopen tickets
     Then I should be redirected to CLOSED_TICKETS page
 
     When I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully." visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
     And I search for "15.5"
     And I wait for the page fully loaded
@@ -470,7 +470,7 @@ Feature: Reopen tickets
     Then I should be redirected to CLOSED_TICKETS page
 
     When I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully." visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
     And I search for "16.8"
     And I wait for the page fully loaded
@@ -518,7 +518,7 @@ Feature: Reopen tickets
     Then I should be redirected to CLOSED_TICKETS page
 
     When I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully." visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
     And I search for "26.25"
     And I wait for the page fully loaded
@@ -594,7 +594,7 @@ Feature: Reopen tickets
     Then I should be redirected to CLOSED_TICKETS page
 
     When I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully." visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
     And I search for "77.5"
     And I wait for the page fully loaded
@@ -664,7 +664,7 @@ Feature: Reopen tickets
     Then I should be redirected to CLOSED_TICKETS page
 
     When I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully." visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
     And I search for "75.7"
     And I wait for the page fully loaded
@@ -826,7 +826,7 @@ Feature: Reopen tickets
     Then I should be redirected to CLOSED_TICKETS page
 
     When I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully." visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
     And I search for "29.25"
     And I wait for the page fully loaded
@@ -834,7 +834,7 @@ Feature: Reopen tickets
 
     When I click on the first row for payment "$29.25" to expand details
     Then I should see the store logo on the receipt
-    And I should see the business info "BLANC NAILS 1032 YONKERS AVE Yonkers, NY 10704 (707) 707-1122" on the receipt
+    And I should see the business info "BLUE SALON 1032 YONKERS AVE Yonkers, NY 10704 (707) 707-1122" on the receipt
 
     Then I should see the date is today on the receipt
     And I should see the customer name "Loyalty" on the receipt

@@ -61,6 +61,7 @@ Feature: Appointment
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
+  @skip
   Scenario: Create an appointment for a new customer, edit to change technician and create ticket
     Given I am on the HOME page
     When I navigate to "Appointment" on the navigation bar

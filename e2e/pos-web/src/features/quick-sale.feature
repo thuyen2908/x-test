@@ -3,6 +3,8 @@ Feature: Quick sale tickets
 
   Scenario: Create a quick sale ticket
     Given I am on the HOME page
+    When I clock in the timesheet with PIN "6876"
+    Then I should see the employee "Christ" in the employee list
     When I navigate to "Quick Sale" on the navigation bar
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service

@@ -21,7 +21,7 @@ Feature: Closed Ticket
 
     When I select the "CLOSED TICKET" tab
     And I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully" visible
+    Then I should see the toast message "Ticket data refreshed successfully" visible
     When I wait for the page fully loaded
     And I search for "11.5"
     And I wait for the page fully loaded
@@ -56,7 +56,7 @@ Feature: Closed Ticket
 
     When I select the "CLOSED TICKET" tab
     And I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully" visible
+    Then I should see the toast message "Ticket data refreshed successfully" visible
     When I wait for the page fully loaded
     And I search for "47.00"
     And I wait for the page fully loaded
@@ -106,7 +106,7 @@ Feature: Closed Ticket
 
     When I select the "CLOSED TICKET" tab
     And I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully" visible
+    Then I should see the toast message "Ticket data refreshed successfully" visible
     When I wait for the page fully loaded
     And I search for "24.57"
     And I wait for the page fully loaded
@@ -158,7 +158,7 @@ Feature: Closed Ticket
 
     When I select the "CLOSED TICKET" tab
     And I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully" visible
+    Then I should see the toast message "Ticket data refreshed successfully" visible
     When I wait for the page fully loaded
     And I search for "12.36"
     And I wait for the page fully loaded
@@ -199,7 +199,7 @@ Feature: Closed Ticket
 
     When I select the "CLOSED TICKET" tab
     And I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully" visible
+    Then I should see the toast message "Ticket data refreshed successfully" visible
     When I wait for the page fully loaded
     And I search for "23.50"
     And I wait for the page fully loaded
@@ -264,7 +264,7 @@ Feature: Closed Ticket
 
     When I select the "CLOSED TICKET" tab
     And I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully" visible
+    Then I should see the toast message "Ticket data refreshed successfully" visible
     When I wait for the page fully loaded
     And I search for "27.66"
     And I wait for the page fully loaded
@@ -301,7 +301,7 @@ Feature: Closed Ticket
 
     When I select the "CLOSED TICKET" tab
     And I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully" visible
+    Then I should see the toast message "Ticket data refreshed successfully" visible
     When I wait for the page fully loaded
     And I search for "15.5"
     And I wait for the page fully loaded
@@ -350,7 +350,7 @@ Feature: Closed Ticket
 
     When I select the "CLOSED TICKET" tab
     And I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully" visible
+    Then I should see the toast message "Ticket data refreshed successfully" visible
     When I wait for the page fully loaded
     And I search for "16.48"
     And I wait for the page fully loaded
@@ -393,7 +393,7 @@ Feature: Closed Ticket
 
     When I select the "CLOSED TICKET" tab
     And I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully" visible
+    Then I should see the toast message "Ticket data refreshed successfully" visible
     When I wait for the page fully loaded
     And I search for "25.75"
     And I wait for the page fully loaded
@@ -455,7 +455,7 @@ Feature: Closed Ticket
     When I select the "CLOSED TICKET" tab
     And I click on refresh
     And I wait for the page fully loaded
-    Then I should see the toast message "Refresh data ticket successfully" visible
+    Then I should see the toast message "Ticket data refreshed successfully" visible
 
     When I wait for the page fully loaded
     And I search for "77.5"
@@ -514,7 +514,7 @@ Feature: Closed Ticket
     When I select the "CLOSED TICKET" tab
     And I wait for the page fully loaded
     And I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully" visible
+    Then I should see the toast message "Ticket data refreshed successfully" visible
     When I wait for the page fully loaded
     And I search for "75.7"
     And I wait for the page fully loaded
@@ -626,7 +626,7 @@ Feature: Closed Ticket
     When I select the "CLOSED TICKET" tab
     And I wait for the page fully loaded
     And I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully" visible
+    Then I should see the toast message "Ticket data refreshed successfully" visible
     When I wait for the page fully loaded
     And I search for "11.5"
     And I wait for the page fully loaded
