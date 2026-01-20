@@ -1899,11 +1899,13 @@ Then('I should see the Ticket table displayed correctly', async ({ page }) => {
 });
 
 Then('I should see both date pickers default to today', async ({ page }) => {
-	const today = new Date();
-	const formattedToday = today.toLocaleDateString('en-US', {
-		year: 'numeric',
-		month: '2-digit',
-		day: '2-digit',
+	const formattedToday = await page.evaluate(() => {
+		const today = new Date();
+		return today.toLocaleDateString('en-US', {
+			year: 'numeric',
+			month: '2-digit',
+			day: '2-digit',
+		});
 	}); // Example: "07/03/2025"
 
 	const datePickers = page.locator('button.button-date-calendar');
