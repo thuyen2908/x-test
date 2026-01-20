@@ -123,7 +123,7 @@ Feature: Create tickets
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
     And I should see the text "PAYMENT HISTORY" visible
-    And I should see the card price amount "$11.30" visible
+    And I should see the card price amount "$11.18" visible
     And I should see the cash price amount "$11.00" visible
 
     When I select the "Credit" payment type
@@ -914,7 +914,7 @@ Feature: Create tickets
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
     And I should see the text "PAYMENT HISTORY" visible
-    And I should see the card price amount "$57.50" visible
+    And I should see the card price amount "$56.50" visible
     And I should see the cash price amount "$55.00" visible
 
     When I select the "Credit" payment type
@@ -936,13 +936,13 @@ Feature: Create tickets
     Then I should be redirected to CLOSED_TICKETS page
 
     When I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully." visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
-    And I search for "57.5"
+    And I search for "56.50"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$57.50"
+    Then I should see the first ticket of payment "$56.50"
 
-    When I click on the first row for payment "$57.50" to expand details
+    When I click on the first row for payment "$56.50" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button

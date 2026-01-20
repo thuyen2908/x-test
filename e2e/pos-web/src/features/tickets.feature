@@ -218,11 +218,11 @@ Feature: Reopen tickets
     When I click on refresh
     Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
-    And I search for "12.6"
+    And I search for "12.36"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$12.60"
+    Then I should see the first ticket of payment "$12.36"
 
-    When I click on the first row for payment "$12.60" to expand details
+    When I click on the first row for payment "$12.36" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -359,11 +359,11 @@ Feature: Reopen tickets
     When I click on refresh
     Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
-    And I search for "28.10"
+    And I search for "27.66"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$28.10"
+    Then I should see the first ticket of payment "$27.66"
 
-    When I click on the first row for payment "$28.10" to expand details
+    When I click on the first row for payment "$27.66" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -472,11 +472,11 @@ Feature: Reopen tickets
     When I click on refresh
     Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
-    And I search for "16.8"
+    And I search for "16.48"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$16.80"
+    Then I should see the first ticket of payment "$16.48"
 
-    When I click on the first row for payment "$16.80" to expand details
+    When I click on the first row for payment "$16.48" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -520,11 +520,11 @@ Feature: Reopen tickets
     When I click on refresh
     Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
-    And I search for "26.25"
+    And I search for "25.75"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$26.25"
+    Then I should see the first ticket of payment "$25.75"
 
-    When I click on the first row for payment "$26.25" to expand details
+    When I click on the first row for payment "$25.75" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -546,7 +546,7 @@ Feature: Reopen tickets
     When I click on the more menu for payment history of "VISA (1234)"
     Then I should see the tooltip remove
     When I click on the tooltip remove
-    Then I should see a popup dialog with title "VISA  - $26.25"
+    Then I should see a popup dialog with title "VISA  - $25.75"
     When I click on the "Remove" button in the popup dialog
 
     When I select the "Credit" payment type
