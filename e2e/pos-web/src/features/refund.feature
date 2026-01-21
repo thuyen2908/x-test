@@ -8,6 +8,7 @@ Feature: Refund
     When I wait for the page fully loaded
     And I click on the header menu
     And I select the "Refund" label in the menu list
+    And I wait for the page fully loaded
     Then I should see a popup dialog with title "Create Ticket Refund"
     And I should see the employee "Christ" in the popup dialog
     And I should see the "Add Commission" option is checked
