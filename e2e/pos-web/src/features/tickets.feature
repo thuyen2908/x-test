@@ -152,11 +152,11 @@ Feature: Reopen tickets
     When I click on refresh
     Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
-    And I search for "24.95"
+    And I search for "24.57"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$24.95"
+    Then I should see the first ticket of payment "$24.57"
 
-    When I click on the first row for payment "$24.95" to expand details
+    When I click on the first row for payment "$24.57" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -236,6 +236,8 @@ Feature: Reopen tickets
     And I should see the payment history "VISA (1234)" visible
 
     When I click on the adjust tip icon
+    Then I should see a popup dialog containing the title "CONFIRM ADJUST TIP "
+    When I click on the action button "Adjust Tip" of the opening dialog
     Then I should see a popup dialog with title "Adjust Tip "
     When I enter the amount "10"
     And I click on the "Add Tip" button in the popup dialog
@@ -644,10 +646,10 @@ Feature: Reopen tickets
     When I add the "Gift card $50" service to my cart
     Then I should see a popup dialog with title "Activate Gift Card $50.00"
 
-    When I enter the amount "0403"
+    When I enter the amount "1403"
     And I click on the "OK" button in the popup dialog
     Then I should see my cart showing 2 item added
-    And I should see the service "Gift card $50 (0403)" in my cart
+    And I should see the service "Gift card $50 (1403)" in my cart
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -680,7 +682,8 @@ Feature: Reopen tickets
 
     When I click on the item "VOID ITEM" button
     Then I should see a popup dialog with title "VOID MULTIPLE"
-    When I select the "Gift card $50 (0403)" service in the dialog
+    When I select the "Gift card $50 (1403)" service in the dialog
+    And I select the reason "Mistake"
     And I click on the "Void Items" button in the dialog
     Then I should see my cart showing 1 item added
 
@@ -707,11 +710,11 @@ Feature: Reopen tickets
     Then I should be redirected to GIFT_CARD_BALANCE page
     And I should see the text "Gift Card" visible
 
-    When I enter the amount "0403"
+    When I enter the amount "1403"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
     Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
-    And I should see a popup dialog with content "Do you want to activate gift card #0403"
+    And I should see a popup dialog with content "Do you want to activate gift card #1403"
 
   @skip
   Scenario: Remove loyalty balance when voiding ticket
