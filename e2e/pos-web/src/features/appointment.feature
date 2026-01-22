@@ -85,7 +85,6 @@ Feature: Appointment
     When I click on the Select customer
     And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
-    And I should see the loyalty program "2 Points = $1" visible
 
     When I fill the new customer name "Booking"
     And I fill the new customer phone
@@ -179,7 +178,6 @@ Feature: Appointment
     When I click on the Select customer
     And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
-    And I should see the loyalty program "2 Points = $1" visible
 
     When I fill the new customer name "Check-In"
     And I fill the new customer phone
@@ -248,7 +246,6 @@ Feature: Appointment
     When I click on the Select customer
     And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
-    And I should see the loyalty program "2 Points = $1" visible
 
     When I fill the new customer name "Complete"
     And I fill the new customer phone

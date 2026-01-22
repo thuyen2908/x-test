@@ -2284,11 +2284,13 @@ Then('I should see the date is today on the receipt', async ({ page }) => {
 		.locator('table >> text=Date')
 		.locator('xpath=following-sibling::td[1]');
 	const receiptDateText = await dateCell.innerText();
-	const today = new Date();
-	const formattedToday = today.toLocaleDateString('en-US', {
-		year: 'numeric',
-		month: '2-digit',
-		day: '2-digit',
+	const formattedToday = await page.evaluate(() => {
+		const today = new Date();
+		return today.toLocaleDateString('en-US', {
+			year: 'numeric',
+			month: '2-digit',
+			day: '2-digit',
+		});
 	});
 	expect(receiptDateText).toContain(formattedToday);
 });
@@ -2541,5 +2543,21 @@ Then(
 
 		const textElement = dialog.locator('p').getByText(text);
 		await expect(textElement).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the loyalty program list displayed correctly',
+	async ({ page }) => {
+		await page.locator('#mui-component-select-loyaltyProgramId').click();
+		const listbox = page.getByRole('listbox');
+		await expect(listbox).toBeVisible();
+		const options = page.getByRole('option');
+
+		await expect(options).toHaveText([
+			'=== NONE ===',
+			'1 Point for $1',
+			'2 Points = $1',
+		]);
 	},
 );

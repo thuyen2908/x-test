@@ -1,7 +1,7 @@
 @regression @smoke @slow
 Feature: Timesheet
 
-  Scenario: Clock in and clock out
+  Scenario: When clocking in then clocking out, the technician does not appear in the employee list
     Given I am on the HOME page
     When I clock in the timesheet with PIN "3493"
     Then I should see the employee "Tessa" in the employee list
@@ -9,7 +9,7 @@ Feature: Timesheet
     When I clock out the timesheet with PIN "3493"
     Then I should not see the employee "Tessa" in the employee list
 
-  Scenario: Clock in others and clock out
+  Scenario: When clocking in others then clocking out, the technician does not appear in the employee list
     Given I am on the HOME page
     When I navigate to "Timesheet" on the navigation bar
     And I navigate to "Clock In Others" on the navigation bar
