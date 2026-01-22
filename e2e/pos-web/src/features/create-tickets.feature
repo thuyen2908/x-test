@@ -867,3 +867,22 @@ Feature: Create tickets
 
   @skip
   Scenario: Add discount ticket while paying
+
+
+  Scenario: Display popup Pick other technician when no permission 
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "2860"
+    Then I should see the employee "Tina" in the employee list
+
+    When I select the "Tina" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+    When I add the "Manicure" service to my cart
+    Then I should see a popup dialog with title "Pick Other Technician"
+
+    When I click on the "Addison" text inside the content section of the opening dialog
+    Then I should see my cart showing 1 item added
+    And I should see the employee "Addison" in my cart
+    Then I should be redirected to HOME page
+
+    
