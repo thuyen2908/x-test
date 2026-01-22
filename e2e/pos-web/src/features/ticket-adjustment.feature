@@ -130,9 +130,9 @@ Feature: Fix Ticket
     And I should see the text "TICKET#" visible
 
     When I wait for the page fully loaded
-    And I search for "56.45"
-    Then I should see the first ticket with total "$56.45"
-    When I select the first ticket with total "$56.45"
+    And I search for "55.47"
+    Then I should see the first ticket with total "$55.47"
+    When I select the first ticket with total "$55.47"
     Then I should see the service "Combo 1" in my cart
 
     When I click on the title "DETAILS" in the ticket adjustment screen
@@ -406,9 +406,9 @@ Feature: Fix Ticket
     And I should see the text "TICKET#" visible
 
     When I wait for the page fully loaded
-    And I search for "36.5"
-    Then I should see the first ticket with total "$36.50"
-    When I select the first ticket with total "$36.50"
+    And I search for "35.9"
+    Then I should see the first ticket with total "$35.90"
+    When I select the first ticket with total "$35.90"
     Then I should see the service "Manicure" in my cart
     And I should see the service "Pedicure" in my cart
 
