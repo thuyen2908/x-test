@@ -246,6 +246,71 @@ Feature: Reopen tickets
     When I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
 
+  Scenario: Reopen ticket to adjust tip for Gift Card
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "8888"
+    Then I should see the employee "thanh" in the employee list
+
+    When I select the "thanh" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+
+    When I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I click on the total price of "Manicure"
+    Then I should see a popup dialog with title "Service: Manicure - $6.00"
+    When I change the price to "12"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$12.00" visible
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+
+    When I select the "Gift" payment type
+    Then I should see the "ID GIFT CARD" name
+    When I fill the Gift card with "0104"
+    And I click on the "CHECK BALANCE" button
+    Then I should see the "AMOUNT" name
+    When I select the title "AMOUNT"
+    And I enter the amount "12"
+    And I click on the element with id "payment"
+    # Then I should see the payment history "Gift (0104)" visible
+    # And I should see the payment price "$12.00"
+
+    When I navigate to "Tickets" on the navigation bar
+    Then I should be redirected to CLOSED_TICKETS page
+
+    When I click on refresh
+    Then I should see the toast message "Ticket data refreshed successfully." visible
+    When I wait for the page fully loaded
+    And I search for "12.00"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$12.00"
+
+    When I click on the first row for payment "$12.00" to expand details
+    Then I should see the "Reopen ticket" button visible
+
+    When I click on the "Reopen ticket" button
+    And I wait for the page fully loaded
+    Then I should see the "Ticket View" screen
+    And I should see the user info "thanh" in the ticket
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the text "PAYMENT HISTORY" visible
+    And I should see the payment history "Gift (0104)" visible
+
+    When I click on the adjust tip icon
+    Then I should see a popup dialog with title " CONFIRM ADJUST TIP"
+    When I click on the "Adjust Tip" button in the popup dialog
+    When I enter the amount "10"
+    And I click on the "Add Tip" button in the popup dialog
+    Then I should see the payment price contain amount "+ $10.00"
+
+    When I click on the "CLOSE TICKET" button
+    Then I should be redirected to HOME page  
+
   Scenario: Reopen ticket to remove payment Cash and instead of Credit
     Given I am on the HOME page
     When I clock in the timesheet with PIN "4683"
