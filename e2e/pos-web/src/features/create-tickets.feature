@@ -15,6 +15,35 @@ Feature: Create tickets
     And I should see the loyalty program "2 Points = $1" visible
     And I should see the loyalty program list displayed correctly
 
+  Scenario: Card fee is calculated correctly for cash discounts
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "0917"
+    Then I should see the employee "Dylan" in the employee list
+    When I select the "Dylan" employee
+    And I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I click on the "PAY" button
+    Then I should see the card price amount "$6.18" visible
+    And I should see the cash price amount "$6.00" visible
+
+  Scenario: Display correct category and service data
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "0917"
+    Then I should see the employee "Dylan" in the employee list
+    When I select the "Dylan" employee
+    Then I should see the "Ticket View" screen
+    And I should see the categories displayed correctly in ticket view
+
+    When I select the "MANI & PEDI" category
+    Then I should see all services in the first category displayed correctly
+    When I select the "FULL SET & FILL IN" category
+    Then I should see all services in the second category displayed correctly
+    When I select the "ADDITIONAL SERVICE" category
+    Then I should see all services in the third category displayed correctly
+    When I select the "GIFT CARD" category
+    Then I should see all services in the fourth category displayed correctly
+
   Scenario: Create a ticket for the Owner role
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1234"

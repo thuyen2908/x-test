@@ -309,7 +309,7 @@ Feature: Reopen tickets
     Then I should see the payment price contain amount "+ $10.00"
 
     When I click on the "CLOSE TICKET" button
-    Then I should be redirected to HOME page  
+    Then I should be redirected to HOME page
 
   Scenario: Reopen ticket to remove payment Cash and instead of Credit
     Given I am on the HOME page
@@ -711,10 +711,10 @@ Feature: Reopen tickets
     When I add the "Gift card $50" service to my cart
     Then I should see a popup dialog with title "Activate Gift Card $50.00"
 
-    When I enter the amount "1403"
+    When I enter the amount "1903"
     And I click on the "OK" button in the popup dialog
     Then I should see my cart showing 2 item added
-    And I should see the service "Gift card $50 (1403)" in my cart
+    And I should see the service "Gift card $50 (1903)" in my cart
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -747,7 +747,7 @@ Feature: Reopen tickets
 
     When I click on the item "VOID ITEM" button
     Then I should see a popup dialog with title "VOID MULTIPLE"
-    When I select the "Gift card $50 (1403)" service in the dialog
+    When I select the "Gift card $50 (1903)" service in the dialog
     And I select the reason "Mistake"
     And I click on the "Void Items" button in the dialog
     Then I should see my cart showing 1 item added
@@ -775,11 +775,11 @@ Feature: Reopen tickets
     Then I should be redirected to GIFT_CARD_BALANCE page
     And I should see the text "Gift Card" visible
 
-    When I enter the amount "1403"
+    When I enter the amount "1903"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
     Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
-    And I should see a popup dialog with content "Do you want to activate gift card #1403"
+    And I should see a popup dialog with content "Do you want to activate gift card #1903"
 
   @skip
   Scenario: Remove loyalty balance when voiding ticket
