@@ -307,6 +307,16 @@ Feature: Appointment
     When I click on the icon zoom out
     Then I should see a popup dialog with content "Zoom In / Zoom Out"
 
+  Scenario: View week display start on week correctly
+    Given I am on the HOME page
+    When I navigate to "Appointment" on the navigation bar
+    Then I should be redirected to APPOINTMENT page
+
+    When I wait for the page fully loaded
+    Then I should see the title "Any Technician"
+    When I select view "Week"
+    Then I should see the start of the week as "Tue"
+
   @skip
   Scenario: Drag and drop the appointment
     Given I am on the HOME page

@@ -1920,6 +1920,21 @@ Then(
 	},
 );
 
+When('I select view {string}', async ({ page }, view: string) => {
+	const viewButton = page.getByRole('button', { name: view });
+	await expect(viewButton).toBeVisible();
+	await viewButton.click();
+});
+
+Then(
+	'I should see the start of the week as {string}',
+	async ({ page }, day: string) => {
+		const dayElement = page.locator('.e-header-day').first();
+		await expect(dayElement).toBeVisible();
+		await expect(dayElement).toContainText(day);
+	},
+);
+
 Then(
 	'I should see an employee row with:',
 	async ({ page }, dataTable: DataTable) => {
