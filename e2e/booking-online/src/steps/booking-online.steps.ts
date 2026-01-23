@@ -121,25 +121,6 @@ Then('I should see the categories displayed correctly', async ({ page }) => {
 	await expect(categoryElements).toHaveCount(expectedCategories.length);
 });
 
-Then(
-	'I should see the categories displayed correctly in ticket view',
-	async ({ page }) => {
-		const expectedCategories = [
-			'MANI & PEDI',
-			'FULL SET & FILL IN',
-			'ADDITIONAL SERVICE',
-		];
-
-		const categoryElements = page.locator('.box-package-name li');
-		for (const expectedCategory of expectedCategories) {
-			const categoryElement = categoryElements.getByText(expectedCategory);
-			await expect(categoryElement).toBeVisible();
-			await expect(categoryElement).toHaveText(expectedCategory);
-		}
-		await expect(categoryElements).toHaveCount(expectedCategories.length);
-	},
-);
-
 When(
 	'I click on the {string} text inside the content section of the opening dialog',
 	async ({ page }, text: string) => {
