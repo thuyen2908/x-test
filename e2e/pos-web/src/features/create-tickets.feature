@@ -871,10 +871,10 @@ Feature: Create tickets
 
   Scenario: Display popup Pick other technician when no permission 
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "2860"
-    Then I should see the employee "Tina" in the employee list
+    When I clock in the timesheet with PIN "8526"
+    Then I should see the employee "Hung" in the employee list
 
-    When I select the "Tina" employee
+    When I select the "Hung" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
     When I add the "Manicure" service to my cart
@@ -883,6 +883,14 @@ Feature: Create tickets
     When I click on the "Addison" text inside the content section of the opening dialog
     Then I should see my cart showing 1 item added
     And I should see the employee "Addison" in my cart
+    
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    When I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket" 
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
+
 
     
