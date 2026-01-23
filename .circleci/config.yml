@@ -222,7 +222,7 @@ jobs:
 
   Run Playwright tests:
     docker:
-      - image: cimg/openjdk:25.0-node
+      - image: cimg/openjdk:25.0.1-node
     resource_class: medium
     parallelism: 2
     parameters:
@@ -275,7 +275,7 @@ jobs:
 
   Collect test results and generate Allure Report:
     docker:
-      - image: cimg/openjdk:25.0-node
+      - image: cimg/openjdk:25.0.1-node
     resource_class: small
     parameters:
       project:
