@@ -1507,6 +1507,117 @@ When(
 );
 
 Then(
+	'I should see the categories displayed correctly in ticket view',
+	async ({ page }) => {
+		const expectedCategories = [
+			'MANI & PEDI',
+			'FULL SET & FILL IN',
+			'ADDITIONAL SERVICE',
+			'GIFT CARD',
+		];
+
+		const categoryElements = page.locator('[role="tablist"] span');
+		await expect(categoryElements).toHaveCount(expectedCategories.length);
+
+		for (let i = 0; i < expectedCategories.length; i++) {
+			const categoryName = await categoryElements.nth(i).innerText();
+			expect(categoryName.trim()).toBe(expectedCategories[i]);
+		}
+	},
+);
+
+Then(
+	'I should see all services in the first category displayed correctly',
+	async ({ page }) => {
+		const expectedServices = [
+			'Manicure',
+			'Pedicure',
+			'Cut cuticle',
+			'Gel removal',
+			'Acrylic removal',
+			'Gel X',
+			'Request price',
+			'Combo 1',
+			'Combo 2',
+			'Supper combo',
+		];
+
+		const serviceElements = page.locator(
+			'li.ItemService .ItemService__name span',
+		);
+		await expect(serviceElements).toHaveCount(expectedServices.length);
+
+		for (let i = 0; i < expectedServices.length; i++) {
+			const serviceName = await serviceElements.nth(i).innerText();
+			expect(serviceName.trim()).toBe(expectedServices[i]);
+		}
+	},
+);
+
+Then(
+	'I should see all services in the second category displayed correctly',
+	async ({ page }) => {
+		const expectedServices = [
+			'Full set',
+			'Fill gel',
+			'Gel polish',
+			'French full set',
+			'Taxable',
+		];
+
+		const serviceElements = page.locator(
+			'li.ItemService .ItemService__name span',
+		);
+		await expect(serviceElements).toHaveCount(expectedServices.length);
+
+		for (let i = 0; i < expectedServices.length; i++) {
+			const serviceName = await serviceElements.nth(i).innerText();
+			expect(serviceName.trim()).toBe(expectedServices[i]);
+		}
+	},
+);
+
+Then(
+	'I should see all services in the third category displayed correctly',
+	async ({ page }) => {
+		const expectedServices = ['Ombre'];
+
+		const serviceElements = page.locator(
+			'li.ItemService .ItemService__name span',
+		);
+		await expect(serviceElements).toHaveCount(expectedServices.length);
+
+		for (let i = 0; i < expectedServices.length; i++) {
+			const serviceName = await serviceElements.nth(i).innerText();
+			expect(serviceName.trim()).toBe(expectedServices[i]);
+		}
+	},
+);
+
+Then(
+	'I should see all services in the fourth category displayed correctly',
+	async ({ page }) => {
+		const expectedServices = [
+			'Shampoo',
+			'Gift card $100',
+			'Any gift card',
+			'Gift card $50',
+			'Custom Gift Card',
+		];
+
+		const serviceElements = page.locator(
+			'li.ItemService .ItemService__name span',
+		);
+		await expect(serviceElements).toHaveCount(expectedServices.length);
+
+		for (let i = 0; i < expectedServices.length; i++) {
+			const serviceName = await serviceElements.nth(i).innerText();
+			expect(serviceName.trim()).toBe(expectedServices[i]);
+		}
+	},
+);
+
+Then(
 	'I should see the services displayed correctly in check-in',
 	async ({ page }) => {
 		const expectedServices = [
