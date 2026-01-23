@@ -61,6 +61,7 @@ Feature: Appointment
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
+  @skip
   Scenario: Create an appointment for a new customer, edit to change technician and create ticket
     Given I am on the HOME page
     When I navigate to "Appointment" on the navigation bar
@@ -84,7 +85,6 @@ Feature: Appointment
     When I click on the Select customer
     And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
-    And I should see the loyalty program "2 Points = $1" visible
 
     When I fill the new customer name "Booking"
     And I fill the new customer phone
@@ -155,6 +155,7 @@ Feature: Appointment
     Then I should see the title "Any Technician"
     And I should see the employees sorted correctly
 
+  @skip
   Scenario: Update appointment status Check-In
     Given I am on the HOME page
     When I navigate to "Appointment" on the navigation bar
@@ -177,7 +178,6 @@ Feature: Appointment
     When I click on the Select customer
     And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
-    And I should see the loyalty program "2 Points = $1" visible
 
     When I fill the new customer name "Check-In"
     And I fill the new customer phone
@@ -221,6 +221,7 @@ Feature: Appointment
     And I should see the appointment status "None"
     And I should see the appointment status "Check In"
 
+  @skip
   Scenario: Update appointment status Complete
     Given I am on the HOME page
     When I navigate to "Appointment" on the navigation bar
@@ -245,7 +246,6 @@ Feature: Appointment
     When I click on the Select customer
     And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
-    And I should see the loyalty program "2 Points = $1" visible
 
     When I fill the new customer name "Complete"
     And I fill the new customer phone

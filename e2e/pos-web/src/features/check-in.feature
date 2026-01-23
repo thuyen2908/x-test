@@ -1,7 +1,7 @@
 @slow @regression @smoke
 Feature: Check In
 
-  Scenario: Create a waiting for new customer, assign Service Package to Any Technician and create ticket
+    Scenario: Display categories and services correctly in check-in
     Given I am on the HOME page
     When I wait for the page fully loaded
     And I navigate to "Check In" on the navigation bar
@@ -13,10 +13,16 @@ Feature: Check In
     And I should see the services displayed correctly in check-in
     And I should see the "Next Available Service" service
 
-    When I click on the Select customer
+  Scenario: Assign a service package to any technician and use the default waiting list technician when creating a ticket
+    Given I am on the HOME page
+    When I wait for the page fully loaded
+    And I navigate to "Check In" on the navigation bar
+    Then I should be redirected to WAITING_LIST page
+
+    When I click on the "Add Customer" button in the waiting page
+    And I click on the Select customer
     And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
-    And I should see the loyalty program "2 Points = $1" visible
 
     When I fill the new customer name "Check-in"
     And I fill the new customer phone
@@ -125,22 +131,16 @@ Feature: Check In
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-  Scenario: Display service hint in ticket view
+  Scenario: Display service hint and get default quick sale technician when create ticket
     Given I am on the HOME page
     When I wait for the page fully loaded
     And I navigate to "Check In" on the navigation bar
     Then I should be redirected to WAITING_LIST page
 
     When I click on the "Add Customer" button in the waiting page
-    Then I should see the text "Create Waiting" visible
-    Then I should see the categories displayed correctly in check-in
-    And I should see the services displayed correctly in check-in
-    And I should see the "Next Available Service" service
-
-    When I click on the Select customer
+    And I click on the Select customer
     And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
-    And I should see the loyalty program "2 Points = $1" visible
 
     When I fill the new customer name "Waiting"
     And I fill the new customer phone
@@ -168,14 +168,14 @@ Feature: Check In
     When I click on the "Create Ticket" button
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
-    And I should see the user info "Anna" in the ticket
+    And I should see the user info "Christ" in the ticket
     And I should see the service hint
     And I should see the hint details "MANI & PEDI (Next Available)"
 
     When I wait for the page fully loaded
     And I add the "Acrylic removal" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see the "Anna" employee in my cart
+    And I should see the "Christ" employee in my cart
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -195,15 +195,9 @@ Feature: Check In
     Then I should be redirected to WAITING_LIST page
 
     When I click on the "Add Customer" button in the waiting page
-    Then I should see the text "Create Waiting" visible
-    Then I should see the categories displayed correctly in check-in
-    And I should see the services displayed correctly in check-in
-    And I should see the "Next Available Service" service
-
-    When I click on the Select customer
+    And I click on the Select customer
     And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
-    And I should see the loyalty program "2 Points = $1" visible
 
     When I fill the new customer name "Editing"
     And I fill the new customer phone
@@ -278,12 +272,7 @@ Feature: Check In
     Then I should be redirected to WAITING_LIST page
 
     When I click on the "Add Customer" button in the waiting page
-    Then I should see the text "Create Waiting" visible
-    Then I should see the categories displayed correctly in check-in
-    And I should see the services displayed correctly in check-in
-    And I should see the "Next Available Service" service
-
-    When I click on the Select customer
+    And I click on the Select customer
     And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
     And I should see the loyalty program "2 Points = $1" visible
@@ -322,14 +311,14 @@ Feature: Check In
     When I click on the "Create Ticket" button
     And I wait for the page fully loaded
     Then I should see the "Ticket View From Appointment" screen
-    And I should see the user info "Anna" in the ticket
+    And I should see the user info "Christ" in the ticket
     And I should see the service hint
     And I should see the hint details "FULL SET & FILL IN (Next Available)"
 
     When I wait for the page fully loaded
     And I add the "Fill gel" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see the "Anna" employee in my cart
+    And I should see the "Christ" employee in my cart
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -349,15 +338,9 @@ Feature: Check In
     Then I should be redirected to WAITING_LIST page
 
     When I click on the "Add Customer" button in the waiting page
-    Then I should see the text "Create Waiting" visible
-    Then I should see the categories displayed correctly in check-in
-    And I should see the services displayed correctly in check-in
-    And I should see the "Next Available Service" service
-
-    When I click on the Select customer
+    And I click on the Select customer
     And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
-    And I should see the loyalty program "2 Points = $1" visible
 
     When I fill the new customer name "Delete"
     And I fill the new customer phone
@@ -401,7 +384,6 @@ Feature: Check In
     When I click on the Select customer
     And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
-    And I should see the loyalty program "2 Points = $1" visible
 
     When I fill the new customer name "Update-user"
     And I fill the new customer phone
@@ -472,7 +454,6 @@ Feature: Check In
     When I click on the Select customer
     And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
-    And I should see the loyalty program "2 Points = $1" visible
 
     When I fill the new customer name "Recreate"
     And I fill the new customer phone

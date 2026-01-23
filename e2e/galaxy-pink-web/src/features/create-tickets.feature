@@ -685,24 +685,24 @@ Feature: Create tickets
     And I change price amount "35.7"
 
     When I click on the "Pay" button
-    And I enter the amount "20"
+    And I enter the amount "2020"
     And I select the "Gift" payment type
-    And I enter the amount "20"
+    And I enter the amount "2020"
     And I click on search
     Then I should see the gift card balance "$20.00" visible
     When  I wait for the page fully loaded
     And I click on the "OK" button
     And I wait for the page fully loaded
-    Then I should see the payment Gift history "Gift (20) $20.00" visible
+    Then I should see the payment Gift history "Gift (2020) $20.00" visible
 
     When I select the "Gift" payment type
-    And I enter the amount "20"
+    And I enter the amount "2020"
     And I click on search
     And I wait for the page fully loaded
     Then I should see the card value "$20.00" visible
 
     When I click on the "OK" button
-    Then I should see the toast message "Gift Card #20 does not have enough funds to pay." visible
+    Then I should see the toast message "Gift Card #2020 does not have enough funds to pay." visible
 
     When I click on the "Cancel" button
     And I wait for the page fully loaded
@@ -728,4 +728,26 @@ Feature: Create tickets
     And I select the reason "System Test"
     Then I should see a popup dialog with title "Confirm Void"
     When I click on the "confirm" button in the popup dialog
+    Then I should see the selected "SERVICE" tab on the Home page
+
+  Scenario: Add the Discount ticket while paying
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "6512"
+    Then I should see the employee "Jasmine" in the employee list
+    When I select the "Jasmine" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+
+    When I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I click on the "Pay" button
+    And I click on the function "DISCOUNT" payment
+    Then I should see the "Original Price (Owner)" option is active
+    And I should see the discount sorted correctly
+
+    When I select the discount "10% Off"
+    Then I should see the discount ticket detail "10% Off (Original Price)($0.60)" in my cart
+
+    When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page

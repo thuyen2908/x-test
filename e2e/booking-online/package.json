@@ -7,9 +7,9 @@
 	"scripts": {
 		"clean": "rimraf dist .turbo tsconfig.tsbuildinfo test-artifacts playwright-report",
 		"typecheck": "tsc --noEmit",
-		"bdd:watch": "nodemon -w src -e ts,feature --exec 'pnpm bddgen'",
+		"bdd:watch": "nodemon -w src -e ts,feature --exec \"pnpm bddgen\"",
 		"report": "playwright show-report playwright-report",
-		"bddgen": "pnpm exec bddgen --tags 'not @skip'",
+		"bddgen": "pnpm exec bddgen --tags \"not @skip\"",
 		"pretest": "bddgen",
 		"test": "playwright test",
 		"test:e2e": "playwright test",
@@ -17,14 +17,14 @@
 		"test:debug": "pnpm test --debug"
 	},
 	"devDependencies": {
-		"@dotenvx/dotenvx": "^1.51.0",
-		"@playwright/test": "^1.56.1",
-		"@types/node": "^22.18.12",
+		"@dotenvx/dotenvx": "^1.51.4",
+		"@playwright/test": "^1.57.0",
+		"@types/node": "^24.10.9",
 		"@x-test/common": "workspace:*",
-		"nodemon": "^3.1.10",
-		"playwright-bdd": "^8.4.1",
-		"rimraf": "^6.0.1",
+		"nodemon": "^3.1.11",
+		"playwright-bdd": "^8.4.2",
+		"rimraf": "^6.1.2",
 		"typescript": "^5.9.3",
-		"zod": "^4.1.12"
+		"zod": "^4.3.5"
 	}
 }

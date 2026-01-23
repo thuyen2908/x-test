@@ -1,6 +1,49 @@
 @slow @regression @smoke
 Feature: Create tickets
 
+  Scenario: Display the default loyalty program and loyalty program list when adding a new customer
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "0917"
+    Then I should see the employee "Dylan" in the employee list
+    When I select the "Dylan" employee
+    And I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I click on the Select customer
+    And I click on the "CLICK HERE TO ADD CUSTOMER" button
+    Then I should see a popup dialog with title "Create New Customer"
+    And I should see the loyalty program "2 Points = $1" visible
+    And I should see the loyalty program list displayed correctly
+
+  Scenario: Card fee is calculated correctly for cash discounts
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "0917"
+    Then I should see the employee "Dylan" in the employee list
+    When I select the "Dylan" employee
+    And I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I click on the "PAY" button
+    Then I should see the card price amount "$6.18" visible
+    And I should see the cash price amount "$6.00" visible
+
+  Scenario: Display correct category and service data
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "0917"
+    Then I should see the employee "Dylan" in the employee list
+    When I select the "Dylan" employee
+    Then I should see the "Ticket View" screen
+    And I should see the categories displayed correctly in ticket view
+
+    When I select the "MANI & PEDI" category
+    Then I should see all services in the first category displayed correctly
+    When I select the "FULL SET & FILL IN" category
+    Then I should see all services in the second category displayed correctly
+    When I select the "ADDITIONAL SERVICE" category
+    Then I should see all services in the third category displayed correctly
+    When I select the "GIFT CARD" category
+    Then I should see all services in the fourth category displayed correctly
+
   Scenario: Create a ticket for the Owner role
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1234"
@@ -57,7 +100,6 @@ Feature: Create tickets
     When I click on the Select customer
     And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
-    And I should see the loyalty program "2 Points = $1" visible
 
     When I fill the new customer name "Guest"
     And I fill the new customer phone
@@ -123,7 +165,7 @@ Feature: Create tickets
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
     And I should see the text "PAYMENT HISTORY" visible
-    And I should see the card price amount "$11.30" visible
+    And I should see the card price amount "$11.18" visible
     And I should see the cash price amount "$11.00" visible
 
     When I select the "Credit" payment type
@@ -865,32 +907,90 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-  @skip
-  Scenario: Add discount ticket while paying
-
-
-  Scenario: Display popup Pick other technician when no permission 
+  Scenario: Add the Discount ticket while paying
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "8526"
-    Then I should see the employee "Hung" in the employee list
-
-    When I select the "Hung" employee
+    When I clock in the timesheet with PIN "6512"
+    Then I should see the employee "Jasmine" in the employee list
+    When I select the "Jasmine" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
-    When I add the "Manicure" service to my cart
-    Then I should see a popup dialog with title "Pick Other Technician"
 
-    When I click on the "Addison" text inside the content section of the opening dialog
+    When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see the employee "Addison" in my cart
-    
+
     When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
+    And I click on the function "DISCOUNT" payment
+    Then I should see a popup dialog with title "Add Discount Ticket"
+    And I should see the "Owner Absorbs" option is checked
+
+    When I select the discount "Open Discount"
+    Then I should see the discount type "Percent" visible
+    When I enter the discount percent "10"
+    And I click on the "Add" button in the popup dialog
+    Then I should see the discount ticket non-zero
+
     When I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket" 
+    Then I should see a popup dialog with title "Close Ticket"
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
+  Scenario: Show earning today
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "0074"
+    Then I should see the employee "Paige" in the employee list
+    When I select the "Paige" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Gel removal" service
 
-    
+    When I add the "Gel removal" service to my cart
+    Then I should see my cart showing 1 item added
+    When I add the "Cut cuticle" service to my cart
+    Then I should see my cart showing 2 item added
+
+    When I click on the adding "Tip" button
+    Then I should see a popup dialog with title "Add Tip"
+    When I fill "5" from the numpad
+    Then I should see "$5.00" tip in my cart
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the text "PAYMENT HISTORY" visible
+    And I should see the card price amount "$56.50" visible
+    And I should see the cash price amount "$55.00" visible
+
+    When I select the "Credit" payment type
+    And I fill the last 4 digits of card number "1234"
+    And I click on the element with id "payment"
+    Then I should be redirected to HOME page
+
+    When I click to show earning today
+    And I enter the password "0074"
+		And I wait for the page fully loaded
+    Then I should see a popup dialog with title "Paige Earnings Today"
+    And I should see the text "COMMISSION $29.40" on the dialog
+    And I should see the text "TOTAL SALES $50.00" on the dialog
+    And I should see the text "TOTAL NON-CASH TIPS $5.00" on the dialog
+    And I should see the text "NET TOTAL SALES $49.00" on the dialog
+    When I click on the action button "OK" of the opening dialog
+
+    When I navigate to "Tickets" on the navigation bar
+    Then I should be redirected to CLOSED_TICKETS page
+
+    When I click on refresh
+    Then I should see the toast message "Ticket data refreshed successfully." visible
+    When I wait for the page fully loaded
+    And I search for "56.50"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$56.50"
+
+    When I click on the first row for payment "$56.50" to expand details
+    Then I should see the "Reopen ticket" button visible
+
+    When I click on the "Reopen ticket" button
+    And I wait for the page fully loaded
+    Then I should see the "Ticket View" screen
+    And I should see the user info "Paige" in the ticket
+
+    When I void the current open ticket with reason "System Test"
+    Then I should be redirected to HOME page

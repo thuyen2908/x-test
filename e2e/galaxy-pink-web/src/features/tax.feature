@@ -1,4 +1,4 @@
-@regression @smoke @slow
+@regression @slow @page
 Feature: Tax management
 
   Scenario: User can view the list of tax

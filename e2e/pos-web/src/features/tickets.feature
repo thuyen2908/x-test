@@ -34,7 +34,7 @@ Feature: Reopen tickets
 
     When I click on refresh
     And I wait for the page fully loaded
-    Then I should see the toast message "Refresh data ticket successfully." visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I search for "11.5"
     And I wait for the page fully loaded
     Then I should see the first ticket of payment "$11.50"
@@ -86,7 +86,7 @@ Feature: Reopen tickets
     Then I should be redirected to CLOSED_TICKETS page
 
     When I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully." visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
     And I search for "47"
     And I wait for the page fully loaded
@@ -150,13 +150,13 @@ Feature: Reopen tickets
     Then I should be redirected to CLOSED_TICKETS page
 
     When I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully." visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
-    And I search for "24.95"
+    And I search for "24.57"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$24.95"
+    Then I should see the first ticket of payment "$24.57"
 
-    When I click on the first row for payment "$24.95" to expand details
+    When I click on the first row for payment "$24.57" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -216,13 +216,13 @@ Feature: Reopen tickets
     Then I should be redirected to CLOSED_TICKETS page
 
     When I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully." visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
-    And I search for "12.6"
+    And I search for "12.36"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$12.60"
+    Then I should see the first ticket of payment "$12.36"
 
-    When I click on the first row for payment "$12.60" to expand details
+    When I click on the first row for payment "$12.36" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -236,7 +236,74 @@ Feature: Reopen tickets
     And I should see the payment history "VISA (1234)" visible
 
     When I click on the adjust tip icon
+    Then I should see a popup dialog containing the title "CONFIRM ADJUST TIP "
+    When I click on the action button "Adjust Tip" of the opening dialog
     Then I should see a popup dialog with title "Adjust Tip "
+    When I enter the amount "10"
+    And I click on the "Add Tip" button in the popup dialog
+    Then I should see the payment price contain amount "+ $10.00"
+
+    When I click on the "CLOSE TICKET" button
+    Then I should be redirected to HOME page
+
+  Scenario: Reopen ticket to adjust tip for Gift Card
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "8888"
+    Then I should see the employee "thanh" in the employee list
+
+    When I select the "thanh" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+
+    When I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I click on the total price of "Manicure"
+    Then I should see a popup dialog with title "Service: Manicure - $6.00"
+    When I change the price to "12"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$12.00" visible
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+
+    When I select the "Gift" payment type
+    Then I should see the "ID GIFT CARD" name
+    When I fill the Gift card with "0104"
+    And I click on the "CHECK BALANCE" button
+    Then I should see the "AMOUNT" name
+    When I select the title "AMOUNT"
+    And I enter the amount "12"
+    And I click on the element with id "payment"
+    # Then I should see the payment history "Gift (0104)" visible
+    # And I should see the payment price "$12.00"
+
+    When I navigate to "Tickets" on the navigation bar
+    Then I should be redirected to CLOSED_TICKETS page
+
+    When I click on refresh
+    Then I should see the toast message "Ticket data refreshed successfully." visible
+    When I wait for the page fully loaded
+    And I search for "12.00"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$12.00"
+
+    When I click on the first row for payment "$12.00" to expand details
+    Then I should see the "Reopen ticket" button visible
+
+    When I click on the "Reopen ticket" button
+    And I wait for the page fully loaded
+    Then I should see the "Ticket View" screen
+    And I should see the user info "thanh" in the ticket
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the text "PAYMENT HISTORY" visible
+    And I should see the payment history "Gift (0104)" visible
+
+    When I click on the adjust tip icon
+    Then I should see a popup dialog with title " CONFIRM ADJUST TIP"
+    When I click on the "Adjust Tip" button in the popup dialog
     When I enter the amount "10"
     And I click on the "Add Tip" button in the popup dialog
     Then I should see the payment price contain amount "+ $10.00"
@@ -276,7 +343,7 @@ Feature: Reopen tickets
     Then I should be redirected to CLOSED_TICKETS page
 
     When I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully." visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
     And I search for "23.5"
     And I wait for the page fully loaded
@@ -357,13 +424,13 @@ Feature: Reopen tickets
     Then I should be redirected to CLOSED_TICKETS page
 
     When I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully." visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
-    And I search for "28.10"
+    And I search for "27.66"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$28.10"
+    Then I should see the first ticket of payment "$27.66"
 
-    When I click on the first row for payment "$28.10" to expand details
+    When I click on the first row for payment "$27.66" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -414,7 +481,7 @@ Feature: Reopen tickets
     Then I should be redirected to CLOSED_TICKETS page
 
     When I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully." visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
     And I search for "15.5"
     And I wait for the page fully loaded
@@ -470,13 +537,13 @@ Feature: Reopen tickets
     Then I should be redirected to CLOSED_TICKETS page
 
     When I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully." visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
-    And I search for "16.8"
+    And I search for "16.48"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$16.80"
+    Then I should see the first ticket of payment "$16.48"
 
-    When I click on the first row for payment "$16.80" to expand details
+    When I click on the first row for payment "$16.48" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -518,13 +585,13 @@ Feature: Reopen tickets
     Then I should be redirected to CLOSED_TICKETS page
 
     When I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully." visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
-    And I search for "26.25"
+    And I search for "25.75"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$26.25"
+    Then I should see the first ticket of payment "$25.75"
 
-    When I click on the first row for payment "$26.25" to expand details
+    When I click on the first row for payment "$25.75" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -546,7 +613,7 @@ Feature: Reopen tickets
     When I click on the more menu for payment history of "VISA (1234)"
     Then I should see the tooltip remove
     When I click on the tooltip remove
-    Then I should see a popup dialog with title "VISA  - $26.25"
+    Then I should see a popup dialog with title "VISA  - $25.75"
     When I click on the "Remove" button in the popup dialog
 
     When I select the "Credit" payment type
@@ -594,7 +661,7 @@ Feature: Reopen tickets
     Then I should be redirected to CLOSED_TICKETS page
 
     When I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully." visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
     And I search for "77.5"
     And I wait for the page fully loaded
@@ -644,10 +711,10 @@ Feature: Reopen tickets
     When I add the "Gift card $50" service to my cart
     Then I should see a popup dialog with title "Activate Gift Card $50.00"
 
-    When I enter the amount "0403"
+    When I enter the amount "1903"
     And I click on the "OK" button in the popup dialog
     Then I should see my cart showing 2 item added
-    And I should see the service "Gift card $50 (0403)" in my cart
+    And I should see the service "Gift card $50 (1903)" in my cart
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -664,7 +731,7 @@ Feature: Reopen tickets
     Then I should be redirected to CLOSED_TICKETS page
 
     When I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully." visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
     And I search for "75.7"
     And I wait for the page fully loaded
@@ -680,7 +747,8 @@ Feature: Reopen tickets
 
     When I click on the item "VOID ITEM" button
     Then I should see a popup dialog with title "VOID MULTIPLE"
-    When I select the "Gift card $50 (0403)" service in the dialog
+    When I select the "Gift card $50 (1903)" service in the dialog
+    And I select the reason "Mistake"
     And I click on the "Void Items" button in the dialog
     Then I should see my cart showing 1 item added
 
@@ -707,11 +775,11 @@ Feature: Reopen tickets
     Then I should be redirected to GIFT_CARD_BALANCE page
     And I should see the text "Gift Card" visible
 
-    When I enter the amount "0403"
+    When I enter the amount "1903"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
     Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
-    And I should see a popup dialog with content "Do you want to activate gift card #0403"
+    And I should see a popup dialog with content "Do you want to activate gift card #1903"
 
   @skip
   Scenario: Remove loyalty balance when voiding ticket
@@ -826,7 +894,7 @@ Feature: Reopen tickets
     Then I should be redirected to CLOSED_TICKETS page
 
     When I click on refresh
-    Then I should see the toast message "Refresh data ticket successfully." visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
     And I search for "29.25"
     And I wait for the page fully loaded
@@ -834,7 +902,7 @@ Feature: Reopen tickets
 
     When I click on the first row for payment "$29.25" to expand details
     Then I should see the store logo on the receipt
-    And I should see the business info "BLANC NAILS 1032 YONKERS AVE Yonkers, NY 10704 (707) 707-1122" on the receipt
+    And I should see the business info "BLUE SALON 1032 YONKERS AVE Yonkers, NY 10704 (707) 707-1122" on the receipt
 
     Then I should see the date is today on the receipt
     And I should see the customer name "Loyalty" on the receipt

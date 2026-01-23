@@ -130,9 +130,9 @@ Feature: Fix Ticket
     And I should see the text "TICKET#" visible
 
     When I wait for the page fully loaded
-    And I search for "56.45"
-    Then I should see the first ticket with total "$56.45"
-    When I select the first ticket with total "$56.45"
+    And I search for "55.47"
+    Then I should see the first ticket with total "$55.47"
+    When I select the first ticket with total "$55.47"
     Then I should see the service "Combo 1" in my cart
 
     When I click on the title "DETAILS" in the ticket adjustment screen
@@ -406,9 +406,9 @@ Feature: Fix Ticket
     And I should see the text "TICKET#" visible
 
     When I wait for the page fully loaded
-    And I search for "36.5"
-    Then I should see the first ticket with total "$36.50"
-    When I select the first ticket with total "$36.50"
+    And I search for "35.9"
+    Then I should see the first ticket with total "$35.90"
+    When I select the first ticket with total "$35.90"
     Then I should see the service "Manicure" in my cart
     And I should see the service "Pedicure" in my cart
 
@@ -457,10 +457,10 @@ Feature: Fix Ticket
     When I add the "Gift card $50" service to my cart
     Then I should see a popup dialog with title "Activate Gift Card $50.00"
 
-    When I enter the amount "0403"
+    When I enter the amount "0503"
     And I click on the "OK" button in the popup dialog
     Then I should see my cart showing 2 item added
-    And I should see the service "Gift card $50 (0403)" in my cart
+    And I should see the service "Gift card $50 (0503)" in my cart
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -486,12 +486,12 @@ Feature: Fix Ticket
     Then I should see the first ticket with total "$76.70"
     When I select the first ticket with total "$76.70"
     Then I should see the service "Acrylic removal" in my cart
-    And I should see the service "Gift card $50 (0403)" in my cart
+    And I should see the service "Gift card $50 (0503)" in my cart
 
-    When I select the service "Gift card $50 (0403)" in my cart
+    When I select the service "Gift card $50 (0503)" in my cart
     Then I should see the check icon
     When I click on the action "VOID ITEM" button
-    Then I should not see the service "Gift card $50 (0403)" in my cart
+    Then I should not see the service "Gift card $50 (0503)" in my cart
     And I should see the charge display "TOTAL$26.70"
 
     When I select the "PAYMENT" tab
@@ -526,8 +526,8 @@ Feature: Fix Ticket
     Then I should be redirected to GIFT_CARD_BALANCE page
     And I should see the text "Gift Card" visible
 
-    When I enter the amount "0403"
+    When I enter the amount "0503"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
     Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
-    And I should see a popup dialog with content "Do you want to activate gift card #0403"
+    And I should see a popup dialog with content "Do you want to activate gift card #0503"

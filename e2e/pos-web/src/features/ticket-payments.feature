@@ -1,4 +1,4 @@
-@slow @regression @smoke
+@regression @slow @page
 Feature: Ticket Payments
 
   Scenario: Display the correct page title and nav tabs

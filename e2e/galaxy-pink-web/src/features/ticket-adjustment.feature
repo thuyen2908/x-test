@@ -468,4 +468,4 @@ Feature: Ticket adjustment
     When I enter the amount "0403"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
-    Then I should see the toast message "Cannot find this Gift Card." visible
+    Then I should see the toast message "Can't find this gift card." visible

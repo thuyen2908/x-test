@@ -3,9 +3,12 @@ Feature: Refund
 
   Scenario: Create a refund ticket and pay with Cash
     Given I am on the HOME page
+    When I clock in the timesheet with PIN "6876"
+    Then I should see the employee "Christ" in the employee list
     When I wait for the page fully loaded
     And I click on the header menu
     And I select the "Refund" label in the menu list
+    And I wait for the page fully loaded
     Then I should see a popup dialog with title "Create Ticket Refund"
     And I should see the employee "Christ" in the popup dialog
     And I should see the "Add Commission" option is checked

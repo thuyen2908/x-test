@@ -13,7 +13,7 @@ Then(
 
 		await page.waitForURL(pageUrl);
 		await expect(page).toHaveURL(pageUrl);
-		await page.waitForTimeout(5000);
+		await page.waitForTimeout(2000);
 	},
 );
 
@@ -1222,7 +1222,9 @@ When(
 	async ({ page }, label: string) => {
 		const labelElement = page
 			.locator('div.xMenu__link span')
-			.filter({ hasText: label });
+			.getByText(label, { exact: true });
+
+		await expect(labelElement).toBeVisible();
 		await labelElement.click();
 	},
 );
@@ -1501,6 +1503,117 @@ When(
 		await expect(appointmentElement).toBeVisible();
 		await expect(appointmentElement).toContainText(customerName);
 		await appointmentElement.click();
+	},
+);
+
+Then(
+	'I should see the categories displayed correctly in ticket view',
+	async ({ page }) => {
+		const expectedCategories = [
+			'MANI & PEDI',
+			'FULL SET & FILL IN',
+			'ADDITIONAL SERVICE',
+			'GIFT CARD',
+		];
+
+		const categoryElements = page.locator('[role="tablist"] span');
+		await expect(categoryElements).toHaveCount(expectedCategories.length);
+
+		for (let i = 0; i < expectedCategories.length; i++) {
+			const categoryName = await categoryElements.nth(i).innerText();
+			expect(categoryName.trim()).toBe(expectedCategories[i]);
+		}
+	},
+);
+
+Then(
+	'I should see all services in the first category displayed correctly',
+	async ({ page }) => {
+		const expectedServices = [
+			'Manicure',
+			'Pedicure',
+			'Cut cuticle',
+			'Gel removal',
+			'Acrylic removal',
+			'Gel X',
+			'Request price',
+			'Combo 1',
+			'Combo 2',
+			'Supper combo',
+		];
+
+		const serviceElements = page.locator(
+			'li.ItemService .ItemService__name span',
+		);
+		await expect(serviceElements).toHaveCount(expectedServices.length);
+
+		for (let i = 0; i < expectedServices.length; i++) {
+			const serviceName = await serviceElements.nth(i).innerText();
+			expect(serviceName.trim()).toBe(expectedServices[i]);
+		}
+	},
+);
+
+Then(
+	'I should see all services in the second category displayed correctly',
+	async ({ page }) => {
+		const expectedServices = [
+			'Full set',
+			'Fill gel',
+			'Gel polish',
+			'French full set',
+			'Taxable',
+		];
+
+		const serviceElements = page.locator(
+			'li.ItemService .ItemService__name span',
+		);
+		await expect(serviceElements).toHaveCount(expectedServices.length);
+
+		for (let i = 0; i < expectedServices.length; i++) {
+			const serviceName = await serviceElements.nth(i).innerText();
+			expect(serviceName.trim()).toBe(expectedServices[i]);
+		}
+	},
+);
+
+Then(
+	'I should see all services in the third category displayed correctly',
+	async ({ page }) => {
+		const expectedServices = ['Ombre'];
+
+		const serviceElements = page.locator(
+			'li.ItemService .ItemService__name span',
+		);
+		await expect(serviceElements).toHaveCount(expectedServices.length);
+
+		for (let i = 0; i < expectedServices.length; i++) {
+			const serviceName = await serviceElements.nth(i).innerText();
+			expect(serviceName.trim()).toBe(expectedServices[i]);
+		}
+	},
+);
+
+Then(
+	'I should see all services in the fourth category displayed correctly',
+	async ({ page }) => {
+		const expectedServices = [
+			'Shampoo',
+			'Gift card $100',
+			'Any gift card',
+			'Gift card $50',
+			'Custom Gift Card',
+		];
+
+		const serviceElements = page.locator(
+			'li.ItemService .ItemService__name span',
+		);
+		await expect(serviceElements).toHaveCount(expectedServices.length);
+
+		for (let i = 0; i < expectedServices.length; i++) {
+			const serviceName = await serviceElements.nth(i).innerText();
+			expect(serviceName.trim()).toBe(expectedServices[i]);
+		}
 	},
 );
 
@@ -1897,11 +2010,13 @@ Then('I should see the Ticket table displayed correctly', async ({ page }) => {
 });
 
 Then('I should see both date pickers default to today', async ({ page }) => {
-	const today = new Date();
-	const formattedToday = today.toLocaleDateString('en-US', {
-		year: 'numeric',
-		month: '2-digit',
-		day: '2-digit',
+	const formattedToday = await page.evaluate(() => {
+		const today = new Date();
+		return today.toLocaleDateString('en-US', {
+			year: 'numeric',
+			month: '2-digit',
+			day: '2-digit',
+		});
 	}); // Example: "07/03/2025"
 
 	const datePickers = page.locator('button.button-date-calendar');
@@ -2259,7 +2374,7 @@ Then(
 );
 
 Then('I should see the store logo on the receipt', async ({ page }) => {
-	await expect(page.locator('img[alt="BLANC NAILS"]')).toBeVisible();
+	await expect(page.locator('img[alt="BLUE SALON"]')).toBeVisible();
 });
 
 Then(
@@ -2280,11 +2395,13 @@ Then('I should see the date is today on the receipt', async ({ page }) => {
 		.locator('table >> text=Date')
 		.locator('xpath=following-sibling::td[1]');
 	const receiptDateText = await dateCell.innerText();
-	const today = new Date();
-	const formattedToday = today.toLocaleDateString('en-US', {
-		year: 'numeric',
-		month: '2-digit',
-		day: '2-digit',
+	const formattedToday = await page.evaluate(() => {
+		const today = new Date();
+		return today.toLocaleDateString('en-US', {
+			year: 'numeric',
+			month: '2-digit',
+			day: '2-digit',
+		});
 	});
 	expect(receiptDateText).toContain(formattedToday);
 });
@@ -2483,3 +2600,75 @@ When('I click on the sync appointment icon', async ({ page }) => {
 	await expect(syncAppt).toBeVisible();
 	await syncAppt.click();
 });
+
+When(
+	'I click on the function {string} payment',
+	async ({ page }, option: string) => {
+		const functionButton = page.locator('ul.xMultiple li').getByText(option);
+		await expect(functionButton).toBeVisible();
+		await functionButton.click();
+	},
+);
+
+When('I click to show earning today', async ({ page }) => {
+	const earningToday = page.locator('[data-testid="TechnicianEarningIcon"]');
+	await expect(earningToday).toBeVisible();
+	await earningToday.click();
+});
+
+When('I enter the password {string}', async ({ page }, password: string) => {
+	for (const digit of password) {
+		await page
+			.locator(`button.key:has(span.text-num:has-text("${digit}"))`)
+			.click();
+	}
+	const confirmButton = page.getByRole('button', { name: 'CONFIRM' });
+	await expect(confirmButton).toBeVisible();
+	await confirmButton.click();
+	await page.waitForTimeout(5000);
+});
+
+Then(
+	'I should see the text {string} on the dialog',
+	async ({ page }, text: string) => {
+		const dialog = page.getByRole('dialog');
+		await expect(dialog).toBeVisible({ timeout: 10000 });
+
+		if (text.includes('$')) {
+			const parts = text.split('$');
+			if (parts.length >= 2) {
+				const label = parts[0]?.trim() || '';
+				const amount = `$${parts[1]?.trim() || ''}`;
+
+				const labelElement = dialog
+					.locator('p')
+					.getByText(label, { exact: true });
+				const amountElement = dialog
+					.locator('p')
+					.getByText(amount, { exact: true });
+				await expect(labelElement).toBeVisible();
+				await expect(amountElement).toBeVisible();
+				return;
+			}
+		}
+
+		const textElement = dialog.locator('p').getByText(text);
+		await expect(textElement).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the loyalty program list displayed correctly',
+	async ({ page }) => {
+		await page.locator('#mui-component-select-loyaltyProgramId').click();
+		const listbox = page.getByRole('listbox');
+		await expect(listbox).toBeVisible();
+		const options = page.getByRole('option');
+
+		await expect(options).toHaveText([
+			'=== NONE ===',
+			'1 Point for $1',
+			'2 Points = $1',
+		]);
+	},
+);
