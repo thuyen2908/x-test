@@ -38,7 +38,7 @@ workflows:
 
           project: galaxy-pink-web
 
-  # ------------------------ Report deploying pipelines ----------------------- #
+      # ------------------------ Report deploying pipelines ----------------------- #
 
       - Collect test results and generate Allure Report:
           <<: *trigger_on_main_only
@@ -118,7 +118,7 @@ aliases:
     run:
       name: Build monorepo packages
       environment:
-        TURBO_UI: 'false'
+        TURBO_UI: "false"
       command: pnpm build
 
 # ---------------------------------------------------------------------------- #
@@ -267,7 +267,7 @@ jobs:
           name: Install Playwright browsers
           command: pnpm playwright:install-browsers
       - run:
-          name: 'Run tests for project: << parameters.project >>'
+          name: "Run tests for project: << parameters.project >>"
           # intentionally using `|| true` to avoid failing the job if tests fail
           # the evaluation of test results is done in the below "Evaluate testing results" step
           command: |
@@ -347,9 +347,11 @@ jobs:
           name: Retain the history from previous report
           command: |
             cd e2e/<< parameters.project >>
-            mkdir ./allure-results/history
+            mkdir -p ./allure-results/history
 
-            cp -a ./report-<< parameters.project >>/history/. ./allure-results/history/
+            if [ -d "./report-<< parameters.project >>/history" ]; then
+              cp -a ./report-<< parameters.project >>/history/. ./allure-results/history/
+            fi
 
       - run:
           name: Generate Allure Report
