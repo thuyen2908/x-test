@@ -395,7 +395,7 @@ jobs:
           name: Copy report files to the cloned repo
           command: |
             cd report-<< parameters.project >>
-            git rm -r *
+            git rm -r * 2>/dev/null || true
             cp -a ../e2e/<< parameters.project >>/allure-report/. ./
       - run:
           name: Verify copied files
