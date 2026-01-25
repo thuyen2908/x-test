@@ -30,6 +30,14 @@ workflows:
 
           project: pos-web
 
+      - Run Playwright tests:
+          <<: *trigger_on_main_only
+          name: Run tests for "galaxy-pink-web"
+          requires:
+            - Build
+
+          project: galaxy-pink-web
+
   # ------------------------ Report deploying pipelines ----------------------- #
 
       - Collect test results and generate Allure Report:
@@ -49,6 +57,26 @@ workflows:
             - Collect test results and generate Allure Report for "pos-web"
 
           project: pos-web
+
+      - Collect test results and generate Allure Report:
+          <<: *trigger_on_main_only
+          name: Collect test results and generate Allure Report for "galaxy-pink-web"
+          requires:
+            - Run tests for "galaxy-pink-web":
+                - success
+                - failed
+
+          project: galaxy-pink-web
+          report_repo_origin: REPORT_GALAXY_PINK_WEB_ORIGIN
+
+      - Deploy project report:
+          <<: *trigger_on_main_only
+          name: Deploy report for "galaxy-pink-web"
+          requires:
+            - Collect test results and generate Allure Report for "galaxy-pink-web"
+
+          project: galaxy-pink-web
+          report_repo_origin: REPORT_GALAXY_PINK_WEB_ORIGIN
 
 # ---------------------------------------------------------------------------- #
 #                                    Aliases                                   #
@@ -280,6 +308,9 @@ jobs:
     parameters:
       project:
         type: string
+      report_repo_origin:
+        type: env_var_name
+        default: REPORT_POS_WEB_ORIGIN
     steps:
       - checkout
       - *restore_pnpm_cache
@@ -310,7 +341,7 @@ jobs:
           destination: test-artifacts.zip
 
       - clone_github_repo:
-          repo_origin: $REPORT_POS_WEB_ORIGIN
+          repo_origin: $<< parameters.report_repo_origin >>
           clone_path: e2e/<< parameters.project >>/report-<< parameters.project >>
       - run:
           name: Retain the history from previous report
@@ -344,6 +375,9 @@ jobs:
     parameters:
       project:
         type: string
+      report_repo_origin:
+        type: env_var_name
+        default: REPORT_POS_WEB_ORIGIN
     steps:
       - attach_workspace:
           at: .
@@ -352,7 +386,7 @@ jobs:
           command: ls -la e2e/<< parameters.project >>/allure-report
 
       - clone_github_repo:
-          repo_origin: $REPORT_POS_WEB_ORIGIN
+          repo_origin: $<< parameters.report_repo_origin >>
           clone_path: report-<< parameters.project >>
 
       - run:
