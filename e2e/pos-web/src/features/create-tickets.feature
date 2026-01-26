@@ -173,7 +173,7 @@ Feature: Create tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-  Scenario: Create a ticket and pay with Gift Card type
+  Scenario: Verify that the balance is updated correctly when paying with a gift card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0404"
     Then I should see the employee "Emma" in the employee list
@@ -190,10 +190,25 @@ Feature: Create tickets
 
     When I select the "Gift" payment type
     Then I should see the "ID GIFT CARD" name
-    When I fill the Gift card with "1111"
+    When I fill the Gift card with "1403"
     And I click on the "CHECK BALANCE" button
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
+
+    When I navigate to "Appointment" on the navigation bar
+    And I navigate to "Balance" on the navigation bar
+    And I navigate to "Gift Card" on the navigation bar
+    Then I should be redirected to GIFT_CARD_BALANCE page
+    And I should see the text "Gift Card" visible
+
+    When I enter the amount "1403"
+    And I click on the "SEARCH" button
+    And I wait for the page fully loaded
+
+    Then I should see the text "DETAILS" visible
+    And I should see the first date is today in the gift card detail list
+    And I should see the first type "Redeem" in the gift card detail list
+    And I should see the first amount "($6.00)" in the gift card detail list
 
   Scenario: Create a ticket and pay with Zelle type
     Given I am on the HOME page
