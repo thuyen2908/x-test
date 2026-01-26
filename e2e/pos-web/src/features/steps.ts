@@ -765,6 +765,23 @@ Then(
 );
 
 Then(
+	'I should see the first date is not today in the gift card detail list',
+	async ({ page }) => {
+		const firstDateCell = page
+			.locator('.MuiDataGrid-row')
+			.first()
+			.locator('.MuiDataGrid-cell[data-field="createdAt"]');
+		const today = new Date();
+		const formattedToday = today.toLocaleDateString('en-US', {
+			year: 'numeric',
+			month: '2-digit',
+			day: '2-digit',
+		});
+		await expect(firstDateCell).not.toContainText(formattedToday);
+	},
+);
+
+Then(
 	'I should see the note {string} visible',
 	async ({ page }, note: string) =>
 		await expect(page.locator('.xTicketItems__note')).toContainText(note),

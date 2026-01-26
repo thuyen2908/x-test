@@ -621,7 +621,7 @@ Feature: Reopen tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-  Scenario: Sell a new Gift Card then void ticket
+  Scenario: Verify that the gift card balance is updated correctly when selling an add-on gift card and then voiding the ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2463"
     Then I should see the employee "Isabella" in the employee list
@@ -643,6 +643,8 @@ Feature: Reopen tickets
 
     When I enter the amount "1703"
     And I click on the "OK" button in the popup dialog
+    Then I should see the number card "1703" visible
+    When I click on the "ADD ON" button in the popup dialog
     Then I should see my cart showing 1 item added
     And I should see the service "Gift card $50 (1703)" in my cart
 
@@ -688,8 +690,11 @@ Feature: Reopen tickets
     When I enter the amount "1703"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
-    Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
-    And I should see a popup dialog with content "Do you want to activate gift card #1703"
+
+    Then I should see the text "DETAILS" visible
+    And I should see the first date is not today in the gift card detail list
+    And I should see the first type "ActivateNew" in the gift card detail list
+    And I should see the first amount "$50.00" in the gift card detail list
 
   Scenario: Sell a new Gift Card then void item Gift Card
     Given I am on the HOME page
