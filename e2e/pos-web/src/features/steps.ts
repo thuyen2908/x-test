@@ -1643,6 +1643,7 @@ Then(
 			'Gift card $100',
 			'Any gift card',
 			'Gift card $50',
+			'Gift Card $199',
 			'Custom Gift Card',
 		];
 
