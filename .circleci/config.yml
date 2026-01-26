@@ -68,6 +68,7 @@ workflows:
 
           project: galaxy-pink-web
           report_repo_origin: REPORT_GALAXY_PINK_WEB_ORIGIN
+          deploy_key_fingerprint: REPORT_GALAXY_PINK_WEB_DEPLOY_KEY_FINGERPRINT
 
       - Deploy project report:
           <<: *trigger_on_main_only
@@ -77,6 +78,7 @@ workflows:
 
           project: galaxy-pink-web
           report_repo_origin: REPORT_GALAXY_PINK_WEB_ORIGIN
+          deploy_key_fingerprint: REPORT_GALAXY_PINK_WEB_DEPLOY_KEY_FINGERPRINT
 
 # ---------------------------------------------------------------------------- #
 #                                    Aliases                                   #
@@ -207,17 +209,19 @@ commands:
         type: string
       clone_path:
         type: string
+      deploy_key_fingerprint:
+        type: env_var_name
     steps:
       - add_ssh_keys:
           fingerprints:
-            - $GITHUB_DEPLOY_KEY_FINGERPRINT
+            - $<< parameters.deploy_key_fingerprint >>
       - run:
           name: Clone Github repository
           command: |
             mkdir -p ~/.ssh
             touch ~/.ssh/known_hosts
             ssh-keyscan github.com >> ~/.ssh/known_hosts
-            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa_$GITHUB_DEPLOY_KEY_FINGERPRINT" git clone --depth=1 << parameters.repo_origin >> << parameters.clone_path >>
+            GIT_SSH_COMMAND="ssh -i ~/.ssh/id_rsa_$<< parameters.deploy_key_fingerprint >>" git clone --depth=1 << parameters.repo_origin >> << parameters.clone_path >>
 
 # ---------------------------------------------------------------------------- #
 #                                     Jobs                                     #
@@ -311,6 +315,9 @@ jobs:
       report_repo_origin:
         type: env_var_name
         default: REPORT_POS_WEB_ORIGIN
+      deploy_key_fingerprint:
+        type: env_var_name
+        default: REPORT_POS_WEB_DEPLOY_KEY_FINGERPRINT
     steps:
       - checkout
       - *restore_pnpm_cache
@@ -343,6 +350,7 @@ jobs:
       - clone_github_repo:
           repo_origin: $<< parameters.report_repo_origin >>
           clone_path: e2e/<< parameters.project >>/report-<< parameters.project >>
+          deploy_key_fingerprint: << parameters.deploy_key_fingerprint >>
       - run:
           name: Retain the history from previous report
           command: |
@@ -380,6 +388,9 @@ jobs:
       report_repo_origin:
         type: env_var_name
         default: REPORT_POS_WEB_ORIGIN
+      deploy_key_fingerprint:
+        type: env_var_name
+        default: REPORT_POS_WEB_DEPLOY_KEY_FINGERPRINT
     steps:
       - attach_workspace:
           at: .
@@ -390,6 +401,7 @@ jobs:
       - clone_github_repo:
           repo_origin: $<< parameters.report_repo_origin >>
           clone_path: report-<< parameters.project >>
+          deploy_key_fingerprint: << parameters.deploy_key_fingerprint >>
 
       - run:
           name: Copy report files to the cloned repo
