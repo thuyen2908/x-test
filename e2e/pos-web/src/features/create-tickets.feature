@@ -479,8 +479,8 @@ Feature: Create tickets
     When I enter the amount "0018"
     And I click on the "OK" button in the popup dialog
     Then I should see the number card "0018" visible
-    Then My cart should contain "1" item
-    And My cart should contain "Gift Card $199 (0018)"
+    Then I should see my cart showing 1 item added
+    Then I should see the service "Gift Card $199 (0018)" in my cart
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
