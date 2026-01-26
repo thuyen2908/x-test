@@ -754,13 +754,34 @@ Then(
 			.locator('.MuiDataGrid-row')
 			.first()
 			.locator('.MuiDataGrid-cell[data-field="createdAt"]');
-		const today = new Date();
-		const formattedToday = today.toLocaleDateString('en-US', {
-			year: 'numeric',
-			month: '2-digit',
-			day: '2-digit',
+		const formattedToday = await page.evaluate(() => {
+			const today = new Date();
+			return today.toLocaleDateString('en-US', {
+				year: 'numeric',
+				month: '2-digit',
+				day: '2-digit',
+			});
 		});
 		await expect(firstDateCell).toContainText(formattedToday);
+	},
+);
+
+Then(
+	'I should see the first date is not today in the gift card detail list',
+	async ({ page }) => {
+		const firstDateCell = page
+			.locator('.MuiDataGrid-row')
+			.first()
+			.locator('.MuiDataGrid-cell[data-field="createdAt"]');
+		const formattedToday = await page.evaluate(() => {
+			const today = new Date();
+			return today.toLocaleDateString('en-US', {
+				year: 'numeric',
+				month: '2-digit',
+				day: '2-digit',
+			});
+		});
+		await expect(firstDateCell).not.toContainText(formattedToday);
 	},
 );
 
