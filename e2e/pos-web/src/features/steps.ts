@@ -1249,7 +1249,10 @@ When(
 When(
 	'I select the {string} employee from the technician dropdown in the dialog',
 	async ({ page }, employee: string) => {
-		await page.locator('.MuiInputBase-root ').nth(1).click();
+		// Scope to the dialog and select the technician dropdown by accessible name
+		const dialog = page.getByRole('dialog');
+		await dialog.getByRole('combobox', { name: /technician/i }).click();
+
 		await page.waitForSelector('ul.MuiAutocomplete-listbox', {
 			state: 'visible',
 		});

@@ -330,7 +330,7 @@ Feature: Appointment
     When I select the "Bella" employee from the technician dropdown in the dialog
     And I fill the start time "08:00 AM"
     And I fill the end time "09:00 AM"
-    And I fill the reason block "Off a hour"
+    And I fill the reason block "Off for an hour"
     And I click on the "Save" button
     And I wait for the page fully loaded
     Then I should see the toast message "Blocked time for Bella has been saved successfully." visible
@@ -341,7 +341,10 @@ Feature: Appointment
     When I select the last booking in the time slot at "Blocked Time"
     And I click on the "Delete" button
     Then I should see a popup dialog with title "Confirm Delete"
-    And I should see a popup dialog with content "Are you sure you want to delete?Blocked TimeTechnician: Bella08:00 AM - 09:00 AM"
+    And I should see a popup dialog with content "Are you sure you want to delete?"
+    And I should see a popup dialog with content "Blocked Time"
+    And I should see a popup dialog with content "Technician: Bella"
+    And I should see a popup dialog with content "08:00 AM - 09:00 AM"
     When I click on the "confirm" button in the popup dialog
     Then I should see the toast message "Blocked time for Bella has been deleted successfully!" visible
 
@@ -368,7 +371,10 @@ Feature: Appointment
     When I select the last booking in the time slot at "Blocked Time"
     And I click on the "Delete" button
     Then I should see a popup dialog with title "Confirm Delete"
-    And I should see a popup dialog with content "Are you sure you want to delete?Blocked TimeTechnician: Anna12:00 AM - 11:59 PM "
+    And I should see a popup dialog with content "Are you sure you want to delete?"
+    And I should see a popup dialog with content "Blocked Time"
+    And I should see a popup dialog with content "Technician: Anna"
+    And I should see a popup dialog with content "12:00 AM - 11:59 PM"
     When I click on the "confirm" button in the popup dialog
     Then I should see the toast message "Blocked time for Anna has been deleted successfully!" visible
 
