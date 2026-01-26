@@ -1246,6 +1246,26 @@ When(
 	},
 );
 
+When(
+	'I select the {string} employee from the technician dropdown in the dialog',
+	async ({ page }, employee: string) => {
+		// Scope to the dialog and select the technician dropdown by accessible name
+		const dialog = page.getByRole('dialog');
+		await dialog.getByRole('combobox', { name: /technician/i }).click();
+
+		await page.waitForSelector('ul.MuiAutocomplete-listbox', {
+			state: 'visible',
+		});
+
+		const option = page
+			.locator('li.MuiAutocomplete-option')
+			.filter({ hasText: employee });
+
+		await expect(option).toBeVisible();
+		await option.click();
+	},
+);
+
 Then('I should see the title {string}', async ({ page }, employee: string) => {
 	const employeeElement = page.locator('.header-title').getByText(employee);
 	await expect(employeeElement).toContainText(employee);
@@ -1934,6 +1954,43 @@ Then(
 		await expect(dayElement).toContainText(day);
 	},
 );
+
+When('I fill the start time {string}', async ({ page }, startTime: string) => {
+	const startTimeInput = page
+		.locator('.MuiInputBase-root')
+		.nth(3)
+		.locator('input');
+
+	await expect(startTimeInput).toBeVisible();
+	await startTimeInput.fill(startTime);
+	await expect(startTimeInput).toHaveValue(startTime);
+});
+
+When('I fill the end time {string}', async ({ page }, endTime: string) => {
+	const endTimeInput = page
+		.locator('.MuiInputBase-root')
+		.nth(5)
+		.locator('input');
+
+	await expect(endTimeInput).toBeVisible();
+	await endTimeInput.fill(endTime);
+	await expect(endTimeInput).toHaveValue(endTime);
+});
+
+When('I fill the reason block {string}', async ({ page }, reason: string) => {
+	const reasonInput = page.locator('textarea[name="blockReason"]');
+	await reasonInput.fill(reason);
+});
+
+When('I switch ON {string}', async ({ page }, labelName: string) => {
+	const switchElement = page
+		.locator('.MuiFormControlLabel-root')
+		.filter({ hasText: labelName })
+		.locator('input[type="checkbox"]');
+
+	await switchElement.check();
+	await expect(switchElement).toBeChecked();
+});
 
 Then(
 	'I should see an employee row with:',

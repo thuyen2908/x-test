@@ -44,7 +44,7 @@ Feature: Create tickets
     When I select the "GIFT CARD" category
     Then I should see all services in the fourth category displayed correctly
 
-  Scenario: Create a ticket for the Owner role
+  Scenario: Create a ticket then pay by Cash
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1234"
     Then I should see the employee "Owner" in the employee list

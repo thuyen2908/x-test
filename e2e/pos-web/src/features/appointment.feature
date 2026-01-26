@@ -317,6 +317,67 @@ Feature: Appointment
     When I select view "Week"
     Then I should see the start of the week as "Tue"
 
+  Scenario: Add and delete block time slot
+    Given I am on the HOME page
+    When I navigate to "Appointment" on the navigation bar
+    Then I should be redirected to APPOINTMENT page
+
+    When I wait for the page fully loaded
+    Then I should see the title "Any Technician"
+    When I click on the "Block" button
+    Then I should see a popup dialog containing the title "Create Blocked Time"
+
+    When I select the "Bella" employee from the technician dropdown in the dialog
+    And I fill the start time "08:00 AM"
+    And I fill the end time "09:00 AM"
+    And I fill the reason block "Off for an hour"
+    And I click on the "Save" button
+    And I wait for the page fully loaded
+    Then I should see the toast message "Blocked time for Bella has been saved successfully." visible
+
+    When I select the "Bella" employee from the technician dropdown
+    Then I should see the title "Bella"
+
+    When I select the last booking in the time slot at "Blocked Time"
+    And I click on the "Delete" button
+    Then I should see a popup dialog with title "Confirm Delete"
+    And I should see a popup dialog with content "Are you sure you want to delete?"
+    And I should see a popup dialog with content "Blocked Time"
+    And I should see a popup dialog with content "Technician: Bella"
+    And I should see a popup dialog with content "08:00 AM - 09:00 AM"
+    When I click on the "confirm" button in the popup dialog
+    Then I should see the toast message "Blocked time for Bella has been deleted successfully!" visible
+
+  Scenario: Add and delete block time ALL DAY
+    Given I am on the HOME page
+    When I navigate to "Appointment" on the navigation bar
+    Then I should be redirected to APPOINTMENT page
+
+    When I wait for the page fully loaded
+    Then I should see the title "Any Technician"
+    When I click on the "Block" button
+    Then I should see a popup dialog containing the title "Create Blocked Time"
+
+    When I select the "Anna" employee from the technician dropdown in the dialog
+    And I switch ON "All Day"
+    And I fill the reason block "Block all day"
+    And I click on the "Save" button
+    And I wait for the page fully loaded
+    Then I should see the toast message "Blocked time for Anna has been saved successfully." visible
+
+    When I select the "Anna" employee from the technician dropdown
+    Then I should see the title "Anna"
+
+    When I select the last booking in the time slot at "Blocked Time"
+    And I click on the "Delete" button
+    Then I should see a popup dialog with title "Confirm Delete"
+    And I should see a popup dialog with content "Are you sure you want to delete?"
+    And I should see a popup dialog with content "Blocked Time"
+    And I should see a popup dialog with content "Technician: Anna"
+    And I should see a popup dialog with content "12:00 AM - 11:59 PM"
+    When I click on the "confirm" button in the popup dialog
+    Then I should see the toast message "Blocked time for Anna has been deleted successfully!" visible
+
   @skip
   Scenario: Drag and drop the appointment
     Given I am on the HOME page
