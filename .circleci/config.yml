@@ -214,7 +214,8 @@ commands:
     steps:
       - add_ssh_keys:
           fingerprints:
-            - $<< parameters.deploy_key_fingerprint >>
+            - $REPORT_POS_WEB_DEPLOY_KEY_FINGERPRINT
+            - $REPORT_GALAXY_PINK_WEB_DEPLOY_KEY_FINGERPRINT
       - run:
           name: Clone Github repository
           command: |
