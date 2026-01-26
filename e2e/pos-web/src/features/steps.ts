@@ -2766,3 +2766,221 @@ Then(
 		]);
 	},
 );
+
+// Payroll Steps
+Then('I should see the Payroll Date default to today', async ({ page }) => {
+	const today = new Date();
+	const month = today.getMonth() + 1;
+	const day = today.getDate();
+	const year = today.getFullYear();
+	const formattedDate = `${month}/${day}/${year}`;
+
+	const payrollDateRow = page
+		.locator('table tbody tr')
+		.filter({ hasText: 'Payroll Date' });
+	const dateCell = payrollDateRow.locator('td').nth(1);
+
+	await expect(dateCell).toBeVisible();
+	const dateText = await dateCell.textContent();
+	expect(dateText).toContain(formattedDate);
+});
+
+Then(
+	'I should see the technician name {string} in the employee view',
+	async ({ page }, technicianName: string) => {
+		const technicianRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Technician' });
+		const nameCell = technicianRow.locator('td').nth(1);
+
+		await expect(nameCell).toBeVisible();
+		await expect(nameCell).toHaveText(technicianName);
+	},
+);
+
+Then(
+	'I should see the payroll type {string} in the employee view',
+	async ({ page }, payrollType: string) => {
+		const typeRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Payroll Type' });
+		const typeCell = typeRow.locator('td').nth(1);
+
+		await expect(typeCell).toBeVisible();
+		await expect(typeCell).toHaveText(payrollType);
+	},
+);
+
+Then(
+	'I should see the # of Work Days {string} in the employee view',
+	async ({ page }, workDays: string) => {
+		const workDaysRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: '# of Work Days' });
+		const workDaysCell = workDaysRow.locator('td').nth(1);
+
+		await expect(workDaysCell).toBeVisible();
+		await expect(workDaysCell).toHaveText(workDays);
+	},
+);
+
+Then(
+	'I should see the text {string} in the employee view',
+	async ({ page }, text: string) => {
+		const divider = page.locator('div.text-divider').filter({ hasText: text });
+
+		await expect(divider).toBeVisible();
+		await expect(divider.locator('span.item-divider')).toHaveText(text);
+	},
+);
+
+Then(
+	'I should see the Total Sale {string} in the employee view',
+	async ({ page }, amount: string) => {
+		const totalSaleRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Total Sale' });
+		const amountCell = totalSaleRow.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
+	},
+);
+
+Then(
+	'I should see the Net Total Sale {string} in the employee view',
+	async ({ page }, amount: string) => {
+		const netTotalSaleRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Net Total Sale' });
+		const amountCell = netTotalSaleRow.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
+	},
+);
+
+Then(
+	'I should see the Service Commission {string} in the employee view',
+	async ({ page }, amount: string) => {
+		const commissionRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Service Commission' });
+		const amountCell = commissionRow.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
+	},
+);
+
+Then(
+	'I should see the Product Commission {string} in the employee view',
+	async ({ page }, amount: string) => {
+		const commissionRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Product Commission' });
+		const amountCell = commissionRow.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
+	},
+);
+
+Then(
+	'I should see the Daily Maintenance Fee {string} in the employee view',
+	async ({ page }, amount: string) => {
+		const feeRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Daily Maintenance Fee' });
+		const amountCell = feeRow.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
+	},
+);
+
+Then(
+	'I should see the Net Non-Cash Tip {string} in the employee view',
+	async ({ page }, amount: string) => {
+		const tipRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Net Non-Cash Tip' });
+		const amountCell = tipRow.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
+	},
+);
+
+Then(
+	'I should see the Tax Withheld on Cash {string} in the employee view',
+	async ({ page }, amount: string) => {
+		const taxRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Tax Withheld on Cash' });
+		const amountCell = taxRow.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
+	},
+);
+
+Then(
+	'I should see the Total Payout {string} in the employee view',
+	async ({ page }, amount: string) => {
+		const payoutRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Total Payout' });
+		const amountCell = payoutRow.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
+	},
+);
+
+Then(
+	'I should see the Pay 1 {string} in the employee view',
+	async ({ page }, amount: string) => {
+		const pay1Row = page.locator('table tbody tr').filter({ hasText: 'Pay 1' });
+		const amountCell = pay1Row.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
+	},
+);
+
+Then(
+	'I should see the Pay 2 {string} in the employee view',
+	async ({ page }, amount: string) => {
+		const pay2Row = page.locator('table tbody tr').filter({ hasText: 'Pay 2' });
+		const amountCell = pay2Row.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
+	},
+);
+
+Then(
+	'I should see the Total Sales, Net Comm, NC Tip, Total Payout as {string} in employee view',
+	async ({ page }, expectedValues: string) => {
+		const values = expectedValues.split(' ');
+		expect(values).toHaveLength(4);
+
+		const [totalSales, netComm, ncTip, totalPayout] = values;
+
+		const detailsTable = page.locator('table.details-payroll');
+		const dataRow = detailsTable.locator('tbody tr').nth(1);
+
+		await expect(dataRow).toBeVisible();
+
+		const totalSalesCell = dataRow.locator('td').nth(2);
+		const netCommCell = dataRow.locator('td').nth(3);
+		const ncTipCell = dataRow.locator('td').nth(4);
+		const totalPayoutCell = dataRow.locator('td').nth(5);
+
+		await expect(totalSalesCell).toHaveText(totalSales);
+		await expect(netCommCell).toHaveText(netComm);
+		await expect(ncTipCell).toHaveText(ncTip);
+		await expect(totalPayoutCell).toHaveText(totalPayout);
+	},
+);
