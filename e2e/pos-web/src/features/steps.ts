@@ -95,6 +95,17 @@ Then(
 	},
 );
 
+Then(
+	'My cart should contain {string} item',
+	async ({ page }, itemCount: string) => {
+		const itemCountElement = page.locator(
+			'svg[data-testid="PrintTicketIconIcon"] + span',
+		);
+
+		await expect(itemCountElement).toHaveText(itemCount.toString());
+	},
+);
+
 When('I click on the {string} button', async ({ page }, buttonText: string) => {
 	const button = page.getByRole('button', { name: buttonText, exact: true });
 	await expect(button).toBeVisible();
@@ -533,6 +544,10 @@ Then(
 		await expect(serviceElement).toHaveText(service);
 	},
 );
+
+Then('My cart should contain {string}', async ({ page }, text: string) => {
+	await expect(page.locator('.xTicketItems__content')).toContainText(text);
+});
 
 Then(
 	'I should see the duration {string} in my cart',

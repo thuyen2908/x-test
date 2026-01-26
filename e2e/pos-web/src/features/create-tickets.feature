@@ -520,6 +520,70 @@ Feature: Create tickets
     And I should see the first type "Overwrite" in the gift card detail list
     And I should see the first amount "$100.00" in the gift card detail list
 
+  Scenario: Sell a new Gift Card then void ticket
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "01"
+    Then I should see the employee "Leon" in the employee list
+    When I select the "Leon" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "GIFT CARD" category
+
+    When I select the "GIFT CARD" category
+    Then I should see the "Gift Card $199" service
+    When I add the "Gift Card $199" service to my cart
+    Then I should see a popup dialog with title "Activate Gift Card $199.00"
+
+    When I enter the amount "0018"
+    And I click on the "OK" button in the popup dialog
+    Then I should see the number card "0018" visible
+    Then I should see my cart showing 1 item added
+    Then I should see the service "Gift Card $199 (0018)" in my cart
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the text "PAYMENT HISTORY" visible
+    And I should see the button with id "payment" visible
+
+    When I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page
+
+    When I navigate to "Tickets" on the navigation bar
+    Then I should be redirected to CLOSED_TICKETS page
+
+    When I click on refresh
+    Then I should see the toast message "Ticket data refreshed successfully." visible
+    When I wait for the page fully loaded
+    And I search for "199.00"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "199.00"
+
+    When I click on the first row for payment "199.00" to expand details
+    Then I should see the "Reopen ticket" button visible
+
+    When I click on the "Reopen ticket" button
+    And I wait for the page fully loaded
+    Then I should see the "Ticket View" screen
+    And My cart should contain "Gift Card $199 (0018)"
+
+    When I void the current open ticket with reason "Mistake"
+    Then I should be redirected to HOME page
+
+    When I wait for the page fully loaded
+    And I navigate to "Appointment" on the navigation bar
+    And I navigate to "Balance" on the navigation bar
+    And I navigate to "Gift Card" on the navigation bar
+    And I wait for the page fully loaded
+    Then I should be redirected to GIFT_CARD_BALANCE page
+    And I should see the text "Gift Card" visible
+
+    When I enter the amount "0018"
+    And I click on the "SEARCH" button
+    And I wait for the page fully loaded
+    Then I should see the text "ACTIVATE GIFT CARD" visible
+
   Scenario: Remove tax in ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6993"
@@ -981,7 +1045,7 @@ Feature: Create tickets
 
     When I click to show earning today
     And I enter the password "0074"
-		And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see a popup dialog with title "Paige Earnings Today"
     And I should see the text "COMMISSION $29.40" on the dialog
     And I should see the text "TOTAL SALES $50.00" on the dialog
