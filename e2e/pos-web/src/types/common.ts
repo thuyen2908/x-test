@@ -39,6 +39,7 @@ export enum PageId {
 	SMS_LOG = 'SMS_LOG',
 	RUN_LOG = 'RUN_LOG',
 	CONNECTION_LOG = 'CONNECTION_LOG',
+	QUICK_PAYROLL = 'QUICK_PAYROLL',
 }
 
 export enum UserRole {
