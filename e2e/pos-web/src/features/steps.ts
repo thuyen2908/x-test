@@ -448,6 +448,19 @@ When('I add the {string} customer', async ({ page }, customer: string) => {
 	await selectCustomer.click();
 });
 
+When(
+	'I add the phone number customer {string}',
+	async ({ page }, PhoneCustomer: string) => {
+		const customerSearch = page.locator('.TicketSearch__customer ');
+		await customerSearch.click();
+		//page.waitForTimeout(5000);
+		await customerSearch.getByRole('combobox').fill(PhoneCustomer);
+
+		const selectCustomer = page.locator('li.MuiAutocomplete-option').first();
+
+		await selectCustomer.click();
+	},
+);
 When('I redeem my loyalty points', async ({ page }) => {
 	await page.locator('.xLoyalty__item').click();
 	await page.locator('.xLoyalty__btn').getByText('OK').click();
@@ -923,6 +936,13 @@ When('I remove the tax', async ({ page }) => {
 
 	await expect(deleteTax).toBeVisible();
 	await deleteTax.click();
+});
+
+When('I add the tax', async ({ page }) => {
+	const addTax = page.locator('button:has(svg[data-testid="XAddSquareIcon"])');
+
+	await expect(addTax).toBeVisible();
+	await addTax.click();
 });
 
 Then('I should see the tax display {string}', async ({ page }, tax: string) => {
