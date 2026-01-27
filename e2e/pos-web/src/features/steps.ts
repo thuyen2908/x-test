@@ -3040,3 +3040,19 @@ Then(
 		await expect(button).toBeVisible();
 	},
 );
+
+When('I select the theme {string}', async ({ page }, theme: string) => {
+	const themeItem = page
+		.locator('.xChangeTheme--item')
+		.filter({ hasText: theme });
+	await expect(themeItem).toBeVisible();
+	await themeItem.click();
+});
+
+Then(
+	'I should see the theme {string} applied to the application',
+	async ({ page }, theme: string) => {
+		const themeBody = page.locator(`body[data-theme="${theme}"]`);
+		await expect(themeBody).toBeVisible();
+	},
+);
