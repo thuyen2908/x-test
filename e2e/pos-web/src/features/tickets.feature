@@ -246,7 +246,7 @@ Feature: Reopen tickets
     When I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
 
-  Scenario: Reopen ticket to adjust tip for Gift Card
+  Scenario: Verify Gift Card balance updates when reopening a ticket to adjust tip
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8888"
     Then I should see the employee "thanh" in the employee list
@@ -275,6 +275,7 @@ Feature: Reopen tickets
     When I select the title "AMOUNT"
     And I enter the amount "12"
     And I click on the element with id "payment"
+    Then I should be redirected to HOME page
     # Then I should see the payment history "Gift (0104)" visible
     # And I should see the payment price "$12.00"
 
@@ -310,6 +311,16 @@ Feature: Reopen tickets
 
     When I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
+
+    Given I am on the GIFT_CARD_BALANCE page
+    When I enter the amount "0104"
+    And I click on the "SEARCH" button
+    And I wait for the page fully loaded
+
+    Then I should see the text "DETAILS" visible
+    And I should see the first date is today in the gift card detail list
+    And I should see the first type "Redeem" in the gift card detail list
+    And I should see the first amount "($22.00)" in the gift card detail list
 
   Scenario: Reopen ticket to remove payment Cash and instead of Credit
     Given I am on the HOME page
