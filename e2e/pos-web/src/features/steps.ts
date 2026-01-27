@@ -2767,13 +2767,15 @@ Then(
 	},
 );
 
-// Payroll Steps
 Then('I should see the Payroll Date default to today', async ({ page }) => {
-	const today = new Date();
-	const month = today.getMonth() + 1;
-	const day = today.getDate();
-	const year = today.getFullYear();
-	const formattedDate = `${month}/${day}/${year}`;
+	// Calculate today's date in the browser context to ensure timezone consistency
+	const formattedDate = await page.evaluate(() => {
+		const today = new Date();
+		const month = today.getMonth() + 1;
+		const day = today.getDate();
+		const year = today.getFullYear();
+		return `${month}/${day}/${year}`;
+	});
 
 	const payrollDateRow = page
 		.locator('table tbody tr')
@@ -2982,5 +2984,44 @@ Then(
 		await expect(netCommCell).toHaveText(netComm);
 		await expect(ncTipCell).toHaveText(ncTip);
 		await expect(totalPayoutCell).toHaveText(totalPayout);
+	},
+);
+
+Then('I should see the default filter set to Today', async ({ page }) => {
+	const rangeDateCell = page.locator('p.pageDetail');
+
+	const formattedToday = await page.evaluate(() => {
+		const today = new Date();
+		return today.toLocaleDateString('en-US', {
+			year: 'numeric',
+			month: '2-digit',
+			day: '2-digit',
+		});
+	});
+
+	await expect(rangeDateCell).toBeVisible();
+	await expect(rangeDateCell).toHaveText(
+		`${formattedToday} - ${formattedToday}`,
+	);
+});
+
+Then(
+	'I should see the text {string} in the payroll summary',
+	async ({ page }, text: string) => {
+		const payrollSummary = page.locator('div.summary-title');
+
+		await expect(payrollSummary).toBeVisible();
+		await expect(payrollSummary).toHaveText(text);
+	},
+);
+
+Then(
+	'I should see the {string} button visible on the header',
+	async ({ page }, buttonText: string) => {
+		const button = page
+			.locator('div.xHeader__func_right')
+			.filter({ hasText: buttonText });
+
+		await expect(button).toBeVisible();
 	},
 );
