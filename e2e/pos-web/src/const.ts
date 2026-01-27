@@ -97,6 +97,7 @@ export class Const {
 			[PageId.RUN_LOG]: `${baseURL}/management/run-log`,
 			[PageId.SMS_LOG]: `${baseURL}/management/sms-log`,
 			[PageId.CONNECTION_LOG]: `${baseURL}/management/connection-log`,
+			[PageId.QUICK_PAYROLL]: `${baseURL}/management/quick-payroll`,
 		} as const;
 	}
 

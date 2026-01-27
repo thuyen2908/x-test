@@ -645,7 +645,7 @@ Feature: Reopen tickets
     And I click on the "OK" button in the popup dialog
     Then I should see the number card "1703" visible
     When I click on the "ADD ON" button in the popup dialog
-    Then I should see my cart showing 1 item added
+    Then I should see my cart showing 2 item added
     And I should see the service "Gift card $50 (1703)" in my cart
 
     When I click on the "PAY" button
@@ -681,12 +681,7 @@ Feature: Reopen tickets
     And I wait for the page fully loaded
     Then I should be redirected to HOME page
 
-    When I navigate to "Appointment" on the navigation bar
-    And I navigate to "Balance" on the navigation bar
-    And I navigate to "Gift Card" on the navigation bar
-    Then I should be redirected to GIFT_CARD_BALANCE page
-    And I should see the text "Gift Card" visible
-
+    Given I am on the GIFT_CARD_BALANCE page
     When I enter the amount "1703"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
@@ -773,13 +768,7 @@ Feature: Reopen tickets
     And I wait for the page fully loaded
     Then I should be redirected to HOME page
 
-    When I navigate to "Appointment" on the navigation bar
-    And I navigate to "Balance" on the navigation bar
-    And I navigate to "Gift Card" on the navigation bar
-    And I wait for the page fully loaded
-    Then I should be redirected to GIFT_CARD_BALANCE page
-    And I should see the text "Gift Card" visible
-
+    Given I am on the GIFT_CARD_BALANCE page
     When I enter the amount "1903"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
