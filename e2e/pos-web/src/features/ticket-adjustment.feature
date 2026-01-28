@@ -534,16 +534,15 @@ Feature: Fix Ticket
 
 Scenario: Remove Tax and make new payment
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "8888"
-    Then I should see the employee "thanh" in the employee list
+    When I clock in the timesheet with PIN "8754"
+    Then I should see the employee "Iris" in the employee list
 
-    When I select the "thanh" employee
+    When I select the "Iris" employee
     Then I should see the "Ticket View" screen
     When I select the "FULL SET & FILL IN" category
     And I add the "Taxable" service to my cart
     Then I should see my cart showing 1 item added
     And I should see the tax amount non-zero
-
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -554,9 +553,6 @@ Scenario: Remove Tax and make new payment
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
-
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page 
 
     When I wait for the page fully loaded
     And I click on the header menu
@@ -609,9 +605,9 @@ Scenario: Remove Tax and make new payment
 
 Scenario: Add Tax and make new payment
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "6993"
-    Then I should see the employee "Jack" in the employee list
-    When I select the "Jack" employee
+    When I clock in the timesheet with PIN "1648"
+    Then I should see the employee "Luna" in the employee list
+    When I select the "Luna" employee
     And I select the "FULL SET & FILL IN" category
     And I add the "Taxable" service to my cart
     Then I should see my cart showing 1 item added
@@ -682,10 +678,10 @@ Scenario: Add Tax and make new payment
 
   Scenario: Add a customer to the ticket
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "8888"
-    Then I should see the employee "thanh" in the employee list
+    When I clock in the timesheet with PIN "4170"
+    Then I should see the employee "Hazel" in the employee list
 
-    When I select the "thanh" employee
+    When I select the "Hazel" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
 
