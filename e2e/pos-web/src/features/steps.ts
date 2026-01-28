@@ -3091,6 +3091,12 @@ When(
 	},
 );
 
+When('I clear department search', async ({ page }) => {
+	const input = page.locator('input[placeholder="Search…"]');
+	await input.fill('');
+	await input.dispatchEvent('input');
+});
+
 Then(
 	'I should see department {string} in the list',
 	async ({ page }, name: string) => {
