@@ -764,6 +764,19 @@ Then(
 );
 
 Then(
+	'I should see the first type {string} in the loyalty detail list',
+	async ({ page }, type: string) => {
+		const firstTypeCell = page
+			.locator('.MuiDataGrid-row')
+			.first()
+			.locator('.MuiDataGrid-cell[data-field="type"]');
+
+		await expect(firstTypeCell).toHaveAttribute('title', new RegExp(type));
+		await expect(firstTypeCell).toContainText(type);
+	},
+);
+
+Then(
 	'I should see the first amount {string} in the gift card detail list',
 	async ({ page }, amount: string) => {
 		const firstAmountCell = page
@@ -810,6 +823,25 @@ Then(
 			});
 		});
 		await expect(firstDateCell).not.toContainText(formattedToday);
+	},
+);
+
+Then(
+	'I should see the first date is today in the loyalty detail list',
+	async ({ page }) => {
+		const firstDateCell = page
+			.locator('.MuiDataGrid-row')
+			.first()
+			.locator('.MuiDataGrid-cell[data-field="createdDate"]');
+		const formattedToday = await page.evaluate(() => {
+			const today = new Date();
+			return today.toLocaleDateString('en-US', {
+				year: 'numeric',
+				month: '2-digit',
+				day: '2-digit',
+			});
+		});
+		await expect(firstDateCell).toContainText(formattedToday);
 	},
 );
 

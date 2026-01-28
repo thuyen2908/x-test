@@ -7,7 +7,7 @@ Feature: Check In
     And I navigate to "Check In" on the navigation bar
     Then I should be redirected to WAITING_LIST page
 
-    When I click on the "Add Customer" button in the waiting page
+    When I click on the "ADD CUSTOMER" button in the waiting page
     Then I should see the text "Create Waiting" visible
     Then I should see the categories displayed correctly in check-in
     And I should see the services displayed correctly in check-in
@@ -19,7 +19,7 @@ Feature: Check In
     And I navigate to "Check In" on the navigation bar
     Then I should be redirected to WAITING_LIST page
 
-    When I click on the "Add Customer" button in the waiting page
+    When I click on the "ADD CUSTOMER" button in the waiting page
     And I click on the Select customer
     And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
@@ -68,19 +68,13 @@ Feature: Check In
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-  @skip
-  Scenario: Create a waiting for existing customer, assign services to specific employees and create ticket
+  Scenario: Update issuance after creating a waiting for an existing customer
     Given I am on the HOME page
     When I navigate to "Check In" on the navigation bar
     Then I should be redirected to WAITING_LIST page
 
-    When I click on the "Add Customer" button
-    Then I should see the text "Create Waiting" visible
-    And I should see the categories displayed correctly in check-in
-    And I should see the services displayed correctly in check-in
-    And I should see the "Next Available Service" service
-
-    When I add the "Alice" customer
+    When I click on the "ADD CUSTOMER" button in the waiting page
+    And I add the phone number customer "6666666666"
     Then I should see a new customer "Alice" on ticket
 
     When I add the "Manicure" service to my cart
@@ -102,10 +96,6 @@ Feature: Check In
 
     When I wait for the page fully loaded
     Then I should see the customer "Alice" in the waiting list
-    And I should see the service "Manicure" in the waiting list
-    And I should see the service "Pedicure" in the waiting list
-    And I should see the technician "Emily" in the waiting list
-    And I should see the technician "Claire" in the waiting list
 
     When I click on the first row for customer "Alice" to expand details
     Then I should see the "Create Ticket" button visible
@@ -121,8 +111,6 @@ Feature: Check In
     And I should see the employee "Claire" in my cart
 
     When I click on the "PAY" button
-    Then I should see a popup dialog with title "Reward"
-    When I click on the "OK" button in the popup dialog
     Then I should see the text "PAYMENT TICKET" visible
     And I should see the text "PAYMENT HISTORY" visible
 
@@ -130,6 +118,16 @@ Feature: Check In
     And I fill the last 4 digits of card number "1234"
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
+
+    Given I am on the LOYALTY_BALANCE page
+    When I enter the amount "6666666666"
+    And I click on the "SEARCH" button
+    And I wait for the page fully loaded
+
+    Then I should see the text "Customer: Alice" visible
+    Then I should see the first date is today in the loyalty detail list
+    And I should see the first type "Issuance" in the loyalty detail list
+    And I should see the first amount "28" in the gift card detail list
 
   Scenario: Display service hint and get default quick sale technician when create ticket
     Given I am on the HOME page
