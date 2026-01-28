@@ -2999,3 +2999,151 @@ Then(
 		await expect(totalPayoutCell).toHaveText(totalPayout);
 	},
 );
+
+When('When I click the {string} button', async ({ page }, button: string) => {
+	const btn = page.getByRole('button', {
+		name: new RegExp(`^${button}$`, 'i'),
+	});
+
+	await expect(btn).toBeVisible();
+	await expect(btn).toBeEnabled();
+	await btn.click();
+});
+
+When('I fill the department name {string}', async ({ page }, name: string) => {
+	const dialog = page.getByRole('dialog');
+
+	const input = dialog.locator('input[name="name"]');
+
+	await expect(input).toBeVisible();
+	await expect(input).toBeEnabled();
+
+	await input.fill(name);
+	await expect(input).toHaveValue(name);
+});
+
+When('I select department type {string}', async ({ page }, type: string) => {
+	const dialog = page.getByRole('dialog');
+
+	const dropdown = dialog.getByRole('combobox', {
+		name: /department type/i,
+	});
+
+	await expect(dropdown).toBeVisible();
+	await dropdown.click();
+
+	const option = page.getByRole('option', {
+		name: new RegExp(`^${type}$`, 'i'),
+	});
+
+	await expect(option).toBeVisible();
+	await option.click();
+
+	await expect(dropdown).toHaveText(new RegExp(type, 'i'));
+});
+
+When('I click on refresh department', async ({ page }) => {
+	await page.locator('[data-testid="ReplayIcon"]').click();
+});
+
+When(
+	'I search department with keyword {string} and expect {int} results',
+	async ({ page }, keyword: string, count: number) => {
+		const input = page.locator('input[placeholder="Search…"]');
+		const rows = page.locator('.MuiDataGrid-row');
+
+		await expect(input).toBeVisible();
+
+		await input.fill('');
+		await input.click();
+		await page.keyboard.type(keyword, { delay: 30 });
+
+		await expect(rows).toHaveCount(count);
+	},
+);
+
+When(
+	'I click on the action {string} button of department',
+	async ({ page }, button: string) => {
+		await page.getByRole('menuitem', { name: button }).click();
+	},
+);
+
+When(
+	'I click the {string} button in the dialog',
+	async ({ page }, text: string) => {
+		await page
+			.getByRole('dialog')
+			.getByRole('button', { name: new RegExp(`^${text}$`, 'i') })
+			.click();
+	},
+);
+
+When(
+	'I double click on the department row {string}',
+	async ({ page }, departmentName: string) => {
+		const nameCell = page.locator(
+			`.MuiDataGrid-cell[data-field="name"]:has-text("${departmentName}")`,
+		);
+
+		await expect(nameCell).toBeVisible();
+		await nameCell.dblclick();
+	},
+);
+
+Then(
+	'I should see department {string} in the list',
+	async ({ page }, name: string) => {
+		const departmentCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="name"]', { hasText: name })
+			.first();
+
+		await expect(departmentCell).toBeVisible();
+		await expect(departmentCell).toContainText(name);
+	},
+);
+
+Then(
+	'I should not see department {string} in the list',
+	async ({ page }, name: string) => {
+		const departmentCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="name"]', { hasText: name });
+
+		await expect(departmentCell).toHaveCount(0);
+	},
+);
+
+Then('department type should be {string}', async ({ page }, type: string) => {
+	const deptTypeCell = page
+		.locator('.MuiDataGrid-row')
+		.first()
+		.locator('[data-field="deptType"]');
+
+	await expect(deptTypeCell).toContainText(type);
+});
+
+Then('I should see the department edit dialog', async ({ page }) => {
+	await expect(page.getByRole('dialog')).toBeVisible();
+});
+
+Then(
+	'the department name should be {string}',
+	async ({ page }, name: string) => {
+		await expect(
+			page.getByRole('dialog').locator('input[name="name"]'),
+		).toHaveValue(name);
+	},
+);
+
+Then(
+	'the department type should be {string}',
+	async ({ page }, type: string) => {
+		await expect(
+			page
+				.getByRole('dialog')
+				.getByRole('combobox', { name: /department type/i }),
+		).toHaveText(new RegExp(type, 'i'));
+	},
+);
