@@ -72,7 +72,7 @@ Feature: Payroll
     And I should see the text "Hours" visible
     And I should see the text "Maintenance Fee" visible
 
-  Scenario: Commission details in the employee view are calculated correctly
+  Scenario: Commission details in the Employee View are calculated correctly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6789"
     Then I should see the employee "Sydney" in the employee list
