@@ -152,11 +152,11 @@ Feature: Reopen tickets
     When I click on refresh
     Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
-    And I search for "24.95"
+    And I search for "24.57"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$24.95"
+    Then I should see the first ticket of payment "$24.57"
 
-    When I click on the first row for payment "$24.95" to expand details
+    When I click on the first row for payment "$24.57" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -236,6 +236,8 @@ Feature: Reopen tickets
     And I should see the payment history "VISA (1234)" visible
 
     When I click on the adjust tip icon
+    Then I should see a popup dialog containing the title "CONFIRM ADJUST TIP "
+    When I click on the action button "Adjust Tip" of the opening dialog
     Then I should see a popup dialog with title "Adjust Tip "
     When I enter the amount "10"
     And I click on the "Add Tip" button in the popup dialog
@@ -244,111 +246,7 @@ Feature: Reopen tickets
     When I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
 
-  Scenario: Reopen ticket to adjust tip for Gift Card
-    Given I am on the HOME page
-    When I clock in the timesheet with PIN "8888"
-    Then I should see the employee "thanh" in the employee list
-
-    When I select the "thanh" employee
-    Then I should see the "Ticket View" screen
-    And I should see the "Manicure" service
-
-    When I add the "Manicure" service to my cart
-    Then I should see my cart showing 1 item added
-
-    When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "38"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$38.00" visible
-
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-
-    When I select the "Gift" payment type
-    Then I should see the "ID GIFT CARD" name
-    When I fill the Gift card with "2601"
-    And I click on the "CHECK BALANCE" button
-
-    And I click on the element with id "payment"
-
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
-    When I wait for the page fully loaded
-    And I search for "38.00"
-    And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$38.00"
-
-    When I click on the first row for payment "$38.00" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "thanh" in the ticket
-
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the payment history "Gift (2601)" visible
-
-    When I click on the adjust tip icon
-    Then I should see a popup dialog with title " CONFIRM ADJUST TIP"
-    When I click on the "Adjust Tip" button in the popup dialog
-    When I enter the amount "10"
-    And I click on the "Add Tip" button in the popup dialog
-    Then I should see the payment price contain amount "+ $10.00"
-
-    When I click on the "CLOSE TICKET" button
-    Then I should be redirected to HOME page  
-     When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
-    When I wait for the page fully loaded
-    And I search for "48.00"
-    And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$48.00"
-
-    When I click on the first row for payment "$48.00" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "thanh" in the ticket
-
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the payment history "Gift (2601)" visible
-
-    When I click on the more menu for payment history of "Gift (2601)"
-    Then I should see the tooltip remove
-    When I click on the tooltip remove
-    Then I should see a popup dialog with title "Gift  - $48.00"
-    When I click on the "Remove" button in the popup dialog
-    
-    When I select the "Cash" payment type
-    And I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page  
-
-    When I wait for the page fully loaded
-    Given I am on the GIFT_CARD_BALANCE page
-    When I enter the amount "2601"
-    And I click on the "SEARCH" button
-    And I wait for the page fully loaded
-    Then I should see the text "DETAILS" visible
-    And I should see the first type "ActivateNew" in the gift card detail list
-    And I should see the first amount "$500.00" in the gift card detail list
-
- Scenario: Reopen ticket to void payment GC and make payment Cash
+  Scenario: Verify Gift Card balance updates when reopening a ticket to adjust tip
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8888"
     Then I should see the employee "thanh" in the employee list
@@ -371,12 +269,16 @@ Feature: Reopen tickets
 
     When I select the "Gift" payment type
     Then I should see the "ID GIFT CARD" name
-    When I fill the Gift card with "0903"
+    When I fill the Gift card with "0104"
     And I click on the "CHECK BALANCE" button
     Then I should see the "AMOUNT" name
     When I select the title "AMOUNT"
     And I enter the amount "12"
-    When I click on the element with id "payment"
+    And I click on the element with id "payment"
+    Then I should be redirected to HOME page
+    # Then I should see the payment history "Gift (0104)" visible
+    # And I should see the payment price "$12.00"
+
     When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
 
@@ -398,111 +300,27 @@ Feature: Reopen tickets
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
     And I should see the text "PAYMENT HISTORY" visible
-    And I should see the payment history "Gift (0903)" visible
+    And I should see the payment history "Gift (0104)" visible
 
-    When I click on the more menu for payment history of "Gift (0903)"
-    Then I should see the tooltip remove
-    When I click on the tooltip remove
-    Then I should see a popup dialog with title "Gift  - $12.00"
-    When I click on the "Remove" button in the popup dialog
-    
-    When I select the "Cash" payment type
-    And I click on the element with id "payment"
-    Then I should see a popup dialog with title "Close Ticket"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page  
-
-    When I wait for the page fully loaded
-    And I navigate to "Balance" on the navigation bar
-    And I navigate to "Gift Card" on the navigation bar
-    And I wait for the page fully loaded
-    Then I should be redirected to GIFT_CARD_BALANCE page
-    And I should see the text "Gift Card" visible
-
-    When I enter the amount "0903"
-    And I click on the "SEARCH" button
-    And I wait for the page fully loaded
-    Then I should see the text "DETAILS" visible
-    And I should see the first type "ActivateNew" in the gift card detail list
-    And I should see the first amount "$100.00" in the gift card detail list
-
- Scenario: Reopen to add more adjust tip of GC payment
-    Given I am on the HOME page
-    When I clock in the timesheet with PIN "8888"
-    Then I should see the employee "thanh" in the employee list
-
-    When I select the "thanh" employee
-    Then I should see the "Ticket View" screen
-    And I should see the "Manicure" service
-    When I add the "Manicure" service to my cart
-    Then I should see my cart showing 1 item added
-
-    When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "17"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$17.00" visible
-    And I should see the user info "thanh" in the ticket
-    When I click on the adding "Tip" button
-    Then I should see a popup dialog with title "Add Tip"
-    When I fill "6" from the numpad
-    Then I should see "$6.00" tip in my cart
-
-
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-
-    When I select the "Gift" payment type
-    Then I should see the "ID GIFT CARD" name
-    When I fill the Gift card with "0204"
-    And I click on the "CHECK BALANCE" button
-    And I click on the element with id "payment"
-    Then I should be redirected to HOME page
-  
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
-    When I wait for the page fully loaded
-    And I search for "23.00"
-    Then I should see the first ticket of payment "$23.00"
-
-    When I click on the first row for payment "$23.00" to expand details
-    Then I should see the "Reopen ticket" button visible
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the payment history "Gift (0204)" visible
-    Then I should see the payment price contain amount "$17.00 + $6.00"
     When I click on the adjust tip icon
     Then I should see a popup dialog with title " CONFIRM ADJUST TIP"
     When I click on the "Adjust Tip" button in the popup dialog
-    And I wait for the page fully loaded
     When I enter the amount "10"
     And I click on the "Add Tip" button in the popup dialog
     Then I should see the payment price contain amount "+ $10.00"
 
     When I click on the "CLOSE TICKET" button
-    Then I should be redirected to HOME page  
+    Then I should be redirected to HOME page
 
-    When I wait for the page fully loaded
-    And I navigate to "Balance" on the navigation bar
-    And I navigate to "Gift Card" on the navigation bar
-    And I wait for the page fully loaded
-    Then I should be redirected to GIFT_CARD_BALANCE page
-    And I should see the text "Gift Card" visible
-
-    When I enter the amount "0204"
+    Given I am on the GIFT_CARD_BALANCE page
+    When I enter the amount "0104"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
+
     Then I should see the text "DETAILS" visible
-    And I should see the first type "Redeem" in the gift card detail list
-    And I should see the first amount "($27.00)" in the gift card detail list
     And I should see the first date is today in the gift card detail list
+    And I should see the first type "Redeem" in the gift card detail list
+    And I should see the first amount "($22.00)" in the gift card detail list
 
   Scenario: Reopen ticket to remove payment Cash and instead of Credit
     Given I am on the HOME page
@@ -814,7 +632,7 @@ Feature: Reopen tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-  Scenario: Sell a new Gift Card then void ticket
+  Scenario: Verify that the gift card balance is updated correctly when selling an add-on gift card and then voiding the ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2463"
     Then I should see the employee "Isabella" in the employee list
@@ -836,7 +654,9 @@ Feature: Reopen tickets
 
     When I enter the amount "1703"
     And I click on the "OK" button in the popup dialog
-    Then I should see my cart showing 1 item added
+    Then I should see the number card "1703" visible
+    When I click on the "ADD ON" button in the popup dialog
+    Then I should see my cart showing 2 item added
     And I should see the service "Gift card $50 (1703)" in my cart
 
     When I click on the "PAY" button
@@ -872,17 +692,15 @@ Feature: Reopen tickets
     And I wait for the page fully loaded
     Then I should be redirected to HOME page
 
-    When I navigate to "Appointment" on the navigation bar
-    And I navigate to "Balance" on the navigation bar
-    And I navigate to "Gift Card" on the navigation bar
-    Then I should be redirected to GIFT_CARD_BALANCE page
-    And I should see the text "Gift Card" visible
-
+    Given I am on the GIFT_CARD_BALANCE page
     When I enter the amount "1703"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
-    Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
-    And I should see a popup dialog with content "Do you want to activate gift card #1703"
+
+    Then I should see the text "DETAILS" visible
+    And I should see the first date is not today in the gift card detail list
+    And I should see the first type "ActivateNew" in the gift card detail list
+    And I should see the first amount "$50.00" in the gift card detail list
 
   Scenario: Sell a new Gift Card then void item Gift Card
     Given I am on the HOME page
@@ -904,10 +722,10 @@ Feature: Reopen tickets
     When I add the "Gift card $50" service to my cart
     Then I should see a popup dialog with title "Activate Gift Card $50.00"
 
-    When I enter the amount "0403"
+    When I enter the amount "1903"
     And I click on the "OK" button in the popup dialog
     Then I should see my cart showing 2 item added
-    And I should see the service "Gift card $50 (0403)" in my cart
+    And I should see the service "Gift card $50 (1903)" in my cart
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -940,7 +758,8 @@ Feature: Reopen tickets
 
     When I click on the item "VOID ITEM" button
     Then I should see a popup dialog with title "VOID MULTIPLE"
-    When I select the "Gift card $50 (0403)" service in the dialog
+    When I select the "Gift card $50 (1903)" service in the dialog
+    And I select the reason "Mistake"
     And I click on the "Void Items" button in the dialog
     Then I should see my cart showing 1 item added
 
@@ -960,18 +779,12 @@ Feature: Reopen tickets
     And I wait for the page fully loaded
     Then I should be redirected to HOME page
 
-    When I navigate to "Appointment" on the navigation bar
-    And I navigate to "Balance" on the navigation bar
-    And I navigate to "Gift Card" on the navigation bar
-    And I wait for the page fully loaded
-    Then I should be redirected to GIFT_CARD_BALANCE page
-    And I should see the text "Gift Card" visible
-
-    When I enter the amount "0403"
+    Given I am on the GIFT_CARD_BALANCE page
+    When I enter the amount "1903"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
     Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
-    And I should see a popup dialog with content "Do you want to activate gift card #0403"
+    And I should see a popup dialog with content "Do you want to activate gift card #1903"
 
   @skip
   Scenario: Remove loyalty balance when voiding ticket

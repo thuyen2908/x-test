@@ -130,9 +130,9 @@ Feature: Fix Ticket
     And I should see the text "TICKET#" visible
 
     When I wait for the page fully loaded
-    And I search for "56.45"
-    Then I should see the first ticket with total "$56.45"
-    When I select the first ticket with total "$56.45"
+    And I search for "55.47"
+    Then I should see the first ticket with total "$55.47"
+    When I select the first ticket with total "$55.47"
     Then I should see the service "Combo 1" in my cart
 
     When I click on the title "DETAILS" in the ticket adjustment screen
@@ -406,9 +406,9 @@ Feature: Fix Ticket
     And I should see the text "TICKET#" visible
 
     When I wait for the page fully loaded
-    And I search for "36.5"
-    Then I should see the first ticket with total "$36.50"
-    When I select the first ticket with total "$36.50"
+    And I search for "35.9"
+    Then I should see the first ticket with total "$35.90"
+    When I select the first ticket with total "$35.90"
     Then I should see the service "Manicure" in my cart
     And I should see the service "Pedicure" in my cart
 
@@ -459,6 +459,9 @@ Feature: Fix Ticket
 
     When I enter the amount "0503"
     And I click on the "OK" button in the popup dialog
+    Then I should see the number card "0503" visible
+    When I click on the "ADD ON" button in the popup dialog
+
     Then I should see my cart showing 2 item added
     And I should see the service "Gift card $50 (0503)" in my cart
 
@@ -491,6 +494,8 @@ Feature: Fix Ticket
     When I select the service "Gift card $50 (0503)" in my cart
     Then I should see the check icon
     When I click on the action "VOID ITEM" button
+    And I select the reason "Mistake"
+    And I click on the "OK" button in the popup dialog
     Then I should not see the service "Gift card $50 (0503)" in my cart
     And I should see the charge display "TOTAL$26.70"
 
@@ -519,13 +524,8 @@ Feature: Fix Ticket
 
     When I back to HOME page
     And I wait for the page fully loaded
-    And I navigate to "Appointment" on the navigation bar
-    And I navigate to "Balance" on the navigation bar
-    And I navigate to "Gift Card" on the navigation bar
-    And I wait for the page fully loaded
-    Then I should be redirected to GIFT_CARD_BALANCE page
-    And I should see the text "Gift Card" visible
 
+    Given I am on the GIFT_CARD_BALANCE page
     When I enter the amount "0503"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded

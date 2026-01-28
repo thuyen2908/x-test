@@ -14,7 +14,7 @@ const __dirname = import.meta.dirname;
 setup(
 	'Authentication: Admin role',
 	async ({ testConfig, testStorage, page, xPage }) => {
-		setup.setTimeout(115_000);
+		setup.setTimeout(100_000);
 
 		// make sure that the path is ready
 		const authStorage = resolve(
@@ -49,7 +49,7 @@ setup(
 		// wait until the loading spinner is gone
 		await expect(businessDayResetPrompt.or(username)).toBeVisible({
 			// currently, look like the login process is quite slow, re-adjust this value in the future if necessary
-			timeout: 125_000,
+			timeout: 90_000,
 		});
 
 		// reset business date if prompted
