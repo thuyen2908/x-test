@@ -529,8 +529,207 @@ Feature: Fix Ticket
     When I enter the amount "0503"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
+    Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
+    And I should see a popup dialog with content "Do you want to activate gift card #0503"
 
-    Then I should see the text "DETAILS" visible
-    And I should see the first date is not today in the gift card detail list
-    And I should see the first type "ActivateNew" in the gift card detail list
-    And I should see the first amount "$50.00" in the gift card detail list
+Scenario: Remove Tax and make new payment
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "8888"
+    Then I should see the employee "thanh" in the employee list
+
+    When I select the "thanh" employee
+    Then I should see the "Ticket View" screen
+    When I select the "FULL SET & FILL IN" category
+    And I add the "Taxable" service to my cart
+    Then I should see my cart showing 1 item added
+    And I should see the tax amount non-zero
+
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+
+    When I select the "Cash" payment type
+    And I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page
+
+    When I navigate to "Tickets" on the navigation bar
+    Then I should be redirected to CLOSED_TICKETS page 
+
+    When I wait for the page fully loaded
+    And I click on the header menu
+    And I select the "Manager" label in the menu list
+    And I select the "Ticket Adjustment" label in the expanded list
+    Then I should be redirected to TICKET_ADJUSTMENT page
+    And I should see the "Ticket Adjustment" screen
+    And I should see the text "TICKET#" visible
+
+    When I wait for the page fully loaded
+    And I search for "16.96"
+    Then I should see the first ticket with total "$16.96"
+    When I select the first ticket with total "$16.96"
+    Then I should see the service "Taxable" in my cart
+    And I should see the tax amount non-zero
+    When I remove the tax
+    Then I should see the tax display "$0.00"
+
+    When I select the "PAYMENT" tab
+    Then I should see the payment history "Cash" visible
+    When I click on the more menu for payment history of "Cash"
+    Then I should see the tooltip remove
+    When I click on the tooltip remove
+    Then I should see a popup dialog with title "VOID PAYMENT"
+    And  I should see a popup dialog with content "Cash   - $16.96"
+    When I click on the "Remove" button in the popup dialog
+    Then I should see a second popup dialog with title "Confirm Void Payment"
+    When I click on the "Yes, void it" button in the popup dialog
+
+    When I click on the "PAY" button
+    Then I should see a popup dialog with title "PAYMENT TICKET"
+    When I select the "Gift" payment type
+    Then I should see the "ID GIFT CARD" name
+    When I fill the Gift card with "1111"
+    And I click on the "CHECK BALANCE" button
+    And I click on the element with id "payment"
+    Then I should see the payment history "Gift (1111)" visible
+
+    When I click on the adjust tip icon
+    Then I should see a popup dialog with title "Adjust Tip "
+    When I enter the amount "10"
+    And I click on the "Add Tip" button in the popup dialog
+    Then I should see the payment price contain amount "+ $10.00"
+
+    When I click on the "CONFIRM" button
+    Then I should see a popup dialog with title "Confirm Save Ticket"
+    When I click on the "SAVE" button in the popup dialog
+    And I wait for the page fully loaded
+    Then I should see the text "Please select a ticket." in the ticket adjustment screen
+
+Scenario: Add Tax and make new payment
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "6993"
+    Then I should see the employee "Jack" in the employee list
+    When I select the "Jack" employee
+    And I select the "FULL SET & FILL IN" category
+    And I add the "Taxable" service to my cart
+    Then I should see my cart showing 1 item added
+    And I should see the tax amount non-zero
+
+    When I remove the tax
+    Then I should see the tax display "$0.00"
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the text "PAYMENT HISTORY" visible
+    And I should see the button with id "payment" visible
+
+    When I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page
+
+    When I wait for the page fully loaded
+    And I click on the header menu
+    And I select the "Manager" label in the menu list
+    And I select the "Ticket Adjustment" label in the expanded list
+    Then I should be redirected to TICKET_ADJUSTMENT page
+    And I should see the "Ticket Adjustment" screen
+    And I should see the text "TICKET#" visible
+
+    When I wait for the page fully loaded
+    And I search for "16"
+    Then I should see the first ticket with total "$16.00"
+    When I select the first ticket with total "$16.00"
+    Then I should see the service "Taxable" in my cart
+    Then I should see the tax display "$0.00"
+    When I add the tax
+    Then I should see the tax amount non-zero
+
+    When I select the "PAYMENT" tab
+    Then I should see the payment history "Cash" visible
+    When I click on the more menu for payment history of "Cash"
+    Then I should see the tooltip remove
+    When I click on the tooltip remove
+    Then I should see a popup dialog with title "VOID PAYMENT"
+    And  I should see a popup dialog with content "Cash   - $16.00"
+    When I click on the "Remove" button in the popup dialog
+    Then I should see a second popup dialog with title "Confirm Void Payment"
+    When I click on the "Yes, void it" button in the popup dialog
+
+    When I click on the "PAY" button
+    Then I should see a popup dialog with title "PAYMENT TICKET"
+    When I select the "Gift" payment type
+    Then I should see the "ID GIFT CARD" name
+    When I fill the Gift card with "1111"
+    And I click on the "CHECK BALANCE" button
+    And I click on the element with id "payment"
+    Then I should see the payment history "Gift (1111)" visible
+
+    When I click on the adjust tip icon
+    Then I should see a popup dialog with title "Adjust Tip "
+    When I enter the amount "20"
+    And I click on the "Add Tip" button in the popup dialog
+    Then I should see the payment price contain amount "+ $20.00"
+
+    When I click on the "CONFIRM" button
+    Then I should see a popup dialog with title "Confirm Save Ticket"
+    When I click on the "SAVE" button in the popup dialog
+    And I wait for the page fully loaded
+    Then I should see the text "Please select a ticket." in the ticket adjustment screen
+
+  Scenario: Add a customer to the ticket
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "8888"
+    Then I should see the employee "thanh" in the employee list
+
+    When I select the "thanh" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+
+    When I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I click on the total price of "Manicure"
+    Then I should see a popup dialog with title "Service: Manicure - $6.00"
+    When I change the price to "50"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$50.00" visible
+
+    When I wait for the page fully loaded
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the text "PAYMENT HISTORY" visible
+    And I should see the button with id "payment" visible
+
+    When I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page
+
+    When I wait for the page fully loaded
+    And I click on the header menu
+    And I select the "Manager" label in the menu list
+    And I select the "Ticket Adjustment" label in the expanded list
+    Then I should be redirected to TICKET_ADJUSTMENT page
+    And I should see the "Ticket Adjustment" screen
+    And I should see the text "TICKET#" visible
+
+    When I wait for the page fully loaded
+    And I search for "50"
+    Then I should see the first ticket with total "$50.00"
+    When I select the first ticket with total "$50.00"
+    Then I should see the service "Manicure" in my cart
+    When I add the phone number customer "9999999999"
+    Then I should see a new customer "Tin" on ticket
+
+    When I click on the "CONFIRM" button
+    Then I should see a popup dialog with title "Confirm Save Ticket"
+    When I click on the "SAVE" button in the popup dialog
+    And I wait for the page fully loaded
+    Then I should see the text "Please select a ticket." in the ticket adjustment screen
+
