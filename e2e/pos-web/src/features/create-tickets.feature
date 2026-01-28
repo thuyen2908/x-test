@@ -1063,3 +1063,31 @@ Feature: Create tickets
 
     When I void the current open ticket with reason "System Test"
     Then I should be redirected to HOME page
+
+  Scenario: No cash discount is charged when selling GC
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "8903"
+    Then I should see the employee "Keelin" in the employee list
+    When I select the "Keelin" employee
+    And I add the "Manicure" service to my cart
+    When I select the "GIFT CARD" category
+    And I add the "Gift card $100" service to my cart
+    Then I should see a popup dialog with title "Activate Gift Card $100.00"
+
+    When I enter the amount "4321"
+    And I click on the "OK" button in the popup dialog
+    Then I should see the number card "4321" visible
+    When I click on the "REWRITE" button in the popup dialog
+    Then I should see the service "Gift card $100 (4321)" in my cart
+    And I should see my cart showing 2 item added
+
+    When I click on the "PAY" button
+    Then I should see the card price amount "$106.18" visible
+    And I should see the cash price amount "$106.00" visible
+
+    When I select the "Cash" payment type
+    And I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page

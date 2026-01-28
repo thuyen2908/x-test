@@ -437,7 +437,7 @@ Feature: Fix Ticket
     And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
 
-  Scenario: Void a sell Gift Card
+  Scenario: Update GC balance after voiding a sell Gift Card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5720"
     Then I should see the employee "Mackenzie" in the employee list

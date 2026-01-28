@@ -632,7 +632,7 @@ Feature: Reopen tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-  Scenario: Verify that the gift card balance is updated correctly when selling an add-on gift card and then voiding the ticket
+  Scenario: Update GC balance when selling an add-on gift card and then voiding the ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2463"
     Then I should see the employee "Isabella" in the employee list
