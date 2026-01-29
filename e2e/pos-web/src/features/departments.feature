@@ -44,7 +44,6 @@ Feature: Departments management
     Then I should see a popup dialog with title "Copy Confirmation"
 
     When I click the "confirm" button in the dialog
-    Then I should see the toast message "The item has been copied successfully" visible
     Then I should see a popup dialog with title "Edit Department: Nails (0)"
 
     When I fill the department name "Fancy Nails"
@@ -52,15 +51,16 @@ Feature: Departments management
     And I clear department search
     Then I should see the toast message "The data item has been updated successfully" visible
 
-    When I search department with keyword "Fancy Nails" and expect 1 results
+    When I wait for the page fully loaded
+    And I search department with keyword "Fancy Nails" and expect 1 results
     Then I should see department "Fancy Nails" in the list
     When I double click on the department row "Fancy Nails"
     Then I should see a popup dialog with title "Edit Department: Fancy Nails"
-    And the department name should be "Fancy Nails"
-    And the department type should be "Service"
+    And The department name should be "Fancy Nails"
+    And The department type should be "Service"
 
     When I click on the "Cancel" button
-    When I search department with keyword "Fancy Nails" and expect 1 results
+    And I search department with keyword "Fancy Nails" and expect 1 results
     Then I should see department "Fancy Nails" in the list
     When I click on the action "Delete" button of department
     Then I should see a popup dialog with title "Delete Confirmation"

@@ -3141,16 +3141,6 @@ Then(
 	},
 );
 
-When('When I click the {string} button', async ({ page }, button: string) => {
-	const btn = page.getByRole('button', {
-		name: new RegExp(`^${button}$`, 'i'),
-	});
-
-	await expect(btn).toBeVisible();
-	await expect(btn).toBeEnabled();
-	await btn.click();
-});
-
 When('I fill the department name {string}', async ({ page }, name: string) => {
 	const dialog = page.getByRole('dialog');
 
@@ -3248,6 +3238,9 @@ Then(
 
 		await expect(departmentCell).toBeVisible();
 		await expect(departmentCell).toContainText(name);
+	},
+);
+
 Then('I should see the default filter set to Today', async ({ page }) => {
 	const rangeDateCell = page.locator('p.pageDetail');
 
@@ -3301,7 +3294,7 @@ Then('I should see the department edit dialog', async ({ page }) => {
 });
 
 Then(
-	'the department name should be {string}',
+	'The department name should be {string}',
 	async ({ page }, name: string) => {
 		await expect(
 			page.getByRole('dialog').locator('input[name="name"]'),
@@ -3310,13 +3303,17 @@ Then(
 );
 
 Then(
-	'the department type should be {string}',
+	'The department type should be {string}',
 	async ({ page }, type: string) => {
 		await expect(
 			page
 				.getByRole('dialog')
 				.getByRole('combobox', { name: /department type/i }),
 		).toHaveText(new RegExp(type, 'i'));
+	},
+);
+
+Then(
 	'I should see the {string} button visible on the header',
 	async ({ page }, buttonText: string) => {
 		const button = page

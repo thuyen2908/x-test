@@ -157,7 +157,6 @@ Feature: Payroll
     When I void the current open ticket with reason "System Test"
     Then I should be redirected to HOME page
 
-  @skip
   Scenario: Commission details in the Owner View are calculated correctly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9969"
