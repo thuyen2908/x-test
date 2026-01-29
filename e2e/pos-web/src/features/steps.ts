@@ -459,6 +459,19 @@ When('I add the {string} customer', async ({ page }, customer: string) => {
 	await selectCustomer.click();
 });
 
+When(
+	'I add the phone number customer {string}',
+	async ({ page }, PhoneCustomer: string) => {
+		const customerSearch = page.locator('.TicketSearch__customer ');
+		await customerSearch.click();
+		//page.waitForTimeout(5000);
+		await customerSearch.getByRole('combobox').fill(PhoneCustomer);
+
+		const selectCustomer = page.locator('li.MuiAutocomplete-option').first();
+
+		await selectCustomer.click();
+	},
+);
 When('I redeem my loyalty points', async ({ page }) => {
 	await page.locator('.xLoyalty__item').click();
 	await page.locator('.xLoyalty__btn').getByText('OK').click();
@@ -751,6 +764,19 @@ Then(
 );
 
 Then(
+	'I should see the first type {string} in the loyalty detail list',
+	async ({ page }, type: string) => {
+		const firstTypeCell = page
+			.locator('.MuiDataGrid-row')
+			.first()
+			.locator('.MuiDataGrid-cell[data-field="type"]');
+
+		await expect(firstTypeCell).toHaveAttribute('title', new RegExp(type));
+		await expect(firstTypeCell).toContainText(type);
+	},
+);
+
+Then(
 	'I should see the first amount {string} in the gift card detail list',
 	async ({ page }, amount: string) => {
 		const firstAmountCell = page
@@ -797,6 +823,25 @@ Then(
 			});
 		});
 		await expect(firstDateCell).not.toContainText(formattedToday);
+	},
+);
+
+Then(
+	'I should see the first date is today in the loyalty detail list',
+	async ({ page }) => {
+		const firstDateCell = page
+			.locator('.MuiDataGrid-row')
+			.first()
+			.locator('.MuiDataGrid-cell[data-field="createdDate"]');
+		const formattedToday = await page.evaluate(() => {
+			const today = new Date();
+			return today.toLocaleDateString('en-US', {
+				year: 'numeric',
+				month: '2-digit',
+				day: '2-digit',
+			});
+		});
+		await expect(firstDateCell).toContainText(formattedToday);
 	},
 );
 
@@ -959,6 +1004,13 @@ When('I remove the tax', async ({ page }) => {
 
 	await expect(deleteTax).toBeVisible();
 	await deleteTax.click();
+});
+
+When('I add the tax', async ({ page }) => {
+	const addTax = page.locator('button:has(svg[data-testid="XAddSquareIcon"])');
+
+	await expect(addTax).toBeVisible();
+	await addTax.click();
 });
 
 Then('I should see the tax display {string}', async ({ page }, tax: string) => {
@@ -2782,13 +2834,15 @@ Then(
 	},
 );
 
-// Payroll Steps
 Then('I should see the Payroll Date default to today', async ({ page }) => {
-	const today = new Date();
-	const month = today.getMonth() + 1;
-	const day = today.getDate();
-	const year = today.getFullYear();
-	const formattedDate = `${month}/${day}/${year}`;
+	// Calculate today's date in the browser context to ensure timezone consistency
+	const formattedDate = await page.evaluate(() => {
+		const today = new Date();
+		const month = today.getMonth() + 1;
+		const day = today.getDate();
+		const year = today.getFullYear();
+		return `${month}/${day}/${year}`;
+	});
 
 	const payrollDateRow = page
 		.locator('table tbody tr')
@@ -3107,6 +3161,31 @@ Then(
 
 		await expect(departmentCell).toBeVisible();
 		await expect(departmentCell).toContainText(name);
+Then('I should see the default filter set to Today', async ({ page }) => {
+	const rangeDateCell = page.locator('p.pageDetail');
+
+	const formattedToday = await page.evaluate(() => {
+		const today = new Date();
+		return today.toLocaleDateString('en-US', {
+			year: 'numeric',
+			month: '2-digit',
+			day: '2-digit',
+		});
+	});
+
+	await expect(rangeDateCell).toBeVisible();
+	await expect(rangeDateCell).toHaveText(
+		`${formattedToday} - ${formattedToday}`,
+	);
+});
+
+Then(
+	'I should see the text {string} in the payroll summary',
+	async ({ page }, text: string) => {
+		const payrollSummary = page.locator('div.summary-title');
+
+		await expect(payrollSummary).toBeVisible();
+		await expect(payrollSummary).toHaveText(text);
 	},
 );
 
@@ -3151,5 +3230,28 @@ Then(
 				.getByRole('dialog')
 				.getByRole('combobox', { name: /department type/i }),
 		).toHaveText(new RegExp(type, 'i'));
+	'I should see the {string} button visible on the header',
+	async ({ page }, buttonText: string) => {
+		const button = page
+			.locator('div.xHeader__func_right')
+			.filter({ hasText: buttonText });
+
+		await expect(button).toBeVisible();
+	},
+);
+
+When('I select the theme {string}', async ({ page }, theme: string) => {
+	const themeItem = page
+		.locator('.xChangeTheme--item')
+		.filter({ hasText: theme });
+	await expect(themeItem).toBeVisible();
+	await themeItem.click();
+});
+
+Then(
+	'I should see the theme {string} applied to the application',
+	async ({ page }, theme: string) => {
+		const themeBody = page.locator(`body[data-theme="${theme}"]`);
+		await expect(themeBody).toBeVisible();
 	},
 );

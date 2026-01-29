@@ -66,8 +66,7 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-  @skip
-  Scenario: Add an existing customer to a new ticket and pay with Loyalty points
+  Scenario: Update redeem after paying with Loyalty points
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8102"
     Then I should see the employee "Tim" in the employee list
@@ -76,8 +75,8 @@ Feature: Create tickets
     Then I should see my cart showing 1 item added
 
     When I wait for the page fully loaded
-    And I add the "Tin" customer
-    Then I should see a new customer "Tin" on ticket
+    And I add the phone number customer "5555555555"
+    Then I should see a new customer "Bonnie" on ticket
 
     When I click on the "PAY" button
     Then I should see a popup dialog with title "Reward"
@@ -88,6 +87,16 @@ Feature: Create tickets
 
     When I redeem my loyalty points
     Then I should be redirected to HOME page
+
+    Given I am on the LOYALTY_BALANCE page
+    When I enter the amount "5555555555"
+    And I click on the "SEARCH" button
+    And I wait for the page fully loaded
+
+    Then I should see the text "Customer: Bonnie" visible
+    Then I should see the first date is today in the loyalty detail list
+    And I should see the first type "Issuance" in the loyalty detail list
+    And I should see the first amount "0" in the gift card detail list
 
   Scenario: Create a new customer on the fly
     Given I am on the HOME page
@@ -195,12 +204,7 @@ Feature: Create tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-    When I navigate to "Appointment" on the navigation bar
-    And I navigate to "Balance" on the navigation bar
-    And I navigate to "Gift Card" on the navigation bar
-    Then I should be redirected to GIFT_CARD_BALANCE page
-    And I should see the text "Gift Card" visible
-
+    Given I am on the GIFT_CARD_BALANCE page
     When I enter the amount "1403"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
@@ -457,14 +461,7 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-    When I wait for the page fully loaded
-    And I navigate to "Appointment" on the navigation bar
-    And I navigate to "Balance" on the navigation bar
-    And I navigate to "Gift Card" on the navigation bar
-    And I wait for the page fully loaded
-    Then I should be redirected to GIFT_CARD_BALANCE page
-    And I should see the text "Gift Card" visible
-
+    Given I am on the GIFT_CARD_BALANCE page
     When I enter the amount "1234"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
@@ -504,14 +501,7 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-    When I wait for the page fully loaded
-    And I navigate to "Appointment" on the navigation bar
-    And I navigate to "Balance" on the navigation bar
-    And I navigate to "Gift Card" on the navigation bar
-    And I wait for the page fully loaded
-    Then I should be redirected to GIFT_CARD_BALANCE page
-    And I should see the text "Gift Card" visible
-
+    Given I am on the GIFT_CARD_BALANCE page
     When I enter the amount "4321"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
@@ -1072,4 +1062,32 @@ Feature: Create tickets
     And I should see the user info "Paige" in the ticket
 
     When I void the current open ticket with reason "System Test"
+    Then I should be redirected to HOME page
+
+  Scenario: No cash discount is charged when selling GC
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "8903"
+    Then I should see the employee "Keelin" in the employee list
+    When I select the "Keelin" employee
+    And I add the "Manicure" service to my cart
+    When I select the "GIFT CARD" category
+    And I add the "Gift card $100" service to my cart
+    Then I should see a popup dialog with title "Activate Gift Card $100.00"
+
+    When I enter the amount "4321"
+    And I click on the "OK" button in the popup dialog
+    Then I should see the number card "4321" visible
+    When I click on the "REWRITE" button in the popup dialog
+    Then I should see the service "Gift card $100 (4321)" in my cart
+    And I should see my cart showing 2 item added
+
+    When I click on the "PAY" button
+    Then I should see the card price amount "$106.18" visible
+    And I should see the cash price amount "$106.00" visible
+
+    When I select the "Cash" payment type
+    And I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
