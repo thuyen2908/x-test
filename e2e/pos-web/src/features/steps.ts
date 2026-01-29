@@ -3255,3 +3255,64 @@ Then(
 		await expect(themeBody).toBeVisible();
 	},
 );
+
+///////////Discount Steps////////////
+When(
+	'I fill the new Discount name {string}',
+	async ({ page }, nameDC: string) => {
+		const discountName = page.locator('input[name="discountName"]');
+		await discountName.fill(nameDC);
+
+		await expect(discountName).toHaveValue(nameDC);
+	},
+);
+When('I fill the DisplayDC name {string}', async ({ page }, nameDP: string) => {
+	const displayDCName = page.locator('input[name="displayName"]');
+	await displayDCName.fill(nameDP);
+	await expect(displayDCName).toHaveValue(nameDP);
+});
+When(
+	'I fill the Amount Discount {string}',
+	async ({ page }, amount: string) => {
+		const AmountDC = page.locator('input[id="amount"]');
+		await AmountDC.fill(amount);
+
+		await expect(AmountDC).toHaveValue(amount);
+	},
+);
+When(
+	'I Select the Discount method {string}',
+	async ({ page }, method: string) => {
+		const DCMethod = page.locator('#mui-component-select-discountMethod');
+		await DCMethod.click();
+		const selectDCMethod = page
+			.locator('li.MuiMenuItem-gutters')
+			.last()
+			.getByText(method, { exact: true });
+		await selectDCMethod.click();
+	},
+);
+Then(
+	'I should see the new Discount {string}, Amount {string}, in the Discounts list',
+	async ({ page }, discountName: string, AmountDC: string) => {
+		const DiscountNameCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="name"]', { hasText: discountName })
+			.first();
+		const DiscountAmountCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="amount"]', { hasText: AmountDC })
+			.first();
+		await expect(DiscountNameCell).toBeVisible();
+		await expect(DiscountNameCell).toHaveText(discountName);
+		await expect(DiscountAmountCell).toHaveText(AmountDC);
+	},
+);
+When(
+	'I click on the action {string} button for discount item {string}',
+	async ({ page }, action: string, discountName: string) => {
+		const row = page.locator(`.MuiDataGrid-row:has-text("${discountName}")`);
+		const button = row.locator(`[aria-label="${action}"]`);
+		await button.click();
+	},
+);
