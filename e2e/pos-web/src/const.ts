@@ -84,6 +84,7 @@ export class Const {
 			[PageId.PRODUCTS]: `${baseURL}/management/products`,
 			[PageId.TAX]: `${baseURL}/management/tax`,
 			[PageId.DISCOUNT]: `${baseURL}/management/discount`,
+			[PageId.CRDISCOUNT]: `${baseURL}/management/discount/create`,
 			[PageId.DEPARTMENT]: `${baseURL}/management/department`,
 			[PageId.VOID_REASONS]: `${baseURL}/management/void-reasons`,
 			[PageId.APPOINTMENT_COLOR]: `${baseURL}/management/appointment-color`,
