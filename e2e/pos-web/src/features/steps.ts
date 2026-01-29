@@ -2892,6 +2892,93 @@ Then(
 		await expect(workDaysCell).toHaveText(workDays);
 	},
 );
+Then(
+	'I should see the text {string} in the single payroll view',
+	async ({ page }, text: string) => {
+		const saleSummaryRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: text });
+		await expect(saleSummaryRow).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the first Total {string} in the single payroll view',
+	async ({ page }, amount: string) => {
+		const totalRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Total' })
+			.first();
+		const amountCell = totalRow.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
+	},
+);
+
+Then(
+	'I should see the detail {string} in the single payroll view',
+	async ({ page }, detail: string) => {
+		const colonIndex = detail.indexOf(':');
+		if (colonIndex === -1) {
+			throw new Error(
+				`Invalid detail format: "${detail}". Expected format: "Label: Value"`,
+			);
+		}
+
+		const label = detail.substring(0, colonIndex + 1).trim();
+		const expectedValue = detail.substring(colonIndex + 1).trim();
+
+		const detailRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: label })
+			.first();
+
+		const valueCell = detailRow.locator('td').nth(1);
+
+		await expect(valueCell).toBeVisible();
+		await expect(valueCell).toContainText(expectedValue);
+	},
+);
+
+Then(
+	'I should see the Product {string} in the single payroll view',
+	async ({ page }, amount: string) => {
+		const productRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Product' })
+			.nth(1);
+
+		await expect(productRow).toBeVisible();
+		await expect(productRow).toContainText(amount);
+	},
+);
+
+Then(
+	'I should see the Service {string} in the single payroll View',
+	async ({ page }, amount: string) => {
+		const serviceRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Service' });
+
+		await expect(serviceRow).toBeVisible();
+		await expect(serviceRow).toContainText(amount);
+	},
+);
+
+Then(
+	'I should see the second Total {string} in the single payroll view',
+	async ({ page }, amount: string) => {
+		const totalRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Total' })
+			.nth(1);
+		const amountCell = totalRow.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
+	},
+);
 
 Then(
 	'I should see the text {string} in the employee view',
