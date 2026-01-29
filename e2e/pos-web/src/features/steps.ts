@@ -95,6 +95,17 @@ Then(
 	},
 );
 
+Then(
+	'My cart should contain {string} item',
+	async ({ page }, itemCount: string) => {
+		const itemCountElement = page.locator(
+			'svg[data-testid="PrintTicketIconIcon"] + span',
+		);
+
+		await expect(itemCountElement).toHaveText(itemCount.toString());
+	},
+);
+
 When('I click on the {string} button', async ({ page }, buttonText: string) => {
 	const button = page.getByRole('button', { name: buttonText, exact: true });
 	await expect(button).toBeVisible();
@@ -448,6 +459,19 @@ When('I add the {string} customer', async ({ page }, customer: string) => {
 	await selectCustomer.click();
 });
 
+When(
+	'I add the phone number customer {string}',
+	async ({ page }, PhoneCustomer: string) => {
+		const customerSearch = page.locator('.TicketSearch__customer ');
+		await customerSearch.click();
+		//page.waitForTimeout(5000);
+		await customerSearch.getByRole('combobox').fill(PhoneCustomer);
+
+		const selectCustomer = page.locator('li.MuiAutocomplete-option').first();
+
+		await selectCustomer.click();
+	},
+);
 When('I redeem my loyalty points', async ({ page }) => {
 	await page.locator('.xLoyalty__item').click();
 	await page.locator('.xLoyalty__btn').getByText('OK').click();
@@ -533,6 +557,10 @@ Then(
 		await expect(serviceElement).toHaveText(service);
 	},
 );
+
+Then('My cart should contain {string}', async ({ page }, text: string) => {
+	await expect(page.locator('.xTicketItems__content')).toContainText(text);
+});
 
 Then(
 	'I should see the duration {string} in my cart',
@@ -736,6 +764,19 @@ Then(
 );
 
 Then(
+	'I should see the first type {string} in the loyalty detail list',
+	async ({ page }, type: string) => {
+		const firstTypeCell = page
+			.locator('.MuiDataGrid-row')
+			.first()
+			.locator('.MuiDataGrid-cell[data-field="type"]');
+
+		await expect(firstTypeCell).toHaveAttribute('title', new RegExp(type));
+		await expect(firstTypeCell).toContainText(type);
+	},
+);
+
+Then(
 	'I should see the first amount {string} in the gift card detail list',
 	async ({ page }, amount: string) => {
 		const firstAmountCell = page
@@ -754,11 +795,51 @@ Then(
 			.locator('.MuiDataGrid-row')
 			.first()
 			.locator('.MuiDataGrid-cell[data-field="createdAt"]');
-		const today = new Date();
-		const formattedToday = today.toLocaleDateString('en-US', {
-			year: 'numeric',
-			month: '2-digit',
-			day: '2-digit',
+		const formattedToday = await page.evaluate(() => {
+			const today = new Date();
+			return today.toLocaleDateString('en-US', {
+				year: 'numeric',
+				month: '2-digit',
+				day: '2-digit',
+			});
+		});
+		await expect(firstDateCell).toContainText(formattedToday);
+	},
+);
+
+Then(
+	'I should see the first date is not today in the gift card detail list',
+	async ({ page }) => {
+		const firstDateCell = page
+			.locator('.MuiDataGrid-row')
+			.first()
+			.locator('.MuiDataGrid-cell[data-field="createdAt"]');
+		const formattedToday = await page.evaluate(() => {
+			const today = new Date();
+			return today.toLocaleDateString('en-US', {
+				year: 'numeric',
+				month: '2-digit',
+				day: '2-digit',
+			});
+		});
+		await expect(firstDateCell).not.toContainText(formattedToday);
+	},
+);
+
+Then(
+	'I should see the first date is today in the loyalty detail list',
+	async ({ page }) => {
+		const firstDateCell = page
+			.locator('.MuiDataGrid-row')
+			.first()
+			.locator('.MuiDataGrid-cell[data-field="createdDate"]');
+		const formattedToday = await page.evaluate(() => {
+			const today = new Date();
+			return today.toLocaleDateString('en-US', {
+				year: 'numeric',
+				month: '2-digit',
+				day: '2-digit',
+			});
 		});
 		await expect(firstDateCell).toContainText(formattedToday);
 	},
@@ -923,6 +1004,13 @@ When('I remove the tax', async ({ page }) => {
 
 	await expect(deleteTax).toBeVisible();
 	await deleteTax.click();
+});
+
+When('I add the tax', async ({ page }) => {
+	const addTax = page.locator('button:has(svg[data-testid="XAddSquareIcon"])');
+
+	await expect(addTax).toBeVisible();
+	await addTax.click();
 });
 
 Then('I should see the tax display {string}', async ({ page }, tax: string) => {
@@ -1246,6 +1334,26 @@ When(
 	},
 );
 
+When(
+	'I select the {string} employee from the technician dropdown in the dialog',
+	async ({ page }, employee: string) => {
+		// Scope to the dialog and select the technician dropdown by accessible name
+		const dialog = page.getByRole('dialog');
+		await dialog.getByRole('combobox', { name: /technician/i }).click();
+
+		await page.waitForSelector('ul.MuiAutocomplete-listbox', {
+			state: 'visible',
+		});
+
+		const option = page
+			.locator('li.MuiAutocomplete-option')
+			.filter({ hasText: employee });
+
+		await expect(option).toBeVisible();
+		await option.click();
+	},
+);
+
 Then('I should see the title {string}', async ({ page }, employee: string) => {
 	const employeeElement = page.locator('.header-title').getByText(employee);
 	await expect(employeeElement).toContainText(employee);
@@ -1503,6 +1611,118 @@ When(
 		await expect(appointmentElement).toBeVisible();
 		await expect(appointmentElement).toContainText(customerName);
 		await appointmentElement.click();
+	},
+);
+
+Then(
+	'I should see the categories displayed correctly in ticket view',
+	async ({ page }) => {
+		const expectedCategories = [
+			'MANI & PEDI',
+			'FULL SET & FILL IN',
+			'ADDITIONAL SERVICE',
+			'GIFT CARD',
+		];
+
+		const categoryElements = page.locator('[role="tablist"] span');
+		await expect(categoryElements).toHaveCount(expectedCategories.length);
+
+		for (let i = 0; i < expectedCategories.length; i++) {
+			const categoryName = await categoryElements.nth(i).innerText();
+			expect(categoryName.trim()).toBe(expectedCategories[i]);
+		}
+	},
+);
+
+Then(
+	'I should see all services in the first category displayed correctly',
+	async ({ page }) => {
+		const expectedServices = [
+			'Manicure',
+			'Pedicure',
+			'Cut cuticle',
+			'Gel removal',
+			'Acrylic removal',
+			'Gel X',
+			'Request price',
+			'Combo 1',
+			'Combo 2',
+			'Supper combo',
+		];
+
+		const serviceElements = page.locator(
+			'li.ItemService .ItemService__name span',
+		);
+		await expect(serviceElements).toHaveCount(expectedServices.length);
+
+		for (let i = 0; i < expectedServices.length; i++) {
+			const serviceName = await serviceElements.nth(i).innerText();
+			expect(serviceName.trim()).toBe(expectedServices[i]);
+		}
+	},
+);
+
+Then(
+	'I should see all services in the second category displayed correctly',
+	async ({ page }) => {
+		const expectedServices = [
+			'Full set',
+			'Fill gel',
+			'Gel polish',
+			'French full set',
+			'Taxable',
+		];
+
+		const serviceElements = page.locator(
+			'li.ItemService .ItemService__name span',
+		);
+		await expect(serviceElements).toHaveCount(expectedServices.length);
+
+		for (let i = 0; i < expectedServices.length; i++) {
+			const serviceName = await serviceElements.nth(i).innerText();
+			expect(serviceName.trim()).toBe(expectedServices[i]);
+		}
+	},
+);
+
+Then(
+	'I should see all services in the third category displayed correctly',
+	async ({ page }) => {
+		const expectedServices = ['Ombre'];
+
+		const serviceElements = page.locator(
+			'li.ItemService .ItemService__name span',
+		);
+		await expect(serviceElements).toHaveCount(expectedServices.length);
+
+		for (let i = 0; i < expectedServices.length; i++) {
+			const serviceName = await serviceElements.nth(i).innerText();
+			expect(serviceName.trim()).toBe(expectedServices[i]);
+		}
+	},
+);
+
+Then(
+	'I should see all services in the fourth category displayed correctly',
+	async ({ page }) => {
+		const expectedServices = [
+			'Shampoo',
+			'Gift card $100',
+			'Any gift card',
+			'Gift card $50',
+			'Gift Card $199',
+			'Custom Gift Card',
+		];
+
+		const serviceElements = page.locator(
+			'li.ItemService .ItemService__name span',
+		);
+		await expect(serviceElements).toHaveCount(expectedServices.length);
+
+		for (let i = 0; i < expectedServices.length; i++) {
+			const serviceName = await serviceElements.nth(i).innerText();
+			expect(serviceName.trim()).toBe(expectedServices[i]);
+		}
 	},
 );
 
@@ -1808,6 +2028,58 @@ Then(
 		await expect(statusElement).toContainText(status);
 	},
 );
+
+When('I select view {string}', async ({ page }, view: string) => {
+	const viewButton = page.getByRole('button', { name: view });
+	await expect(viewButton).toBeVisible();
+	await viewButton.click();
+});
+
+Then(
+	'I should see the start of the week as {string}',
+	async ({ page }, day: string) => {
+		const dayElement = page.locator('.e-header-day').first();
+		await expect(dayElement).toBeVisible();
+		await expect(dayElement).toContainText(day);
+	},
+);
+
+When('I fill the start time {string}', async ({ page }, startTime: string) => {
+	const startTimeInput = page
+		.locator('.MuiInputBase-root')
+		.nth(3)
+		.locator('input');
+
+	await expect(startTimeInput).toBeVisible();
+	await startTimeInput.fill(startTime);
+	await expect(startTimeInput).toHaveValue(startTime);
+});
+
+When('I fill the end time {string}', async ({ page }, endTime: string) => {
+	const endTimeInput = page
+		.locator('.MuiInputBase-root')
+		.nth(5)
+		.locator('input');
+
+	await expect(endTimeInput).toBeVisible();
+	await endTimeInput.fill(endTime);
+	await expect(endTimeInput).toHaveValue(endTime);
+});
+
+When('I fill the reason block {string}', async ({ page }, reason: string) => {
+	const reasonInput = page.locator('textarea[name="blockReason"]');
+	await reasonInput.fill(reason);
+});
+
+When('I switch ON {string}', async ({ page }, labelName: string) => {
+	const switchElement = page
+		.locator('.MuiFormControlLabel-root')
+		.filter({ hasText: labelName })
+		.locator('input[type="checkbox"]');
+
+	await switchElement.check();
+	await expect(switchElement).toBeChecked();
+});
 
 Then(
 	'I should see an employee row with:',
@@ -2284,11 +2556,13 @@ Then('I should see the date is today on the receipt', async ({ page }) => {
 		.locator('table >> text=Date')
 		.locator('xpath=following-sibling::td[1]');
 	const receiptDateText = await dateCell.innerText();
-	const today = new Date();
-	const formattedToday = today.toLocaleDateString('en-US', {
-		year: 'numeric',
-		month: '2-digit',
-		day: '2-digit',
+	const formattedToday = await page.evaluate(() => {
+		const today = new Date();
+		return today.toLocaleDateString('en-US', {
+			year: 'numeric',
+			month: '2-digit',
+			day: '2-digit',
+		});
 	});
 	expect(receiptDateText).toContain(formattedToday);
 });
@@ -2541,5 +2815,588 @@ Then(
 
 		const textElement = dialog.locator('p').getByText(text);
 		await expect(textElement).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the loyalty program list displayed correctly',
+	async ({ page }) => {
+		await page.locator('#mui-component-select-loyaltyProgramId').click();
+		const listbox = page.getByRole('listbox');
+		await expect(listbox).toBeVisible();
+		const options = page.getByRole('option');
+
+		await expect(options).toHaveText([
+			'=== NONE ===',
+			'1 Point for $1',
+			'2 Points = $1',
+		]);
+	},
+);
+
+Then('I should see the Payroll Date default to today', async ({ page }) => {
+	// Calculate today's date in the browser context to ensure timezone consistency
+	const formattedDate = await page.evaluate(() => {
+		const today = new Date();
+		const month = today.getMonth() + 1;
+		const day = today.getDate();
+		const year = today.getFullYear();
+		return `${month}/${day}/${year}`;
+	});
+
+	const payrollDateRow = page
+		.locator('table tbody tr')
+		.filter({ hasText: 'Payroll Date' });
+	const dateCell = payrollDateRow.locator('td').nth(1);
+
+	await expect(dateCell).toBeVisible();
+	const dateText = await dateCell.textContent();
+	expect(dateText).toContain(formattedDate);
+});
+
+Then(
+	'I should see the technician name {string} in the employee view',
+	async ({ page }, technicianName: string) => {
+		const technicianRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Technician' });
+		const nameCell = technicianRow.locator('td').nth(1);
+
+		await expect(nameCell).toBeVisible();
+		await expect(nameCell).toHaveText(technicianName);
+	},
+);
+
+Then(
+	'I should see the payroll type {string} in the employee view',
+	async ({ page }, payrollType: string) => {
+		const typeRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Payroll Type' });
+		const typeCell = typeRow.locator('td').nth(1);
+
+		await expect(typeCell).toBeVisible();
+		await expect(typeCell).toHaveText(payrollType);
+	},
+);
+
+Then(
+	'I should see the # of Work Days {string} in the employee view',
+	async ({ page }, workDays: string) => {
+		const workDaysRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: '# of Work Days' });
+		const workDaysCell = workDaysRow.locator('td').nth(1);
+
+		await expect(workDaysCell).toBeVisible();
+		await expect(workDaysCell).toHaveText(workDays);
+	},
+);
+Then(
+	'I should see the text {string} in the single payroll view',
+	async ({ page }, text: string) => {
+		const saleSummaryRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: text });
+		await expect(saleSummaryRow).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the first Total {string} in the single payroll view',
+	async ({ page }, amount: string) => {
+		const totalRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Total' })
+			.first();
+		const amountCell = totalRow.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
+	},
+);
+
+Then(
+	'I should see the detail {string} in the single payroll view',
+	async ({ page }, detail: string) => {
+		const colonIndex = detail.indexOf(':');
+		if (colonIndex === -1) {
+			throw new Error(
+				`Invalid detail format: "${detail}". Expected format: "Label: Value"`,
+			);
+		}
+
+		const label = detail.substring(0, colonIndex + 1).trim();
+		const expectedValue = detail.substring(colonIndex + 1).trim();
+
+		const detailRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: label })
+			.first();
+
+		const valueCell = detailRow.locator('td').nth(1);
+
+		await expect(valueCell).toBeVisible();
+		await expect(valueCell).toContainText(expectedValue);
+	},
+);
+
+Then(
+	'I should see the Product {string} in the single payroll view',
+	async ({ page }, amount: string) => {
+		const productRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Product' })
+			.nth(1);
+
+		await expect(productRow).toBeVisible();
+		await expect(productRow).toContainText(amount);
+	},
+);
+
+Then(
+	'I should see the Service {string} in the single payroll View',
+	async ({ page }, amount: string) => {
+		const serviceRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Service' });
+
+		await expect(serviceRow).toBeVisible();
+		await expect(serviceRow).toContainText(amount);
+	},
+);
+
+Then(
+	'I should see the second Total {string} in the single payroll view',
+	async ({ page }, amount: string) => {
+		const totalRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Total' })
+			.nth(1);
+		const amountCell = totalRow.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
+	},
+);
+
+Then(
+	'I should see the text {string} in the employee view',
+	async ({ page }, text: string) => {
+		const divider = page.locator('div.text-divider').filter({ hasText: text });
+
+		await expect(divider).toBeVisible();
+		await expect(divider.locator('span.item-divider')).toHaveText(text);
+	},
+);
+
+Then(
+	'I should see the Total Sale {string} in the employee view',
+	async ({ page }, amount: string) => {
+		const totalSaleRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Total Sale' });
+		const amountCell = totalSaleRow.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
+	},
+);
+
+Then(
+	'I should see the Net Total Sale {string} in the employee view',
+	async ({ page }, amount: string) => {
+		const netTotalSaleRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Net Total Sale' });
+		const amountCell = netTotalSaleRow.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
+	},
+);
+
+Then(
+	'I should see the Service Commission {string} in the employee view',
+	async ({ page }, amount: string) => {
+		const commissionRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Service Commission' });
+		const amountCell = commissionRow.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
+	},
+);
+
+Then(
+	'I should see the Product Commission {string} in the employee view',
+	async ({ page }, amount: string) => {
+		const commissionRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Product Commission' });
+		const amountCell = commissionRow.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
+	},
+);
+
+Then(
+	'I should see the Daily Maintenance Fee {string} in the employee view',
+	async ({ page }, amount: string) => {
+		const feeRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Daily Maintenance Fee' });
+		const amountCell = feeRow.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
+	},
+);
+
+Then(
+	'I should see the Net Non-Cash Tip {string} in the employee view',
+	async ({ page }, amount: string) => {
+		const tipRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Net Non-Cash Tip' });
+		const amountCell = tipRow.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
+	},
+);
+
+Then(
+	'I should see the Tax Withheld on Cash {string} in the employee view',
+	async ({ page }, amount: string) => {
+		const taxRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Tax Withheld on Cash' });
+		const amountCell = taxRow.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
+	},
+);
+
+Then(
+	'I should see the Total Payout {string} in the employee view',
+	async ({ page }, amount: string) => {
+		const payoutRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Total Payout' });
+		const amountCell = payoutRow.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
+	},
+);
+
+Then(
+	'I should see the Pay 1 {string} in the employee view',
+	async ({ page }, amount: string) => {
+		const pay1Row = page.locator('table tbody tr').filter({ hasText: 'Pay 1' });
+		const amountCell = pay1Row.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
+	},
+);
+
+Then(
+	'I should see the Pay 2 {string} in the employee view',
+	async ({ page }, amount: string) => {
+		const pay2Row = page.locator('table tbody tr').filter({ hasText: 'Pay 2' });
+		const amountCell = pay2Row.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
+	},
+);
+
+Then(
+	'I should see the Total Sales, Net Comm, NC Tip, Total Payout as {string} in employee view',
+	async ({ page }, expectedValues: string) => {
+		const values = expectedValues.split(' ');
+		expect(values).toHaveLength(4);
+
+		const [totalSales, netComm, ncTip, totalPayout] = values;
+
+		const detailsTable = page.locator('table.details-payroll');
+		const dataRow = detailsTable.locator('tbody tr').nth(1);
+
+		await expect(dataRow).toBeVisible();
+
+		const totalSalesCell = dataRow.locator('td').nth(2);
+		const netCommCell = dataRow.locator('td').nth(3);
+		const ncTipCell = dataRow.locator('td').nth(4);
+		const totalPayoutCell = dataRow.locator('td').nth(5);
+
+		await expect(totalSalesCell).toHaveText(totalSales);
+		await expect(netCommCell).toHaveText(netComm);
+		await expect(ncTipCell).toHaveText(ncTip);
+		await expect(totalPayoutCell).toHaveText(totalPayout);
+	},
+);
+
+When('I fill the department name {string}', async ({ page }, name: string) => {
+	const dialog = page.getByRole('dialog');
+
+	const input = dialog.locator('input[name="name"]');
+
+	await expect(input).toBeVisible();
+	await expect(input).toBeEnabled();
+
+	await input.fill(name);
+	await expect(input).toHaveValue(name);
+});
+
+When('I select department type {string}', async ({ page }, type: string) => {
+	const dialog = page.getByRole('dialog');
+
+	const dropdown = dialog.getByRole('combobox', {
+		name: /department type/i,
+	});
+
+	await expect(dropdown).toBeVisible();
+	await dropdown.click();
+
+	const option = page.getByRole('option', {
+		name: new RegExp(`^${type}$`, 'i'),
+	});
+
+	await expect(option).toBeVisible();
+	await option.click();
+
+	await expect(dropdown).toHaveText(new RegExp(type, 'i'));
+});
+
+When('I click on refresh department', async ({ page }) => {
+	await page.locator('[data-testid="ReplayIcon"]').click();
+});
+
+When(
+	'I search department with keyword {string} and expect {int} results',
+	async ({ page }, keyword: string, count: number) => {
+		const input = page.locator('input[placeholder="Search…"]');
+		const rows = page.locator('.MuiDataGrid-row');
+
+		await expect(input).toBeVisible();
+
+		await input.fill('');
+		await input.click();
+		await page.keyboard.type(keyword, { delay: 30 });
+
+		await expect(rows).toHaveCount(count);
+	},
+);
+
+When(
+	'I click on the action {string} button of department',
+	async ({ page }, button: string) => {
+		await page.getByRole('menuitem', { name: button }).click();
+	},
+);
+
+When(
+	'I click the {string} button in the dialog',
+	async ({ page }, text: string) => {
+		await page
+			.getByRole('dialog')
+			.getByRole('button', { name: new RegExp(`^${text}$`, 'i') })
+			.click();
+	},
+);
+
+When(
+	'I double click on the department row {string}',
+	async ({ page }, departmentName: string) => {
+		const nameCell = page.locator(
+			`.MuiDataGrid-cell[data-field="name"]:has-text("${departmentName}")`,
+		);
+
+		await expect(nameCell).toBeVisible();
+		await nameCell.dblclick();
+	},
+);
+
+When('I clear department search', async ({ page }) => {
+	const input = page.locator('input[placeholder="Search…"]');
+	await input.fill('');
+	await input.dispatchEvent('input');
+});
+
+Then(
+	'I should see department {string} in the list',
+	async ({ page }, name: string) => {
+		const departmentCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="name"]', { hasText: name })
+			.first();
+
+		await expect(departmentCell).toBeVisible();
+		await expect(departmentCell).toContainText(name);
+	},
+);
+
+Then('I should see the default filter set to Today', async ({ page }) => {
+	const rangeDateCell = page.locator('p.pageDetail');
+
+	const formattedToday = await page.evaluate(() => {
+		const today = new Date();
+		return today.toLocaleDateString('en-US', {
+			year: 'numeric',
+			month: '2-digit',
+			day: '2-digit',
+		});
+	});
+
+	await expect(rangeDateCell).toBeVisible();
+	await expect(rangeDateCell).toHaveText(
+		`${formattedToday} - ${formattedToday}`,
+	);
+});
+
+Then(
+	'I should see the text {string} in the payroll summary',
+	async ({ page }, text: string) => {
+		const payrollSummary = page.locator('div.summary-title');
+
+		await expect(payrollSummary).toBeVisible();
+		await expect(payrollSummary).toHaveText(text);
+	},
+);
+
+Then(
+	'I should not see department {string} in the list',
+	async ({ page }, name: string) => {
+		const departmentCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="name"]', { hasText: name });
+
+		await expect(departmentCell).toHaveCount(0);
+	},
+);
+
+Then('department type should be {string}', async ({ page }, type: string) => {
+	const deptTypeCell = page
+		.locator('.MuiDataGrid-row')
+		.first()
+		.locator('[data-field="deptType"]');
+
+	await expect(deptTypeCell).toContainText(type);
+});
+
+Then('I should see the department edit dialog', async ({ page }) => {
+	await expect(page.getByRole('dialog')).toBeVisible();
+});
+
+Then(
+	'The department name should be {string}',
+	async ({ page }, name: string) => {
+		await expect(
+			page.getByRole('dialog').locator('input[name="name"]'),
+		).toHaveValue(name);
+	},
+);
+
+Then(
+	'The department type should be {string}',
+	async ({ page }, type: string) => {
+		await expect(
+			page
+				.getByRole('dialog')
+				.getByRole('combobox', { name: /department type/i }),
+		).toHaveText(new RegExp(type, 'i'));
+	},
+);
+
+Then(
+	'I should see the {string} button visible on the header',
+	async ({ page }, buttonText: string) => {
+		const button = page
+			.locator('div.xHeader__func_right')
+			.filter({ hasText: buttonText });
+
+		await expect(button).toBeVisible();
+	},
+);
+
+When('I select the theme {string}', async ({ page }, theme: string) => {
+	const themeItem = page
+		.locator('.xChangeTheme--item')
+		.filter({ hasText: theme });
+	await expect(themeItem).toBeVisible();
+	await themeItem.click();
+});
+
+Then(
+	'I should see the theme {string} applied to the application',
+	async ({ page }, theme: string) => {
+		const themeBody = page.locator(`body[data-theme="${theme}"]`);
+		await expect(themeBody).toBeVisible();
+	},
+);
+
+///////////Discount Steps////////////
+When(
+	'I fill the new Discount name {string}',
+	async ({ page }, nameDC: string) => {
+		const discountName = page.locator('input[name="discountName"]');
+		await discountName.fill(nameDC);
+
+		await expect(discountName).toHaveValue(nameDC);
+	},
+);
+When('I fill the DisplayDC name {string}', async ({ page }, nameDP: string) => {
+	const displayDCName = page.locator('input[name="displayName"]');
+	await displayDCName.fill(nameDP);
+	await expect(displayDCName).toHaveValue(nameDP);
+});
+When(
+	'I fill the Amount Discount {string}',
+	async ({ page }, amount: string) => {
+		const AmountDC = page.locator('input[id="amount"]');
+		await AmountDC.fill(amount);
+
+		await expect(AmountDC).toHaveValue(amount);
+	},
+);
+When(
+	'I Select the Discount method {string}',
+	async ({ page }, method: string) => {
+		const DCMethod = page.locator('#mui-component-select-discountMethod');
+		await DCMethod.click();
+		const selectDCMethod = page
+			.locator('li.MuiMenuItem-gutters')
+			.last()
+			.getByText(method, { exact: true });
+		await selectDCMethod.click();
+	},
+);
+Then(
+	'I should see the new Discount {string}, Amount {string}, in the Discounts list',
+	async ({ page }, discountName: string, AmountDC: string) => {
+		const DiscountNameCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="name"]', { hasText: discountName })
+			.first();
+		const DiscountAmountCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="amount"]', { hasText: AmountDC })
+			.first();
+		await expect(DiscountNameCell).toBeVisible();
+		await expect(DiscountNameCell).toHaveText(discountName);
+		await expect(DiscountAmountCell).toHaveText(AmountDC);
+	},
+);
+When(
+	'I click on the action {string} button for discount item {string}',
+	async ({ page }, action: string, discountName: string) => {
+		const row = page.locator(`.MuiDataGrid-row:has-text("${discountName}")`);
+		const button = row.locator(`[aria-label="${action}"]`);
+		await button.click();
 	},
 );

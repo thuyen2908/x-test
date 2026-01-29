@@ -48,7 +48,7 @@
 		"e2e:test": "turbo test --filter='./e2e/*'"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.3.11",
+		"@biomejs/biome": "^2.3.12",
 		"@commitlint/cli": "^20.3.1",
 		"@commitlint/config-conventional": "^20.3.1",
 		"@commitlint/types": "^20.3.1",
@@ -57,7 +57,7 @@
 		"cz-conventional-changelog": "^3.3.0",
 		"lefthook": "^2.0.15",
 		"rimraf": "^6.1.2",
-		"turbo": "^2.7.5",
+		"turbo": "^2.7.6",
 		"typescript": "^5.9.3"
 	}
 }

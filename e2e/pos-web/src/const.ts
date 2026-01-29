@@ -84,6 +84,7 @@ export class Const {
 			[PageId.PRODUCTS]: `${baseURL}/management/products`,
 			[PageId.TAX]: `${baseURL}/management/tax`,
 			[PageId.DISCOUNT]: `${baseURL}/management/discount`,
+			[PageId.CRDISCOUNT]: `${baseURL}/management/discount/create`,
 			[PageId.DEPARTMENT]: `${baseURL}/management/department`,
 			[PageId.VOID_REASONS]: `${baseURL}/management/void-reasons`,
 			[PageId.APPOINTMENT_COLOR]: `${baseURL}/management/appointment-color`,
@@ -97,6 +98,11 @@ export class Const {
 			[PageId.RUN_LOG]: `${baseURL}/management/run-log`,
 			[PageId.SMS_LOG]: `${baseURL}/management/sms-log`,
 			[PageId.CONNECTION_LOG]: `${baseURL}/management/connection-log`,
+			[PageId.QUICK_PAYROLL]: `${baseURL}/management/quick-payroll`,
+			[PageId.CASH_IN_OUT]: `${baseURL}/management/cash-in-out`,
+			[PageId.MANAGER_TIMESHEET]: `${baseURL}/management/timesheet`,
+			[PageId.ONLINE_GIFT_CARD_INVENTORY]: `${baseURL}/management/online-gift-card-inventory`,
+			[PageId.PAID_ONLINE_GIFT_CARD]: `${baseURL}/management/paid-online-gift-card`,
 		} as const;
 	}
 

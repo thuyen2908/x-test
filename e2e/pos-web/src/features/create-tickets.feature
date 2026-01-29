@@ -1,7 +1,50 @@
 @slow @regression @smoke
 Feature: Create tickets
 
-  Scenario: Create a ticket for the Owner role
+  Scenario: Display the default loyalty program and loyalty program list when adding a new customer
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "0917"
+    Then I should see the employee "Dylan" in the employee list
+    When I select the "Dylan" employee
+    And I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I click on the Select customer
+    And I click on the "CLICK HERE TO ADD CUSTOMER" button
+    Then I should see a popup dialog with title "Create New Customer"
+    And I should see the loyalty program "2 Points = $1" visible
+    And I should see the loyalty program list displayed correctly
+
+  Scenario: Card fee is calculated correctly for cash discounts
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "0917"
+    Then I should see the employee "Dylan" in the employee list
+    When I select the "Dylan" employee
+    And I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I click on the "PAY" button
+    Then I should see the card price amount "$6.18" visible
+    And I should see the cash price amount "$6.00" visible
+
+  Scenario: Display correct category and service data
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "0917"
+    Then I should see the employee "Dylan" in the employee list
+    When I select the "Dylan" employee
+    Then I should see the "Ticket View" screen
+    And I should see the categories displayed correctly in ticket view
+
+    When I select the "MANI & PEDI" category
+    Then I should see all services in the first category displayed correctly
+    When I select the "FULL SET & FILL IN" category
+    Then I should see all services in the second category displayed correctly
+    When I select the "ADDITIONAL SERVICE" category
+    Then I should see all services in the third category displayed correctly
+    When I select the "GIFT CARD" category
+    Then I should see all services in the fourth category displayed correctly
+
+  Scenario: Create a ticket then pay by Cash
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1234"
     Then I should see the employee "Owner" in the employee list
@@ -23,8 +66,7 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-  @skip
-  Scenario: Add an existing customer to a new ticket and pay with Loyalty points
+  Scenario: Update redeem after paying with Loyalty points
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8102"
     Then I should see the employee "Tim" in the employee list
@@ -33,8 +75,8 @@ Feature: Create tickets
     Then I should see my cart showing 1 item added
 
     When I wait for the page fully loaded
-    And I add the "Tin" customer
-    Then I should see a new customer "Tin" on ticket
+    And I add the phone number customer "5555555555"
+    Then I should see a new customer "Bonnie" on ticket
 
     When I click on the "PAY" button
     Then I should see a popup dialog with title "Reward"
@@ -45,6 +87,16 @@ Feature: Create tickets
 
     When I redeem my loyalty points
     Then I should be redirected to HOME page
+
+    Given I am on the LOYALTY_BALANCE page
+    When I enter the amount "5555555555"
+    And I click on the "SEARCH" button
+    And I wait for the page fully loaded
+
+    Then I should see the text "Customer: Bonnie" visible
+    Then I should see the first date is today in the loyalty detail list
+    And I should see the first type "Issuance" in the loyalty detail list
+    And I should see the first amount "0" in the gift card detail list
 
   Scenario: Create a new customer on the fly
     Given I am on the HOME page
@@ -57,7 +109,6 @@ Feature: Create tickets
     When I click on the Select customer
     And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
-    And I should see the loyalty program "2 Points = $1" visible
 
     When I fill the new customer name "Guest"
     And I fill the new customer phone
@@ -131,7 +182,7 @@ Feature: Create tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-  Scenario: Create a ticket and pay with Gift Card type
+  Scenario: Verify that the balance is updated correctly when paying with a gift card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0404"
     Then I should see the employee "Emma" in the employee list
@@ -148,10 +199,20 @@ Feature: Create tickets
 
     When I select the "Gift" payment type
     Then I should see the "ID GIFT CARD" name
-    When I fill the Gift card with "1111"
+    When I fill the Gift card with "1403"
     And I click on the "CHECK BALANCE" button
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
+
+    Given I am on the GIFT_CARD_BALANCE page
+    When I enter the amount "1403"
+    And I click on the "SEARCH" button
+    And I wait for the page fully loaded
+
+    Then I should see the text "DETAILS" visible
+    And I should see the first date is today in the gift card detail list
+    And I should see the first type "Redeem" in the gift card detail list
+    And I should see the first amount "($6.00)" in the gift card detail list
 
   Scenario: Create a ticket and pay with Zelle type
     Given I am on the HOME page
@@ -400,14 +461,7 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-    When I wait for the page fully loaded
-    And I navigate to "Appointment" on the navigation bar
-    And I navigate to "Balance" on the navigation bar
-    And I navigate to "Gift Card" on the navigation bar
-    And I wait for the page fully loaded
-    Then I should be redirected to GIFT_CARD_BALANCE page
-    And I should see the text "Gift Card" visible
-
+    Given I am on the GIFT_CARD_BALANCE page
     When I enter the amount "1234"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
@@ -447,6 +501,66 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
+    Given I am on the GIFT_CARD_BALANCE page
+    When I enter the amount "4321"
+    And I click on the "SEARCH" button
+    And I wait for the page fully loaded
+    Then I should see the text "DETAILS" visible
+    And I should see the first date is today in the gift card detail list
+    And I should see the first type "Overwrite" in the gift card detail list
+    And I should see the first amount "$100.00" in the gift card detail list
+
+  Scenario: Sell a new Gift Card then void ticket
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "01"
+    Then I should see the employee "Leon" in the employee list
+    When I select the "Leon" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "GIFT CARD" category
+
+    When I select the "GIFT CARD" category
+    Then I should see the "Gift Card $199" service
+    When I add the "Gift Card $199" service to my cart
+    Then I should see a popup dialog with title "Activate Gift Card $199.00"
+
+    When I enter the amount "0018"
+    And I click on the "OK" button in the popup dialog
+    Then I should see the number card "0018" visible
+    Then I should see my cart showing 1 item added
+    Then I should see the service "Gift Card $199 (0018)" in my cart
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the text "PAYMENT HISTORY" visible
+    And I should see the button with id "payment" visible
+
+    When I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page
+
+    When I navigate to "Tickets" on the navigation bar
+    Then I should be redirected to CLOSED_TICKETS page
+
+    When I click on refresh
+    Then I should see the toast message "Ticket data refreshed successfully." visible
+    When I wait for the page fully loaded
+    And I search for "199.00"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "199.00"
+
+    When I click on the first row for payment "199.00" to expand details
+    Then I should see the "Reopen ticket" button visible
+
+    When I click on the "Reopen ticket" button
+    And I wait for the page fully loaded
+    Then I should see the "Ticket View" screen
+    And My cart should contain "Gift Card $199 (0018)"
+
+    When I void the current open ticket with reason "Mistake"
+    Then I should be redirected to HOME page
+
     When I wait for the page fully loaded
     And I navigate to "Appointment" on the navigation bar
     And I navigate to "Balance" on the navigation bar
@@ -455,13 +569,10 @@ Feature: Create tickets
     Then I should be redirected to GIFT_CARD_BALANCE page
     And I should see the text "Gift Card" visible
 
-    When I enter the amount "4321"
+    When I enter the amount "0018"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
-    Then I should see the text "DETAILS" visible
-    And I should see the first date is today in the gift card detail list
-    And I should see the first type "Overwrite" in the gift card detail list
-    And I should see the first amount "$100.00" in the gift card detail list
+    Then I should see the text "ACTIVATE GIFT CARD" visible
 
   Scenario: Remove tax in ticket
     Given I am on the HOME page
@@ -924,7 +1035,7 @@ Feature: Create tickets
 
     When I click to show earning today
     And I enter the password "0074"
-		And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see a popup dialog with title "Paige Earnings Today"
     And I should see the text "COMMISSION $29.40" on the dialog
     And I should see the text "TOTAL SALES $50.00" on the dialog
@@ -951,4 +1062,32 @@ Feature: Create tickets
     And I should see the user info "Paige" in the ticket
 
     When I void the current open ticket with reason "System Test"
+    Then I should be redirected to HOME page
+
+  Scenario: No cash discount is charged when selling GC
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "8903"
+    Then I should see the employee "Keelin" in the employee list
+    When I select the "Keelin" employee
+    And I add the "Manicure" service to my cart
+    When I select the "GIFT CARD" category
+    And I add the "Gift card $100" service to my cart
+    Then I should see a popup dialog with title "Activate Gift Card $100.00"
+
+    When I enter the amount "4321"
+    And I click on the "OK" button in the popup dialog
+    Then I should see the number card "4321" visible
+    When I click on the "REWRITE" button in the popup dialog
+    Then I should see the service "Gift card $100 (4321)" in my cart
+    And I should see my cart showing 2 item added
+
+    When I click on the "PAY" button
+    Then I should see the card price amount "$106.18" visible
+    And I should see the cash price amount "$106.00" visible
+
+    When I select the "Cash" payment type
+    And I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
