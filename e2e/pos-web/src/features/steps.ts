@@ -40,6 +40,17 @@ Then(
 );
 
 Then(
+	'I should not see the employee {string} in the ticket list',
+	async ({ page }, employeeName: string) => {
+		const employeeList = page.locator('ul.listUserInfos');
+
+		await expect(
+			employeeList.getByText(employeeName, { exact: true }),
+		).not.toBeVisible();
+	},
+);
+
+Then(
 	'I should not see the employee {string} in the employee list',
 	async ({ page }, employeeName: string) => {
 		const employeeList = page.locator('div.xQueueList');

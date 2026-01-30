@@ -621,6 +621,10 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
+    When I wait for the page fully loaded
+    Then I should not see the employee "Sarah" in the ticket list
+    And I should not see the employee "Maya" in the ticket list
+
   Scenario: Void the item when creating a ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0404"
