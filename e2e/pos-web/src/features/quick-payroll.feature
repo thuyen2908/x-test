@@ -23,7 +23,7 @@ Feature: Quick payroll
     Then I should see a popup dialog with title "Send Email"
     Then I should see a popup dialog with content "Exclude employees with total = $0.00"
 
-  Scenario: Display payroll details correctly in the payroll summary
+  Scenario: Display Commission payroll details correctly in the payroll summary
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2771"
     Then I should see the employee "Serena" in the employee list

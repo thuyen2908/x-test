@@ -142,8 +142,7 @@ Feature: Payroll
     And I should see the detail "Pay 1 $31.72" in the employee view
     And I should see the detail "Pay 2 $9.21" in the employee view
     And I should see the text "Daily Details" in the employee view
-    # NC Tip is incorrect, expected $9.75
-    And I should see the Total Sales, Net Comm, NC Tip, Total Payout as "$105.70 $36.62 $9.75 $36.37" in employee view
+    And I should see the Total Sales, Net Comm, NC Tip, Total Payout as "$105.70 $36.62 $9.75 $41.37" in employee view
 
     When I back to HOME page
     When I navigate to "Tickets" on the navigation bar
