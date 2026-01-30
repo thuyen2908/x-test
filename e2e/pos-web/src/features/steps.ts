@@ -3579,16 +3579,3 @@ Then(
 		await expect(departmentCell).toHaveCount(0);
 	},
 );
-
-//////////////////////////////////////////////////////////////////////////POS > Synchronize/////////////////////////////////////////////////////////////////////////
-
-When(
-	'I select the {string} label in the menu bar',
-	async ({ page }, label: string) => {
-		const item = page.getByText(label, { exact: true });
-
-		await item.scrollIntoViewIfNeeded();
-		await expect(item).toBeVisible();
-		await item.click();
-	},
-);
