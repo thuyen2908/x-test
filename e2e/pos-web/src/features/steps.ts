@@ -3400,3 +3400,195 @@ When(
 		await button.click();
 	},
 );
+
+//////////////////////////////////////////////////////////////////////////POS > Customer/////////////////////////////////////////////////////////////////////////
+
+function randomPhone10Digits(): string {
+	const min = 1;
+	const max = 9_999_999_999;
+	const num = Math.floor(Math.random() * (max - min + 1)) + min;
+	return num.toString().padStart(10, '0');
+}
+
+When('I click on the Search customer', async ({ page }) => {
+	const searchInput = page.getByPlaceholder('Search...');
+	await expect(searchInput).toBeVisible({ timeout: 15000 });
+	await searchInput.click();
+});
+When(
+	'I search customer with keyword {string} and expect {int} results',
+	async ({ page }, keyword: string, count: number) => {
+		const input = page.getByPlaceholder(/search/i);
+		const rows = page.locator('.MuiDataGrid-row');
+
+		await expect(input).toBeVisible();
+
+		await input.fill('');
+		await input.click();
+		await page.keyboard.type(keyword, { delay: 30 });
+
+		await expect(rows).toHaveCount(count);
+	},
+);
+
+When('I fill the {string} phone', async ({ page }, phone: string) => {
+	const cellPhone = page.getByPlaceholder('Search...');
+
+	await expect(cellPhone).toBeVisible({ timeout: 15000 });
+
+	await cellPhone.fill(phone);
+
+	const maskedValue = await cellPhone.inputValue();
+	const digitsOnly = maskedValue.replace(/\D/g, '');
+
+	expect(digitsOnly).toContain(phone);
+});
+Then(
+	'I should see the customer name {string}',
+	async ({ page }, name: string) => {
+		const grid = page.locator('.MuiDataGrid-root');
+		await expect(grid).not.toContainText('No results found', {
+			timeout: 150000,
+		});
+		await expect(grid).toContainText(name);
+	},
+);
+
+Then(
+	'I should see the loyalty program default {string} visible',
+	async ({ page }, program: string) => {
+		const dialog = page.getByRole('dialog', { name: 'Create New Customer' });
+		const loyaltyProgram = dialog.getByRole('combobox', {
+			name: 'Loyalty Program',
+		});
+		await expect(loyaltyProgram).toContainText(program);
+	},
+);
+
+When('I fill the {string} in search', async ({ page }, name: string) => {
+	const searchInput = page.getByPlaceholder(/search/i);
+
+	await expect(searchInput).toBeVisible({ timeout: 15000 });
+	await searchInput.fill(name);
+	await searchInput.press('Enter');
+});
+
+When(
+	'I fill the new customer name {string} at new customer page',
+	async ({ page }, name: string) => {
+		const dialog = page.getByRole('dialog', { name: 'Create New Customer' });
+		const firstNameInput = dialog.locator(
+			'input[name="firstName"]:not([readonly])',
+		);
+		await expect(firstNameInput).toBeVisible();
+		await firstNameInput.fill(name);
+	},
+);
+
+When('I fill the new customer phone at new customer page', async ({ page }) => {
+	const dialog = page.getByRole('dialog', { name: 'Create New Customer' });
+	const phoneInput = dialog.locator('input[name="cellPhone"]:not([readonly])');
+	const phone = randomPhone10Digits();
+	await phoneInput.fill(phone);
+	const masked = await phoneInput.inputValue();
+	expect(masked.replace(/\D/g, '')).toBe(phone);
+});
+
+When(
+	'I click on the {string} button to save new customer',
+	async ({ page }, buttonText: string) => {
+		const dialog = page.getByRole('dialog');
+		const button = dialog.getByRole('button', { name: buttonText });
+		await expect(button).toBeVisible();
+		await button.click();
+	},
+);
+
+When('I click on the edit button on the customer profile', async ({ page }) => {
+	const grid = page.locator('.MuiDataGrid-root');
+	await expect(grid).toBeVisible({ timeout: 90000 });
+
+	const firstRow = grid.locator('.MuiDataGrid-row').first();
+	await expect(firstRow).toBeVisible({ timeout: 90000 });
+
+	await firstRow.scrollIntoViewIfNeeded();
+	await firstRow.hover();
+	const editButton = firstRow.locator(
+		'button:has(svg[data-testid="EditIcon"])',
+	);
+
+	await expect(editButton).toBeVisible({ timeout: 60000 });
+	await editButton.click();
+});
+
+When(
+	'I click on the delete button on the customer profile',
+	async ({ page }) => {
+		const grid = page.locator('.MuiDataGrid-root');
+		await expect(grid).toBeVisible({ timeout: 90000 });
+
+		const firstRow = grid.locator('.MuiDataGrid-row').first();
+		await expect(firstRow).toBeVisible({ timeout: 90000 });
+
+		await firstRow.scrollIntoViewIfNeeded();
+		await firstRow.hover();
+
+		const deleteButton = firstRow.locator(
+			'button:has(svg[data-testid="DeleteIcon"])',
+		);
+
+		await expect(deleteButton).toBeVisible({ timeout: 60000 });
+		await deleteButton.click();
+	},
+);
+
+When(
+	'I click on the {string} button at the customer profile',
+	async ({ page }, buttonName: string) => {
+		const tabButton = page.getByRole('tab', { name: buttonName });
+
+		await expect(tabButton).toBeVisible({ timeout: 15000 });
+		await tabButton.click();
+	},
+);
+
+Then(
+	'I should see the {string} on First Name',
+	async ({ page }, firstName: string) => {
+		await expect(page.getByLabel('First Name')).toHaveValue(firstName);
+	},
+);
+
+When(
+	'I input the note {string} into the note box',
+	async ({ page }, note: string) => {
+		const noteBox = page.locator('textarea[name="notes"]');
+
+		await expect(noteBox).toBeVisible({ timeout: 15000 });
+		await noteBox.fill(note);
+	},
+);
+
+Then(
+	'I should not see customer {string} in the list',
+	async ({ page }, name: string) => {
+		const departmentCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="name"]', { hasText: name });
+
+		await expect(departmentCell).toHaveCount(0);
+	},
+);
+
+//////////////////////////////////////////////////////////////////////////POS > Synchronize/////////////////////////////////////////////////////////////////////////
+
+When(
+	'I select the {string} label in the menu bar',
+	async ({ page }, label: string) => {
+		const item = page.getByText(label, { exact: true });
+
+		await item.scrollIntoViewIfNeeded();
+		await expect(item).toBeVisible();
+		await item.click();
+	},
+);
