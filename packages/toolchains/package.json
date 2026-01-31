@@ -20,7 +20,7 @@
 		"find-workspaces": "^0.3.1"
 	},
 	"devDependencies": {
-		"@commitlint/types": "^20.3.1",
+		"@commitlint/types": "^20.4.0",
 		"@types/node": "^24.10.9",
 		"@x-test/common": "workspace:*",
 		"rimraf": "^6.1.2",
