@@ -4,11 +4,11 @@
 	"version": "0.0.0",
 	"type": "module",
 	"author": "tech@xsofts.vn",
-	"packageManager": "pnpm@10.28.1",
+	"packageManager": "pnpm@10.28.2",
 	"engineStrict": true,
 	"engines": {
 		"node": "^20 || ^22 || ^24",
-		"pnpm": "^9 || ^10",
+		"pnpm": "^10.28.2 ^10.28.2",
 		"playwright": ">=1.0.0"
 	},
 	"repository": {
