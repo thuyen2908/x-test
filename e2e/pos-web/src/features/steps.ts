@@ -2994,6 +2994,31 @@ Then(
 );
 
 Then(
+	'I should see the Reg Hrs, Reg Pay, NC Tip, Commission as {string} in employee view',
+	async ({ page }, expectedValues: string) => {
+		const values = expectedValues.split(' ');
+		expect(values).toHaveLength(4);
+
+		const [regHrs, regPay, ncTip, commission] = values;
+
+		const detailsTable = page.locator('table.details-payroll');
+		const dataRow = detailsTable.locator('tbody tr').nth(1);
+
+		await expect(dataRow).toBeVisible();
+
+		const totalSalesCell = dataRow.locator('td').nth(2);
+		const netCommCell = dataRow.locator('td').nth(3);
+		const ncTipCell = dataRow.locator('td').nth(4);
+		const totalPayoutCell = dataRow.locator('td').nth(5);
+
+		await expect(totalSalesCell).toHaveText(regHrs);
+		await expect(netCommCell).toHaveText(regPay);
+		await expect(ncTipCell).toHaveText(ncTip);
+		await expect(totalPayoutCell).toHaveText(commission);
+	},
+);
+
+Then(
 	'I should see the Total Sales, Net Comm, NC Tip, Total Payout as {string} in employee view',
 	async ({ page }, expectedValues: string) => {
 		const values = expectedValues.split(' ');
@@ -3348,6 +3373,36 @@ Then(
 
 		await expect(valueSpan).toBeVisible();
 		await expect(valueSpan).toContainText(amount);
+	},
+);
+
+Then(
+	'I should see the Reg Hrs, NC Tip as {string} in the payroll receipt',
+	async ({ page }, expectedValues: string) => {
+		const values = expectedValues.trim().split(/\s+/);
+		if (values.length !== 2) {
+			throw new Error(
+				`Expected 2 space-separated values, got ${values.length}: "${expectedValues}"`,
+			);
+		}
+
+		const [regHrs, ncTip] = values;
+
+		const payrollReceipt = page.locator('div.payroll-receipt-container');
+		const dailyDetailsTable = payrollReceipt.locator(
+			'table.daily-details-table',
+		);
+		const totalRow = dailyDetailsTable
+			.locator('tbody tr')
+			.filter({ hasText: 'Total' });
+
+		await expect(totalRow).toBeVisible();
+
+		const cells = totalRow.locator('td');
+
+		await expect(cells.nth(1)).toContainText(regHrs);
+		await expect(cells.nth(2)).toContainText(ncTip);
+		// await expect(cells.nth(3)).toContainText(ncTip);
 	},
 );
 
