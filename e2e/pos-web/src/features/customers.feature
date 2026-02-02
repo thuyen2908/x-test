@@ -35,7 +35,7 @@ Feature: Customers management
     And I should see the loyalty program default "2 Points = $1" visible
 
     When I fill the new customer name "Cuong Jayden" at new customer page
-    When I fill the new customer phone at new customer page
+    When I fill the new customer phone
     And I click on the "Save" button to save new customer
     Then I should be redirected to CUSTOMERS page
 

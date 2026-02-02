@@ -3281,14 +3281,6 @@ When(
 );
 
 //////////////////////////////////////////////////////////////////////////POS > Customer/////////////////////////////////////////////////////////////////////////
-
-function randomPhone10Digits(): string {
-	const min = 1;
-	const max = 9_999_999_999;
-	const num = Math.floor(Math.random() * (max - min + 1)) + min;
-	return num.toString().padStart(10, '0');
-}
-
 When('I click on the Search customer', async ({ page }) => {
 	const searchInput = page.getByPlaceholder('Search...');
 	await expect(searchInput).toBeVisible({ timeout: 15000 });
@@ -3363,15 +3355,6 @@ When(
 		await firstNameInput.fill(name);
 	},
 );
-
-When('I fill the new customer phone at new customer page', async ({ page }) => {
-	const dialog = page.getByRole('dialog', { name: 'Create New Customer' });
-	const phoneInput = dialog.locator('input[name="cellPhone"]:not([readonly])');
-	const phone = randomPhone10Digits();
-	await phoneInput.fill(phone);
-	const masked = await phoneInput.inputValue();
-	expect(masked.replace(/\D/g, '')).toBe(phone);
-});
 
 When(
 	'I click on the {string} button to save new customer',
