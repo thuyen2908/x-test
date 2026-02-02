@@ -182,21 +182,15 @@ Feature: Quick payroll
     And I should see the detail "Employee Name: Jen" in the payroll receipt
     And I should see the detail "Payroll Type: Hourly" in the payroll receipt
     And I should see the title "Employee Pay" in the payroll receipt
-    #And I should see the detail "Total Sale: $135.70" in the payroll receipt
-    #And I should see the first Total Commission "$54.62" in the payroll receipt
     And I should see the detail "Regular Pay: $0.00" in the payroll receipt
-    # NC Tip is incorrect, expected: $9.75
-    And I should see the detail "+Non-Cash Tips: $4.75" in the payroll receipt
-    #And I should see the detail "-Daily Maintenance Fee (Deduct From Cash): ($5.00)" in the payroll receipt
-    #And I should see the detail "-Cash Tax: ($0.66)" in the payroll receipt
-    And I should see the detail "Total Pay: $9.75" in the payroll receipt
+    And I should see the detail "+Non-Cash Tips: $9.75" in the payroll receipt
+    And I should see the detail "Total Pay: $14.75" in the payroll receipt
     And I should see the detail "Check: $3.00" in the payroll receipt
     And I should see the detail "Cash: $2.00" in the payroll receipt
-    And I should see the detail "Pay 1: $7.75" in the payroll receipt
+    And I should see the detail "Pay 1: $12.75" in the payroll receipt
     And I should see the detail "Pay 2: $2.00" in the payroll receipt
     And I should see the title "Daily Details" in the payroll receipt
-    # NC Tip is incorrect, expected: $9.75
-    And I should see the Reg Hrs, NC Tip as "0.00 $4.75" in the payroll receipt
+    And I should see the Reg Hrs, NC Tip as "0.00 $9.75" in the payroll receipt
 
     When I back to HOME page
     When I navigate to "Tickets" on the navigation bar
