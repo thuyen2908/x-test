@@ -3194,7 +3194,7 @@ When(
 );
 
 When(
-	'I click on the action {string} button of department',
+	'I click on the action {string} button ',
 	async ({ page }, button: string) => {
 		await page.getByRole('menuitem', { name: button }).click();
 	},
@@ -3371,7 +3371,6 @@ When(
 		await DCMethod.click();
 		const selectDCMethod = page
 			.locator('li.MuiMenuItem-gutters')
-			.last()
 			.getByText(method, { exact: true });
 		await selectDCMethod.click();
 	},
@@ -3393,10 +3392,90 @@ Then(
 	},
 );
 When(
-	'I click on the action {string} button for discount item {string}',
-	async ({ page }, action: string, discountName: string) => {
-		const row = page.locator(`.MuiDataGrid-row:has-text("${discountName}")`);
+	'I click on the action {string} button for item {string}',
+	async ({ page }, action: string, itemName: string) => {
+		const row = page.locator(`.MuiDataGrid-row:has-text("${itemName}")`);
 		const button = row.locator(`[aria-label="${action}"]`);
 		await button.click();
+	},
+);
+
+When(
+	'I fill the {string} field with value {string}',
+	async ({ page }, fieldName: string, value: string) => {
+		const fieldLocators: Record<string, string> = {
+			'First Name': 'input[name="firstName"]',
+			'Nick Name': 'input[name="nickName"]',
+			'Non-cash tip': 'input[id="employeeSalon.nonCashTipPct"]',
+		};
+
+		const selector = fieldLocators[fieldName];
+		if (!selector) throw new Error(`Unknown field: ${fieldName}`);
+
+		const input = page.locator(selector);
+		await input.fill(value);
+		await expect(input).toHaveValue(value);
+	},
+);
+
+When(
+	'I Select the {string} with value {string}',
+	async ({ page }, field: string, value: string) => {
+		const fieldLocators: Record<string, string> = {
+			'Job Title': '#mui-component-select-jobCodeId',
+			'Payroll Type':
+				'div[id="mui-component-select-employeeSalon.payrollType"]',
+			'Role Tech': '#mui-component-select-roleId',
+			'Non-cash Tip Option':
+				'div[id="mui-component-select-employeeSalon.deductNonCashTip"]',
+			'Default Queue Group For Appt':
+				'div[id="mui-component-select-employeeSalon.defaultQueueGroupId"]',
+		};
+
+		const selector = fieldLocators[field];
+		if (!selector) throw new Error(`Unknown field: ${field}`);
+
+		const dropdown = page.locator(selector);
+		await dropdown.click();
+
+		const option = page
+			.locator('li.MuiMenuItem-gutters')
+			.getByText(value, { exact: true });
+		await option.click();
+	},
+);
+When(
+	'I fill the Commission Services {string} with value {string} for the new employee',
+	async ({ page }, field: string, value: string) => {
+		const section = page.locator('.css-ch9uj1').filter({ hasText: field });
+		const input = section.locator('input[type="text"]').first();
+		await input.fill(value);
+		await expect(input).toHaveValue(value);
+	},
+);
+When('I switch ON {string} select all', async ({ page }, labelName: string) => {
+	const switchElement = page
+		.locator('.MuiBox-root')
+		.filter({ hasText: labelName })
+		.locator('input[aria-labelledby="check-all"]');
+
+	await switchElement.check();
+	await expect(switchElement).toBeChecked();
+});
+Then(
+	'I should see the new Employee {string}, Role {string}, in the Employees list',
+	async ({ page }, employeeName: string, roleid: string) => {
+		const EmployeeNameCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="fullName"]', { hasText: employeeName })
+			.first();
+		const EmployeeRoleCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="roleId"]', { hasText: roleid })
+			.first();
+		await expect(EmployeeNameCell).toBeVisible();
+		await expect(EmployeeNameCell).toHaveText(employeeName);
+		await expect(EmployeeRoleCell).toBeVisible();
+		await expect(EmployeeRoleCell).toHaveText(roleid);
 	},
 );
