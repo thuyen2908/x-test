@@ -9,7 +9,6 @@ Feature: Discounts management
     Then I should be redirected to DISCOUNT page
     And I should see the "Discounts" screen
 
-  @skip
   Scenario: Create a new Discount
    Given I am on the HOME page
     When I click on the header menu
@@ -18,7 +17,7 @@ Feature: Discounts management
     Then I should be redirected to DISCOUNT page
     And I should see the "Discounts" screen
     When I click on the "Add New" button
-    Then I should be redirected to CRDISCOUNT page
+    Then I should be redirected to DISCOUNT_CREATE page
     And I should see the "Create Discount" screen
     When I fill the new Discount name "Auto Discount"
     And I fill the DisplayDC name "Auto Discount"

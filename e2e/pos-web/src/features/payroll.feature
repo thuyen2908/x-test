@@ -437,6 +437,7 @@ Feature: Payroll
     When I back to HOME page
     When I navigate to "Tickets" on the navigation bar
     Then I should be redirected to CLOSED_TICKETS page
+    When I wait for the page fully loaded
 
     When I click on refresh
     Then I should see the toast message "Ticket data refreshed successfully." visible

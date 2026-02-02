@@ -3337,7 +3337,7 @@ When(
 );
 
 When(
-	'I Select the {string} with value {string}',
+	'I select the {string} with value {string}',
 	async ({ page }, field: string, value: string) => {
 		const fieldLocators: Record<string, string> = {
 			'Job Title': '#mui-component-select-jobCodeId',
@@ -3556,67 +3556,9 @@ Then(
 	},
 );
 
-// Ticket Details DataGrid Validation
-Then(
-	'I should see the Total Sale, Payment, Surcharge, Card Fee, Tip, Tax, Closed By as {string} in the tickets details',
-	async ({ page }, expectedValues: string) => {
-		// Parse the space-separated values
-		// Format: "$218.70 $232.26 $0.00 $3.56 $10.00 $0.00 Hilary"
-		const values = expectedValues.trim().split(/\s+/);
-
-		if (values.length !== 7) {
-			throw new Error(
-				`Expected 7 space-separated values, got ${values.length}: "${expectedValues}"`,
-			);
-		}
-
-		const [totalSale, payment, surcharge, cardFee, tip, tax, closedBy] = values;
-
-		// Field mapping to data-field attributes
-		const fieldMapping = [
-			{ name: 'Total Sale', dataField: 'totalSale', expectedValue: totalSale },
-			{ name: 'Payment', dataField: 'payment', expectedValue: payment },
-			{ name: 'Surcharge', dataField: 'surcharge', expectedValue: surcharge },
-			{ name: 'Card Fee', dataField: 'cashDiscount', expectedValue: cardFee },
-			{ name: 'Tip', dataField: 'tip', expectedValue: tip },
-			{ name: 'Tax', dataField: 'tax', expectedValue: tax },
-			{
-				name: 'Closed By',
-				dataField: 'closeUserInfo.nickName',
-				expectedValue: closedBy,
-			},
-		];
-
-		// Validate each field
-		for (const field of fieldMapping) {
-			const gridCell = page.locator(
-				`.MuiDataGrid-row [role="gridcell"][data-field="${field.dataField}"]`,
-			);
-
-			await expect(gridCell).toBeVisible({
-				timeout: 5000,
-			});
-
-			const actualValue = await gridCell.textContent();
-
-			// Use toContainText for flexible matching
-			await expect(gridCell).toContainText(field.expectedValue, {
-				timeout: 5000,
-			});
-
-			// Log for debugging (can be removed in production)
-			console.log(
-				`✓ ${field.name}: Expected "${field.expectedValue}", Got "${actualValue?.trim()}"`,
-			);
-		}
-	},
-);
-
-// Reusable parameterized step definition for validating individual ticket payment fields
 Then(
 	'I should see the {string} has value {string} in the ticket payment',
 	async ({ page }, fieldLabel: string, expectedValue: string) => {
-		// Field mapping: User-friendly labels to HTML data-field attributes
 		const fieldMapping: Record<string, string> = {
 			'Total Sale': 'totalSale',
 			Payment: 'payment',
@@ -3633,7 +3575,6 @@ Then(
 			'Close Time': 'closeTime',
 		};
 
-		// Get the data-field attribute for the given label
 		const dataField = fieldMapping[fieldLabel];
 
 		if (!dataField) {
@@ -3642,26 +3583,21 @@ Then(
 			);
 		}
 
-		// Locate the grid cell using the data-field attribute within a MuiDataGrid row
 		const gridCell = page
 			.locator(`.MuiDataGrid-row [role="gridcell"][data-field="${dataField}"]`)
 			.first();
 
-		// Wait for the cell to be visible
 		await expect(gridCell).toBeVisible({
 			timeout: 5000,
 		});
 
-		// Extract the actual text content
 		const actualValue = await gridCell.textContent();
 		const trimmedActualValue = actualValue?.trim() || '';
 
-		// Validate the cell's text content against the expected value
 		await expect(gridCell).toHaveText(expectedValue, {
 			timeout: 5000,
 		});
 
-		// Log for debugging purposes
 		console.log(
 			`✓ Validated "${fieldLabel}" (data-field: ${dataField}): Expected "${expectedValue}", Got "${trimmedActualValue}"`,
 		);
