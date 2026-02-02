@@ -3110,13 +3110,6 @@ When(
 );
 
 When(
-	'I click on the action {string} button ',
-	async ({ page }, button: string) => {
-		await page.getByRole('menuitem', { name: button }).click();
-	},
-);
-
-When(
 	'I click the {string} button in the dialog',
 	async ({ page }, text: string) => {
 		await page
@@ -3325,6 +3318,7 @@ When(
 			'First Name': 'input[name="firstName"]',
 			'Nick Name': 'input[name="nickName"]',
 			'Non-cash tip': 'input[id="employeeSalon.nonCashTipPct"]',
+			'Void Reason': 'input[name="reason"]',
 		};
 
 		const selector = fieldLocators[fieldName];
@@ -3665,5 +3659,37 @@ Then(
 		console.log(
 			`✓ Validated "${fieldLabel}" (data-field: ${dataField}): Expected "${expectedValue}", Got "${trimmedActualValue}"`,
 		);
+	},
+);
+
+When('Active button should be ON with value true', async ({ page }) => {
+	const switchInput = page.locator('input[name="isActive"]');
+	await expect(switchInput).toBeChecked();
+	const value = await switchInput.getAttribute('value');
+	expect(value).toBe('true');
+});
+Then(
+	'I should see the new Void Reason {string}, Create at today, in the Void Reasons list',
+	async ({ page }, voidReasonName: string) => {
+		const voidReasonNameCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="reason"]', { hasText: voidReasonName })
+			.first();
+		const firstDateCell = page
+			.locator('.MuiDataGrid-row')
+			.first()
+			.locator('.MuiDataGrid-cell[data-field="createdAt"]');
+		const formattedToday = await page.evaluate(() => {
+			const today = new Date();
+			return today.toLocaleDateString('en-US', {
+				year: 'numeric',
+				month: '2-digit',
+				day: '2-digit',
+			});
+		});
+		await expect(firstDateCell).toContainText(formattedToday);
+		await expect(voidReasonNameCell).toBeVisible();
+		await expect(voidReasonNameCell).toHaveText(voidReasonName);
+		await expect(firstDateCell).toBeVisible();
 	},
 );
