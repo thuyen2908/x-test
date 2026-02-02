@@ -330,13 +330,13 @@ Feature: Payroll
     And I should see the detail "# of Work Days 1" in the employee view
     And I should see the detail "Total Hours 0.00" in the employee view
     And I should see the detail "Product Commission $5.00" in the employee view
-    And I should see the detail "Non-Cash Tips $4.75" in the employee view
+    And I should see the detail "Non-Cash Tips $9.75" in the employee view
     And I should see the detail "Total Hourly Pay $0.00" in the employee view
-    And I should see the detail "Total Pay $9.75" in the employee view
-    And I should see the detail "Pay 1 $7.75" in the employee view
+    And I should see the detail "Total Pay $14.75" in the employee view
+    And I should see the detail "Pay 1 $12.75" in the employee view
     And I should see the detail "Pay 2 $2.00" in the employee view
     And I should see the text "Daily Details" in the employee view
-    And I should see the Reg Hrs, Reg Pay, NC Tip, Commission as "0.00 $0.00 $4.75 $5.00" in employee view
+    And I should see the Reg Hrs, Reg Pay, NC Tip, Commission as "0.00 $0.00 $9.75 $5.00" in employee view
 
     When I back to HOME page
     When I navigate to "Tickets" on the navigation bar
@@ -425,14 +425,14 @@ Feature: Payroll
     And I should see the text "Pay Calculations" in the single payroll view
     And I should see the detail "Product Commission: $5.00" in the single payroll view
     #NC tip incorrect, expected $9.75
-    And I should see the detail "Net Non-Cash Tip: $4.75" in the single payroll view
+    And I should see the detail "Net Non-Cash Tip: $9.75" in the single payroll view
     And I should see the detail "Total Hourly Pay: $0.00" in the single payroll view
     And I should see the detail "Check (60.00%):  $3.00" in the single payroll view
     And I should see the detail "Cash (40.00%):  $2.00" in the single payroll view
-    And I should see the detail "Pay 1: $7.75" in the single payroll view
+    And I should see the detail "Pay 1: $12.75" in the single payroll view
     And I should see the detail "Pay 2: $2.00" in the single payroll view
-    And I should see the detail "Total Payout: $9.75" in the single payroll view
-    And I should see the detail "Gross Profit: $111.95" in the single payroll view
+    And I should see the detail "Total Payout: $14.75" in the single payroll view
+    And I should see the detail "Gross Profit: $106.95" in the single payroll view
 
     When I back to HOME page
     When I navigate to "Tickets" on the navigation bar
