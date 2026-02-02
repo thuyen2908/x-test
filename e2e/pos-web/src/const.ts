@@ -80,6 +80,7 @@ export class Const {
 			[PageId.PAYROLL]: `${baseURL}/management/payroll`,
 			[PageId.TURN_DETAILS]: `${baseURL}/turn-details`,
 			[PageId.EMPLOYEES]: `${baseURL}/management/employees`,
+			[PageId.CREMPLOYEES]: `${baseURL}/management/employees/create`,
 			[PageId.CATEGORIES]: `${baseURL}/management/categories`,
 			[PageId.PRODUCTS]: `${baseURL}/management/products`,
 			[PageId.TAX]: `${baseURL}/management/tax`,
