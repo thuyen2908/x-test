@@ -285,7 +285,8 @@ jobs:
           paths:
             - e2e/<< parameters.project >>/allure-results
             - e2e/<< parameters.project >>/playwright-report
-            - e2e/<< parameters.project >>/test-artifacts
+            # temporarily reduce circle ci storage costs
+            # - e2e/<< parameters.project >>/test-artifacts
 
       - run:
           name: Evaluate testing results
@@ -322,20 +323,21 @@ jobs:
             echo
             du -sh e2e/<< parameters.project >>/allure-results
 
-      - run:
-          name: Compress Playwright report directory
-          command: |
-            cd e2e/<< parameters.project >>
-            echo 'Size before compression:'
-            du -sh test-artifacts
-            echo
-            zip -9r test-artifacts.zip test-artifacts
-            echo
-            echo 'Size after compression:'
-            du -sh test-artifacts.zip
-      - store_artifacts:
-          path: e2e/<< parameters.project >>/test-artifacts.zip
-          destination: test-artifacts.zip
+      # temporarily reduce circle ci storage costs
+      # - run:
+      #     name: Compress Playwright report directory
+      #     command: |
+      #       cd e2e/<< parameters.project >>
+      #       echo 'Size before compression:'
+      #       du -sh test-artifacts
+      #       echo
+      #       zip -9r test-artifacts.zip test-artifacts
+      #       echo
+      #       echo 'Size after compression:'
+      #       du -sh test-artifacts.zip
+      # - store_artifacts:
+      #     path: e2e/<< parameters.project >>/test-artifacts.zip
+      #     destination: test-artifacts.zip
 
       - clone_github_repo:
           repo_origin: $<< parameters.report_repo_origin >>
