@@ -3395,6 +3395,8 @@ Then(
 		await expect(EmployeeNameCell).toHaveText(employeeName);
 		await expect(EmployeeRoleCell).toBeVisible();
 		await expect(EmployeeRoleCell).toHaveText(roleid);
+	},
+);
 Then(
 	'I should see the detail {string} in the payroll receipt',
 	async ({ page }, detail: string) => {
