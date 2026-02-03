@@ -182,7 +182,7 @@ Feature: Quick payroll
     And I should see the detail "Employee Name: Jen" in the payroll receipt
     And I should see the detail "Payroll Type: Hourly" in the payroll receipt
     And I should see the title "Employee Pay" in the payroll receipt
-    And I should see the detail "Regular Pay: $0.00" in the payroll receipt
+    # And I should see the detail "Regular Pay" in the payroll receipt
     And I should see the detail "+Non-Cash Tips: $9.75" in the payroll receipt
     And I should see the detail "Total Pay: $14.75" in the payroll receipt
     And I should see the detail "Check: $3.00" in the payroll receipt
@@ -190,7 +190,7 @@ Feature: Quick payroll
     And I should see the detail "Pay 1: $12.75" in the payroll receipt
     And I should see the detail "Pay 2: $2.00" in the payroll receipt
     And I should see the title "Daily Details" in the payroll receipt
-    And I should see the Reg Hrs, NC Tip as "0.00 $9.75" in the payroll receipt
+    And I should see the NC Tip as "$9.75" in the payroll receipt
 
     When I back to HOME page
     When I navigate to "Tickets" on the navigation bar

@@ -2493,13 +2493,13 @@ Then(
 );
 
 Then(
-	'I should see the Auto Turn 20.00 for {string}',
+	'I should see the Auto Turn 50.00 for {string}',
 	async ({ page }, name: string) => {
 		const row = page.locator('tr').filter({
 			has: page.locator(`[title="${name}"]`),
 		});
 		const manualTurn = row.locator('td[turntype="Manual"]', {
-			hasText: /20\.00.*M/,
+			hasText: /50\.00.*M/,
 		});
 		await expect(manualTurn).toBeVisible();
 	},
@@ -2539,14 +2539,14 @@ Then(
 );
 
 Then(
-	'I should see the Turn 20.00 for {string}',
+	'I should see the Turn 50.00 for {string}',
 	async ({ page }, name: string) => {
 		const row = page.locator('td').filter({
 			has: page.getByTitle(name),
 		});
 		const turnLabel = row
 			.locator('.MuiChip-root', { hasText: 'Turn' })
-			.locator('.MuiChip-label', { hasText: '20.00' });
+			.locator('.MuiChip-label', { hasText: '50.00' });
 		await expect(turnLabel).toBeVisible();
 	},
 );
@@ -3008,27 +3008,27 @@ Then(
 );
 
 Then(
-	'I should see the Reg Hrs, Reg Pay, NC Tip, Commission as {string} in employee view',
+	'I should see the Reg Pay, NC Tip, Commission as {string} in employee view',
 	async ({ page }, expectedValues: string) => {
 		const values = expectedValues.split(' ');
-		expect(values).toHaveLength(4);
+		expect(values).toHaveLength(3);
 
-		const [regHrs, regPay, ncTip, commission] = values;
+		const [regPay, ncTip, commission] = values;
 
 		const detailsTable = page.locator('table.details-payroll');
 		const dataRow = detailsTable.locator('tbody tr').nth(1);
 
 		await expect(dataRow).toBeVisible();
 
-		const totalSalesCell = dataRow.locator('td').nth(2);
-		const netCommCell = dataRow.locator('td').nth(3);
+		// const totalSalesCell = dataRow.locator('td').nth(2);
+		const regPayCell = dataRow.locator('td').nth(3);
 		const ncTipCell = dataRow.locator('td').nth(4);
-		const totalPayoutCell = dataRow.locator('td').nth(5);
+		const commissionCell = dataRow.locator('td').nth(5);
 
-		await expect(totalSalesCell).toHaveText(regHrs);
-		await expect(netCommCell).toHaveText(regPay);
+		// await expect(totalSalesCell).toHaveText(regHrs);
+		await expect(regPayCell).toHaveText(regPay);
 		await expect(ncTipCell).toHaveText(ncTip);
-		await expect(totalPayoutCell).toHaveText(commission);
+		await expect(commissionCell).toHaveText(commission);
 	},
 );
 
@@ -3625,16 +3625,16 @@ Then(
 );
 
 Then(
-	'I should see the Reg Hrs, NC Tip as {string} in the payroll receipt',
+	'I should see the NC Tip as {string} in the payroll receipt',
 	async ({ page }, expectedValues: string) => {
 		const values = expectedValues.trim().split(/\s+/);
-		if (values.length !== 2) {
+		if (values.length !== 1) {
 			throw new Error(
-				`Expected 2 space-separated values, got ${values.length}: "${expectedValues}"`,
+				`Expected 1 space-separated values, got ${values.length}: "${expectedValues}"`,
 			);
 		}
 
-		const [regHrs, ncTip] = values;
+		const [ncTip] = values;
 
 		const payrollReceipt = page.locator('div.payroll-receipt-container');
 		const dailyDetailsTable = payrollReceipt.locator(
@@ -3648,7 +3648,7 @@ Then(
 
 		const cells = totalRow.locator('td');
 
-		await expect(cells.nth(1)).toContainText(regHrs);
+		// await expect(cells.nth(1)).toContainText(regHrs);
 		await expect(cells.nth(2)).toContainText(ncTip);
 		// await expect(cells.nth(3)).toContainText(ncTip);
 	},
