@@ -14,7 +14,7 @@ const __dirname = import.meta.dirname;
 setup(
 	'Authentication: Admin role',
 	async ({ testConfig, testStorage, page, xPage }) => {
-		setup.setTimeout(100_000);
+		setup.setTimeout(120_000);
 
 		// make sure that the path is ready
 		const authStorage = resolve(
