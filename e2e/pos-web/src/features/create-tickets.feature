@@ -15,6 +15,9 @@ Feature: Create tickets
     And I should see the loyalty program "2 Points = $1" visible
     And I should see the loyalty program list displayed correctly
 
+    When I void the current open ticket with reason "System Test"
+    Then I should be redirected to HOME page
+
   Scenario: Card fee is calculated correctly for cash discounts
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0917"
@@ -26,6 +29,9 @@ Feature: Create tickets
     When I click on the "PAY" button
     Then I should see the card price amount "$6.18" visible
     And I should see the cash price amount "$6.00" visible
+
+    When I void the current open ticket with reason "System Test"
+    Then I should be redirected to HOME page
 
   Scenario: Display correct category and service data
     Given I am on the HOME page
@@ -43,6 +49,9 @@ Feature: Create tickets
     Then I should see all services in the third category displayed correctly
     When I select the "GIFT CARD" category
     Then I should see all services in the fourth category displayed correctly
+
+    When I void the current open ticket with reason "System Test"
+    Then I should be redirected to HOME page
 
   Scenario: Create a ticket then pay by Cash
     Given I am on the HOME page
