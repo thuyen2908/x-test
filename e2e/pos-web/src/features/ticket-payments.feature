@@ -120,7 +120,7 @@ Feature: Ticket Payments
     Then I should see a popup dialog with title "Service: Manicure - $6.00"
     When I change the price to "69.7"
     And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$69
+    Then I should see the total price "$69" visible
 
     # Add Tip
     When I click on the adding "Tip" button
@@ -171,7 +171,7 @@ Feature: Ticket Payments
     Then I should see the "Type" has value "Service" in the ticket payment
     And I should see the "Item Name" has value "Manicure" in the ticket payment
     And I should see the "Item Price" has value "$69.70" in the ticket payment
-    And I should see the "Net .70" visiblePrice" has value "$66.70" in the ticket payment
+    And I should see the "Net Price" has value "$66.70" in the ticket payment
     And I should see the "Commission" has value "$40.02" in the ticket payment
     And I should see the "Non-Cash Tip" has value "$10.00" in the ticket payment
     And I should see the "Credit Card Fee" has value "($0.50)" in the ticket payment
