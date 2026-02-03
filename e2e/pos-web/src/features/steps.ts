@@ -3494,6 +3494,8 @@ When(
 			'Nick Name': 'input[name="nickName"]',
 			'Non-cash tip': 'input[id="employeeSalon.nonCashTipPct"]',
 			'Void Reason': 'input[name="reason"]',
+			'Tax Name': 'input[name="name"]',
+			'Value Tax': 'input[id="percent"]',
 		};
 
 		const selector = fieldLocators[fieldName];
@@ -3794,23 +3796,29 @@ Then(
 	},
 );
 
-When('Active button should be ON with value true', async ({ page }) => {
+Then('Active button should be ON with value true', async ({ page }) => {
 	const switchInput = page.locator('input[name="isActive"]');
 	await expect(switchInput).toBeChecked();
 	const value = await switchInput.getAttribute('value');
 	expect(value).toBe('true');
 });
+
+When('I click on checkbox Active', async ({ page }) => {
+	await page.locator('.MuiSwitch-sizeMedium ').click();
+});
 Then(
-	'I should see the new Void Reason {string}, Create at today, in the Void Reasons list',
-	async ({ page }, voidReasonName: string) => {
-		const voidReasonNameCell = page
+	'I should see the new {string} {string}, created at today, in the list',
+	async ({ page }, field: string, value: string) => {
+		const valueCell = page
 			.locator('.MuiDataGrid-row')
-			.locator('[data-field="reason"]', { hasText: voidReasonName })
+			.locator(`[data-field="${field}"]`, { hasText: value })
 			.first();
-		const firstDateCell = page
+
+		const dateCell = page
 			.locator('.MuiDataGrid-row')
 			.first()
-			.locator('.MuiDataGrid-cell[data-field="createdAt"]');
+			.locator('[data-field="createdAt"]');
+
 		const formattedToday = await page.evaluate(() => {
 			const today = new Date();
 			return today.toLocaleDateString('en-US', {
@@ -3819,9 +3827,10 @@ Then(
 				day: '2-digit',
 			});
 		});
-		await expect(firstDateCell).toContainText(formattedToday);
-		await expect(voidReasonNameCell).toBeVisible();
-		await expect(voidReasonNameCell).toHaveText(voidReasonName);
-		await expect(firstDateCell).toBeVisible();
+
+		await expect(dateCell).toContainText(formattedToday);
+		await expect(valueCell).toBeVisible();
+		await expect(valueCell).toHaveText(value);
+		await expect(dateCell).toBeVisible();
 	},
 );
