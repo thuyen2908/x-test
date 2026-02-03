@@ -1,7 +1,59 @@
 @slow @regression @smoke
 Feature: Create tickets
 
-  Scenario: Create a ticket for the Owner role
+  Scenario: Display the default loyalty program and loyalty program list when adding a new customer
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "0917"
+    Then I should see the employee "Dylan" in the employee list
+    When I select the "Dylan" employee
+    And I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I click on the Select customer
+    And I click on the "CLICK HERE TO ADD CUSTOMER" button
+    Then I should see a popup dialog with title "Create New Customer"
+    And I should see the loyalty program "2 Points = $1" visible
+    And I should see the loyalty program list displayed correctly
+
+    When I void the current open ticket with reason "System Test"
+    Then I should be redirected to HOME page
+
+  Scenario: Card fee is calculated correctly for cash discounts
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "0917"
+    Then I should see the employee "Dylan" in the employee list
+    When I select the "Dylan" employee
+    And I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I click on the "PAY" button
+    Then I should see the card price amount "$0.18/$6.18" visible
+    And I should see the cash price amount "$6.00" visible
+
+    When I void the current open ticket with reason "System Test"
+    Then I should be redirected to HOME page
+
+  Scenario: Display correct category and service data
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "0917"
+    Then I should see the employee "Dylan" in the employee list
+    When I select the "Dylan" employee
+    Then I should see the "Ticket View" screen
+    And I should see the categories displayed correctly in ticket view
+
+    When I select the "MANI & PEDI" category
+    Then I should see all services in the first category displayed correctly
+    When I select the "FULL SET & FILL IN" category
+    Then I should see all services in the second category displayed correctly
+    When I select the "ADDITIONAL SERVICE" category
+    Then I should see all services in the third category displayed correctly
+    When I select the "GIFT CARD" category
+    Then I should see all services in the fourth category displayed correctly
+
+    When I void the current open ticket with reason "System Test"
+    Then I should be redirected to HOME page
+
+  Scenario: Create a ticket then pay by Cash
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1234"
     Then I should see the employee "Owner" in the employee list
@@ -15,7 +67,7 @@ Feature: Create tickets
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
-  Scenario: Add an existing customer to a new ticket and pay with Loyalty points
+  Scenario: Update redeem after paying with Loyalty points
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8102"
     Then I should see the employee "Tim" in the employee list
@@ -24,8 +76,8 @@ Feature: Create tickets
     Then I should see my cart showing 1 item added
 
     When I wait for the page fully loaded
-    And I add the "9999999999" customer
-    Then I should see a new customer "Tin" on ticket
+    And I add the phone number customer "5555555555"
+    Then I should see a new customer "Bonnie" on ticket
 
     When I click on the "Pay" button
     Then I should see a popup dialog with title "Reward"
@@ -104,7 +156,7 @@ Feature: Create tickets
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
 
-  Scenario: Create a ticket and pay with Gift Card type
+  Scenario: Verify that the balance is updated correctly when paying with a gift card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "4"
     Then I should see the employee "Emma" in the employee list
@@ -117,14 +169,24 @@ Feature: Create tickets
 
     When I click on the "Pay" button
     And I select the "Gift" payment type
-    And I fill the last 4 digits of card number "1111"
+    And I fill the last 4 digits of card number "1403"
     And I click on search
     And I wait for the page fully loaded
     And I click on the "OK" button
     And I wait for the page fully loaded
-    Then I should see the payment Gift history "Gift (1111) $6.00" visible
+    Then I should see the payment Gift history "Gift (1403) $6.00" visible
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
+
+    Given I am on the GIFT_CARD_BALANCE page
+    When I enter the amount "1403"
+    And I click on the "SEARCH" button
+    And I wait for the page fully loaded
+
+    Then I should see the text "DETAILS" visible
+    And I should see the first date is today in the gift card detail list
+    And I should see the first type "Redeem" in the gift card detail list
+    And I should see the first amount "($6.00)" in the gift card detail list
 
   Scenario: Create a ticket and pay with Debit type
     Given I am on the HOME page
@@ -533,6 +595,10 @@ Feature: Create tickets
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
+    When I wait for the page fully loaded
+    Then I should not see the employee "Sarah" in the ticket list
+    And I should not see the employee "Maya" in the ticket list
+
   Scenario: Change Technician for Service package
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6769"
@@ -748,6 +814,30 @@ Feature: Create tickets
 
     When I select the discount "10% Off"
     Then I should see the discount ticket detail "10% Off (Original Price)($0.60)" in my cart
+
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
+
+  Scenario: No cash discount is charged when selling GC
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "8903"
+    Then I should see the employee "Keelin" in the employee list
+    When I select the "Keelin" employee
+    And I add the "Manicure" service to my cart
+    When I select the "GIFT CARD" category
+    And I add the "Gift card $100" service to my cart
+    Then I should see a popup dialog with title "Activate Gift Card $100.00"
+
+    When I enter the amount "4321"
+    And I click on the "OK" button in the popup dialog
+    Then I should see the number card "4321" visible
+    When I click on the "REWRITE" button in the popup dialog
+    Then I should see the service "Gift card $100 (4321)" in my cart
+    And I should see my cart showing 2 item added
+
+    When I click on the "PAY" button
+    Then I should see the card price amount "$0.18/$106.18" visible
+    And I should see the cash price amount "$106.00" visible
 
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page

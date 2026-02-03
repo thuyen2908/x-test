@@ -3113,3 +3113,148 @@ When(
 		await functionButton.click();
 	},
 );
+
+Then(
+	'I should see the card price amount {string} visible',
+	async ({ page }, amount: string) => {
+		const cardPrice = page.locator(
+			'.xTicketFunctions__payment--sums dl:has(dt:text("CD/TOT")) dd',
+		);
+
+		await expect(cardPrice).toBeVisible();
+		await expect(cardPrice).toContainText(amount);
+	},
+);
+
+Then(
+	'I should see the cash price amount {string} visible',
+	async ({ page }, amount: string) => {
+		await expect(
+			page.locator(
+				'.xTicketFunctions__payment--sums dl:has(dt:text("AMT DUE")) dd',
+			),
+		).toContainText(amount);
+	},
+);
+
+When(
+	'I add the phone number customer {string}',
+	async ({ page }, PhoneCustomer: string) => {
+		const customerSearch = page.locator('.TicketSearch__customer ');
+		await customerSearch.click();
+		//page.waitForTimeout(5000);
+		await customerSearch.getByRole('combobox').fill(PhoneCustomer);
+
+		const selectCustomer = page.locator('li.MuiAutocomplete-option').first();
+
+		await selectCustomer.click();
+	},
+);
+
+Then(
+	'I should see all services in the first category displayed correctly',
+	async ({ page }) => {
+		const expectedServices = [
+			'Manicure',
+			'Pedicure',
+			'Cut cuticle',
+			'Gel removal',
+			'Acrylic removal',
+			'Gel X',
+			'Request price',
+			'Combo 1',
+			'Combo 2',
+			'Supper combo',
+		];
+
+		const serviceElements = page.locator(
+			'li.ItemService .ItemService__name span',
+		);
+		await expect(serviceElements).toHaveCount(expectedServices.length);
+
+		for (let i = 0; i < expectedServices.length; i++) {
+			const serviceName = await serviceElements.nth(i).innerText();
+			expect(serviceName.trim()).toBe(expectedServices[i]);
+		}
+	},
+);
+
+Then(
+	'I should see all services in the second category displayed correctly',
+	async ({ page }) => {
+		const expectedServices = [
+			'Full set',
+			'Fill gel',
+			'Gel polish',
+			'French full set',
+			'Taxable',
+		];
+
+		const serviceElements = page.locator(
+			'li.ItemService .ItemService__name span',
+		);
+		await expect(serviceElements).toHaveCount(expectedServices.length);
+
+		for (let i = 0; i < expectedServices.length; i++) {
+			const serviceName = await serviceElements.nth(i).innerText();
+			expect(serviceName.trim()).toBe(expectedServices[i]);
+		}
+	},
+);
+
+Then(
+	'I should see all services in the third category displayed correctly',
+	async ({ page }) => {
+		const expectedServices = ['Ombre'];
+
+		const serviceElements = page.locator(
+			'li.ItemService .ItemService__name span',
+		);
+		await expect(serviceElements).toHaveCount(expectedServices.length);
+
+		for (let i = 0; i < expectedServices.length; i++) {
+			const serviceName = await serviceElements.nth(i).innerText();
+			expect(serviceName.trim()).toBe(expectedServices[i]);
+		}
+	},
+);
+
+Then(
+	'I should see all services in the fourth category displayed correctly',
+	async ({ page }) => {
+		const expectedServices = [
+			'Shampoo',
+			'Gift card $100',
+			'Any gift card',
+			'Gift card $50',
+			'Gift Card $199.50',
+			'Custom Gift Card',
+		];
+
+		const serviceElements = page.locator(
+			'li.ItemService .ItemService__name span',
+		);
+		await expect(serviceElements).toHaveCount(expectedServices.length);
+
+		for (let i = 0; i < expectedServices.length; i++) {
+			const serviceName = await serviceElements.nth(i).innerText();
+			expect(serviceName.trim()).toBe(expectedServices[i]);
+		}
+	},
+);
+
+Then(
+	'I should see the loyalty program list displayed correctly',
+	async ({ page }) => {
+		await page.locator('#mui-component-select-loyaltyProgramId').click();
+		const listbox = page.getByRole('listbox');
+		await expect(listbox).toBeVisible();
+		const options = page.getByRole('option');
+
+		await expect(options).toHaveText([
+			'=== NONE ===',
+			'1 Point for $1',
+			'2 Points = $1',
+		]);
+	},
+);
