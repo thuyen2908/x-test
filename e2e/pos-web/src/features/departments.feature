@@ -16,7 +16,7 @@ Feature: Departments management
 
     When I fill the department name "Pedicure & Manicure"
     And I select department type "Service"
-    And I click on the "Save" button
+    And I click on the "Save" button 
     And I wait for the page fully loaded
 
     When I search department with keyword "Pedicure & Manicure" and expect 1 results
@@ -27,7 +27,7 @@ Feature: Departments management
     And I wait for the page fully loaded
     Then I should see department "Pedicure & Manicure" in the list
 
-    When I click on the action "Delete" button of department
+    When I click on the action "Delete" button for item "Pedicure & Manicure"
     Then I should see a popup dialog with title "Delete Confirmation"
     When I click the "Delete" button in the dialog
     Then I should see the toast message "The data item has been permanently deleted successfully" visible
@@ -40,7 +40,7 @@ Feature: Departments management
     When I search department with keyword "Nails" and expect 1 results
     And I wait for the page fully loaded
     Then I should see department "Nails" in the list
-    When I click on the action "Copy" button of department
+    When I click on the action "Copy" button for item "Nails"
     Then I should see a popup dialog with title "Copy Confirmation"
 
     When I click the "confirm" button in the dialog
@@ -62,7 +62,7 @@ Feature: Departments management
     When I click on the "Cancel" button
     And I search department with keyword "Fancy Nails" and expect 1 results
     Then I should see department "Fancy Nails" in the list
-    When I click on the action "Delete" button of department
+    When I click on the action "Delete" button for item "Fancy Nails"
     Then I should see a popup dialog with title "Delete Confirmation"
 
     When I click the "Delete" button in the dialog

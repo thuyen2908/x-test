@@ -1895,6 +1895,20 @@ Then(
 );
 
 Then(
+	'I should see the first ticket closed by {string}',
+	async ({ page }, amount: string) => {
+		const lastPaymentCell = page
+			.locator('.MuiDataGrid-virtualScrollerContent')
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="closeUserInfo.nickName"]', { hasText: amount })
+			.first();
+
+		await expect(lastPaymentCell).toBeVisible();
+		await expect(lastPaymentCell).toContainText(amount);
+	},
+);
+
+Then(
 	'I should see the first ticket of payment {string}',
 	async ({ page }, amount: string) => {
 		const lastPaymentCell = page
@@ -2994,6 +3008,31 @@ Then(
 );
 
 Then(
+	'I should see the Reg Hrs, Reg Pay, NC Tip, Commission as {string} in employee view',
+	async ({ page }, expectedValues: string) => {
+		const values = expectedValues.split(' ');
+		expect(values).toHaveLength(4);
+
+		const [regHrs, regPay, ncTip, commission] = values;
+
+		const detailsTable = page.locator('table.details-payroll');
+		const dataRow = detailsTable.locator('tbody tr').nth(1);
+
+		await expect(dataRow).toBeVisible();
+
+		const totalSalesCell = dataRow.locator('td').nth(2);
+		const netCommCell = dataRow.locator('td').nth(3);
+		const ncTipCell = dataRow.locator('td').nth(4);
+		const totalPayoutCell = dataRow.locator('td').nth(5);
+
+		await expect(totalSalesCell).toHaveText(regHrs);
+		await expect(netCommCell).toHaveText(regPay);
+		await expect(ncTipCell).toHaveText(ncTip);
+		await expect(totalPayoutCell).toHaveText(commission);
+	},
+);
+
+Then(
 	'I should see the Total Sales, Net Comm, NC Tip, Total Payout as {string} in employee view',
 	async ({ page }, expectedValues: string) => {
 		const values = expectedValues.split(' ');
@@ -3067,13 +3106,6 @@ When(
 		await page.keyboard.type(keyword, { delay: 30 });
 
 		await expect(rows).toHaveCount(count);
-	},
-);
-
-When(
-	'I click on the action {string} button of department',
-	async ({ page }, button: string) => {
-		await page.getByRole('menuitem', { name: button }).click();
 	},
 );
 
@@ -3250,7 +3282,6 @@ When(
 		await DCMethod.click();
 		const selectDCMethod = page
 			.locator('li.MuiMenuItem-gutters')
-			.last()
 			.getByText(method, { exact: true });
 		await selectDCMethod.click();
 	},
@@ -3272,9 +3303,9 @@ Then(
 	},
 );
 When(
-	'I click on the action {string} button for discount item {string}',
-	async ({ page }, action: string, discountName: string) => {
-		const row = page.locator(`.MuiDataGrid-row:has-text("${discountName}")`);
+	'I click on the action {string} button for item {string}',
+	async ({ page }, action: string, itemName: string) => {
+		const row = page.locator(`.MuiDataGrid-row:has-text("${itemName}")`);
 		const button = row.locator(`[aria-label="${action}"]`);
 		await button.click();
 	},
@@ -3442,6 +3473,86 @@ Then(
 	},
 );
 
+When(
+	'I fill the {string} field with value {string}',
+	async ({ page }, fieldName: string, value: string) => {
+		const fieldLocators: Record<string, string> = {
+			'First Name': 'input[name="firstName"]',
+			'Nick Name': 'input[name="nickName"]',
+			'Non-cash tip': 'input[id="employeeSalon.nonCashTipPct"]',
+			'Void Reason': 'input[name="reason"]',
+		};
+
+		const selector = fieldLocators[fieldName];
+		if (!selector) throw new Error(`Unknown field: ${fieldName}`);
+
+		const input = page.locator(selector);
+		await input.fill(value);
+		await expect(input).toHaveValue(value);
+	},
+);
+
+When(
+	'I select the {string} with value {string}',
+	async ({ page }, field: string, value: string) => {
+		const fieldLocators: Record<string, string> = {
+			'Job Title': '#mui-component-select-jobCodeId',
+			'Payroll Type':
+				'div[id="mui-component-select-employeeSalon.payrollType"]',
+			'Role Tech': '#mui-component-select-roleId',
+			'Non-cash Tip Option':
+				'div[id="mui-component-select-employeeSalon.deductNonCashTip"]',
+			'Default Queue Group For Appt':
+				'div[id="mui-component-select-employeeSalon.defaultQueueGroupId"]',
+		};
+
+		const selector = fieldLocators[field];
+		if (!selector) throw new Error(`Unknown field: ${field}`);
+
+		const dropdown = page.locator(selector);
+		await dropdown.click();
+
+		const option = page
+			.locator('li.MuiMenuItem-gutters')
+			.getByText(value, { exact: true });
+		await option.click();
+	},
+);
+When(
+	'I fill the Commission Services {string} with value {string} for the new employee',
+	async ({ page }, field: string, value: string) => {
+		const section = page.locator('.css-ch9uj1').filter({ hasText: field });
+		const input = section.locator('input[type="text"]').first();
+		await input.fill(value);
+		await expect(input).toHaveValue(value);
+	},
+);
+When('I switch ON {string} select all', async ({ page }, labelName: string) => {
+	const switchElement = page
+		.locator('.MuiBox-root')
+		.filter({ hasText: labelName })
+		.locator('input[aria-labelledby="check-all"]');
+
+	await switchElement.check();
+	await expect(switchElement).toBeChecked();
+});
+Then(
+	'I should see the new Employee {string}, Role {string}, in the Employees list',
+	async ({ page }, employeeName: string, roleid: string) => {
+		const EmployeeNameCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="fullName"]', { hasText: employeeName })
+			.first();
+		const EmployeeRoleCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="roleId"]', { hasText: roleid })
+			.first();
+		await expect(EmployeeNameCell).toBeVisible();
+		await expect(EmployeeNameCell).toHaveText(employeeName);
+		await expect(EmployeeRoleCell).toBeVisible();
+		await expect(EmployeeRoleCell).toHaveText(roleid);
+	},
+);
 Then(
 	'I should see the detail {string} in the payroll receipt',
 	async ({ page }, detail: string) => {
@@ -3514,6 +3625,36 @@ Then(
 );
 
 Then(
+	'I should see the Reg Hrs, NC Tip as {string} in the payroll receipt',
+	async ({ page }, expectedValues: string) => {
+		const values = expectedValues.trim().split(/\s+/);
+		if (values.length !== 2) {
+			throw new Error(
+				`Expected 2 space-separated values, got ${values.length}: "${expectedValues}"`,
+			);
+		}
+
+		const [regHrs, ncTip] = values;
+
+		const payrollReceipt = page.locator('div.payroll-receipt-container');
+		const dailyDetailsTable = payrollReceipt.locator(
+			'table.daily-details-table',
+		);
+		const totalRow = dailyDetailsTable
+			.locator('tbody tr')
+			.filter({ hasText: 'Total' });
+
+		await expect(totalRow).toBeVisible();
+
+		const cells = totalRow.locator('td');
+
+		await expect(cells.nth(1)).toContainText(regHrs);
+		await expect(cells.nth(2)).toContainText(ncTip);
+		// await expect(cells.nth(3)).toContainText(ncTip);
+	},
+);
+
+Then(
 	'I should see the Total Sales, Net Comm, NC Tip as {string} in the payroll receipt',
 	async ({ page }, expectedValues: string) => {
 		// Parse the expected values (format: "$135.70 $54.62 $4.75")
@@ -3568,5 +3709,85 @@ Then(
 		const valueCell = tableRow.locator('td').nth(1);
 		await expect(valueCell).toBeVisible();
 		await expect(valueCell).toContainText(expectedValue);
+	},
+);
+
+Then(
+	'I should see the {string} has value {string} in the ticket payment',
+	async ({ page }, fieldLabel: string, expectedValue: string) => {
+		const fieldMapping: Record<string, string> = {
+			'Total Sale': 'totalSale',
+			Payment: 'payment',
+			Surcharge: 'surcharge',
+			'Card Fee': 'cashDiscount',
+			'Cash Discount': 'cashDiscount',
+			Tip: 'tip',
+			Tax: 'tax',
+			'Closed By': 'closeUserInfo.nickName',
+			'Close By': 'closeUserInfo.nickName',
+			'Ticket Number': 'ticketNumber',
+			'Customer Info': 'customerInfo',
+			'Business Date': 'businessDate',
+			'Close Time': 'closeTime',
+		};
+
+		const dataField = fieldMapping[fieldLabel];
+
+		if (!dataField) {
+			throw new Error(
+				`Unknown field label: "${fieldLabel}". Available fields: ${Object.keys(fieldMapping).join(', ')}`,
+			);
+		}
+
+		const gridCell = page
+			.locator(`.MuiDataGrid-row [role="gridcell"][data-field="${dataField}"]`)
+			.first();
+
+		await expect(gridCell).toBeVisible({
+			timeout: 5000,
+		});
+
+		const actualValue = await gridCell.textContent();
+		const trimmedActualValue = actualValue?.trim() || '';
+
+		await expect(gridCell).toHaveText(expectedValue, {
+			timeout: 5000,
+		});
+
+		console.log(
+			`✓ Validated "${fieldLabel}" (data-field: ${dataField}): Expected "${expectedValue}", Got "${trimmedActualValue}"`,
+		);
+	},
+);
+
+When('Active button should be ON with value true', async ({ page }) => {
+	const switchInput = page.locator('input[name="isActive"]');
+	await expect(switchInput).toBeChecked();
+	const value = await switchInput.getAttribute('value');
+	expect(value).toBe('true');
+});
+Then(
+	'I should see the new Void Reason {string}, Create at today, in the Void Reasons list',
+	async ({ page }, voidReasonName: string) => {
+		const voidReasonNameCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="reason"]', { hasText: voidReasonName })
+			.first();
+		const firstDateCell = page
+			.locator('.MuiDataGrid-row')
+			.first()
+			.locator('.MuiDataGrid-cell[data-field="createdAt"]');
+		const formattedToday = await page.evaluate(() => {
+			const today = new Date();
+			return today.toLocaleDateString('en-US', {
+				year: 'numeric',
+				month: '2-digit',
+				day: '2-digit',
+			});
+		});
+		await expect(firstDateCell).toContainText(formattedToday);
+		await expect(voidReasonNameCell).toBeVisible();
+		await expect(voidReasonNameCell).toHaveText(voidReasonName);
+		await expect(firstDateCell).toBeVisible();
 	},
 );

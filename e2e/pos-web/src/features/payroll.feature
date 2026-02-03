@@ -72,7 +72,7 @@ Feature: Payroll
     And I should see the text "Hours" visible
     And I should see the text "Maintenance Fee" visible
 
-  Scenario: Commission details in the Employee View are calculated correctly
+  Scenario: Commission payroll details in the Employee View are calculated correctly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6789"
     Then I should see the employee "Sydney" in the employee list
@@ -167,7 +167,7 @@ Feature: Payroll
     When I void the current open ticket with reason "System Test"
     Then I should be redirected to HOME page
 
-  Scenario: Commission details in the Owner View are calculated correctly
+  Scenario: Commission payroll details in the Owner View are calculated correctly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9969"
     Then I should see the employee "Venus" in the employee list
@@ -210,12 +210,9 @@ Feature: Payroll
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
+    Given I am on the PAYROLL page
     When I wait for the page fully loaded
-    And I click on the header menu
-    And I select the "Manager" label in the menu list
-    And I select the "Payroll" label in the expanded list
-    Then I should be redirected to PAYROLL page
-    And I should see the "Payroll" screen
+    Then I should see the "Payroll" screen
 
     When I wait for the page fully loaded
     And I search for "Venus"
@@ -250,8 +247,8 @@ Feature: Payroll
     And I should see the detail "Total Payout: $46.86" in the single payroll view
     And I should see the detail "Gross Profit: $73.84" in the single payroll view
 
-    When I back to HOME page
-    When I navigate to "Tickets" on the navigation bar
+    Given I am on the CLOSED_TICKETS page
+    When I wait for the page fully loaded
     Then I should be redirected to CLOSED_TICKETS page
 
     When I click on refresh
@@ -268,6 +265,194 @@ Feature: Payroll
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Venus" in the ticket
+
+    When I void the current open ticket with reason "System Test"
+    Then I should be redirected to HOME page
+
+  Scenario: Hourly payroll details in the Employee View are calculated correctly
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "1314"
+    Then I should see the employee "Jazzie" in the employee list
+
+    When I select the "Jazzie" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+    When I add the "Manicure" service to my cart
+    And I select the "GIFT CARD" category
+    And I add the "Shampoo" service to my cart
+    And I add the "Gift card $100" service to my cart
+    Then I should see a popup dialog with title "Activate Gift Card $100.00"
+
+    When I enter the amount "2222"
+    And I click on the "OK" button in the popup dialog
+    Then I should see the number card "2222" visible
+    When I click on the "ADD ON" button in the popup dialog
+    Then I should see the service "Gift card $100 (2222)" in my cart
+    And I should see my cart showing 3 item added
+
+    When I click on the total price of "Manicure"
+    Then I should see a popup dialog with title "Service: Manicure - $6.00"
+    When I change the price to "55.8"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$55.80" visible
+
+    When I click on the adding "Tip" button
+    Then I should see a popup dialog with title "Add Tip"
+    When I fill "10" from the numpad
+    Then I should see "$10.00" tip in my cart
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the button with id "payment" visible
+
+    When I enter the amount "50"
+    And I click on the element with id "payment"
+    And I select the "Credit" payment type
+    And I fill the last 4 digits of card number "1234"
+    And I click on the element with id "payment"
+    Then I should be redirected to HOME page
+
+    When I clock out the timesheet with PIN "1314"
+    Then I should not see the employee "Jazzie" in the employee list
+
+    Given I am on the PAYROLL page
+    When I wait for the page fully loaded
+    Then I should see the "Payroll" screen
+
+    When I wait for the page fully loaded
+    And I search for "Jazzie"
+    And I select the employee "Jazzie"
+    And I wait for the page fully loaded
+    And I select the type "Employee View"
+    Then I should see the Payroll Date default to today
+    And I should see the detail "Technician Jazzie" in the employee view
+    And I should see the detail "Payroll Type Hourly" in the employee view
+    And I should see the detail "# of Work Days 1" in the employee view
+    And I should see the detail "Total Hours 0.00" in the employee view
+    And I should see the detail "Product Commission $5.00" in the employee view
+    And I should see the detail "Non-Cash Tips $9.75" in the employee view
+    And I should see the detail "Total Hourly Pay $0.00" in the employee view
+    And I should see the detail "Total Pay $14.75" in the employee view
+    And I should see the detail "Pay 1 $12.75" in the employee view
+    And I should see the detail "Pay 2 $2.00" in the employee view
+    And I should see the text "Daily Details" in the employee view
+    And I should see the Reg Hrs, Reg Pay, NC Tip, Commission as "0.00 $0.00 $9.75 $5.00" in employee view
+
+    When I back to HOME page
+    When I navigate to "Tickets" on the navigation bar
+    Then I should be redirected to CLOSED_TICKETS page
+
+    When I wait for the page fully loaded
+    When I click on refresh
+    Then I should see the toast message "Ticket data refreshed successfully." visible
+    When I wait for the page fully loaded
+    And I search for "218.97"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$218.97"
+
+    When I click on the first row for payment "$218.97" to expand details
+    Then I should see the "Reopen ticket" button visible
+
+    When I click on the "Reopen ticket" button
+    And I wait for the page fully loaded
+    Then I should see the "Ticket View" screen
+    And I should see the user info "Jazzie" in the ticket
+
+    When I void the current open ticket with reason "System Test"
+    Then I should be redirected to HOME page
+
+  Scenario: Hourly payroll details in the Owner View are calculated correctly
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "9146"
+    Then I should see the employee "June" in the employee list
+
+    When I select the "June" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+    When I add the "Manicure" service to my cart
+    And I select the "GIFT CARD" category
+    And I add the "Shampoo" service to my cart
+    And I add the "Gift card $100" service to my cart
+    Then I should see a popup dialog with title "Activate Gift Card $100.00"
+
+    When I enter the amount "2222"
+    And I click on the "OK" button in the popup dialog
+    Then I should see the number card "2222" visible
+    When I click on the "ADD ON" button in the popup dialog
+    Then I should see the service "Gift card $100 (2222)" in my cart
+    And I should see my cart showing 3 item added
+
+    When I click on the total price of "Manicure"
+    Then I should see a popup dialog with title "Service: Manicure - $6.00"
+    When I change the price to "66.7"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$66.70" visible
+
+    When I click on the adding "Tip" button
+    Then I should see a popup dialog with title "Add Tip"
+    When I fill "10" from the numpad
+    Then I should see "$10.00" tip in my cart
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the button with id "payment" visible
+
+    When I enter the amount "50"
+    And I click on the element with id "payment"
+    And I select the "Credit" payment type
+    And I fill the last 4 digits of card number "1234"
+    And I click on the element with id "payment"
+    Then I should be redirected to HOME page
+
+    When I clock out the timesheet with PIN "9146"
+    Then I should not see the employee "June" in the employee list
+    When I wait for the page fully loaded
+
+    Given I am on the PAYROLL page
+    When I wait for the page fully loaded
+    Then I should see the "Payroll" screen
+
+    When I wait for the page fully loaded
+    And I search for "June"
+    And I select the employee "June"
+    And I wait for the page fully loaded
+    Then I should see the Payroll Date default to today
+    And I should see the technician name "June" in the employee view
+    And I should see the payroll type "Hourly" in the employee view
+    And I should see the # of Work Days "1" in the employee view
+    And I should see the detail "Regular Hours: 0.00" in the single payroll view
+    And I should see the detail "Regular Pay: $0.00" in the single payroll view
+    And I should see the text "Pay Calculations" in the single payroll view
+    And I should see the detail "Product Commission: $5.00" in the single payroll view
+    #NC tip incorrect, expected $9.75
+    And I should see the detail "Net Non-Cash Tip: $9.75" in the single payroll view
+    And I should see the detail "Total Hourly Pay: $0.00" in the single payroll view
+    And I should see the detail "Check (60.00%):  $3.00" in the single payroll view
+    And I should see the detail "Cash (40.00%):  $2.00" in the single payroll view
+    And I should see the detail "Pay 1: $12.75" in the single payroll view
+    And I should see the detail "Pay 2: $2.00" in the single payroll view
+    And I should see the detail "Total Payout: $14.75" in the single payroll view
+    And I should see the detail "Gross Profit: $106.95" in the single payroll view
+
+    When I back to HOME page
+    When I navigate to "Tickets" on the navigation bar
+    Then I should be redirected to CLOSED_TICKETS page
+    When I wait for the page fully loaded
+
+    When I click on refresh
+    Then I should see the toast message "Ticket data refreshed successfully." visible
+    When I wait for the page fully loaded
+    And I search for "230.20"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$230.20"
+
+    When I click on the first row for payment "$230.20" to expand details
+    Then I should see the "Reopen ticket" button visible
+
+    When I click on the "Reopen ticket" button
+    And I wait for the page fully loaded
+    Then I should see the "Ticket View" screen
+    And I should see the user info "June" in the ticket
 
     When I void the current open ticket with reason "System Test"
     Then I should be redirected to HOME page
