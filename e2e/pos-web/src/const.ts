@@ -82,7 +82,9 @@ export class Const {
 			[PageId.EMPLOYEES]: `${baseURL}/management/employees`,
 			[PageId.EMPLOYEES_CREATE]: `${baseURL}/management/employees/create`,
 			[PageId.CATEGORIES]: `${baseURL}/management/categories`,
+			[PageId.CATEGORIES_CREATE]: `${baseURL}/management/category/create`,
 			[PageId.PRODUCTS]: `${baseURL}/management/products`,
+			[PageId.PRODUCTS_CREATE_MENU_ITEM]: `${baseURL}/management/products/create-menu-item`,
 			[PageId.TAX]: `${baseURL}/management/tax`,
 			[PageId.DISCOUNT]: `${baseURL}/management/discount`,
 			[PageId.DISCOUNT_CREATE]: `${baseURL}/management/discount/create`,
@@ -104,6 +106,7 @@ export class Const {
 			[PageId.MANAGER_TIMESHEET]: `${baseURL}/management/timesheet`,
 			[PageId.ONLINE_GIFT_CARD_INVENTORY]: `${baseURL}/management/online-gift-card-inventory`,
 			[PageId.PAID_ONLINE_GIFT_CARD]: `${baseURL}/management/paid-online-gift-card`,
+			[PageId.POSITIONS]: `${baseURL}/management/job-codes`,
 		} as const;
 	}
 
