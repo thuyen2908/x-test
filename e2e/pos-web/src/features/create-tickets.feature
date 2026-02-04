@@ -1040,3 +1040,77 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
+
+  Scenario: Update GC balance when making multiple payments using 2 GCs
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "8526"
+    Then I should see the employee "Hung" in the employee list
+    When I select the "Hung" employee
+
+    When I add the "Pedicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I click on the total price of "Pedicure"
+    Then I should see a popup dialog with title "Service: Pedicure - $8.00"
+    When I change the price to "45.8"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$45.80" visible
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+
+    When I select the "Gift" payment type
+    Then I should see the "ID GIFT CARD" name
+    When I fill the Gift card with "0157"
+    And I click on the "CHECK BALANCE" button
+    When I select the title "AMOUNT"
+    And I enter the amount "10"
+    And I click on the element with id "payment"
+    Then I should see the payment history "Gift (0157)" visible
+    And I should see the payment price "$10.00"
+
+    When I select the "Gift" payment type
+    And I fill the Gift card with "0158"
+    And I click on the "CHECK BALANCE" button
+    And I click on the element with id "payment"
+    Then I should be redirected to HOME page
+
+    Given I am on the GIFT_CARD_BALANCE page
+    When I enter the amount "0157"
+    And I click on the "SEARCH" button
+    And I wait for the page fully loaded
+
+    Then I should see the text "DETAILS" visible
+    And I should see the first date is today in the gift card detail list
+    And I should see the first type "Redeem" in the gift card detail list
+    And I should see the first amount "($10.00)" in the gift card detail list
+
+    When I click on the "SEARCH ANOTHER" button
+    And I enter the amount "0158"
+    And I click on the "SEARCH" button
+    And I wait for the page fully loaded
+
+    Then I should see the first date is today in the gift card detail list
+    And I should see the first type "Redeem" in the gift card detail list
+    And I should see the first amount "($35.80)" in the gift card detail list
+
+    When I navigate to "Tickets" on the navigation bar
+    Then I should be redirected to CLOSED_TICKETS page
+
+    When I click on refresh
+    Then I should see the toast message "Ticket data refreshed successfully." visible
+    When I wait for the page fully loaded
+    And I search for "45.80"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$45.80"
+
+    When I click on the first row for payment "$45.80" to expand details
+    Then I should see the "Reopen ticket" button visible
+
+    When I click on the "Reopen ticket" button
+    And I wait for the page fully loaded
+    Then I should see the "Ticket View" screen
+    And I should see the user info "Hung" in the ticket
+
+    When I void the current open ticket with reason "System Test"
+    Then I should be redirected to HOME page
