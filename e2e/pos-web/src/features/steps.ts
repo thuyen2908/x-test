@@ -909,7 +909,7 @@ Then(
 When('I select the discount {string}', async ({ page }, discount: string) => {
 	const discountElement = page
 		.locator('.MuiListItem-gutters')
-		.getByText(discount);
+		.getByText(discount, { exact: true });
 	await expect(discountElement).toHaveText(discount);
 	await discountElement.click();
 });
@@ -1211,7 +1211,7 @@ Then(
 );
 
 When('I search for {string}', async ({ page }, text: string) => {
-	await page.locator('input[placeholder="Search…"]').fill(text);
+	await page.locator('input[placeholder="Search…"]').first().fill(text);
 });
 
 Then(
@@ -1227,6 +1227,19 @@ Then(
 
 		const title = await lastCustomerCell.getAttribute('title');
 		expect((title || '').trim()).toBe(customerInfo.trim());
+	},
+);
+
+When(
+	'I click on the first row for technician {string} to expand details',
+	async ({ page }, customerInfo: string) => {
+		const resultRow = page.locator('.MuiDataGrid-row').filter({
+			has: page.locator('[data-field="employeeInfo.nickName"]', {
+				hasText: customerInfo,
+			}),
+		});
+		const firstRow = resultRow.first();
+		await firstRow.click();
 	},
 );
 
@@ -3483,6 +3496,15 @@ When(
 			'Void Reason': 'input[name="reason"]',
 			'Category Name': 'input[name="categoryName"]',
 			'Check-in Name': 'input[name="checkInName"]',
+			'Tax Name': 'input[name="name"]',
+			'Value Tax': 'input[id="percent"]',
+			'Position Name': 'input[name="jobName"]',
+			'Regular Rate': 'input[id="regularRate"]',
+			'Overtime Rate': 'input[id="overtimeRate"]',
+			'Item Name': 'input[name="menuName"]',
+			'Online Appt book item name': 'input[name="menuNameOnline"]',
+			'Regular Price': 'input[id="regularPrice"]',
+			'Service Duration': 'input[id="productSalon.serviceDuration"]',
 		};
 
 		const selector = fieldLocators[fieldName];
@@ -3504,8 +3526,8 @@ When(
 			'Role Tech': '#mui-component-select-roleId',
 			'Non-cash Tip Option':
 				'div[id="mui-component-select-employeeSalon.deductNonCashTip"]',
-			'Default Queue Group For Appt':
-				'div[id="mui-component-select-employeeSalon.defaultQueueGroupId"]',
+			'Department menu item': 'div[id="mui-component-select-departmentId"]',
+			'Category menu item': 'div[id="mui-component-select-categoryId"]',
 		};
 
 		const selector = fieldLocators[field];
@@ -3731,6 +3753,25 @@ Then(
 			'Customer Info': 'customerInfo',
 			'Business Date': 'businessDate',
 			'Close Time': 'closeTime',
+			'Total Net Price': 'totalNetPrice',
+			'Total Commission': 'totalCommission',
+			Type: 'menuItemType',
+			'Item Name': 'itemName',
+			'Item Price': 'originalPrice',
+			'Net Price': 'commissionPrice',
+			Commission: 'commissionAmount',
+			'Non-Cash Tip': 'nonCashTip',
+			'Credit Card Fee': 'staffFee',
+			'Total Ticket Discount': 'originalDiscount',
+			'Discounts (Employee Absorbs)': 'commDiscount',
+			'Loyalty (Employee Absorbs)': 'commLoyalty',
+			'Loyalty Comm Type': 'commissionByTypeLoyalty',
+			'Item Supply Fee': 'serviceChargeTotal',
+			'Ticket Supply Fee': 'supplyCharge',
+			'Item Disc $': 'itemDiscountPrice',
+			'Item Disc %': 'itemDiscountPercent',
+			'Ticket Disc $': 'ticketDiscountPrice',
+			'Ticket Disc %': 'ticketDiscountPercent',
 		};
 
 		const dataField = fieldMapping[fieldLabel];
@@ -3744,6 +3785,8 @@ Then(
 		const gridCell = page
 			.locator(`.MuiDataGrid-row [role="gridcell"][data-field="${dataField}"]`)
 			.first();
+
+		await gridCell.scrollIntoViewIfNeeded();
 
 		await expect(gridCell).toBeVisible({
 			timeout: 5000,
@@ -3762,23 +3805,29 @@ Then(
 	},
 );
 
-When('Active button should be ON with value true', async ({ page }) => {
+Then('Active button should be ON with value true', async ({ page }) => {
 	const switchInput = page.locator('input[name="isActive"]');
 	await expect(switchInput).toBeChecked();
 	const value = await switchInput.getAttribute('value');
 	expect(value).toBe('true');
 });
+
+When('I click on checkbox Active', async ({ page }) => {
+	await page.locator('.MuiSwitch-sizeMedium ').click();
+});
 Then(
-	'I should see the new Void Reason {string}, Create at today, in the Void Reasons list',
-	async ({ page }, voidReasonName: string) => {
-		const voidReasonNameCell = page
+	'I should see the new {string} {string}, created at today, in the list',
+	async ({ page }, field: string, value: string) => {
+		const valueCell = page
 			.locator('.MuiDataGrid-row')
-			.locator('[data-field="reason"]', { hasText: voidReasonName })
+			.locator(`[data-field="${field}"]`, { hasText: value })
 			.first();
-		const firstDateCell = page
+
+		const dateCell = page
 			.locator('.MuiDataGrid-row')
 			.first()
-			.locator('.MuiDataGrid-cell[data-field="createdAt"]');
+			.locator('[data-field="createdAt"]');
+
 		const formattedToday = await page.evaluate(() => {
 			const today = new Date();
 			return today.toLocaleDateString('en-US', {
@@ -3787,10 +3836,11 @@ Then(
 				day: '2-digit',
 			});
 		});
-		await expect(firstDateCell).toContainText(formattedToday);
-		await expect(voidReasonNameCell).toBeVisible();
-		await expect(voidReasonNameCell).toHaveText(voidReasonName);
-		await expect(firstDateCell).toBeVisible();
+
+		await expect(dateCell).toContainText(formattedToday);
+		await expect(valueCell).toBeVisible();
+		await expect(valueCell).toHaveText(value);
+		await expect(dateCell).toBeVisible();
 	},
 );
 When(
