@@ -3494,6 +3494,8 @@ When(
 			'Nick Name': 'input[name="nickName"]',
 			'Non-cash tip': 'input[id="employeeSalon.nonCashTipPct"]',
 			'Void Reason': 'input[name="reason"]',
+			'Category Name': 'input[name="categoryName"]',
+			'Check-in Name': 'input[name="checkInName"]',
 			'Tax Name': 'input[name="name"]',
 			'Value Tax': 'input[id="percent"]',
 			'Position Name': 'input[name="jobName"]',
@@ -3841,3 +3843,35 @@ Then(
 		await expect(dateCell).toBeVisible();
 	},
 );
+When(
+	'I click on the check-box {string} button',
+	async ({ page }, item: string) => {
+		const itemButton = page
+			.locator('.MuiFormControlLabel-labelPlacementEnd')
+			.getByText(item);
+		await expect(itemButton).toBeVisible();
+
+		await itemButton.click();
+	},
+);
+Then(
+	'I should see the new Menu Category  {string}, Category Type {string}, in the Menu Categories list',
+	async ({ page }, categoryName: string, categoryType: string) => {
+		const categoryNameCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="name"]', { hasText: categoryName })
+			.first();
+		const categoryTypeCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="categoryType"]', { hasText: categoryType })
+			.first();
+		await expect(categoryNameCell).toBeVisible();
+		await expect(categoryNameCell).toHaveText(categoryName);
+		await expect(categoryTypeCell).toBeVisible();
+		await expect(categoryTypeCell).toHaveText(categoryType);
+	},
+);
+When('I click on the check-box Select All button', async ({ page }) => {
+	const itemButton = page.locator('.MuiSwitch-edgeEnd');
+	await itemButton.click();
+});
