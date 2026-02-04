@@ -184,6 +184,18 @@ When(
 	},
 );
 
+When(
+	'I click on the {string} button in the Customer popup dialog',
+	async ({ page }, buttonText: string) => {
+		const buttonDialog = page
+			.locator('.customDialogAction')
+			.getByText(buttonText);
+
+		await expect(buttonDialog).toBeVisible();
+		await buttonDialog.click();
+	},
+);
+
 When('I close the popup dialog', async ({ page }) => {
 	await page.locator('button[title="Close"]').click();
 });
@@ -938,15 +950,14 @@ Then(
 			.locator('.MuiDataGrid-row')
 			.first()
 			.locator('.MuiDataGrid-cell[data-field="createdAt"]');
-		const today = new Date();
-		const formattedToday = today
-			.toLocaleDateString('en-US', {
+		const formattedToday = await page.evaluate(() => {
+			const today = new Date();
+			return today.toLocaleDateString('en-US', {
 				year: 'numeric',
 				month: '2-digit',
 				day: '2-digit',
-			})
-			.replace(/\//g, '/'); // e.g., 06/18/2025
-
+			});
+		});
 		await expect(firstDateCell).toContainText(formattedToday);
 	},
 );
@@ -1490,7 +1501,9 @@ When(
 	async ({ page }, label: string) => {
 		const labelElement = page
 			.locator('div.xMenu__link span')
-			.filter({ hasText: label });
+			.getByText(label, { exact: true });
+
+		await expect(labelElement).toBeVisible();
 		await labelElement.click();
 	},
 );
@@ -2355,17 +2368,22 @@ Then('I should see the Ticket table displayed correctly', async ({ page }) => {
 });
 
 Then('I should see both date pickers default to today', async ({ page }) => {
-	const today = new Date();
-	const formattedToday = today.toLocaleDateString('en-US', {
-		year: 'numeric',
-		month: '2-digit',
-		day: '2-digit',
-	}); // Example: "07/03/2025"
+	const formattedToday = await page.evaluate(() => {
+		const today = new Date();
+		return today.toLocaleDateString('en-US', {
+			year: 'numeric',
+			month: '2-digit',
+			day: '2-digit',
+		});
+	});
 
-	const datePickers = page.locator('button.btn-range-calendar');
+	const datePickers = page.locator('button.button-date-calendar');
+	const datePickerValues = datePickers.filter({
+		hasText: /\d{2}\/\d{2}\/\d{4}/,
+	});
 
-	await expect(datePickers).toHaveCount(2);
-	await expect(datePickers).toHaveText([formattedToday, formattedToday]);
+	await expect(datePickerValues).toHaveCount(2);
+	await expect(datePickerValues).toHaveText([formattedToday, formattedToday]);
 });
 
 Then('I should see no results for invalid search', async ({ page }) => {
@@ -2731,7 +2749,7 @@ Then(
 );
 
 Then('I should see the store logo on the receipt', async ({ page }) => {
-	await expect(page.locator('img[alt="PINK NAILS"]')).toBeVisible();
+	await expect(page.locator('img[alt="PINK SALON"]')).toBeVisible();
 });
 
 Then(
@@ -3253,8 +3271,8 @@ Then(
 
 		await expect(options).toHaveText([
 			'=== NONE ===',
-			'1 Point for $1',
 			'2 Points = $1',
+			'1 Point for $1',
 		]);
 	},
 );
@@ -3544,7 +3562,8 @@ When('I switch ON {string} select all', async ({ page }, labelName: string) => {
 	const switchElement = page
 		.locator('.MuiBox-root')
 		.filter({ hasText: labelName })
-		.locator('input[aria-labelledby="check-all"]');
+		.locator('input[aria-labelledby="check-all"]')
+		.first();
 
 	await switchElement.check();
 	await expect(switchElement).toBeChecked();
@@ -3823,5 +3842,37 @@ Then(
 		await expect(voidReasonNameCell).toBeVisible();
 		await expect(voidReasonNameCell).toHaveText(voidReasonName);
 		await expect(firstDateCell).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the first type {string} in the loyalty detail list',
+	async ({ page }, type: string) => {
+		const firstTypeCell = page
+			.locator('.MuiDataGrid-row')
+			.first()
+			.locator('.MuiDataGrid-cell[data-field="type"]');
+
+		await expect(firstTypeCell).toHaveAttribute('title', new RegExp(type));
+		await expect(firstTypeCell).toContainText(type);
+	},
+);
+
+Then(
+	'I should see the first date is today in the loyalty detail list',
+	async ({ page }) => {
+		const firstDateCell = page
+			.locator('.MuiDataGrid-row')
+			.first()
+			.locator('.MuiDataGrid-cell[data-field="createdDate"]');
+		const formattedToday = await page.evaluate(() => {
+			const today = new Date();
+			return today.toLocaleDateString('en-US', {
+				year: 'numeric',
+				month: '2-digit',
+				day: '2-digit',
+			});
+		});
+		await expect(firstDateCell).toContainText(formattedToday);
 	},
 );

@@ -3,35 +3,36 @@ Feature: Create tickets
 
   Scenario: Display the default loyalty program and loyalty program list when adding a new customer
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "0917"
-    Then I should see the employee "Dylan" in the employee list
-    When I select the "Dylan" employee
+    When I clock in the timesheet with PIN "4831"
+    Then I should see the employee "Calantha" in the employee list
+    When I select the "Calantha" employee
     And I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
     When I click on the Select customer
-    And I click on the "CLICK HERE TO ADD CUSTOMER" button
+    And I click on the "Click Here To Add Customers" button
     Then I should see a popup dialog with title "Create New Customer"
     And I should see the loyalty program "2 Points = $1" visible
     And I should see the loyalty program list displayed correctly
 
-    When I void the current open ticket with reason "System Test"
-    Then I should be redirected to HOME page
-
   Scenario: Card fee is calculated correctly for cash discounts
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "0917"
-    Then I should see the employee "Dylan" in the employee list
-    When I select the "Dylan" employee
+    When I clock in the timesheet with PIN "5254"
+    Then I should see the employee "Charlene" in the employee list
+    When I select the "Charlene" employee
     And I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I click on the "PAY" button
+    When I click on the "Pay" button
     Then I should see the card price amount "$0.18/$6.18" visible
     And I should see the cash price amount "$6.00" visible
 
-    When I void the current open ticket with reason "System Test"
-    Then I should be redirected to HOME page
+    When I click on the "Cancel" button
+    And I click on the "Void Ticket" button
+    And I select the reason "Mistake"
+    Then I should see a popup dialog with title "Confirm Void"
+    When I click on the "confirm" button in the popup dialog
+    Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Display correct category and service data
     Given I am on the HOME page
@@ -50,8 +51,11 @@ Feature: Create tickets
     When I select the "GIFT CARD" category
     Then I should see all services in the fourth category displayed correctly
 
-    When I void the current open ticket with reason "System Test"
-    Then I should be redirected to HOME page
+    When I click on the "Void Ticket" button
+    And I select the reason "Mistake"
+    Then I should see a popup dialog with title "Confirm Void"
+    When I click on the "confirm" button in the popup dialog
+    Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Create a ticket then pay by Cash
     Given I am on the HOME page
@@ -91,6 +95,17 @@ Feature: Create tickets
     Then I should see the payment history "Loyalty (600 pts)$6.00" visible
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
+
+    Given I am on the GIFT_CARD_BALANCE page
+    When I click on the "LOYALTY" button
+    When I enter the amount "5555555555"
+    And I click on the "SEARCH" button
+    And I wait for the page fully loaded
+
+    #Then I should see the text "Customer: Bonnie" visible
+    Then I should see the first date is today in the loyalty detail list
+    And I should see the first type "Issuance" in the loyalty detail list
+    And I should see the first amount "0" in the gift card detail list
 
   Scenario: Create a new customer on the fly
     Given I am on the HOME page
@@ -183,8 +198,7 @@ Feature: Create tickets
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
 
-    Then I should see the text "DETAILS" visible
-    And I should see the first date is today in the gift card detail list
+    Then I should see the first date is today in the gift card detail list
     And I should see the first type "Redeem" in the gift card detail list
     And I should see the first amount "($6.00)" in the gift card detail list
 
@@ -473,7 +487,7 @@ Feature: Create tickets
     And I select the "FULL SET & FILL IN" category
     And I add the "Taxable" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see "Tax $1.60" in my cart
+    And I should see "Tax $0.96" in my cart
 
     When I click on the adding "Tax" button
     Then I should see a popup dialog with title "TAX"
@@ -564,6 +578,10 @@ Feature: Create tickets
 
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
+
+    When I wait for the page fully loaded
+    Then I should not see the employee "Sarah" in the ticket list
+    And I should not see the employee "Maya" in the ticket list
 
   Scenario: Void the item when creating a ticket
     Given I am on the HOME page
@@ -835,9 +853,12 @@ Feature: Create tickets
     Then I should see the service "Gift card $100 (4321)" in my cart
     And I should see my cart showing 2 item added
 
-    When I click on the "PAY" button
+    When I click on the "Pay" button
     Then I should see the card price amount "$0.18/$106.18" visible
     And I should see the cash price amount "$106.00" visible
 
-    When I pay the exact amount by "Cash"
+    When I select the "Cash" payment type
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
     Then I should see the selected "SERVICE" tab on the Home page

@@ -3,9 +3,9 @@ Feature: Create tickets
 
   Scenario: Display the default loyalty program and loyalty program list when adding a new customer
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "0917"
-    Then I should see the employee "Dylan" in the employee list
-    When I select the "Dylan" employee
+    When I clock in the timesheet with PIN "4831"
+    Then I should see the employee "Calantha" in the employee list
+    When I select the "Calantha" employee
     And I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
