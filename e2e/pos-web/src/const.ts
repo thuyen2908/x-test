@@ -82,6 +82,7 @@ export class Const {
 			[PageId.EMPLOYEES]: `${baseURL}/management/employees`,
 			[PageId.EMPLOYEES_CREATE]: `${baseURL}/management/employees/create`,
 			[PageId.CATEGORIES]: `${baseURL}/management/categories`,
+			[PageId.CATEGORIES_CREATE]: `${baseURL}/management/category/create`,
 			[PageId.PRODUCTS]: `${baseURL}/management/products`,
 			[PageId.TAX]: `${baseURL}/management/tax`,
 			[PageId.DISCOUNT]: `${baseURL}/management/discount`,
