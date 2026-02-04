@@ -3496,6 +3496,13 @@ When(
 			'Void Reason': 'input[name="reason"]',
 			'Tax Name': 'input[name="name"]',
 			'Value Tax': 'input[id="percent"]',
+			'Position Name': 'input[name="jobName"]',
+			'Regular Rate': 'input[id="regularRate"]',
+			'Overtime Rate': 'input[id="overtimeRate"]',
+			'Item Name': 'input[name="menuName"]',
+			'Online Appt book item name': 'input[name="menuNameOnline"]',
+			'Regular Price': 'input[id="regularPrice"]',
+			'Service Duration': 'input[id="productSalon.serviceDuration"]',
 		};
 
 		const selector = fieldLocators[fieldName];
@@ -3517,8 +3524,8 @@ When(
 			'Role Tech': '#mui-component-select-roleId',
 			'Non-cash Tip Option':
 				'div[id="mui-component-select-employeeSalon.deductNonCashTip"]',
-			'Default Queue Group For Appt':
-				'div[id="mui-component-select-employeeSalon.defaultQueueGroupId"]',
+			'Department menu item': 'div[id="mui-component-select-departmentId"]',
+			'Category menu item': 'div[id="mui-component-select-categoryId"]',
 		};
 
 		const selector = fieldLocators[field];
