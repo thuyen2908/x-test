@@ -3875,3 +3875,20 @@ When('I click on the check-box Select All button', async ({ page }) => {
 	const itemButton = page.locator('.MuiSwitch-edgeEnd');
 	await itemButton.click();
 });
+Then(
+	'I should see the new item {string}, Category {string}, in the Menu Items list',
+	async ({ page }, menuItemName: string, category: string) => {
+		const menuItemNameCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="name"]', { hasText: menuItemName })
+			.first();
+		const CategoryCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="categoryId"]', { hasText: category })
+			.first();
+		await expect(menuItemNameCell).toBeVisible();
+		await expect(menuItemNameCell).toHaveText(menuItemName);
+		await expect(CategoryCell).toBeVisible();
+		await expect(CategoryCell).toHaveText(category);
+	},
+);
