@@ -27,6 +27,8 @@ Feature: Menu Categories management
     When I click on the "Save" button 
     And I wait for the page fully loaded
     Then I should see the toast message "The data item has been created successfully" visible
+    When I click on the "Refresh" button
+    And I wait for the page fully loaded
     When I search for "AutoTestMenuCategory"
     And I wait for the page fully loaded
     Then I should see the new Menu Category  "AutoTestMenuCategory", Category Type "Service", in the Menu Categories list
