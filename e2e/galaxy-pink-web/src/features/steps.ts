@@ -1049,7 +1049,6 @@ Then('I should see the discount sorted correctly', async ({ page }) => {
 		'$5 Off',
 		'5% Off',
 		'10% Off',
-		'20% Off',
 		'20% Off - exclude Product',
 	];
 

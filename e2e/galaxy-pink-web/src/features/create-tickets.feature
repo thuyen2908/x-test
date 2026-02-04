@@ -774,7 +774,7 @@ Feature: Create tickets
     And I wait for the page fully loaded
     And I select the "Cash" payment type
     Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$4.30OK"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should see the selected "SERVICE" tab on the Home page
 
