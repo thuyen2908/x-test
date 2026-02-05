@@ -1,7 +1,7 @@
 @slow @regression @smoke
 Feature: Check In
 
-    Scenario: Display categories and services correctly in check-in
+  Scenario: Display categories and services correctly in check-in
     Given I am on the HOME page
     When I wait for the page fully loaded
     And I navigate to "Check In" on the navigation bar

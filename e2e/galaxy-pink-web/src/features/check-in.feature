@@ -1,7 +1,7 @@
 @slow @regression @smoke
 Feature: Check In
 
-  Scenario: Create a waiting for new customer, assign Service Package to Any Technician and create ticket
+  Scenario: Display categories and services correctly in check-in
     Given I am on the HOME page
     When I wait for the page fully loaded
     When I navigate to "WAIT" on the navigation bar
@@ -10,6 +10,13 @@ Feature: Check In
     Then I should see the categories displayed correctly in check-in
     And I should see the services displayed correctly in check-in
     And I should see the "Next Available Service" service
+
+  Scenario: Assign a service package to any technician and use the default waiting list technician when creating a ticket
+    Given I am on the HOME page
+    When I wait for the page fully loaded
+    And I navigate to "WAIT" on the navigation bar
+    Then I should be redirected to CREATE_WAITING page
+    And I should see the text "Create Waiting" visible
 
     When I click to create new customer with the default loyalty program "2 Points = $1"
     And I create the new customer name "Check-in"
@@ -42,17 +49,15 @@ Feature: Check In
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
-  Scenario: Create a waiting for existing customer, assign services to specific employees and create ticket
+  Scenario: Update issuance after creating a waiting for an existing customer
     Given I am on the HOME page
     When I navigate to "WAIT" on the navigation bar
     Then I should be redirected to CREATE_WAITING page
     And I should see the text "Create Waiting" visible
-    Then I should see the categories displayed correctly in check-in
-    And I should see the services displayed correctly in check-in
 
     When I wait for the page fully loaded
-    And I add the "9999999999" customer
-    Then I should see a new customer "Tin" on ticket
+    And I add the "6666666666" customer
+    Then I should see a new customer "Alice" on ticket
 
     When I add the "Manicure" service to my cart
     Then I should see a popup dialog with title "Pick Technician"
@@ -72,13 +77,13 @@ Feature: Check In
     Then I should see the selected "WAITING LIST" tab on the Home page
 
     When I wait for the page fully loaded
-    Then I should see the customer "Tin" in the waiting list
+    Then I should see the customer "Alice" in the waiting list
     And I should see the service "Manicure" in the waiting list
     And I should see the service "Pedicure" in the waiting list
     And I should see the technician "Emily" in the waiting list
     And I should see the technician "Claire" in the waiting list
 
-    When I click on the first row for customer "Tin" to expand details
+    When I click on the first row for customer "Alice" to expand details
     And I select the "Create Ticket" on the Daily Task
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
@@ -91,24 +96,30 @@ Feature: Check In
 
     When I click on the "Pay" button
     Then I should see a popup dialog with title "Reward"
-    When I click on the "OK" button in the popup dialog
-    Then I should see the text "BALANCE" visible
-
-    When I redeem my loyalty points
-    Then I should see the text "Current:" visible
-    And I should see the text points used "Points Used: (1400) pts" visible
-    When I click on the "OK" button
-    Then I should see the payment history "Loyalty (1400 pts)$14.00" visible
+    When I click on the "CANCEL" button in the popup dialog
+    And I select the "Credit" payment type
+    And I fill the last 4 digits of card number "1234"
+    And I select the "VISA" on the menu
+    Then I should see the payment history "VISA (1234)$14.42" visible
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
 
-  Scenario: Display service hint in ticket view
+    Given I am on the GIFT_CARD_BALANCE page
+    When I click on the "LOYALTY" button
+    When I enter the amount "6666666666"
+    And I click on the "SEARCH" button
+    And I wait for the page fully loaded
+
+    # Then I should see the text "Customer: Alice" visible
+    Then I should see the first date is today in the loyalty detail list
+    And I should see the first type "Issuance" in the loyalty detail list
+    And I should see the first amount "28" in the gift card detail list
+
+  Scenario: Display service hint and get default quick sale technician when create ticket
     Given I am on the HOME page
     When I navigate to "WAIT" on the navigation bar
     Then I should be redirected to CREATE_WAITING page
     And I should see the text "Create Waiting" visible
-    Then I should see the categories displayed correctly in check-in
-    And I should see the services displayed correctly in check-in
 
     When I click to create new customer with the default loyalty program "2 Points = $1"
     And I create the new customer name "Waiting"
@@ -132,14 +143,14 @@ Feature: Check In
     And I select the "Create Ticket" on the Daily Task
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
-    And I should see the user info "Anna" in the ticket
+    And I should see the user info "Christ" in the ticket
     And I should see the service hint
     And I should see the hint details "MANI & PEDI (Next Available)"
 
     When I wait for the page fully loaded
     And I add the "Acrylic removal" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see the "Anna" employee in my cart
+    And I should see the "Christ" employee in my cart
 
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
@@ -149,8 +160,6 @@ Feature: Check In
     When I navigate to "WAIT" on the navigation bar
     Then I should be redirected to CREATE_WAITING page
     And I should see the text "Create Waiting" visible
-    Then I should see the categories displayed correctly in check-in
-    And I should see the services displayed correctly in check-in
 
     When I click to create new customer with the default loyalty program "2 Points = $1"
     And I create the new customer name "Editing"
@@ -211,8 +220,6 @@ Feature: Check In
     When I navigate to "WAIT" on the navigation bar
     Then I should be redirected to CREATE_WAITING page
     And I should see the text "Create Waiting" visible
-    Then I should see the categories displayed correctly in check-in
-    And I should see the services displayed correctly in check-in
     And I should see the "Next Available Service" service
 
     When I click to create new customer with the default loyalty program "2 Points = $1"
@@ -247,18 +254,17 @@ Feature: Check In
     And I select the "Create Ticket" on the Daily Task
     And I wait for the page fully loaded
     Then I should see the "Ticket View From Appointment" screen
-    And I should see the user info "Anna" in the ticket
+    And I should see the user info "Christ" in the ticket
     And I should see the service hint
     And I should see the hint details "FULL SET & FILL IN (Next Available)"
 
     When I wait for the page fully loaded
     And I add the "Fill gel" service to my cart
     Then I should see my cart showing 1 item added
-    And I should see the "Anna" employee in my cart
+    And I should see the "Christ" employee in my cart
 
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
-
 
   Scenario: Delete a waiting
     Given I am on the HOME page
@@ -266,9 +272,6 @@ Feature: Check In
     When I navigate to "WAIT" on the navigation bar
     Then I should be redirected to CREATE_WAITING page
     And I should see the text "Create Waiting" visible
-    Then I should see the categories displayed correctly in check-in
-    And I should see the services displayed correctly in check-in
-    And I should see the "Next Available Service" service
 
     When I click to create new customer with the default loyalty program "2 Points = $1"
     And I create the new customer name "Delete"
@@ -302,9 +305,6 @@ Feature: Check In
     And I navigate to "WAIT" on the navigation bar
     Then I should be redirected to CREATE_WAITING page
     And I should see the text "Create Waiting" visible
-    Then I should see the categories displayed correctly in check-in
-    And I should see the services displayed correctly in check-in
-    And I should see the "Next Available Service" service
 
     When I click to create new customer with the default loyalty program "2 Points = $1"
     And I create the new customer name "Update-user"
@@ -359,9 +359,6 @@ Feature: Check In
     And I navigate to "WAIT" on the navigation bar
     Then I should be redirected to CREATE_WAITING page
     And I should see the text "Create Waiting" visible
-    Then I should see the categories displayed correctly in check-in
-    And I should see the services displayed correctly in check-in
-    And I should see the "Next Available Service" service
 
     When I click to create new customer with the default loyalty program "2 Points = $1"
     And I create the new customer name "Recreate"

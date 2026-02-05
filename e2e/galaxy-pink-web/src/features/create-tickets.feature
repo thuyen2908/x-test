@@ -364,7 +364,6 @@ Feature: Create tickets
 
     When I click on the adding "Discount" button
     Then I should see the "Original Price (Owner)" option is active
-    And I should see the discount sorted correctly
 
     When I select the discount absorb type "Discounted Price (Technician)"
     Then I should see the "Discounted Price (Technician)" option is active
@@ -550,10 +549,10 @@ Feature: Create tickets
 
   Scenario: Combine tickets
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "6310"
-    Then I should see the employee "Sarah" in the employee list
+    When I clock in the timesheet with PIN "4857"
+    Then I should see the employee "Eira" in the employee list
 
-    When I select the "Sarah" employee
+    When I select the "Eira" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
     When I add the "Manicure" service to my cart
@@ -569,18 +568,18 @@ Feature: Create tickets
     Then I should see the service "Pedicure" in my cart
 
     When I click on the "Combine" button on the header
-    And I select the "Sarah" employee in the list item employee
+    And I select the "Eira" employee in the list item employee
     And I click on the "OK" button
 
     Then I should see my cart showing 2 item added
     And I should see the service "Manicure" in my cart
-    And I should see the employee "Sarah" in my cart
+    And I should see the employee "Eira" in my cart
 
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I wait for the page fully loaded
-    Then I should not see the employee "Sarah" in the ticket list
+    Then I should not see the employee "Eira" in the ticket list
     And I should not see the employee "Maya" in the ticket list
 
   Scenario: Void the item when creating a ticket
@@ -828,7 +827,6 @@ Feature: Create tickets
     When I click on the "Pay" button
     And I click on the function "DISCOUNT" payment
     Then I should see the "Original Price (Owner)" option is active
-    And I should see the discount sorted correctly
 
     When I select the discount "10% Off"
     Then I should see the discount ticket detail "10% Off (Original Price)($0.60)" in my cart

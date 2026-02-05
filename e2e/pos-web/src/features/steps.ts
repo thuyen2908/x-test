@@ -3542,6 +3542,7 @@ When(
 		await option.click();
 	},
 );
+
 When(
 	'I fill the Commission Services {string} with value {string} for the new employee',
 	async ({ page }, field: string, value: string) => {
@@ -3551,6 +3552,7 @@ When(
 		await expect(input).toHaveValue(value);
 	},
 );
+
 When('I switch ON {string} select all', async ({ page }, labelName: string) => {
 	const switchElement = page
 		.locator('.MuiBox-root')
@@ -3560,6 +3562,7 @@ When('I switch ON {string} select all', async ({ page }, labelName: string) => {
 	await switchElement.check();
 	await expect(switchElement).toBeChecked();
 });
+
 Then(
 	'I should see the new Employee {string}, Role {string}, in the Employees list',
 	async ({ page }, employeeName: string, roleid: string) => {

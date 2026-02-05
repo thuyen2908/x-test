@@ -590,10 +590,10 @@ Feature: Create tickets
 
   Scenario: Combine tickets
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "6310"
-    Then I should see the employee "Sarah" in the employee list
+    When I clock in the timesheet with PIN "4857"
+    Then I should see the employee "Eira" in the employee list
 
-    When I select the "Sarah" employee
+    When I select the "Eira" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
     When I add the "Manicure" service to my cart
@@ -610,14 +610,14 @@ Feature: Create tickets
 
     When I click on the item "COMBINE TICKET" button
     Then I should see a popup dialog with title "Combine Ticket"
-    When I click on the "Sarah" text inside the content section of the opening dialog
+    When I click on the "Eira" text inside the content section of the opening dialog
     And I click on the "Combine Ticket" button in the popup dialog
     Then I should see a second popup dialog with title "Confirm Combine Ticket"
     When I click on the "confirm" button in the popup dialog
 
     Then I should see my cart showing 2 item added
     And I should see the service "Manicure" in my cart
-    And I should see the employee "Sarah" in my cart
+    And I should see the employee "Eira" in my cart
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -631,7 +631,7 @@ Feature: Create tickets
     Then I should be redirected to HOME page
 
     When I wait for the page fully loaded
-    Then I should not see the employee "Sarah" in the ticket list
+    Then I should not see the employee "Eira" in the ticket list
     And I should not see the employee "Maya" in the ticket list
 
   Scenario: Void the item when creating a ticket
