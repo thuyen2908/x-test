@@ -1600,7 +1600,7 @@ When(
 );
 
 When('I click on the scale icon', async ({ page }) => {
-	await page.locator('.triangle').click();
+	await page.locator('svg[data-testid="IconScaleIcon"]').click();
 });
 
 When('I filter the employee {string}', async ({ page }, employee: string) => {
@@ -1646,6 +1646,7 @@ When(
 		const buttonElement = page
 			.locator('.xMainContent')
 			.getByRole('button', { name: button });
+		await expect(buttonElement).toBeVisible();
 		await buttonElement.click();
 	},
 );
@@ -2377,7 +2378,7 @@ Then('I should see both date pickers default to today', async ({ page }) => {
 		});
 	});
 
-	const datePickers = page.locator('button.button-date-calendar');
+	const datePickers = page.locator('button.btn-range-calendar');
 	const datePickerValues = datePickers.filter({
 		hasText: /\d{2}\/\d{2}\/\d{4}/,
 	});
@@ -3002,48 +3003,6 @@ Then(
 );
 
 Then(
-	'I should see the {string} on the single payroll',
-	async ({ page }, detail: string) => {
-		const normalizedDetail = detail.trim();
-		const match = normalizedDetail.match(/^(.+?)\s+([()$].+)$/);
-
-		if (!match) {
-			throw new Error(
-				`Unable to parse detail "${detail}". Expected format "<label> <value>"`,
-			);
-		}
-
-		const rawLabel = match[1];
-		const rawValue = match[2];
-
-		if (!rawLabel || !rawValue) {
-			throw new Error(
-				`Unable to parse detail "${detail}" into label and value components`,
-			);
-		}
-
-		const labelText = rawLabel.trim();
-		const valueText = rawValue.trim();
-
-		const detailRow = page
-			.locator('.render-bill table')
-			.locator('tr', {
-				has: page.locator('td', { hasText: labelText }),
-			})
-			.filter({
-				has: page.locator('td', { hasText: valueText }),
-			})
-			.first();
-
-		await expect(detailRow).toBeVisible();
-
-		const cells = detailRow.locator('td');
-		await expect(cells.first()).toHaveText(labelText);
-		await expect(cells.nth(1)).toHaveText(valueText);
-	},
-);
-
-Then(
 	'I should see the header Daily Details on the single payroll',
 	async ({ page }) => {
 		const header = page
@@ -3072,52 +3031,6 @@ Then(
 		];
 		await expect(subHeaderRow).toBeVisible();
 		await expect(subHeaderRow.locator('td')).toHaveText(expectedHeaders);
-	},
-);
-
-Then(
-	'I should see the {string} of daily details',
-	async ({ page }, detail: string) => {
-		const normalizedDetail = detail.trim();
-		const match = normalizedDetail.match(/^(.+?)\s+"(.+)"$/);
-		if (!match) {
-			throw new Error(
-				`Unable to parse daily detail "${detail}". Expected format "<label> "<value>""`,
-			);
-		}
-
-		const rawLabel = match[1];
-		const rawValue = match[2] || '';
-
-		if (!rawLabel || !rawValue) {
-			throw new Error(
-				`Unable to parse daily detail "${detail}" into label and value components`,
-			);
-		}
-
-		const labelText = rawLabel.trim();
-		const valueText = rawValue.trim();
-
-		const columnIndexByLabel: Record<string, number> = {
-			Date: 0,
-			Day: 1,
-			'Total Sales': 2,
-			'NC Tip': 4,
-			'Total Payout': 5,
-		};
-
-		const columnIndex = columnIndexByLabel[labelText];
-		if (columnIndex === undefined) {
-			throw new Error(`Unsupported daily detail label "${labelText}"`);
-		}
-
-		const totalsRow = page
-			.locator('.render-bill table.details-payroll tr')
-			.nth(1);
-		await expect(totalsRow).toBeVisible();
-
-		const targetCell = totalsRow.locator('td').nth(columnIndex);
-		await expect(targetCell).toHaveText(valueText);
 	},
 );
 
@@ -3585,31 +3498,6 @@ Then(
 		await expect(EmployeeRoleCell).toHaveText(roleid);
 	},
 );
-Then(
-	'I should see the detail {string} in the payroll receipt',
-	async ({ page }, detail: string) => {
-		const colonIndex = detail.indexOf(':');
-		if (colonIndex === -1) {
-			throw new Error(
-				`Invalid detail format: "${detail}". Expected format: "Label: Value"`,
-			);
-		}
-
-		const label = detail.substring(0, colonIndex + 1).trim();
-		const expectedValue = detail.substring(colonIndex + 1).trim();
-
-		const payrollReceipt = page.locator('div.payroll-receipt-container');
-		const detailRow = payrollReceipt
-			.locator('div.detail-row')
-			.filter({ hasText: label })
-			.first();
-
-		await expect(detailRow).toBeVisible();
-
-		const valueSpan = detailRow.locator('span.value');
-		await expect(valueSpan).toContainText(expectedValue);
-	},
-);
 
 Then(
 	'I should see the title {string} in the payroll receipt',
@@ -3874,5 +3762,337 @@ Then(
 			});
 		});
 		await expect(firstDateCell).toContainText(formattedToday);
+	},
+);
+
+When('I select view {string}', async ({ page }, view: string) => {
+	const viewButton = page.getByRole('button', { name: view });
+	await expect(viewButton).toBeVisible();
+	await viewButton.click();
+});
+
+Then(
+	'I should see the start of the week as {string}',
+	async ({ page }, day: string) => {
+		const dayElement = page.locator('.e-header-day').first();
+		await expect(dayElement).toBeVisible();
+		await expect(dayElement).toContainText(day);
+	},
+);
+
+When(
+	'I select the {string} employee from the technician dropdown in the dialog',
+	async ({ page }, employee: string) => {
+		// Scope to the dialog and select the technician dropdown by accessible name
+		const dialog = page.getByRole('dialog');
+		await dialog.getByRole('combobox', { name: /technician/i }).click();
+
+		await page.waitForSelector('ul.MuiAutocomplete-listbox', {
+			state: 'visible',
+		});
+
+		const option = page
+			.locator('li.MuiAutocomplete-option')
+			.filter({ hasText: employee });
+
+		await expect(option).toBeVisible();
+		await option.click();
+	},
+);
+
+When('I fill the start time {string}', async ({ page }, startTime: string) => {
+	const startTimeInput = page
+		.locator('.MuiInputBase-root')
+		.nth(2)
+		.locator('input');
+
+	await expect(startTimeInput).toBeVisible();
+	await startTimeInput.fill(startTime);
+	await expect(startTimeInput).toHaveValue(startTime);
+});
+
+When('I fill the end time {string}', async ({ page }, endTime: string) => {
+	const endTimeInput = page
+		.locator('.MuiInputBase-root')
+		.nth(4)
+		.locator('input');
+
+	await expect(endTimeInput).toBeVisible();
+	await endTimeInput.fill(endTime);
+	await expect(endTimeInput).toHaveValue(endTime);
+});
+
+When('I fill the reason block {string}', async ({ page }, reason: string) => {
+	const reasonInput = page.locator('textarea[name="blockReason"]');
+	await reasonInput.fill(reason);
+});
+
+When('I switch ON {string}', async ({ page }, labelName: string) => {
+	const switchElement = page
+		.locator('.MuiFormControlLabel-root')
+		.filter({ hasText: labelName })
+		.locator('input[type="checkbox"]');
+
+	await switchElement.check();
+	await expect(switchElement).toBeChecked();
+});
+
+Then('I should see the default filter set to Today', async ({ page }) => {
+	const rangeDateCell = page.locator('.pageDetail > div');
+
+	const formattedToday = await page.evaluate(() => {
+		const today = new Date();
+		return today.toLocaleDateString('en-US', {
+			year: 'numeric',
+			month: '2-digit',
+			day: '2-digit',
+		});
+	});
+
+	await expect(rangeDateCell).toBeVisible();
+	await expect(rangeDateCell).toHaveText(
+		`${formattedToday} - ${formattedToday}`,
+	);
+});
+
+Then(
+	'I should see the {string} button visible on the header',
+	async ({ page }, buttonText: string) => {
+		const button = page
+			.locator('div.xHeader__func_right')
+			.filter({ hasText: buttonText });
+
+		await expect(button).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the text {string} in the payroll summary',
+	async ({ page }, text: string) => {
+		const payrollSummary = page.locator('div.summary-title');
+
+		await expect(payrollSummary).toBeVisible();
+		await expect(payrollSummary).toHaveText(text);
+	},
+);
+
+Then(
+	'I should see the first ticket of payment {string}',
+	async ({ page }, amount: string) => {
+		const lastPaymentCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="paymentTotal"]', { hasText: amount })
+			.first();
+
+		await expect(lastPaymentCell).toBeVisible();
+		await expect(lastPaymentCell).toContainText(amount);
+	},
+);
+
+When(
+	'I click on the first row for payment {string} to expand details',
+	async ({ page }, amount: string) => {
+		const lastPaymentCell = page
+			.locator('.MuiDataGrid-virtualScrollerContent')
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="paymentTotal"]', { hasText: amount })
+			.first();
+		await expect(lastPaymentCell).toBeVisible();
+		await lastPaymentCell.click();
+	},
+);
+
+When(
+	'I click on the first row for technician {string} to expand details',
+	async ({ page }, customerInfo: string) => {
+		const resultRow = page.locator('.MuiDataGrid-row').filter({
+			has: page.locator('[data-field="employeeInfo.nickName"]', {
+				hasText: customerInfo,
+			}),
+		});
+		const firstRow = resultRow.first();
+		await firstRow.click();
+	},
+);
+
+When('I click on the triangle open', async ({ page }) => {
+	const triangleOpen = page.locator('.triangle-open');
+	await triangleOpen.click();
+});
+
+When(
+	'I select to filter the {string} employee',
+	async ({ page }, employeeName: string) => {
+		const filterButton = page
+			.locator('.MuiButtonBase-root')
+			.getByText('Filter');
+		await filterButton.click();
+		const employeeElement = page
+			.locator('.box-employee-filter')
+			.getByText(employeeName);
+
+		await employeeElement.click();
+	},
+);
+
+Then(
+	'I should see the text {string} in the employee view',
+	async ({ page }, text: string) => {
+		const divider = page.locator('div.text-divider').filter({ hasText: text });
+
+		await expect(divider).toBeVisible();
+		await expect(divider.locator('span.item-divider')).toHaveText(text);
+	},
+);
+
+Then(
+	'I should see the Total Sales, Net Comm, NC Tip, Total Payout as {string} in employee view',
+	async ({ page }, expectedValues: string) => {
+		const values = expectedValues.split(' ');
+		expect(values).toHaveLength(4);
+
+		const [totalSales, netComm, ncTip, totalPayout] = values;
+
+		const detailsTable = page.locator('table.details-payroll');
+		const dataRow = detailsTable.locator('tbody tr').nth(1);
+
+		await expect(dataRow).toBeVisible();
+
+		const totalSalesCell = dataRow.locator('td').nth(2);
+		const netCommCell = dataRow.locator('td').nth(3);
+		const ncTipCell = dataRow.locator('td').nth(4);
+		const totalPayoutCell = dataRow.locator('td').nth(5);
+
+		await expect(totalSalesCell).toHaveText(totalSales);
+		await expect(netCommCell).toHaveText(netComm);
+		await expect(ncTipCell).toHaveText(ncTip);
+		await expect(totalPayoutCell).toHaveText(totalPayout);
+	},
+);
+
+Then(
+	'I should see the technician name {string} in the employee view',
+	async ({ page }, technicianName: string) => {
+		const technicianRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Technician' });
+		const nameCell = technicianRow.locator('td').nth(1);
+
+		await expect(nameCell).toBeVisible();
+		await expect(nameCell).toHaveText(technicianName);
+	},
+);
+
+Then(
+	'I should see the payroll type {string} in the employee view',
+	async ({ page }, payrollType: string) => {
+		const typeRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Payroll Type' });
+		const typeCell = typeRow.locator('td').nth(1);
+
+		await expect(typeCell).toBeVisible();
+		await expect(typeCell).toHaveText(payrollType);
+	},
+);
+
+Then(
+	'I should see the # of Work Days {string} in the employee view',
+	async ({ page }, workDays: string) => {
+		const workDaysRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: '# of Work Days' });
+		const workDaysCell = workDaysRow.locator('td').nth(1);
+
+		await expect(workDaysCell).toBeVisible();
+		await expect(workDaysCell).toHaveText(workDays);
+	},
+);
+
+Then(
+	'I should see the text {string} in the single payroll view',
+	async ({ page }, text: string) => {
+		const saleSummaryRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: text });
+		await expect(saleSummaryRow).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the detail {string} in the single payroll view',
+	async ({ page }, detail: string) => {
+		const colonIndex = detail.indexOf(':');
+		if (colonIndex === -1) {
+			throw new Error(
+				`Invalid detail format: "${detail}". Expected format: "Label: Value"`,
+			);
+		}
+
+		const label = detail.substring(0, colonIndex + 1).trim();
+		const expectedValue = detail.substring(colonIndex + 1).trim();
+
+		const detailRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: label })
+			.first();
+
+		const valueCell = detailRow.locator('td').nth(1);
+
+		await expect(valueCell).toBeVisible();
+		await expect(valueCell).toContainText(expectedValue);
+	},
+);
+
+Then(
+	'I should see the second Total {string} in the single payroll view',
+	async ({ page }, amount: string) => {
+		const totalRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Total' })
+			.nth(1);
+		const amountCell = totalRow.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
+	},
+);
+
+Then(
+	'I should see the Reg Pay, NC Tip, Commission as {string} in employee view',
+	async ({ page }, expectedValues: string) => {
+		const values = expectedValues.split(' ');
+		expect(values).toHaveLength(3);
+
+		const [regPay, ncTip, commission] = values;
+
+		const detailsTable = page.locator('table.details-payroll');
+		const dataRow = detailsTable.locator('tbody tr').nth(1);
+
+		await expect(dataRow).toBeVisible();
+
+		// const totalSalesCell = dataRow.locator('td').nth(2);
+		const regPayCell = dataRow.locator('td').nth(3);
+		const ncTipCell = dataRow.locator('td').nth(4);
+		const commissionCell = dataRow.locator('td').nth(5);
+
+		// await expect(totalSalesCell).toHaveText(regHrs);
+		await expect(regPayCell).toHaveText(regPay);
+		await expect(ncTipCell).toHaveText(ncTip);
+		await expect(commissionCell).toHaveText(commission);
+	},
+);
+
+Then(
+	'I should see the first Total {string} in the single payroll view',
+	async ({ page }, amount: string) => {
+		const totalRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: 'Total' })
+			.first();
+		const amountCell = totalRow.locator('td').nth(1);
+
+		await expect(amountCell).toBeVisible();
+		await expect(amountCell).toHaveText(amount);
 	},
 );
