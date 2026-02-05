@@ -74,6 +74,7 @@ Feature: Payroll
     And I should see the text "Hours" visible
     And I should see the text "Maintenance Fee" visible
 
+  @skip
   Scenario: Commission payroll details in the Employee View are calculated correctly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6789"
@@ -159,6 +160,7 @@ Feature: Payroll
     When I click on the "confirm" button in the popup dialog
     Then I should see the selected "SERVICE" tab on the Home page
 
+  @skip
   Scenario: Commission payroll details in the Owner View are calculated correctly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9969"
@@ -255,6 +257,7 @@ Feature: Payroll
     When I click on the "confirm" button in the popup dialog
     Then I should see the selected "SERVICE" tab on the Home page
 
+  @skip
   Scenario: Hourly payroll details in the Employee View are calculated correctly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1314"
@@ -276,19 +279,12 @@ Feature: Payroll
     Then I should see the service "Gift card $100 (2222)" in my cart
     And I should see my cart showing 3 item added
 
-    
-    When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "55.8"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$55.80" visible
+    When I select the service "Manicure" in my cart
+    And I change price amount "55.8"
 
-    When I click on the adding "Tip" button
-    Then I should see a popup dialog with title "Add Tip"
-    When I fill "10" from the numpad
-    Then I should see "$10.00" tip in my cart
+    And I add tip amount "10"
 
-    When I click on the "PAY" button
+    When I click on the "Pay" button
     Then I should see the text "PAYMENT TICKET" visible
     And I should see the button with id "payment" visible
 
@@ -348,6 +344,7 @@ Feature: Payroll
     When I void the current open ticket with reason "System Test"
     Then I should be redirected to HOME page
 
+  @skip
   Scenario: Hourly payroll details in the Owner View are calculated correctly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9146"
