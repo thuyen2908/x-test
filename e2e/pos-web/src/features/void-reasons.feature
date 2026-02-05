@@ -16,6 +16,8 @@ Feature: Void reasons management
     And I select the "Void Reasons" label in the expanded list
     Then I should be redirected to VOID_REASONS page
     And I should see the "Void Reasons" screen
+    When I click on the "Refresh" button
+    And I wait for the page fully loaded
     When I click on the "Add New" button 
     Then I should see a popup dialog with title "Create New Reason"
     When I fill the "Void Reason" field with value "AutoTestVoidReason"

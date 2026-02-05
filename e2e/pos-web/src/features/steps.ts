@@ -3263,32 +3263,6 @@ Then(
 );
 
 When(
-	'I fill the new Discount name {string}',
-	async ({ page }, nameDC: string) => {
-		const discountName = page.locator('input[name="discountName"]');
-		await discountName.fill(nameDC);
-
-		await expect(discountName).toHaveValue(nameDC);
-	},
-);
-
-When('I fill the DisplayDC name {string}', async ({ page }, nameDP: string) => {
-	const displayDCName = page.locator('input[name="displayName"]');
-	await displayDCName.fill(nameDP);
-	await expect(displayDCName).toHaveValue(nameDP);
-});
-
-When(
-	'I fill the Amount Discount {string}',
-	async ({ page }, amount: string) => {
-		const AmountDC = page.locator('input[id="amount"]');
-		await AmountDC.fill(amount);
-
-		await expect(AmountDC).toHaveValue(amount);
-	},
-);
-
-When(
 	'I Select the Discount method {string}',
 	async ({ page }, method: string) => {
 		const DCMethod = page.locator('#mui-component-select-discountMethod');
@@ -3505,6 +3479,9 @@ When(
 			'Online Appt book item name': 'input[name="menuNameOnline"]',
 			'Regular Price': 'input[id="regularPrice"]',
 			'Service Duration': 'input[id="productSalon.serviceDuration"]',
+			'Discount name': 'input[name="discountName"]',
+			DisplayDC: 'input[name="displayName"]',
+			'Amount Discount': 'input[id="amount"]',
 		};
 
 		const selector = fieldLocators[fieldName];
@@ -3528,6 +3505,8 @@ When(
 				'div[id="mui-component-select-employeeSalon.deductNonCashTip"]',
 			'Department menu item': 'div[id="mui-component-select-departmentId"]',
 			'Category menu item': 'div[id="mui-component-select-categoryId"]',
+			'Default Queue Group For Appt':
+				'div[id="mui-component-select-employeeSalon.defaultQueueGroupId"]',
 		};
 
 		const selector = fieldLocators[field];

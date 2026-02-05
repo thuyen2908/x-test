@@ -28,8 +28,8 @@ Feature: Positions management
     And I wait for the page fully loaded
     When I search for "AutoTestPosition"
     And I wait for the page fully loaded
-    Then I should see the new "name" "AutoTestPosition", created at today, in the list
-    When I click on the action "Delete" button for item "AutoTest Position"
+    Then I should see the new "jobName" "AutoTestPosition", created at today, in the list
+    When I click on the action "Delete" button for item "AutoTestPosition"
     Then I should see a popup dialog with title "Delete Confirmation"
     When I click on the "Delete" button in the popup dialog
     And I wait for the page fully loaded
