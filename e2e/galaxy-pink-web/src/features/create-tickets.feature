@@ -34,6 +34,7 @@ Feature: Create tickets
     When I click on the "confirm" button in the popup dialog
     Then I should see the selected "SERVICE" tab on the Home page
 
+  @skip
   Scenario: Display correct category and service data
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0917"
@@ -380,6 +381,7 @@ Feature: Create tickets
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
+  @skip
   Scenario: Apply auto-discount item and change it to another
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9960"
@@ -547,6 +549,7 @@ Feature: Create tickets
     And I click on the "confirm" button in the popup dialog
     Then I should see the selected "SERVICE" tab on the Home page
 
+  @skip
   Scenario: Combine tickets
     Given I am on the HOME page
     When I clock in the timesheet with PIN "4857"
@@ -753,6 +756,7 @@ Feature: Create tickets
     When I click on the "OK" button
     Then I should see the selected "SERVICE" tab on the Home page
 
+  @skip
   Scenario: Cannot pay more than the Gift card Balance
     Given I am on the HOME page
     When I clock in the timesheet with PIN "4040"

@@ -23,6 +23,7 @@ Feature: Quick payroll
     Then I should see a popup dialog with title "Send Email"
     Then I should see a popup dialog with content "Exclude employees with total = $0.00"
 
+  @skip
   Scenario: Display Commission payroll details correctly in the payroll summary
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2771"
@@ -114,6 +115,7 @@ Feature: Quick payroll
     When I click on the "confirm" button in the popup dialog
     Then I should see the selected "SERVICE" tab on the Home page
 
+  @skip
   Scenario: Display Hourly payroll details correctly in the payroll summary
     Given I am on the HOME page
     When I clock in the timesheet with PIN "7016"

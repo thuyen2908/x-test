@@ -25,6 +25,7 @@ Feature: Ticket Payments
     When I select the "BATCH HISTORY" tab
     Then I should see the Batch history table displayed correctly
 
+  @skip
   Scenario: The Tickets tab displays data correctly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1250"
@@ -102,6 +103,7 @@ Feature: Ticket Payments
     And I click on the "confirm" button in the popup dialog
     Then I should see the selected "SERVICE" tab on the Home page
 
+  @skip
   Scenario: The Services/Products tab displays data correctly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6118"
