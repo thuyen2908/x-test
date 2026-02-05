@@ -3916,7 +3916,7 @@ When(
 );
 
 When('I click on the triangle open', async ({ page }) => {
-	const triangleOpen = page.locator('.triangle open');
+	const triangleOpen = page.locator('.triangle-open');
 	await triangleOpen.click();
 });
 
