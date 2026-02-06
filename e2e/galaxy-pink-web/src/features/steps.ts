@@ -3715,6 +3715,7 @@ Then(
 		await expect(firstDateCell).toBeVisible();
 	},
 );
+
 Then(
 	'I should see the new {string} {string}, created at today, in the list',
 	async ({ page }, field: string, value: string) => {
@@ -3728,6 +3729,21 @@ Then(
 			.first()
 			.locator('[data-field="createdAt"]');
 
+		const formattedToday = await page.evaluate(() => {
+			const today = new Date();
+			return today.toLocaleDateString('en-US', {
+				year: 'numeric',
+				month: '2-digit',
+				day: '2-digit',
+			});
+		});
+
+		await expect(dateCell).toContainText(formattedToday);
+		await expect(valueCell).toBeVisible();
+		await expect(valueCell).toHaveText(value);
+		await expect(dateCell).toBeVisible();
+	},
+);
 
 Then(
 	'I should see the first type {string} in the loyalty detail list',
@@ -3757,13 +3773,6 @@ Then(
 				day: '2-digit',
 			});
 		});
-
-		await expect(dateCell).toContainText(formattedToday);
-		await expect(valueCell).toBeVisible();
-		await expect(valueCell).toHaveText(value);
-		await expect(dateCell).toBeVisible();
-	},
-);
 		await expect(firstDateCell).toContainText(formattedToday);
 	},
 );
@@ -3983,6 +3992,8 @@ When(
 		await expect(itemButton).toBeVisible();
 
 		await itemButton.click();
+	},
+);
 
 Then('I should see the default filter set to Today', async ({ page }) => {
 	const rangeDateCell = page.locator('.pageDetail > div');

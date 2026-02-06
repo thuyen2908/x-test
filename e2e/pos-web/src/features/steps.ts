@@ -3797,6 +3797,7 @@ Then('Active button should be ON with value true', async ({ page }) => {
 When('I click on checkbox Active', async ({ page }) => {
 	await page.locator('.MuiSwitch-sizeMedium ').click();
 });
+
 Then(
 	'I should see the new {string} {string}, created at today, in the list',
 	async ({ page }, field: string, value: string) => {
