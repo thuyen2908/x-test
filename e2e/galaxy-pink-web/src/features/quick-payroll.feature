@@ -23,7 +23,6 @@ Feature: Quick payroll
     Then I should see a popup dialog with title "Send Email"
     Then I should see a popup dialog with content "Exclude employees with total = $0.00"
 
-  @skip
   Scenario: Display Commission payroll details correctly in the payroll summary
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2771"
@@ -92,19 +91,15 @@ Feature: Quick payroll
     And I should see the title "Daily Details" in the payroll receipt
     And I should see the Total Sales, Net Comm, NC Tip as "$135.70 $54.62 $9.75" in the payroll receipt
 
-    Given I am on the CLOSED_TICKETS page
-    When I wait for the page fully loaded
+    When I back to HOME page
+    And I select the "CLOSED TICKET" tab
     And I click on refresh
     Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
     And I search for "249.77"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$249.77"
 
-    When I click on the first row for payment "$249.77" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
+    And I reopen ticket with payment amount "249.77"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Serena" in the ticket
@@ -115,7 +110,6 @@ Feature: Quick payroll
     When I click on the "confirm" button in the popup dialog
     Then I should see the selected "SERVICE" tab on the Home page
 
-  @skip
   Scenario: Display Hourly payroll details correctly in the payroll summary
     Given I am on the HOME page
     When I clock in the timesheet with PIN "7016"
@@ -176,19 +170,15 @@ Feature: Quick payroll
     And I should see the title "Daily Details" in the payroll receipt
     And I should see the NC Tip as "$9.75" in the payroll receipt
 
-    Given I am on the CLOSED_TICKETS page
-    When I wait for the page fully loaded
+    When I back to HOME page
+    And I select the "CLOSED TICKET" tab
     And I click on refresh
     Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
     And I search for "250.80"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$250.80"
 
-    When I click on the first row for payment "$250.80" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
+    And I reopen ticket with payment amount "$250.80"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Jen" in the ticket
