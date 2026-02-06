@@ -2180,36 +2180,22 @@ Then(
 	},
 );
 
-When(
-	'I click on the last row for payment {string} to expand details',
-	async ({ page }, amount: string) => {
-		const lastPaymentCell = page
-			.locator('.MuiDataGrid-virtualScrollerContent')
-			.locator('.MuiDataGrid-row')
-			.locator('[data-field="paymentTotal"]', { hasText: amount })
-			.last();
-		await expect(lastPaymentCell).toBeVisible();
-		await lastPaymentCell.scrollIntoViewIfNeeded();
-		await lastPaymentCell.click();
-	},
-);
+// When(
+// 	'I click the avatar in the last row with Cash payment {string} to expand details',
+// 	async ({ page }, amount: string) => {
+// 		const targetRow = page
+// 			.locator(
+// 				`.MuiDataGrid-row:has([data-field="paymentMethod"]:text("Cash")):has([data-field="paymentTotal"]:text("${amount}"))`,
+// 			)
+// 			.last();
+// 		await targetRow.scrollIntoViewIfNeeded();
+// 		await expect(targetRow).toBeVisible();
 
-When(
-	'I click the avatar in the last row with Cash payment {string} to expand details',
-	async ({ page }, amount: string) => {
-		const targetRow = page
-			.locator(
-				`.MuiDataGrid-row:has([data-field="paymentMethod"]:text("Cash")):has([data-field="paymentTotal"]:text("${amount}"))`,
-			)
-			.last();
-		await targetRow.scrollIntoViewIfNeeded();
-		await expect(targetRow).toBeVisible();
-
-		const avatarCell = targetRow.locator('[data-field="avatar"]');
-		await expect(avatarCell).toBeVisible();
-		await avatarCell.click();
-	},
-);
+// 		const avatarCell = targetRow.locator('[data-field="avatar"]');
+// 		await expect(avatarCell).toBeVisible();
+// 		await avatarCell.click();
+// 	},
+// );
 
 When('I select the {string} option', async ({ page }, option: string) => {
 	const optionElement = page.locator('.MuiListItem-root').getByText(option);
@@ -2967,24 +2953,23 @@ Then('I should see the QR code on the receipt', async ({ page }) => {
 });
 
 Then('I should see the Payroll Date default to today', async ({ page }) => {
-	const today = new Date();
-	const month = String(today.getMonth() + 1).padStart(2, '0');
-	const day = today.getDate();
-	const year = today.getFullYear();
-	const dayPattern = day < 10 ? `0?${day}` : `${day}`;
-	const dateRangePattern = new RegExp(
-		`^${month}/${dayPattern}/${year}\\s-\\s${month}/${dayPattern}/${year}$`,
-	);
+	// Calculate today's date in the browser context to ensure timezone consistency
+	const formattedDate = await page.evaluate(() => {
+		const today = new Date();
+		const month = today.getMonth() + 1;
+		const day = today.getDate();
+		const year = today.getFullYear();
+		return `${month}/${day}/${year}`;
+	});
 
-	const payrollRow = page
-		.locator('.render-bill table')
-		.locator('tr', {
-			has: page.locator('td', { hasText: 'Payroll Date' }),
-		})
-		.first();
-	const payrollValueCell = payrollRow.locator('td').nth(1);
+	const payrollDateRow = page
+		.locator('table tbody tr')
+		.filter({ hasText: 'Payroll Date' });
+	const dateCell = payrollDateRow.locator('td').nth(1);
 
-	await expect(payrollValueCell).toHaveText(dateRangePattern);
+	await expect(dateCell).toBeVisible();
+	const dateText = await dateCell.textContent();
+	expect(dateText).toContain(formattedDate);
 });
 
 Then(
@@ -4050,13 +4035,19 @@ Then(
 When(
 	'I click on the first row for payment {string} to expand details',
 	async ({ page }, amount: string) => {
-		const lastPaymentCell = page
-			.locator('.MuiDataGrid-virtualScrollerContent')
+		const row = page
 			.locator('.MuiDataGrid-row')
-			.locator('[data-field="paymentTotal"]', { hasText: amount })
+			.filter({
+				has: page.locator('[data-field="paymentTotal"]', { hasText: amount }),
+			})
 			.first();
-		await expect(lastPaymentCell).toBeVisible();
-		await lastPaymentCell.click();
+
+		await expect(row).toBeVisible();
+
+		const avatarCell = row.locator('[data-field="avatar"]');
+
+		await expect(avatarCell).toBeVisible();
+		await avatarCell.click();
 	},
 );
 

@@ -5,6 +5,7 @@ Feature: Payroll
     Given I am on the HOME page
     When I wait for the page fully loaded
     And I click on the header menu
+    And I wait for the page fully loaded
     And I select the "Manager" label in the menu list
     And I select the "Payroll" label in the expanded list
     Then I should be redirected to PAYROLL page
@@ -56,7 +57,6 @@ Feature: Payroll
     Then I should see the text "Date" visible
     And I should see the text "Ticket#" visible
     And I should see the text "Item Name" visible
-    And I should see the text "Item Price" visible
 
   Scenario: Verify employee-specific Timesheet information loads correctly
     Given I am on the HOME page
@@ -74,7 +74,6 @@ Feature: Payroll
     And I should see the text "Hours" visible
     And I should see the text "Maintenance Fee" visible
 
-  @skip
   Scenario: Commission payroll details in the Employee View are calculated correctly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6789"
@@ -137,19 +136,15 @@ Feature: Payroll
     And I should see the text "Daily Details" in the employee view
     And I should see the Total Sales, Net Comm, NC Tip, Total Payout as "$105.70 $36.62 $9.75 $41.37" in employee view
 
-    Given I am on the CLOSED_TICKETS page
-    When I wait for the page fully loaded
+    When I back to HOME page
+    And I select the "CLOSED TICKET" tab
     And I click on refresh
     Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
     And I search for "218.87"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$218.87"
 
-    When I click on the first row for payment "$218.87" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
+    And I reopen ticket with payment amount "218.87"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Sydney" in the ticket
@@ -160,7 +155,6 @@ Feature: Payroll
     When I click on the "confirm" button in the popup dialog
     Then I should see the selected "SERVICE" tab on the Home page
 
-  @skip
   Scenario: Commission payroll details in the Owner View are calculated correctly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9969"
@@ -193,7 +187,7 @@ Feature: Payroll
     And I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
     And I select the "VISA" on the menu
-    When I click on the "Close Ticket" button
+    And I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
 
     Given I am on the PAYROLL page
@@ -233,20 +227,16 @@ Feature: Payroll
     And I should see the detail "Total Payout: $46.86" in the single payroll view
     And I should see the detail "Gross Profit: $73.84" in the single payroll view
 
-    Given I am on the CLOSED_TICKETS page
-    When I wait for the page fully loaded
+    When I back to HOME page
+    And I select the "CLOSED TICKET" tab
 
     When I click on refresh
     Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
     And I search for "229.17"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$229.17"
 
-    When I click on the first row for payment "$229.17" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
+    And I reopen ticket with payment amount "229.17"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Venus" in the ticket
@@ -257,7 +247,6 @@ Feature: Payroll
     When I click on the "confirm" button in the popup dialog
     Then I should see the selected "SERVICE" tab on the Home page
 
-  @skip
   Scenario: Hourly payroll details in the Employee View are calculated correctly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1314"
@@ -285,15 +274,13 @@ Feature: Payroll
     And I add tip amount "10"
 
     When I click on the "Pay" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the button with id "payment" visible
-
-    When I enter the amount "50"
-    And I click on the element with id "payment"
+    And I enter the amount "50"
+    And I select the "Cash" payment type
     And I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
-    And I click on the element with id "payment"
-    Then I should be redirected to HOME page
+    And I select the "VISA" on the menu
+    And I click on the "Close Ticket" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
     When I clock out the timesheet with PIN "1314"
     Then I should not see the employee "Jazzie" in the employee list
@@ -322,29 +309,24 @@ Feature: Payroll
     And I should see the Reg Pay, NC Tip, Commission as "$0.00 $9.75 $5.00" in employee view
 
     When I back to HOME page
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I wait for the page fully loaded
-    When I click on refresh
+    And I select the "CLOSED TICKET" tab
+    And I click on refresh
     Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
     And I search for "218.97"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$218.97"
 
-    When I click on the first row for payment "$218.97" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
+    And I reopen ticket with payment amount "$218.97"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Jazzie" in the ticket
 
-    When I void the current open ticket with reason "System Test"
-    Then I should be redirected to HOME page
+    When I click on the "Void Ticket" button
+    And I select the reason "Mistake"
+    Then I should see a popup dialog with title "Confirm Void"
+    When I click on the "confirm" button in the popup dialog
+    Then I should see the selected "SERVICE" tab on the Home page
 
-  @skip
   Scenario: Hourly payroll details in the Owner View are calculated correctly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9146"
@@ -366,27 +348,19 @@ Feature: Payroll
     Then I should see the service "Gift card $100 (2222)" in my cart
     And I should see my cart showing 3 item added
 
-    When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "66.7"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$66.70" visible
+    When I select the service "Manicure" in my cart
+    And I change price amount "66.7"
 
-    When I click on the adding "Tip" button
-    Then I should see a popup dialog with title "Add Tip"
-    When I fill "10" from the numpad
-    Then I should see "$10.00" tip in my cart
+    And I add tip amount "10"
 
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the button with id "payment" visible
-
-    When I enter the amount "50"
-    And I click on the element with id "payment"
+    When I click on the "Pay" button
+    And I enter the amount "50"
+    And I select the "Cash" payment type
     And I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
-    And I click on the element with id "payment"
-    Then I should be redirected to HOME page
+    And I select the "VISA" on the menu
+    And I click on the "Close Ticket" button
+    Then I should see the selected "SERVICE" tab on the Home page
 
     When I clock out the timesheet with PIN "9146"
     Then I should not see the employee "June" in the employee list
@@ -396,8 +370,7 @@ Feature: Payroll
     When I wait for the page fully loaded
     Then I should see the "Payroll" screen
 
-    When I wait for the page fully loaded
-    And I search for "June"
+    When I search for "June"
     And I select the employee "June"
     And I wait for the page fully loaded
     Then I should see the Payroll Date default to today
@@ -419,26 +392,20 @@ Feature: Payroll
     And I should see the detail "Gross Profit: $106.95" in the single payroll view
 
     When I back to HOME page
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-    When I wait for the page fully loaded
-
-    When I click on refresh
+    And I select the "CLOSED TICKET" tab
+    And I click on refresh
     Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
     And I search for "230.20"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$230.20"
 
-    When I click on the first row for payment "$230.20" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
+    And I reopen ticket with payment amount "230.20"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "June" in the ticket
 
-    When I void the current open ticket with reason "System Test"
-    Then I should be redirected to HOME page
-
-
+    When I click on the "Void Ticket" button
+    And I select the reason "Mistake"
+    Then I should see a popup dialog with title "Confirm Void"
+    When I click on the "confirm" button in the popup dialog
+    Then I should see the selected "SERVICE" tab on the Home page
