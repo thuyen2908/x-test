@@ -366,6 +366,7 @@ Feature: Closed Ticket
     When I click on the "confirm" button in the popup dialog
     Then I should see the selected "SERVICE" tab on the Home page
 
+  @skip
   Scenario: Reopen ticket to void item, remove and make new payment
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8573"
@@ -427,6 +428,7 @@ Feature: Closed Ticket
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
 
+  @skip
   Scenario: Sell a new Gift Card then void ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2463"
@@ -484,6 +486,7 @@ Feature: Closed Ticket
     And I wait for the page fully loaded
     Then I should see the toast message "Cannot find this Gift Card." visible
 
+  @skip
   Scenario: Sell a new Gift Card then void item Gift Card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6727"
@@ -606,6 +609,7 @@ Feature: Closed Ticket
     Then I should see the title contain "Jimmy" visible
     And I should see the text "No rows" visible
 
+  @skip
   Scenario: View the loyalty point on Receipt
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2883"

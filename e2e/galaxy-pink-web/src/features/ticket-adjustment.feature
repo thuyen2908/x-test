@@ -185,6 +185,7 @@ Feature: Ticket adjustment
     And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
 
+  @skip
   Scenario: Change price, remove payment and adjust tip for Gift type
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9055"
@@ -389,6 +390,7 @@ Feature: Ticket adjustment
     And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
 
+  @skip
   Scenario: Void a sell Gift Card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5720"

@@ -171,7 +171,7 @@ class xPage {
 			/**
 			 * Locate the Pay button on the ticket screen
 			 */
-			payButton: page.locator('button#payment'),
+			payButton: page.locator('button#action_pay'),
 			/**
 			 * Locate a payment type option by its exact label
 			 */
@@ -357,29 +357,24 @@ class xPage {
 	public async payBy(paymentType: string) {
 		const { locators } = this;
 
-		let payButton = locators.payButton;
-		if (!(await payButton.count())) {
-			payButton = this.page.getByRole('button', { name: /pay/i }).first();
-		} else {
-			payButton = payButton.first();
-		}
+		// Step 1: Click the Pay button
+		await locators.payButton.click();
 
-		await expect(payButton).toBeVisible();
-		await payButton.click();
-
+		// Step 2: Click the payment type Cash
 		const paymentTypeOption = locators.paymentTypeOption(paymentType).first();
-		await expect(paymentTypeOption).toBeVisible();
 		await paymentTypeOption.click();
 
+		// Step 3: Wait for the Close Ticket dialog
 		const closeTicketDialog = locators.dialog('Close Ticket');
 		await expect(closeTicketDialog).toBeVisible();
 
+		// Step 4: Verify dialog contains CHANGE $0.00
 		const dialogContent = locators.dialogContent(closeTicketDialog);
 		await expect(dialogContent).toContainText('CHANGE');
 		await expect(dialogContent).toContainText('$0.00');
 
+		// Step 5: Click OK to confirm payment
 		const okButton = locators.dialogActionButton(closeTicketDialog, 'OK');
-		await expect(okButton).toBeVisible();
 		await okButton.click();
 
 		await expect(closeTicketDialog).toBeHidden();

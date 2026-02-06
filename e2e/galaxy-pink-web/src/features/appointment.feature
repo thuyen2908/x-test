@@ -3,7 +3,7 @@ Feature: Appointment
   @skip
   Scenario: Create an appointment for an existing customer, edit to change technician and create ticket
     Given I am on the HOME page
-    When I navigate to "Appointment" on the navigation bar
+    When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
     When I wait for the page fully loaded
@@ -187,20 +187,18 @@ Feature: Appointment
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-  @skip
   Scenario: Use Employee Color for Appointment Header
     Given I am on the HOME page
-    When I navigate to "Appointment" on the navigation bar
+    When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
     When I wait for the page fully loaded
     Then I should see the color header for Any Technician displayed correctly
     And I should see the color header for employee 'Anna' displayed correctly
 
-  @skip
   Scenario: Sort Employee by Order
     Given I am on the HOME page
-    When I navigate to "Appointment" on the navigation bar
+    When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
     When I wait for the page fully loaded
@@ -210,7 +208,7 @@ Feature: Appointment
   @skip
   Scenario: Update appointment status Check-In
     Given I am on the HOME page
-    When I navigate to "Appointment" on the navigation bar
+    When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
     When I wait for the page fully loaded
@@ -253,7 +251,7 @@ Feature: Appointment
 
     When I back to HOME page
     And I wait for the page fully loaded
-    And I navigate to "Appointment" on the navigation bar
+    And I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
     When I wait for the page fully loaded
@@ -275,7 +273,7 @@ Feature: Appointment
   @skip
   Scenario: Update appointment status Complete
     Given I am on the HOME page
-    When I navigate to "Appointment" on the navigation bar
+    When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
     When I wait for the page fully loaded
@@ -325,7 +323,7 @@ Feature: Appointment
     Then I should be redirected to HOME page
 
     When I wait for the page fully loaded
-    And I navigate to "Appointment" on the navigation bar
+    And I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
     When I wait for the page fully loaded
@@ -344,10 +342,9 @@ Feature: Appointment
     And I should see the appointment status "None"
     And I should see the appointment status "Completed"
 
-  @skip
   Scenario: Enable Zoom In / Zoom Out
     Given I am on the HOME page
-    When I navigate to "Appointment" on the navigation bar
+    When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
     When I wait for the page fully loaded
@@ -357,3 +354,78 @@ Feature: Appointment
     When I click on the icon zoom out
     Then I should see a popup dialog with content "Zoom In / Zoom Out"
 
+  Scenario: View Week display start on week correctly
+    Given I am on the HOME page
+    When I navigate to "APPT BOOK" on the navigation bar
+    Then I should be redirected to APPOINTMENT page
+
+    When I wait for the page fully loaded
+    Then I should see the title "Any Technician"
+    When I select view "Week"
+    Then I should see the start of the week as "Tue"
+
+  @skip
+  Scenario: Add and delete block time slot
+    Given I am on the HOME page
+    When I navigate to "APPT BOOK" on the navigation bar
+    Then I should be redirected to APPOINTMENT page
+
+    When I wait for the page fully loaded
+    Then I should see the title "Any Technician"
+    When I click on the "Block" button
+    Then I should see a popup dialog containing the title "Create Blocked Time"
+
+    When I select the "Bella" employee from the technician dropdown in the dialog
+    And I fill the start time "08:00 AM"
+    And I fill the end time "09:00 AM"
+    And I fill the reason block "Off for an hour"
+    And I click on the "Save" button
+    And I wait for the page fully loaded
+    Then I should see the toast message "Blocked time for Bella has been saved successfully." visible
+
+    # Filter technician
+    When I click on the triangle open
+    And I select to filter the "Bella" employee
+    Then I should see the title "Bella"
+
+    When I select the last booking in the time slot at "Blocked Time"
+    And I click on the "Delete" button
+    Then I should see a popup dialog with title "Confirm Delete"
+    And I should see a popup dialog with content "Are you sure you want to delete?"
+    And I should see a popup dialog with content "Blocked Time"
+    And I should see a popup dialog with content "Technician: Bella"
+    And I should see a popup dialog with content "08:00 AM - 09:00 AM"
+    When I click on the "confirm" button in the popup dialog
+    Then I should see the toast message "Blocked time for Bella has been deleted successfully!" visible
+
+  @skip
+  Scenario: Add and delete block time ALL DAY
+    Given I am on the HOME page
+    When I navigate to "APPT BOOK" on the navigation bar
+    Then I should be redirected to APPOINTMENT page
+
+    When I wait for the page fully loaded
+    Then I should see the title "Any Technician"
+    When I click on the "Block" button
+    Then I should see a popup dialog containing the title "Create Blocked Time"
+
+    When I select the "Anna" employee from the technician dropdown in the dialog
+    And I switch ON "All Day"
+    And I fill the reason block "Block all day"
+    And I click on the "Save" button
+    And I wait for the page fully loaded
+    Then I should see the toast message "Blocked time for Anna has been saved successfully." visible
+
+    When I click on the triangle open
+    And I select to filter the "Anna" employee
+    Then I should see the title "Anna"
+
+    When I select the last booking in the time slot at "Blocked Time"
+    And I click on the "Delete" button
+    Then I should see a popup dialog with title "Confirm Delete"
+    And I should see a popup dialog with content "Are you sure you want to delete?"
+    And I should see a popup dialog with content "Blocked Time"
+    And I should see a popup dialog with content "Technician: Anna"
+    And I should see a popup dialog with content "12:00 AM - 11:59 PM"
+    When I click on the "confirm" button in the popup dialog
+    Then I should see the toast message "Blocked time for Anna has been deleted successfully!" visible
