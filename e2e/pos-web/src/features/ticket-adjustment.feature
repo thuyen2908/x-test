@@ -690,9 +690,9 @@ Scenario: Add Tax and make new payment
 
     When I click on the total price of "Manicure"
     Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "50"
+    When I change the price to "51.51"
     And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$50.00" visible
+    Then I should see the total price "$51.51" visible
 
     When I wait for the page fully loaded
 
@@ -716,9 +716,9 @@ Scenario: Add Tax and make new payment
     And I should see the text "TICKET#" visible
 
     When I wait for the page fully loaded
-    And I search for "50"
-    Then I should see the first ticket with total "$50.00"
-    When I select the first ticket with total "$50.00"
+    And I search for "51.51"
+    Then I should see the first ticket with total "$51.51"
+    When I select the first ticket with total "$51.51"
     Then I should see the service "Manicure" in my cart
     When I add the phone number customer "9999999999"
     Then I should see a new customer "Tin" on ticket

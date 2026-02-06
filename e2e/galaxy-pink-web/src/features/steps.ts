@@ -3418,25 +3418,6 @@ Then(
 );
 
 When(
-	'I fill the {string} field with value {string}',
-	async ({ page }, fieldName: string, value: string) => {
-		const fieldLocators: Record<string, string> = {
-			'First Name': 'input[name="firstName"]',
-			'Nick Name': 'input[name="nickName"]',
-			'Non-cash tip': 'input[id="employeeSalon.nonCashTipPct"]',
-			'Void Reason': 'input[name="reason"]',
-		};
-
-		const selector = fieldLocators[fieldName];
-		if (!selector) throw new Error(`Unknown field: ${fieldName}`);
-
-		const input = page.locator(selector);
-		await input.fill(value);
-		await expect(input).toHaveValue(value);
-	},
-);
-
-When(
 	'I select the {string} with value {string}',
 	async ({ page }, field: string, value: string) => {
 		const fieldLocators: Record<string, string> = {
@@ -3446,6 +3427,8 @@ When(
 			'Role Tech': '#mui-component-select-roleId',
 			'Non-cash Tip Option':
 				'div[id="mui-component-select-employeeSalon.deductNonCashTip"]',
+			'Department menu item': 'div[id="mui-component-select-departmentId"]',
+			'Category menu item': 'div[id="mui-component-select-categoryId"]',
 			'Default Queue Group For Appt':
 				'div[id="mui-component-select-employeeSalon.defaultQueueGroupId"]',
 		};
@@ -3732,6 +3715,19 @@ Then(
 		await expect(firstDateCell).toBeVisible();
 	},
 );
+Then(
+	'I should see the new {string} {string}, created at today, in the list',
+	async ({ page }, field: string, value: string) => {
+		const valueCell = page
+			.locator('.MuiDataGrid-row')
+			.locator(`[data-field="${field}"]`, { hasText: value })
+			.first();
+
+		const dateCell = page
+			.locator('.MuiDataGrid-row')
+			.first()
+			.locator('[data-field="createdAt"]');
+
 
 Then(
 	'I should see the first type {string} in the loyalty detail list',
@@ -3761,6 +3757,13 @@ Then(
 				day: '2-digit',
 			});
 		});
+
+		await expect(dateCell).toContainText(formattedToday);
+		await expect(valueCell).toBeVisible();
+		await expect(valueCell).toHaveText(value);
+		await expect(dateCell).toBeVisible();
+	},
+);
 		await expect(firstDateCell).toContainText(formattedToday);
 	},
 );
@@ -3836,6 +3839,150 @@ When('I switch ON {string}', async ({ page }, labelName: string) => {
 	await switchElement.check();
 	await expect(switchElement).toBeChecked();
 });
+Then(
+	'I should see the new Discount {string}, Amount {string}, in the Discounts list',
+	async ({ page }, discountName: string, AmountDC: string) => {
+		const DiscountNameCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="name"]', { hasText: discountName })
+			.first();
+		const DiscountAmountCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="amount"]', { hasText: AmountDC })
+			.first();
+		await expect(DiscountNameCell).toBeVisible();
+		await expect(DiscountNameCell).toHaveText(discountName);
+		await expect(DiscountAmountCell).toHaveText(AmountDC);
+	},
+);
+When(
+	'I fill the {string} field with value {string}',
+	async ({ page }, fieldName: string, value: string) => {
+		const fieldLocators: Record<string, string> = {
+			'First Name': 'input[name="firstName"]',
+			'Nick Name': 'input[name="nickName"]',
+			'Non-cash tip': 'input[id="employeeSalon.nonCashTipPct"]',
+			'Void Reason': 'input[name="reason"]',
+			'Category Name': 'input[name="categoryName"]',
+			'Check-in Name': 'input[name="checkInName"]',
+			'Tax Name': 'input[name="name"]',
+			'Value Tax': 'input[id="percent"]',
+			'Position Name': 'input[name="jobName"]',
+			'Regular Rate': 'input[id="regularRate"]',
+			'Overtime Rate': 'input[id="overtimeRate"]',
+			'Item Name': 'input[name="menuName"]',
+			'Online Appt book item name': 'input[name="menuNameOnline"]',
+			'Regular Price': 'input[id="regularPrice"]',
+			'Service Duration': 'input[id="productSalon.serviceDuration"]',
+			'Discount name': 'input[name="discountName"]',
+			DisplayDC: 'input[name="displayName"]',
+			'Amount Discount': 'input[id="amount"]',
+		};
+
+		const selector = fieldLocators[fieldName];
+		if (!selector) throw new Error(`Unknown field: ${fieldName}`);
+
+		const input = page.locator(selector);
+		await input.fill(value);
+		await expect(input).toHaveValue(value);
+	},
+);
+
+When('I click on checkbox Active', async ({ page }) => {
+	await page.locator('.MuiSwitch-sizeMedium ').click();
+});
+
+Then('Active button should be ON with value true', async ({ page }) => {
+	const switchInput = page.locator('input[name="isActive"]');
+	await expect(switchInput).toBeChecked();
+	const value = await switchInput.getAttribute('value');
+	expect(value).toBe('true');
+});
+When(
+	'I Select the Discount method {string}',
+	async ({ page }, method: string) => {
+		const DCMethod = page.locator('#mui-component-select-discountMethod');
+		await DCMethod.click();
+		const selectDCMethod = page
+			.locator('li.MuiMenuItem-gutters')
+			.getByText(method, { exact: true });
+		await selectDCMethod.click();
+	},
+);
+When(
+	'I switch ON Service,Product select all',
+	async ({ page }, labelName: string) => {
+		const switchElement = page
+			.locator('.MuiBox-root')
+			.filter({ hasText: labelName })
+			.locator('input[aria-labelledby="check-all"]')
+			.first();
+
+		await switchElement.check();
+		await expect(switchElement).toBeChecked();
+	},
+);
+When(
+	'I switch ON Queue group select all',
+	async ({ page }, labelName: string) => {
+		const switchElement = page
+			.locator('.MuiBox-root')
+			.filter({ hasText: labelName })
+			.locator('input[aria-labelledby="check-all"]')
+			.last();
+
+		await switchElement.check();
+		await expect(switchElement).toBeChecked();
+	},
+);
+When('I click on the check-box Select All button', async ({ page }) => {
+	const itemButton = page.locator('.MuiSwitch-edgeEnd');
+	await itemButton.click();
+});
+Then(
+	'I should see the new Menu Category  {string}, Category Type {string}, in the Menu Categories list',
+	async ({ page }, categoryName: string, categoryType: string) => {
+		const categoryNameCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="name"]', { hasText: categoryName })
+			.first();
+		const categoryTypeCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="categoryType"]', { hasText: categoryType })
+			.first();
+		await expect(categoryNameCell).toBeVisible();
+		await expect(categoryNameCell).toHaveText(categoryName);
+		await expect(categoryTypeCell).toBeVisible();
+		await expect(categoryTypeCell).toHaveText(categoryType);
+	},
+);
+Then(
+	'I should see the new item {string}, Category {string}, in the Menu Items list',
+	async ({ page }, menuItemName: string, category: string) => {
+		const menuItemNameCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="name"]', { hasText: menuItemName })
+			.first();
+		const CategoryCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="categoryId"]', { hasText: category })
+			.first();
+		await expect(menuItemNameCell).toBeVisible();
+		await expect(menuItemNameCell).toHaveText(menuItemName);
+		await expect(CategoryCell).toBeVisible();
+		await expect(CategoryCell).toHaveText(category);
+	},
+);
+
+When(
+	'I click on the check-box {string} button',
+	async ({ page }, item: string) => {
+		const itemButton = page
+			.locator('.MuiFormControlLabel-labelPlacementEnd')
+			.getByText(item);
+		await expect(itemButton).toBeVisible();
+
+		await itemButton.click();
 
 Then('I should see the default filter set to Today', async ({ page }) => {
 	const rangeDateCell = page.locator('.pageDetail > div');

@@ -20,7 +20,7 @@ Feature: Employee management
     When I click on the "Add New" button
     Then I should be redirected to EMPLOYEES_CREATE page
     And I should see the "Create Employee" screen
-
+    When I wait for the page fully loaded
     When I fill the "First Name" field with value "AutoTestFirstName"
     And I fill the "Nick Name" field with value "AutoTestNickName"
     And I select the "Job Title" with value "Nail Tech"
@@ -39,19 +39,17 @@ Feature: Employee management
     And I fill the Commission Services "Waxing" with value "20" for the new employee
     And I fill the Commission Services "Eyelash" with value "10" for the new employee
     And I select the "Service/Product" tab
-    And I switch ON "Select All" select all
+    And I switch ON Service,Product select all
     And I select the "Queue Group" tab
-    And I switch ON "Select All" select all
+    And I switch ON Queue group select all
     And I select the "Default Queue Group For Appt" with value "Nails"
     And I click on the "Save" button
     And I wait for the page fully loaded
-
     Then I should be redirected to EMPLOYEES page
     And I should see the "Employees" screen
     When I search for "autoTestFirstName"
     And I wait for the page fully loaded
     Then I should see the new Employee "AutoTestFirstName", Role "Employee", in the Employees list
-
     When I click on the action "Delete" button for item "AutoTestFirstName"
     Then I should see a popup dialog with title "Delete Confirmation"
     When I click on the "Delete" button in the popup dialog
