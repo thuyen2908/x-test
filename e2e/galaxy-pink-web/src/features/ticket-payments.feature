@@ -25,7 +25,6 @@ Feature: Ticket Payments
     When I select the "BATCH HISTORY" tab
     Then I should see the Batch history table displayed correctly
 
-  @skip
   Scenario: The Tickets tab displays data correctly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1250"
@@ -79,21 +78,15 @@ Feature: Ticket Payments
     # And I should see the "Closed By" has value "Hilary" in the ticket payment
     # Then I should see the Total Sale, Payment, Surcharge, Card Fee, Tip, Tax, Closed By as "$218.70 $232.26 $3.56 $10.00 $0.00 Hilary" in the tickets details
 
-    Given I am on the CLOSED_TICKETS page
-    When I wait for the page fully loaded
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
+    When I back to HOME page
+    And I select the "CLOSED TICKET" tab
+    And I click on refresh
+    And I wait for the page fully loaded
+    Then I should see the toast message "Ticket data refreshed successfully" visible
     When I wait for the page fully loaded
     And I search for "232.26"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$232.26"
-
-    When I click on the first row for payment "$232.26" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
+    And I reopen ticket with payment amount "$232.26"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Hilary" in the ticket
@@ -103,7 +96,6 @@ Feature: Ticket Payments
     And I click on the "confirm" button in the popup dialog
     Then I should see the selected "SERVICE" tab on the Home page
 
-  @skip
   Scenario: The Services/Products tab displays data correctly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6118"
@@ -141,8 +133,8 @@ Feature: Ticket Payments
     Then I should see the "Percent" discount type is active
     When I enter the amount "10"
     And I click on the "OK" button
-    Then I should see the discount ticket detail "Open Discount 10% (Discounted Price)($0.60)" in my cart
-    And I should see "Discount ($0.60)" in my cart
+    Then I should see the discount ticket detail "Open Discount 10% (Discounted Price)($6.67)" in my cart
+    And I should see "Discount ($6.67)" in my cart
 
     When I click on the "Pay" button
     And I select the "Credit" payment type
@@ -160,46 +152,40 @@ Feature: Ticket Payments
     And I wait for the page fully loaded
     And I search for "Valerie"
     And I wait for the page fully loaded
-    Then I should see the "Total Net Price" has value "$66.70" in the ticket payment
-    And I should see the "Total Commission" has value "$40.02" in the ticket payment
+    Then I should see the "Total Net Price" has value "$60.03" in the ticket payment
+    And I should see the "Total Commission" has value "$36.02" in the ticket payment
 
     When I click on the first row for technician "Valerie" to expand details
     Then I should see the "Type" has value "Service" in the ticket payment
     And I should see the "Item Name" has value "Manicure" in the ticket payment
     And I should see the "Item Price" has value "$69.70" in the ticket payment
-    And I should see the "Net Price" has value "$66.70" in the ticket payment
-    And I should see the "Commission" has value "$40.02" in the ticket payment
+    And I should see the "Net Price" has value "$60.03" in the ticket payment
+    And I should see the "Commission" has value "$36.02" in the ticket payment
     And I should see the "Non-Cash Tip" has value "$10.00" in the ticket payment
     And I should see the "Credit Card Fee" has value "($0.50)" in the ticket payment
     And I should see the "Total Ticket Discount" has value "($9.67)" in the ticket payment
-    And I should see the "Discounts (Employee Absorbs)" has value "$0.00" in the ticket payment
+    And I should see the "Discounts (Employee Absorbs)" has value "$6.67" in the ticket payment
     And I should see the "Loyalty (Employee Absorbs)" has value "$0.00" in the ticket payment
     And I should see the "Loyalty Comm Type" has value "OriginalPrice" in the ticket payment
     And I should see the "Item Supply Fee" has value "($2.00)" in the ticket payment
     And I should see the "Ticket Supply Fee" has value "($1.00)" in the ticket payment
     And I should see the "Item Disc $" has value "$0.00" in the ticket payment
     And I should see the "Item Disc %" has value "$0.00" in the ticket payment
-    And I should see the "Ticket Disc $" has value "$0.00" in the ticket payment
+    And I should see the "Ticket Disc $" has value "$6.67" in the ticket payment
     And I should see the "Ticket Disc %" has value "$0.00" in the ticket payment
 
     # And I should see the "Closed By" has value "Hilary" in the ticket payment
     # Then I should see the Total Sale, Payment, Surcharge, Card Fee, Tip, Tax, Closed By as "$218.70 $232.26 $3.56 $10.00 $0.00 Hilary" in the tickets details
 
-    Given I am on the CLOSED_TICKETS page
-    When I wait for the page fully loaded
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
+    When I back to HOME page
+    And I select the "CLOSED TICKET" tab
+    And I click on refresh
+    And I wait for the page fully loaded
+    Then I should see the toast message "Ticket data refreshed successfully" visible
     When I wait for the page fully loaded
     And I search for "71.83"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$71.83"
-
-    When I click on the first row for payment "$71.83" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
+    And I reopen ticket with payment amount "$71.83"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Valerie" in the ticket

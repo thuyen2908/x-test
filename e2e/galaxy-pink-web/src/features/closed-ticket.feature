@@ -172,7 +172,10 @@ Feature: Closed Ticket
     Then I should see the payment history "VISA (1234)$12.36" visible
 
     When I select the payment history "VISA (1234)$12.36"
-    And I enter the amount "10"
+    Then I should see a popup dialog with title "CONFIRM ADJUST TIP "
+    When I click on the action button "Adjust Tip" of the opening dialog
+
+    When I enter the amount "10"
     And I click on the "OK" button
     Then I should see the payment history "VISA (1234)$12.36 + $10.00" visible
 
@@ -366,13 +369,12 @@ Feature: Closed Ticket
     When I click on the "confirm" button in the popup dialog
     Then I should see the selected "SERVICE" tab on the Home page
 
-  @skip
   Scenario: Reopen ticket to void item, remove and make new payment
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "8573"
-    Then I should see the employee "Evelyn" in the employee list
+    When I clock in the timesheet with PIN "8546"
+    Then I should see the employee "Fiona" in the employee list
 
-    When I select the "Evelyn" employee
+    When I select the "Fiona" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
 
@@ -402,7 +404,7 @@ Feature: Closed Ticket
     When I reopen ticket with payment amount "$25.75"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
-    And I should see the user info "Evelyn" in the ticket
+    And I should see the user info "Fiona" in the ticket
 
     When I select the service "Manicure" in my cart
     And I select the "VOID ITEM" on the menu
@@ -414,13 +416,12 @@ Feature: Closed Ticket
     Then I should see the payment history "VISA (1234)$25.75" visible
 
     When I select the payment history "VISA (1234)$25.75"
+    Then I should see a popup dialog with title "CONFIRM ADJUST TIP "
+    When I click on the action button "Adjust Tip" of the opening dialog
     And I click on the "VOID" button
     Then I should see a popup dialog with title "VISA  - $25.75"
     When I click on the "Remove" button in the popup dialog
-    And I click on the "NO TIPS" button
-    Then I should see the ticket function menu
-
-    When I select the "Credit" payment type
+    And  I select the "Credit" payment type
     And I fill the last 4 digits of card number "4321"
     And I select the "VISA" on the menu
     Then I should see the payment history "VISA (4321)$8.24" visible
@@ -428,14 +429,12 @@ Feature: Closed Ticket
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
 
-  @skip
-  Scenario: Sell a new Gift Card then void ticket
+  Scenario: Update GC balance when selling an add-on gift card and then voiding the ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2463"
     Then I should see the employee "Isabella" in the employee list
     When I select the "Isabella" employee
     Then I should see the "Ticket View" screen
-    And I should see the "GIFT CARD" category
 
     When I add the "Acrylic removal" service to my cart
     And I select the service "Acrylic removal" in my cart
@@ -448,7 +447,8 @@ Feature: Closed Ticket
 
     When I enter the amount "1703"
     And I click on the "OK" button in the popup dialog
-    Then I should see my cart showing 1 item added
+    And I click on the "ADD ON" button in the popup dialog
+    Then I should see my cart showing 2 item added
     And I should see the service "Gift card $50 (1703)" in my cart
 
     When I pay the exact amount by "Cash"
@@ -462,10 +462,7 @@ Feature: Closed Ticket
     When I wait for the page fully loaded
     And I search for "77.5"
     And I wait for the page fully loaded
-    Then I should see the last ticket of Cash payment "$77.50"
-
-    When I click on the first row for payment "$77.50" to expand details
-    And I select the "Reopen ticket" on the Daily Task
+    And I reopen ticket with payment amount "$77.5"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Isabella" in the ticket
@@ -476,24 +473,21 @@ Feature: Closed Ticket
     When I click on the "confirm" button in the popup dialog
     Then I should see the selected "SERVICE" tab on the Home page
 
-    When I wait for the page fully loaded
-    And I navigate to "Balance" on the navigation bar
-    Then I should be redirected to GIFT_CARD_BALANCE page
-    And I should see the text "Gift Card / Loyalty Balance" visible
-
+    Given I am on the GIFT_CARD_BALANCE page
     When I enter the amount "1703"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
-    Then I should see the toast message "Cannot find this Gift Card." visible
 
-  @skip
-  Scenario: Sell a new Gift Card then void item Gift Card
+    Then I should see the first date is today in the gift card detail list
+    Then I should see the first type "ActivateAddOn" in the gift card detail list
+    And I should see the first amount "$50.00" in the gift card detail list
+
+  Scenario: Cannot find gift card after selling a new gift card and then voiding the item Gift Card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6727"
     Then I should see the employee "Alexis" in the employee list
     When I select the "Alexis" employee
     Then I should see the "Ticket View" screen
-    And I should see the "GIFT CARD" category
 
     When I add the "Acrylic removal" service to my cart
     Then I should see the service "Acrylic removal" in my cart
@@ -506,10 +500,10 @@ Feature: Closed Ticket
     When I add the "Gift card $50" service to my cart
     Then I should see a popup dialog with title "Activate Gift Card $50.00"
 
-    When I enter the amount "0603"
+    When I enter the amount "1903"
     And I click on the "OK" button in the popup dialog
     Then I should see my cart showing 2 item added
-    And I should see the service "Gift card $50 (0603)" in my cart
+    And I should see the service "Gift card $50 (1903)" in my cart
 
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
@@ -521,15 +515,13 @@ Feature: Closed Ticket
     When I wait for the page fully loaded
     And I search for "75.7"
     And I wait for the page fully loaded
-    Then I should see the last ticket of Cash payment "$75.70"
 
-    When I click on the first row for payment "$75.70" to expand details
-    And I select the "Reopen ticket" on the Daily Task
+    When I reopen ticket with payment amount "$75.7"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Alexis" in the ticket
 
-    When I select the service "Gift card $50 (0603)" in my cart
+    When I select the service "Gift card $50 (1903)" in my cart
     And I select the "VOID ITEM" on the menu
     Then I should see my cart showing 1 item added
 
@@ -537,7 +529,6 @@ Feature: Closed Ticket
     Then I should see the payment history "Cash $75.70 " visible
 
     When I select the payment history "Cash $75.70 "
-    And I click on the "VOID" button
     Then I should see a popup dialog with title "Cash  - $75.70"
     When I click on the "Remove" button in the popup dialog
 
@@ -548,16 +539,16 @@ Feature: Closed Ticket
     And I wait for the page fully loaded
     Then I should see the selected "SERVICE" tab on the Home page
 
+    Given I am on the GIFT_CARD_BALANCE page
     When I wait for the page fully loaded
-    And I navigate to "Balance" on the navigation bar
-    And I wait for the page fully loaded
-    Then I should be redirected to GIFT_CARD_BALANCE page
-    And I should see the text "Gift Card / Loyalty Balance" visible
+    Then I should see the text "Gift Card / Loyalty Balance" visible
 
-    When I enter the amount "0603"
+    When I enter the amount "1903"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
-    Then I should see the toast message "Can't find this gift card." visible
+    And I wait for the page fully loaded
+    Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
+    And I should see a popup dialog with content "Do you want to activate gift card #1903"
 
   @skip
   Scenario: Remove loyalty balance when voiding ticket
@@ -609,7 +600,6 @@ Feature: Closed Ticket
     Then I should see the title contain "Jimmy" visible
     And I should see the text "No rows" visible
 
-  @skip
   Scenario: View the loyalty point on Receipt
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2883"
@@ -621,53 +611,86 @@ Feature: Closed Ticket
     When I click on the total price of "Manicure"
     And I change price amount "35.5"
 
+    # Add discount item - Open Discount ($3) Owner absorb
+    When I select the service "Manicure" in my cart
+    And I select the "DISCOUNT ITEM" on the menu
+    Then I should see the "Original Price (Owner)" option is active
+
+    When I select the discount "Open Discount"
+    Then I should see the "Amount" discount type is active
+    When I enter the amount "3"
+    And I click on the "OK" button
+    Then I should see the "Open Discount (Original Price)" discount in my cart
+    And I should see discount "($3.00)" in my cart
+
+    # Add discount ticket - Open discount (10%) Technician absorb
+    When I click on the adding "Discount" button
+    Then I should see the "Original Price (Owner)" option is active
+
+    When I select the discount absorb type "Discounted Price (Technician)"
+    Then I should see the "Discounted Price (Technician)" option is active
+
+    When I select the discount "Open Discount"
+    And I select the "Percent" discount type
+    Then I should see the "Percent" discount type is active
+
+    When I enter the amount "10"
+    And I click on the "OK" button
+    Then I should see the discount ticket detail "Open Discount 10% (Discounted Price)($3.25)" in my cart
+    And I should see "Discount ($3.25)" in my cart
+
     When I click to create new customer with the default loyalty program "2 Points = $1"
     And I create the new customer name "Loyalty"
 
-    When I pay the exact amount by "Cash"
+    When I click on the "Pay" button
+    And I enter the amount "100"
+    And I select the "Cash" payment type
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$70.75OK"
+    When I click on the "OK" button in the popup dialog
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
     And I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully" visible
+    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
-    And I search for "11.5"
+    And I search for "29.25"
     And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$29.25"
 
-    When I search for "35.5"
-    And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$35.50"
-
-    When I click on the first row for payment "$35.50" to expand details
+    When I click on the first row for payment "$29.25"
     Then I should see the store logo on the receipt
     And I should see the business info "PINK SALON 1032 YONKERS AVE Yonkers Avenel, NJ 07001 (090) 123-4567" on the receipt
 
     Then I should see the date is today on the receipt
     And I should see the customer name "Loyalty" on the receipt
-    And I should see the point "70 = $0.70" on the receipt
+    And I should see the point "58 = $0.58" on the receipt
 
     Then I should see the service quantity "1" on the receipt
     And I should see the service name "Manicure" on the receipt
     And I should see the technician name "Gabriella" on the receipt
     And I should see the service price "$35.50" on the receipt
+    And I should see the discount item name "Open Discount" on the receipt
+    And I should see the discount item amount "($3.00)" on the receipt
 
-    Then I should see the TIP amount "$0.00" on the receipt
-    And I should see the SUBTOTAL "$35.50" on the receipt
+    Then I should see the discount ticket name "Open Discount" on the receipt
+    And I should see the discount ticket amount "($3.25)" on the receipt
+    And I should see the TIP amount "$0.00" on the receipt
+    And I should see the SUBTOTAL "$29.25" on the receipt
     And I should see the TAX "$0.00" on the receipt
-    And I should see the TOTAL "$35.50" on the receipt
+    And I should see the TOTAL "$29.25" on the receipt
 
-    Then I should see the CHANGE amount "$0.00" on the receipt
+    Then I should see the CHANGE amount "$70.75" on the receipt
 
     Then I should see the payment label "PAYMENT DETAILS" on the receipt
-    And I should see the payment method "Cash - $35.50" on the receipt
-    And I should see the cash payment amount "$35.50" on the receipt
+    And I should see the payment method "Cash - $100.00" on the receipt
+    And I should see the cash payment amount "$29.25" on the receipt
 
     Then I should see the message "Come back again soon..." on the receipt
     And I should see the message "Thank you <3" on the receipt
 
-    Then I should see the tip guide "15% TIP = $5.32" on the receipt
-    And I should see the tip guide "18% TIP = $6.39" on the receipt
-    And I should see the tip guide "20% TIP = $7.10" on the receipt
+    Then I should see the tip guide "10% TIP = $2.92" on the receipt
+    And I should see the tip guide "15% TIP = $4.39" on the receipt
+    And I should see the tip guide "20% TIP = $5.85" on the receipt
 
     Then I should see the QR code on the receipt
