@@ -185,7 +185,6 @@ Feature: Ticket adjustment
     And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
 
-  @skip
   Scenario: Change price, remove payment and adjust tip for Gift type
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9055"
@@ -390,8 +389,7 @@ Feature: Ticket adjustment
     And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
 
-  @skip
-  Scenario: Void a sell Gift Card
+  Scenario: Update GC balance after voiding a sell Gift Card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5720"
     Then I should see the employee "Mackenzie" in the employee list
@@ -410,6 +408,8 @@ Feature: Ticket adjustment
 
     When I enter the amount "0403"
     And I click on the "OK" button in the popup dialog
+    Then I should see the number card "0403" visible
+    When I click on the "ADD ON" button in the popup dialog
     Then I should see my cart showing 2 item added
     And I should see the service "Gift card $50 (0403)" in my cart
 
@@ -460,14 +460,10 @@ Feature: Ticket adjustment
     And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
 
-    When I back to HOME page
-    And I wait for the page fully loaded
-    And I navigate to "Balance" on the navigation bar
-    And I wait for the page fully loaded
-    Then I should be redirected to GIFT_CARD_BALANCE page
-    And I should see the text "Gift Card / Loyalty Balance" visible
-
+    Given I am on the GIFT_CARD_BALANCE page
     When I enter the amount "0403"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
-    Then I should see the toast message "Can't find this gift card." visible
+    And I wait for the page fully loaded
+    Then I should see the first type "ActivateNew" in the gift card detail list
+    And I should see the first amount "$50.00" in the gift card detail list

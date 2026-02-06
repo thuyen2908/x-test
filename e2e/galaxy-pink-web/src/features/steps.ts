@@ -1069,7 +1069,7 @@ Then('I should see the discount sorted correctly', async ({ page }) => {
 When('I select the discount {string}', async ({ page }, discount: string) => {
 	const discountElement = page
 		.locator('.MuiListItem-gutters')
-		.getByText(discount);
+		.getByText(discount, { exact: true });
 	await expect(discountElement).toHaveText(discount);
 	await discountElement.click();
 });
@@ -2155,30 +2155,29 @@ Then(
 	},
 );
 
-Then(
-	'I should see the last ticket of Cash payment {string}',
-	async ({ page }, amount: string) => {
-		const rows = page.locator('.MuiDataGrid-row');
+// Then(
+// 	'I should see the first ticket of Cash payment {string}',
+// 	async ({ page }, amount: string) => {
+// 		const rows = page.locator('.MuiDataGrid-row');
 
-		const matchingRow = rows
-			.filter({
-				has: page.locator('[data-field="paymentMethod"]', { hasText: 'Cash' }),
-			})
-			.filter({
-				has: page.locator('[data-field="paymentTotal"]', { hasText: amount }),
-			})
-			.last();
+// 		const matchingRow = rows
+// 			.filter({
+// 				has: page.locator('[data-field="paymentMethod"]', { hasText: 'Cash' }),
+// 			})
+// 			.filter({
+// 				has: page.locator('[data-field="paymentTotal"]', { hasText: amount }),
+// 			})
+// 			.first();
 
-		await expect(matchingRow).toBeVisible();
-		await matchingRow.scrollIntoViewIfNeeded();
+// 		await expect(matchingRow).toBeVisible();
 
-		const methodCell = matchingRow.locator('[data-field="paymentMethod"]');
-		const amountCell = matchingRow.locator('[data-field="paymentTotal"]');
+// 		const methodCell = matchingRow.locator('[data-field="paymentMethod"]');
+// 		const amountCell = matchingRow.locator('[data-field="paymentTotal"]');
 
-		await expect(methodCell).toHaveText('Cash');
-		await expect(amountCell).toHaveText(amount);
-	},
-);
+// 		await expect(methodCell).toHaveText('Cash');
+// 		await expect(amountCell).toHaveText(amount);
+// 	},
+// );
 
 // When(
 // 	'I click the avatar in the last row with Cash payment {string} to expand details',
@@ -2836,6 +2835,58 @@ Then(
 			.last();
 		const technicianName = serviceRow.locator('div').nth(2);
 		await expect(technicianName).toHaveText(name);
+	},
+);
+
+Then(
+	'I should see the discount item name {string} on the receipt',
+	async ({ page }, name: string) => {
+		const discountRow = page
+			.locator('div[style*="justify-content: space-between"]')
+			.filter({ hasText: name });
+
+		await expect(discountRow).toBeVisible();
+		await expect(
+			discountRow.locator('div').filter({ hasText: name }),
+		).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the discount item amount {string} on the receipt',
+	async ({ page }, discount: string) => {
+		const discountRow = page
+			.locator('div[style*="justify-content: space-between"]')
+			.filter({ hasText: discount });
+
+		await expect(discountRow).toBeVisible();
+		const amountCell = discountRow.locator('div').last();
+		await expect(amountCell).toHaveText(discount);
+	},
+);
+
+Then(
+	'I should see the discount ticket name {string} on the receipt',
+	async ({ page }, name: string) => {
+		const discountTicketRow = page
+			.locator('table tr')
+			.filter({ has: page.locator('td', { hasText: name }) });
+
+		await expect(discountTicketRow).toBeVisible();
+		await expect(discountTicketRow.locator('td').nth(1)).toHaveText(name);
+	},
+);
+
+Then(
+	'I should see the discount ticket amount {string} on the receipt',
+	async ({ page }, amount: string) => {
+		const discountTicketRow = page
+			.locator('table tr')
+			.filter({ has: page.locator('td', { hasText: amount }) });
+
+		await expect(discountTicketRow).toBeVisible();
+		const amountCell = discountTicketRow.locator('td').last();
+		await expect(amountCell).toHaveText(amount);
 	},
 );
 
@@ -4048,6 +4099,21 @@ When(
 
 		await expect(avatarCell).toBeVisible();
 		await avatarCell.click();
+	},
+);
+
+When(
+	'I click on the first row for payment {string}',
+	async ({ page }, amount: string) => {
+		const row = page
+			.locator('.MuiDataGrid-row')
+			.filter({
+				has: page.locator('[data-field="paymentTotal"]', { hasText: amount }),
+			})
+			.first();
+
+		await expect(row).toBeVisible();
+		await row.click();
 	},
 );
 

@@ -567,10 +567,10 @@ Feature: Reopen tickets
 
   Scenario: Reopen ticket to void item, remove and make new payment
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "8573"
-    Then I should see the employee "Evelyn" in the employee list
+    When I clock in the timesheet with PIN "8546"
+    Then I should see the employee "Fiona" in the employee list
 
-    When I select the "Evelyn" employee
+    When I select the "Fiona" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
 
@@ -608,7 +608,7 @@ Feature: Reopen tickets
     When I click on the "Reopen ticket" button
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
-    And I should see the user info "Evelyn" in the ticket
+    And I should see the user info "Fiona" in the ticket
 
     When I click on the item "VOID ITEM" button
     Then I should see a popup dialog with title "VOID MULTIPLE"
