@@ -21,7 +21,9 @@ Feature: Discounts management
     Then I should be redirected to DISCOUNT_CREATE page
     And I should see the "Create Discount" screen
     When I fill the "Discount name" field with value "Auto Discount"
+    When I waiting 1s
     And I fill the "DisplayDC" field with value "Auto Discount Display"
+    When I waiting 1s
     And I fill the "Amount Discount" field with value "50"
     And I Select the Discount method "Percent"
     When I click on the "Save" button

@@ -27,6 +27,7 @@ Feature: Void reasons management
     When I click on the "Save" button in the popup dialog
     And I wait for the page fully loaded
     Then I should see the toast message "The data item has been added successfully" visible
+    When I waiting 1s
     When I search for "AutoTestVoidReason"
     And I wait for the page fully loaded
     Then I should see the new "reason" "AutoTestVoidReason", created at today, in the list
@@ -35,3 +36,4 @@ Feature: Void reasons management
     When I click on the "Delete" button in the popup dialog
     And I wait for the page fully loaded
     Then I should see the toast message "The data has been deleted permanently successfully" visible 
+    When I click on the "Refresh" button
