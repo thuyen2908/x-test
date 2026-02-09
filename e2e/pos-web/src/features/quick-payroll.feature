@@ -115,7 +115,7 @@ Feature: Quick payroll
     When I click on the first row for payment "$249.77" to expand details
     Then I should see the "Reopen ticket" button visible
 
-    When I select the "Reopen ticket" on the Daily Task
+    When I click on the "Reopen ticket" button
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Serena" in the ticket
@@ -207,7 +207,7 @@ Feature: Quick payroll
     When I click on the first row for payment "$250.80" to expand details
     Then I should see the "Reopen ticket" button visible
 
-    When I select the "Reopen ticket" on the Daily Task
+    When I click on the "Reopen ticket" button
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Jen" in the ticket

@@ -382,20 +382,27 @@ Feature: Payroll
     Then I should see the service "Gift card $100 (2222)" in my cart
     And I should see my cart showing 3 item added
 
-    When I select the service "Manicure" in my cart
-    And I change price amount "66.7"
+    When I click on the total price of "Manicure"
+    Then I should see a popup dialog with title "Service: Manicure - $6.00"
+    When I change the price to "66.7"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$66.70" visible
 
-    And I add tip amount "10"
+    When I click on the adding "Tip" button
+    Then I should see a popup dialog with title "Add Tip"
+    When I fill "10" from the numpad
+    Then I should see "$10.00" tip in my cart
 
-    When I click on the "Pay" button
-    And I enter the amount "50"
-    And I select the "Cash" payment type
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the button with id "payment" visible
+
+    When I enter the amount "50"
+    And I click on the element with id "payment"
     And I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
-    And I select the "VISA" on the menu
-    And I click on the "Close Ticket" button
-    Then I should see the selected "SERVICE" tab on the Home page
-
+    And I click on the element with id "payment"
+    Then I should be redirected to HOME page
     When I clock out the timesheet with PIN "9146"
     Then I should not see the employee "June" in the employee list
     When I wait for the page fully loaded
@@ -443,8 +450,5 @@ Feature: Payroll
     Then I should see the "Ticket View" screen
     And I should see the user info "June" in the ticket
 
-    When I click on the "Void Ticket" button
-    And I select the reason "Mistake"
-    Then I should see a popup dialog with title "Confirm Void"
-    When I click on the "confirm" button in the popup dialog
-    Then I should see the selected "SERVICE" tab on the Home page
+    When I void the current open ticket with reason "System Test"
+    Then I should be redirected to HOME page
