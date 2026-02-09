@@ -111,6 +111,8 @@ Feature: Check In
     And I should see the employee "Claire" in my cart
 
     When I click on the "PAY" button
+    Then I should see a popup dialog with title "Reward"
+    When I click on the "OK" button in the popup dialog
     Then I should see the text "PAYMENT TICKET" visible
     And I should see the text "PAYMENT HISTORY" visible
 

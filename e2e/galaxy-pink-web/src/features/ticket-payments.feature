@@ -164,14 +164,14 @@ Feature: Ticket Payments
     And I should see the "Non-Cash Tip" has value "$10.00" in the ticket payment
     And I should see the "Credit Card Fee" has value "($0.50)" in the ticket payment
     And I should see the "Total Ticket Discount" has value "($9.67)" in the ticket payment
-    And I should see the "Discounts (Employee Absorbs)" has value "$6.67" in the ticket payment
+    And I should see the "Discounts (Employee Absorbs)" has value "($6.67)" in the ticket payment
     And I should see the "Loyalty (Employee Absorbs)" has value "$0.00" in the ticket payment
     And I should see the "Loyalty Comm Type" has value "OriginalPrice" in the ticket payment
     And I should see the "Item Supply Fee" has value "($2.00)" in the ticket payment
     And I should see the "Ticket Supply Fee" has value "($1.00)" in the ticket payment
     And I should see the "Item Disc $" has value "$0.00" in the ticket payment
     And I should see the "Item Disc %" has value "$0.00" in the ticket payment
-    And I should see the "Ticket Disc $" has value "$6.67" in the ticket payment
+    And I should see the "Ticket Disc $" has value "($6.67)" in the ticket payment
     And I should see the "Ticket Disc %" has value "$0.00" in the ticket payment
 
     # And I should see the "Closed By" has value "Hilary" in the ticket payment

@@ -142,8 +142,9 @@ Feature: Ticket Payments
     # Add discount ticket
     When I click on the adding "Discount" button
     And I select the discount "Open Discount"
-    Then I should see the discount type "Percent" visible
-    When I enter the discount percent "10"
+    Then I should see the discount type "Amount" visible
+    When I select the type "Percent" option
+    And I enter the discount percent "10"
     And I click on the "Add" button in the popup dialog
     Then I should see the discount ticket non-zero
 

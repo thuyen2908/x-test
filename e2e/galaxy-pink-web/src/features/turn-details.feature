@@ -88,6 +88,9 @@ Feature: Turn details
     And I add the "Fill gel" service to my cart
     Then I should see my cart showing 1 item added
 
+    When I select the service "Fill gel" in my cart
+    And I change price amount "23.55"
+
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
@@ -99,10 +102,10 @@ Feature: Turn details
     And I wait for the page fully loaded
     And I click on refresh
     And I wait for the page fully loaded
-    And I search for "23.5"
+    And I search for "23.55"
     And I wait for the page fully loaded
 
-    When I reopen ticket with payment amount "$23.50"
+    When I reopen ticket with payment amount "$23.55"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Avery" in the ticket
@@ -111,8 +114,7 @@ Feature: Turn details
     And I select the "Zoey" employee in the list item employee
     Then I should see the "Zoey" employee in my cart
 
-    When I click on the "Pay" button
-    And I click on the "Close Ticket" button
+    When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
     And I should see the turn number for "Avery" is 0.0
     And I should see the turn number for "Zoey" is 1.0
@@ -130,11 +132,11 @@ Feature: Turn details
     And I wait for the page fully loaded
     And I click on refresh
     And I wait for the page fully loaded
-    And I search for "23.5"
+    And I search for "23.55"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$23.50"
+    Then I should see the last ticket of payment "$23.55"
 
-    When I reopen ticket with payment amount "$23.50"
+    When I reopen ticket with payment amount "$23.55"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Zoey" in the ticket

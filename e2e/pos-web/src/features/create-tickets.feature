@@ -6,17 +6,13 @@ Feature: Create tickets
     When I clock in the timesheet with PIN "4831"
     Then I should see the employee "Calantha" in the employee list
     When I select the "Calantha" employee
-    And I add the "Manicure" service to my cart
-    Then I should see my cart showing 1 item added
+    Then I should see the "Ticket View" screen
 
     When I click on the Select customer
     And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
     And I should see the loyalty program "2 Points = $1" visible
     And I should see the loyalty program list displayed correctly
-
-    When I void the current open ticket with reason "System Test"
-    Then I should be redirected to HOME page
 
   Scenario: Card fee is calculated correctly for cash discounts
     Given I am on the HOME page
@@ -423,8 +419,9 @@ Feature: Create tickets
     And I should see the "Owner Absorbs" option is checked
 
     When I select the discount "Open Discount"
-    Then I should see the discount type "Percent" visible
-    When I enter the discount percent "10"
+    Then I should see the discount type "Amount" visible
+    When I select the type "Percent" option
+    And I enter the discount percent "10"
     And I click on the "Add" button in the popup dialog
     Then I should see the discount ticket non-zero
 
@@ -942,8 +939,9 @@ Feature: Create tickets
     And I should see the "Owner Absorbs" option is checked
 
     When I select the discount "Open Discount"
-    Then I should see the discount type "Percent" visible
-    When I enter the discount percent "10"
+    Then I should see the discount type "Amount" visible
+    When I select the type "Percent" option
+    And I enter the discount percent "10"
     And I click on the "Add" button in the popup dialog
     Then I should see the discount ticket non-zero
 
@@ -1113,4 +1111,47 @@ Feature: Create tickets
     And I should see the user info "Hung" in the ticket
 
     When I void the current open ticket with reason "System Test"
+    Then I should be redirected to HOME page
+
+  Scenario: Apply auto-discount item and change it to another
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "9960"
+    Then I should see the employee "Brielle" in the employee list
+    When I select the "Brielle" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+
+    When I wait for the page fully loaded
+    And I select the "ADDITIONAL SERVICE" category
+    And I add the "Ombre" service to my cart
+    Then I should see my cart showing 1 item added
+
+    And I should see the "$3 Off (Owner Absorbs)" discount in my cart
+    And I should see discount "($3.00)" in my cart
+
+    When I click on the item "DISCOUNT ITEM" button
+    Then I should see a popup dialog with title "DISCOUNT MULTIPLE"
+    When I select the "Ombre" service in the dialog
+    Then I should see the "Owner Absorbs" option is checked
+
+    When I select the discount "$5 Off"
+    And I click on the "Apply" button in the popup dialog
+    Then I should see the "$5 Off (Owner Absorbs)" discount in my cart
+    And I should see discount "($5.00)" in my cart
+
+    When I click on the total price of "Ombre"
+    Then I should see a popup dialog with title "Service: Ombre - $0.00"
+    When I change the price to "38.4"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$38.40" visible
+
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the text "PAYMENT HISTORY" visible
+    And I should see the button with id "payment" visible
+
+    When I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page

@@ -913,8 +913,9 @@ Feature: Reopen tickets
     And I should see the "Owner Absorbs" option is checked
 
     When I select the discount "Open Discount"
-    Then I should see the discount type "Percent" visible
-    When I enter the discount percent "10"
+    Then I should see the discount type "Amount" visible
+    When I select the type "Percent" option
+    And I enter the discount percent "10"
     And I click on the "Add" button in the popup dialog
     Then I should see the discount ticket non-zero
 

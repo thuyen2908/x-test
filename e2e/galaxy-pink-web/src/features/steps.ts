@@ -1392,7 +1392,7 @@ Then(
 );
 
 When('I search for {string}', async ({ page }, text: string) => {
-	await page.locator('input[placeholder="Search…"]').fill(text);
+	await page.locator('input[placeholder="Search…"]').first().fill(text);
 	await page.waitForTimeout(5000);
 });
 
@@ -2758,15 +2758,14 @@ Then('I should see the date is today on the receipt', async ({ page }) => {
 		.locator('table >> text=Date')
 		.locator('xpath=following-sibling::td[1]');
 	const receiptDateText = await dateCell.innerText();
-	const today = new Date();
-	const formattedToday = today
-		.toLocaleDateString('en-US', {
+	const formattedToday = await page.evaluate(() => {
+		const today = new Date();
+		return today.toLocaleDateString('en-US', {
 			year: 'numeric',
 			month: '2-digit',
 			day: '2-digit',
-		})
-		.replace(/\//g, '/');
-
+		});
+	});
 	expect(receiptDateText).toContain(formattedToday);
 });
 
@@ -3263,7 +3262,7 @@ When(
 	'I click on the action {string} button for item {string}',
 	async ({ page }, action: string, itemName: string) => {
 		const row = page.locator(`.MuiDataGrid-row:has-text("${itemName}")`);
-		const button = row.locator(`[aria-label="${action}"]`);
+		const button = row.locator(`[aria-label="${action}"]`).first();
 		await button.click();
 	},
 );
