@@ -28,12 +28,14 @@ Feature: Void reasons management
     And I wait for the page fully loaded
     Then I should see the toast message "The data item has been added successfully" visible
     When I waiting 1s
-    When I search for "AutoTestVoidReason"
     And I wait for the page fully loaded
-    Then I should see the new "reason" "AutoTestVoidReason", created at today, in the list
+    Then I should see the new void reason name "reason" "AutoTestVoidReason", created at today, in the list
     When I click on the action "Delete" button for item "AutoTestVoidReason"
+    When I waiting 1s
     Then I should see a popup dialog with title "Delete Confirmation"
+    When I waiting 1s
     When I click on the "Delete" button in the popup dialog
+    When I waiting 1s
     And I wait for the page fully loaded
     Then I should see the toast message "The data has been deleted permanently successfully" visible 
     When I click on the "Refresh" button
