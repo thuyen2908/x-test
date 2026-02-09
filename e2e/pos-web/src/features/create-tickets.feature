@@ -6,17 +6,13 @@ Feature: Create tickets
     When I clock in the timesheet with PIN "4831"
     Then I should see the employee "Calantha" in the employee list
     When I select the "Calantha" employee
-    And I add the "Manicure" service to my cart
-    Then I should see my cart showing 1 item added
+    Then I should see the "Ticket View" screen
 
     When I click on the Select customer
     And I click on the "CLICK HERE TO ADD CUSTOMER" button
     Then I should see a popup dialog with title "Create New Customer"
     And I should see the loyalty program "2 Points = $1" visible
     And I should see the loyalty program list displayed correctly
-
-    When I void the current open ticket with reason "System Test"
-    Then I should be redirected to HOME page
 
   Scenario: Card fee is calculated correctly for cash discounts
     Given I am on the HOME page
@@ -423,8 +419,9 @@ Feature: Create tickets
     And I should see the "Owner Absorbs" option is checked
 
     When I select the discount "Open Discount"
-    Then I should see the discount type "Percent" visible
-    When I enter the discount percent "10"
+    Then I should see the discount type "Amount" visible
+    When I select the type "Percent" option
+    And I enter the discount percent "10"
     And I click on the "Add" button in the popup dialog
     Then I should see the discount ticket non-zero
 
@@ -942,8 +939,9 @@ Feature: Create tickets
     And I should see the "Owner Absorbs" option is checked
 
     When I select the discount "Open Discount"
-    Then I should see the discount type "Percent" visible
-    When I enter the discount percent "10"
+    Then I should see the discount type "Amount" visible
+    When I select the type "Percent" option
+    And I enter the discount percent "10"
     And I click on the "Add" button in the popup dialog
     Then I should see the discount ticket non-zero
 
