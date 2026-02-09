@@ -22,7 +22,9 @@ Feature: Employee management
     And I should see the "Create Employee" screen
     When I wait for the page fully loaded
     When I fill the "First Name" field with value "AutoTestFirstName"
+    When I waiting 1s
     And I fill the "Nick Name" field with value "AutoTestNickName"
+    When I waiting 1s
     And I select the "Job Title" with value "Nail Tech"
     And I select the "Role Tech" with value "Employee"
     And I click on the "Get New Password" button

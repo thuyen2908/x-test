@@ -23,8 +23,9 @@ Feature: Menu Items management
     Then I should be redirected to PRODUCTS_CREATE_MENU_ITEM page
     # When I wait for the page fully loaded
     When I fill the "Item Name" field with value "AutoTestMenuItem"
-    When I wait for the page fully loaded
+    When I waiting 1s
     When I fill the "Online Appt book item name" field with value "AutoTestMenuItem"
+    When I waiting 1s
     When I fill the "Regular Price" field with value "888"
     When I fill the "Service Duration" field with value "30"
     When I select the "Department menu item" with value "Nails"

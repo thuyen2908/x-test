@@ -1224,14 +1224,16 @@ Then(
 		await expect(numberElement).toHaveText(number);
 	},
 );
-
-When('I remove the tax', async ({ page }) => {
-	const deleteTax = page.locator(
-		'button:has(svg[data-testid="XDeleteBoldIcon"])',
-	);
-
-	await expect(deleteTax).toBeVisible();
-	await deleteTax.click();
+// tax steps ticket adjustment
+When('I {string} in ticket', async ({ page }, actionTax: string) => {
+	const taxButton = page.locator('.xCharge__taxes');
+	await expect(taxButton).toBeVisible();
+	await taxButton.click();
+	const popup = page.locator('[aria-labelledby="alert-dialog-title"]');
+	await expect(popup).toBeVisible();
+	const option = popup.locator(`text=${actionTax}`);
+	await expect(option).toBeVisible();
+	await option.click();
 });
 
 Then('I should see the tax display {string}', async ({ page }, tax: string) => {
@@ -4311,3 +4313,6 @@ Then(
 		await expect(amountCell).toHaveText(amount);
 	},
 );
+When('I waiting 1s', async ({ page }) => {
+	await page.waitForTimeout(1000);
+});

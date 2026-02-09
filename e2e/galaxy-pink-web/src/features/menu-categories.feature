@@ -21,6 +21,7 @@ Feature: Menu Categories management
     And I should see the "Create Menu Category" screen
     When I wait for the page fully loaded
     When I fill the "Category Name" field with value "AutoTestMenuCategory"
+    When I waiting 1s
     When I fill the "Check-in Name" field with value "AutoTestMenuCategory"
     When I click on the check-box "Add to CheckIn" button
     When I select the "Employees Show on Check-In" tab
