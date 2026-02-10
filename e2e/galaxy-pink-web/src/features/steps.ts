@@ -4318,6 +4318,12 @@ Then(
 When('I waiting 1s', async ({ page }) => {
 	await page.waitForTimeout(1000);
 });
+
+When('I click on the reset key', async ({ page }) => {
+	const resetButton = page.locator('svg[data-testid="XResetIcon"]');
+	await expect(resetButton).toBeVisible();
+	await resetButton.click();
+});
 Then('I should see no results found', async ({ page }) => {
 	const noResults = page.locator('text=No results found');
 	await expect(noResults).toBeVisible();

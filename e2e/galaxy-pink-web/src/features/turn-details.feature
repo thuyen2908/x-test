@@ -100,7 +100,8 @@ Feature: Turn details
 
     When I select the "CLOSED TICKET" tab
     And I wait for the page fully loaded
-    And I click on refresh
+    Then I should see the toast message "Ticket data refreshed successfully" visible
+    When I click on refresh
     And I wait for the page fully loaded
     And I search for "23.55"
     And I wait for the page fully loaded
@@ -131,7 +132,8 @@ Feature: Turn details
     When I select the "CLOSED TICKET" tab
     And I wait for the page fully loaded
     And I click on refresh
-    And I wait for the page fully loaded
+    Then I should see the toast message "Ticket data refreshed successfully" visible
+    When I wait for the page fully loaded
     And I search for "23.55"
     And I wait for the page fully loaded
     Then I should see the last ticket of payment "$23.55"
