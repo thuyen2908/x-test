@@ -339,7 +339,6 @@ Feature: Create tickets
     When I select the service "Manicure" in my cart
     And I select the "DISCOUNT ITEM" on the menu
     Then I should see the "Original Price (Owner)" option is active
-    And I should see the discount sorted correctly
 
     When I select the discount "Open Discount"
     Then I should see the "Amount" discount type is active

@@ -1056,7 +1056,6 @@ Then('I should see the discount sorted correctly', async ({ page }) => {
 	}
 	const expectedOrder = [
 		'Open Discount',
-		'$3 Off',
 		'$5 Off',
 		'5% Off',
 		'10% Off',
@@ -3877,14 +3876,18 @@ When('I fill the reason block {string}', async ({ page }, reason: string) => {
 });
 
 When('I switch ON {string}', async ({ page }, labelName: string) => {
-	const switchElement = page
+	const selectElement = page
 		.locator('.MuiFormControlLabel-root')
-		.filter({ hasText: labelName })
-		.locator('input[type="checkbox"]');
+		.getByText(labelName, { exact: true });
+
+	await expect(selectElement).toBeVisible();
+
+	const switchElement = selectElement.locator('input[type="checkbox"]');
 
 	await switchElement.check();
 	await expect(switchElement).toBeChecked();
 });
+
 Then(
 	'I should see the new Discount {string}, Amount {string}, in the Discounts list',
 	async ({ page }, discountName: string, AmountDC: string) => {

@@ -2102,10 +2102,13 @@ When('I fill the reason block {string}', async ({ page }, reason: string) => {
 });
 
 When('I switch ON {string}', async ({ page }, labelName: string) => {
-	const switchElement = page
+	const selectElement = page
 		.locator('.MuiFormControlLabel-root')
-		.filter({ hasText: labelName })
-		.locator('input[type="checkbox"]');
+		.getByText(labelName, { exact: true });
+
+	await expect(selectElement).toBeVisible();
+
+	const switchElement = selectElement.locator('input[type="checkbox"]');
 
 	await switchElement.check();
 	await expect(switchElement).toBeChecked();
