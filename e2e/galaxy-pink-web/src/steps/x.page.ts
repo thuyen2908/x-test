@@ -72,12 +72,16 @@ class xPage {
 
 		const companyProfile = pageHeader.locator('div.xMerchantInfo');
 		const merchantInfo = pageHeader.locator('div.xMerchantInfo');
-
 		return {
 			/**
 			 * Locate the current opening dialog
 			 */
 			dialog,
+			/**
+			 * Locate the button
+			 */
+			button: (buttonText: string) =>
+				page.getByRole('button', { name: buttonText, exact: true }),
 			/**
 			 * Locate the current opening `draggable` dialog
 			 */

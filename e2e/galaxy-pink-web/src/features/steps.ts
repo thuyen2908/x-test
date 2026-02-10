@@ -4318,3 +4318,9 @@ Then(
 When('I waiting 1s', async ({ page }) => {
 	await page.waitForTimeout(1000);
 });
+
+When('I click on the reset key', async ({ page }) => {
+	const resetButton = page.locator('svg[data-testid="XResetIcon"]');
+	await expect(resetButton).toBeVisible();
+	await resetButton.click();
+});

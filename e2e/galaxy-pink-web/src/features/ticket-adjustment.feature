@@ -568,7 +568,7 @@ Scenario: Add Tax and make new payment
     When I select the first ticket with total "$16.00"
     Then I should see the service "Taxable" in my cart
     Then I should see the tax display "$0.00"
-    When I "Add Tax" in ticket 
+    When I "Add Tax" in ticket
     Then I should see the tax amount non-zero
 
     When I select the "PAYMENT" tab
