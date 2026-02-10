@@ -4324,3 +4324,32 @@ When('I click on the reset key', async ({ page }) => {
 	await expect(resetButton).toBeVisible();
 	await resetButton.click();
 });
+Then('I should see no results found', async ({ page }) => {
+	const noResults = page.locator('text=No results found');
+	await expect(noResults).toBeVisible();
+});
+Then(
+	'I should see the new void reason name {string} {string}, created at today, in the list',
+	async ({ page }, field: string, value: string) => {
+		const newRow = page.locator('.MuiDataGrid-row', {
+			has: page.locator(`[data-field="${field}"]`, { hasText: value }),
+		});
+
+		const valueCell = newRow.locator(`[data-field="${field}"]`);
+		const dateCell = newRow.locator('[data-field="createdAt"]');
+
+		const formattedToday = await page.evaluate(() => {
+			const today = new Date();
+			return today.toLocaleDateString('en-US', {
+				year: 'numeric',
+				month: '2-digit',
+				day: '2-digit',
+			});
+		});
+
+		await expect(valueCell).toBeVisible();
+		await expect(valueCell).toHaveText(value);
+		await expect(dateCell).toBeVisible();
+		await expect(dateCell).toContainText(formattedToday);
+	},
+);
