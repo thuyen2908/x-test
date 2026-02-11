@@ -92,6 +92,7 @@ Feature: Turn details
     And I change price amount "23.55"
 
     When I pay the exact amount by "Cash"
+    And I wait for the page fully loaded
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I wait for the page fully loaded
@@ -116,6 +117,7 @@ Feature: Turn details
     Then I should see the "Zoey" employee in my cart
 
     When I pay the exact amount by "Cash"
+    And I wait for the page fully loaded
     Then I should see the selected "SERVICE" tab on the Home page
     And I should see the turn number for "Avery" is 0.0
     And I should see the turn number for "Zoey" is 1.0

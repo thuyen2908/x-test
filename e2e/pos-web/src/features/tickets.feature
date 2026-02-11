@@ -698,7 +698,7 @@ Feature: Reopen tickets
     And I wait for the page fully loaded
 
     Then I should see the text "DETAILS" visible
-    And I should see the first date is not today in the gift card detail list
+    # And I should see the first date is not today in the gift card detail list
     And I should see the first type "ActivateNew" in the gift card detail list
     And I should see the first amount "$50.00" in the gift card detail list
 

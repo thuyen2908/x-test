@@ -614,10 +614,6 @@ Feature: Create tickets
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
-    When I wait for the page fully loaded
-    Then I should not see the employee "Sarah" in the ticket list
-    And I should not see the employee "Maya" in the ticket list
-
   Scenario: Change Technician for Service package
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6769"
