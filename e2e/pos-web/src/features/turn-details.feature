@@ -251,3 +251,100 @@ Feature: Turn details
     When I wait for the page fully loaded
     Then I should see the Turn 0.00 for "Amelia"
     And I should see the Round 0 for "Amelia"
+  
+  Scenario: Adjust turn - Add Late Turn, Remove Late Turn
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "0210"
+    Then I should see the employee "Late Turn" in the employee list
+    When I hold the "Late Turn" employee two seconds
+    Then I should see the "TURN" Adjustment
+
+    When I click on the "Add Late Turn" in turn adjustment
+    Then I should see a popup dialog with title "Adjust Turn"
+    When I enter the amount "20"
+    And I click on the "INCREASE" button in the popup dialog
+    And I wait for the page fully loaded
+    And I waiting 1s
+    Then I should see Employee "Late Turn" with "Turn: 20.0" in the employee list
+    When I hold the "Late Turn" employee two seconds
+    Then I should see the "TURN" Adjustment
+    When I click on the "Remove Late Turn" in turn adjustment
+     And I wait for the page fully loaded
+    And I waiting 1s
+    Then I should see Employee "Late Turn" with "Turn: 0.0" in the employee list
+
+ Scenario: Adjust turn - Add Go Again, Remove Go Again
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "0466"
+    Then I should see the employee "Go Again" in the employee list
+    When I hold the "Go Again" employee two seconds
+    Then I should see the "TURN" Adjustment
+    When I click on the "Add Go Again" in turn adjustment
+    And I wait for the page fully loaded
+    And I waiting 1s
+    And I waiting 1s
+    Then I should see Employee "Go Again" with "Turn: 0.0" in the employee list
+    When I select the "Go Again" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+    When I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+    When I click on the total price of "Manicure"
+    Then I should see a popup dialog with title "Service: Manicure - $6.00"
+    When I change the price to "21.26"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$21.26" visible
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    When I select the "Cash" payment type
+    And I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page
+    Then I should see Employee "Go Again" with "Turn: 0.0" in the employee list
+    When I hold the "Go Again" employee two seconds
+    Then I should see the "TURN" Adjustment
+    When I click on the "Remove Go Again" in turn adjustment
+    Then I should see Employee "Go Again" with "Turn: 1.0" in the employee list
+    When I navigate to "Tickets" on the navigation bar
+    Then I should be redirected to CLOSED_TICKETS page
+    When I click on refresh
+    And I wait for the page fully loaded
+    Then I should see the toast message "Ticket data refreshed successfully." visible
+    When I search for "21.26"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$21.26"
+    When I click on the first row for payment "$21.26" to expand details
+    Then I should see the "Reopen ticket" button visible
+    When I click on the "Reopen ticket" button
+    And I wait for the page fully loaded
+    Then I should see the "Ticket View" screen
+    And I should see the user info "Go Again" in the ticket
+    When I wait for the page fully loaded
+    And I void the current open ticket with reason "Mistake"
+    Then I should be redirected to HOME page
+    Then I should see Employee "Go Again" with "Turn: 0.0" in the employee list
+
+ Scenario: Adjust turn - Move, Remove Move
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "5781"
+    Then I should see the employee "Move" in the employee list
+    When I hold the "Move" employee two seconds
+    Then I should see the "TURN" Adjustment
+    When I click on the "Move" in turn adjustment
+    Then I should see a popup dialog with title "Enter New Position"
+    When I enter the amount Delete button
+    When I enter the amount Delete button
+    And I click on the "CONFIRM" button in the popup dialog
+    And I wait for the page fully loaded
+    And I waiting 1s
+    And I waiting 1s
+    Then I should see the position employee "Move" is "#1"
+    When I hold the "Move" employee two seconds
+    Then I should see the "TURN" Adjustment
+    When I click on the "Remove Move" in turn adjustment
+    And I wait for the page fully loaded
+    Then I should see the employee "Move" is not at position 1
+
+
