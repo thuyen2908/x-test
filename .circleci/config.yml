@@ -94,14 +94,6 @@ aliases:
     run:
       name: Install dependencies using pnpm
       command: |
-        corepack enable
-        pnpm config set store-dir ~/.pnpm-store
-        pnpm install --ignore-scripts
-
-  - &install_dependencies_with_sudo
-    run:
-      name: Install dependencies using pnpm
-      command: |
         sudo npm install -g corepack@latest
         sudo corepack enable
         pnpm config set store-dir ~/.pnpm-store
@@ -258,7 +250,7 @@ jobs:
       - *restore_pnpm_cache
         # this Convenience Image requires a sudo permission to use Corepack
         # that's why we duplicate the dependencies installing steps with the sudo access here
-      - *install_dependencies_with_sudo
+      - *install_dependencies
       - *build
       - run:
           name: Install Playwright browsers
@@ -312,7 +304,7 @@ jobs:
     steps:
       - checkout
       - *restore_pnpm_cache
-      - *install_dependencies_with_sudo
+      - *install_dependencies
 
       - attach_workspace:
           at: .
