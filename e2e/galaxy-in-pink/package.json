@@ -19,7 +19,7 @@
 	"devDependencies": {
 		"@dotenvx/dotenvx": "^1.52.0",
 		"@playwright/test": "^1.58.2",
-		"@types/node": "^24.10.12",
+		"@types/node": "^24.10.13",
 		"@x-test/common": "workspace:*",
 		"nodemon": "^3.1.11",
 		"playwright-bdd": "^8.4.2",
