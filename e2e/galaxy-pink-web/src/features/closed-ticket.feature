@@ -421,7 +421,7 @@ Feature: Closed Ticket
 
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
-@fix
+
   Scenario: Update GC balance when selling an add-on gift card and then voiding the ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2463"
