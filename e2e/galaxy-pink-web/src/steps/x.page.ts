@@ -545,57 +545,60 @@ class xPage {
 	}
 
 	/**
-	 * Clock In/Out Timesheet with provided PIN
+	 * Composite step: void a ticket found by its payment amount.
+	 *
+	 * Performs, in order, the same actions as these existing steps:
+	 *  1) When I reopen ticket with payment amount "<amount>"
+	 *  2) And I wait for the page fully loaded
+	 *  3) Then I should see the "Ticket View" screen
+	 *  4) When I click on the "Void Ticket" button
+	 *  5) And I select the reason "System Test"
+	 *  6) Then I should see a popup dialog with title "Confirm Void"
+	 *  7) When I click on the "confirm" button in the popup dialog
 	 */
-	// @When('I clock {timesheetAction} the timesheet with PIN {string}')
-	// public async clockInTimesheet(timesheetAction: TimesheetAction, PIN: string) {
-	// 	const { locators } = this;
+	@When('I void ticket with payment amount {string}')
+	public async voidTicketWithPaymentAmount(amount: string) {
+		// 1) When I reopen ticket with payment amount "<amount>"
+		await this.reopenTicketWithPaymentAmount(amount);
 
-	// 	// find and click on the Clock In / Out button
-	// 	const clockInOutNavigationPath =
-	// 		timesheetAction === 'in'
-	// 			? 'Timesheet > Clock In'
-	// 			: 'Timesheet > Clock Out';
-	// 	await this.selectNavItem(clockInOutNavigationPath);
+		// 2) And I wait for the page fully loaded
+		await this.waitForNetworkIdle();
 
-	// 	// expect the enter password dialog to be visible
-	// 	const enterPasswordDialog = locators.dialog('PASSWORD');
-	// 	await expect(enterPasswordDialog).toBeVisible();
+		// 3) Then I should see the "Ticket View" screen
+		const ticketViewTitle = this.locators.pageName
+			.getByText('Ticket View', { exact: true })
+			.first();
+		await expect(ticketViewTitle).toBeVisible();
 
-	// 	// enter the PIN
-	// 	await this.enterPIN(PIN, enterPasswordDialog);
+		// 4) When I click on the "Void Ticket" button
+		const voidTicketButton = this.page.getByRole('button', {
+			name: /void ticket/i,
+		});
+		await expect(voidTicketButton).toBeVisible();
+		await voidTicketButton.click();
 
-	// 	// click confirm action button
-	// 	await this.clickOnActionButtonOfOpeningDialog('CONFIRM');
+		// 5) And I select the reason "System Test"
+		const systemTestReason = this.page
+			.locator('.xVoid')
+			.getByText('System Test', { exact: true });
+		await expect(systemTestReason).toBeVisible();
+		await systemTestReason.click();
 
-	// 	if (timesheetAction === 'in') {
-	// 		const successfullyClockedInToast = locators.toast.getByText(
-	// 			'clocked in successfully',
-	// 		); // in case of new session
-	// 		const alreadyClockedInToast = locators.toast.getByText('has clocked in'); // in case there's an existing session
+		// 6) Then I should see a popup dialog with title "Confirm Void"
+		const confirmVoidTitle = this.page
+			.locator('.MuiDialogTitle-root', { hasText: 'Confirm Void' })
+			.last();
+		await expect(confirmVoidTitle).toBeVisible();
+		await expect(confirmVoidTitle).toHaveText('Confirm Void');
 
-	// 		// expect a toast message indicating the result of the operation
-	// 		await expect(
-	// 			successfullyClockedInToast.or(alreadyClockedInToast),
-	// 		).toBeVisible();
-	// 	} else if (timesheetAction === 'out') {
-	// 		const successfullyClockedOutToast = locators.toast.getByText(
-	// 			'clocked out successfully',
-	// 		); // in case of clock out
-	// 		const alreadyClockedOutToast =
-	// 			locators.toast.getByText('has not clocked in'); // in case there's no existing session
-
-	// 		// expect a toast message indicating the result of the operation
-	// 		await expect(
-	// 			successfullyClockedOutToast.or(alreadyClockedOutToast),
-	// 		).toBeVisible();
-	// 	}
-
-	// 	// if the dialog is still visible, close it
-	// 	if (await enterPasswordDialog.isVisible()) {
-	// 		await this.closeOpeningDialog();
-	// 	}
-	// }
+		// 7) When I click on the "confirm" button in the popup dialog
+		const dialog = this.page.locator('div[role="dialog"]');
+		const confirmButton = dialog.getByRole('button', {
+			name: /confirm/i,
+		});
+		await expect(confirmButton).toBeVisible();
+		await confirmButton.click();
+	}
 
 	@When('I clock {timesheetAction} the timesheet with PIN {string}')
 	public async clockTimesheetFromFunctions(
