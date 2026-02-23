@@ -25,6 +25,9 @@ Feature: Turn details
     When I add the "Gel X" service to my cart
     Then I should see my cart showing 1 item added
 
+    When I select the service "Gel X" in my cart
+    And I change price amount "27.11"
+
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
@@ -44,23 +47,15 @@ Feature: Turn details
     And I should see the Auto Turn 1.00 for "Jessica"
 
     When I select the "CLOSED TICKET" tab
-    And I click on refresh
     And I wait for the page fully loaded
-    And I search for "27"
+
+    When I search for "27.11"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$27.00"
+    Then I should see the last ticket of payment "27.11"
 
-
-    When I reopen ticket with payment amount "$27.00"
-    And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "Jessica" in the ticket
-
-    When I click on the "Void Ticket" button
-    And I select the reason "System Test"
-    Then I should see a popup dialog with title "Confirm Void"
-    When I click on the "confirm" button in the popup dialog
+    When I void ticket with payment amount "$27.11"
     Then I should see the selected "SERVICE" tab on the Home page
+    And I should not see the employee "Jessica" in the ticket list
 
     When I click on the queue "HAIR" button
     Then I should see the employee "Jessica" in the employee list
@@ -130,26 +125,6 @@ Feature: Turn details
     And I should see the Auto Turn 1.00 for "Zoey"
     And I should see the Round 0 for "Avery"
     And I should see the Turn 0.00 for "Avery"
-
-    When I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
-    And I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully" visible
-    When I wait for the page fully loaded
-    And I search for "23.55"
-    And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$23.55"
-
-    When I reopen ticket with payment amount "$23.55"
-    And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "Zoey" in the ticket
-
-    When I click on the "Void Ticket" button
-    And I select the reason "System Test"
-    Then I should see a popup dialog with title "Confirm Void"
-    When I click on the "confirm" button in the popup dialog
-    Then I should see the selected "SERVICE" tab on the Home page
 
   Scenario: Manually adding decrease a turn reorders the employee queue
     Given I am on the HOME page

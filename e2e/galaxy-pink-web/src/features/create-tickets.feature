@@ -6,10 +6,7 @@ Feature: Create tickets
     When I clock in the timesheet with PIN "4831"
     Then I should see the employee "Calantha" in the employee list
     When I select the "Calantha" employee
-    And I add the "Manicure" service to my cart
-    Then I should see my cart showing 1 item added
-
-    When I click on the Select customer
+    And I click on the Select customer
     And I click on the "Click Here To Add Customers" button
     Then I should see a popup dialog with title "Create New Customer"
     And I should see the loyalty program "2 Points = $1" visible
@@ -68,8 +65,21 @@ Feature: Create tickets
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I pay the exact amount by "Cash"
+    When I select the service "Manicure" in my cart
+    And I change price amount "6.11"
+    And I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
+
+    When I select the "CLOSED TICKET" tab
+    And I wait for the page fully loaded
+
+    When I search for "6.11"
+    And I wait for the page fully loaded
+    Then I should see the last ticket of payment "$6.11"
+
+    When I void ticket with payment amount "$6.11"
+    Then I should see the selected "SERVICE" tab on the Home page
+    And I should not see the employee "Owner" in the ticket list
 
   Scenario: Update redeem after paying with Loyalty points
     Given I am on the HOME page
@@ -763,7 +773,7 @@ Feature: Create tickets
     Then I should see my cart showing 1 item added
 
     When I select the service "Manicure" in my cart
-    And I change price amount "35.7"
+    And I change price amount "35.71"
 
     When I click on the "Pay" button
     And I enter the amount "2020"
@@ -796,20 +806,13 @@ Feature: Create tickets
     When I select the "CLOSED TICKET" tab
     And I wait for the page fully loaded
 
-    When I search for "35.7"
+    When I search for "35.71"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$35.70"
+    Then I should see the last ticket of payment "$35.71"
 
-    When I reopen ticket with payment amount "$35.70"
-    And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "Aubrey" in the ticket
-
-    When I click on the "Void Ticket" button
-    And I select the reason "System Test"
-    Then I should see a popup dialog with title "Confirm Void"
-    When I click on the "confirm" button in the popup dialog
+    When I void ticket with payment amount "$35.71"
     Then I should see the selected "SERVICE" tab on the Home page
+    And I should not see the employee "Aubrey" in the ticket list
 
   Scenario: Add the Discount ticket while paying
     Given I am on the HOME page

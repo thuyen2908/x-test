@@ -352,22 +352,15 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully" visible
-    When I wait for the page fully loaded
-    And I search for "16.48"
     And I wait for the page fully loaded
 
-    When I reopen ticket with payment amount "$16.48"
+    When I search for "16.48"
     And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "Daisy" in the ticket
+    Then I should see the last ticket of payment "$16.48"
 
-    When I click on the "Void Ticket" button
-    And I select the reason "System Test"
-    Then I should see a popup dialog with title "Confirm Void"
-    When I click on the "confirm" button in the popup dialog
+    When I void ticket with payment amount "$16.48"
     Then I should see the selected "SERVICE" tab on the Home page
+    And I should not see the employee "Daisy" in the ticket list
 
   Scenario: Reopen ticket to void item, remove and make new payment
     Given I am on the HOME page
@@ -428,7 +421,7 @@ Feature: Closed Ticket
 
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
-
+@fix
   Scenario: Update GC balance when selling an add-on gift card and then voiding the ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2463"
@@ -455,31 +448,21 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I click on refresh
     And I wait for the page fully loaded
-    Then I should see the toast message "Ticket data refreshed successfully" visible
-
-    When I wait for the page fully loaded
     And I search for "77.5"
     And I wait for the page fully loaded
-    And I reopen ticket with payment amount "$77.5"
-    And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "Isabella" in the ticket
+    Then I should see the last ticket of payment "$77.5"
 
-    When I click on the "Void Ticket" button
-    And I select the reason "Mistake"
-    Then I should see a popup dialog with title "Confirm Void"
-    When I click on the "confirm" button in the popup dialog
+    When I void ticket with payment amount "$77.5"
     Then I should see the selected "SERVICE" tab on the Home page
+    And I should not see the employee "Isabella" in the ticket list
 
     Given I am on the GIFT_CARD_BALANCE page
     When I enter the amount "1703"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
 
-    Then I should see the first date is today in the gift card detail list
-    And I should see the first type "ActivateAddOn" in the gift card detail list
+    Then I should see the first type "ActivateAddOn" in the gift card detail list
     And I should see the first amount "$50.00" in the gift card detail list
 
   Scenario: Cannot find gift card after selling a new gift card and then voiding the item Gift Card

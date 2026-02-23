@@ -138,22 +138,15 @@ Feature: Payroll
 
     When I back to HOME page
     And I select the "CLOSED TICKET" tab
-    And I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
-    When I wait for the page fully loaded
-    And I search for "218.87"
     And I wait for the page fully loaded
 
-    And I reopen ticket with payment amount "218.87"
+    When I search for "218.87"
     And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "Sydney" in the ticket
+    Then I should see the last ticket of payment "218.87"
 
-    When I click on the "Void Ticket" button
-    And I select the reason "Mistake"
-    Then I should see a popup dialog with title "Confirm Void"
-    When I click on the "confirm" button in the popup dialog
+    When I void ticket with payment amount "$218.87"
     Then I should see the selected "SERVICE" tab on the Home page
+    And I should not see the employee "Sydney" in the ticket list
 
   Scenario: Commission payroll details in the Owner View are calculated correctly
     Given I am on the HOME page
@@ -229,23 +222,15 @@ Feature: Payroll
 
     When I back to HOME page
     And I select the "CLOSED TICKET" tab
-
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
-    When I wait for the page fully loaded
-    And I search for "229.17"
     And I wait for the page fully loaded
 
-    And I reopen ticket with payment amount "229.17"
+    When I search for "229.17"
     And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "Venus" in the ticket
+    Then I should see the last ticket of payment "229.17"
 
-    When I click on the "Void Ticket" button
-    And I select the reason "Mistake"
-    Then I should see a popup dialog with title "Confirm Void"
-    When I click on the "confirm" button in the popup dialog
+    When I void ticket with payment amount "$229.17"
     Then I should see the selected "SERVICE" tab on the Home page
+    And I should not see the employee "Venus" in the ticket list
 
   Scenario: Hourly payroll details in the Employee View are calculated correctly
     Given I am on the HOME page
@@ -310,22 +295,15 @@ Feature: Payroll
 
     When I back to HOME page
     And I select the "CLOSED TICKET" tab
-    And I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
-    When I wait for the page fully loaded
-    And I search for "218.97"
     And I wait for the page fully loaded
 
-    And I reopen ticket with payment amount "$218.97"
+    When I search for "218.97"
     And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "Jazzie" in the ticket
+    Then I should see the last ticket of payment "218.97"
 
-    When I click on the "Void Ticket" button
-    And I select the reason "Mistake"
-    Then I should see a popup dialog with title "Confirm Void"
-    When I click on the "confirm" button in the popup dialog
+    When I void ticket with payment amount "$218.97"
     Then I should see the selected "SERVICE" tab on the Home page
+    And I should not see the employee "Jazzie" in the ticket list
 
   Scenario: Hourly payroll details in the Owner View are calculated correctly
     Given I am on the HOME page
@@ -393,19 +371,12 @@ Feature: Payroll
 
     When I back to HOME page
     And I select the "CLOSED TICKET" tab
-    And I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
-    When I wait for the page fully loaded
-    And I search for "230.20"
     And I wait for the page fully loaded
 
-    And I reopen ticket with payment amount "230.20"
+    When I search for "230.20"
     And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "June" in the ticket
+    Then I should see the last ticket of payment "230.20"
 
-    When I click on the "Void Ticket" button
-    And I select the reason "Mistake"
-    Then I should see a popup dialog with title "Confirm Void"
-    When I click on the "confirm" button in the popup dialog
+    When I void ticket with payment amount "$230.20"
     Then I should see the selected "SERVICE" tab on the Home page
+    And I should not see the employee "June" in the ticket list
