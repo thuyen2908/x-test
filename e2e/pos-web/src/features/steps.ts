@@ -3913,7 +3913,7 @@ When(
 Then(
 	'I should see Employee {string} with {string} in the employee list',
 	async ({ page }, employeeName: string, turn: string) => {
-		const listEmployee = page.locator('ul.ListItemEmployee__wrap ');
+		const listEmployee = page.locator('ul.ListItemEmployee__wrap ').first();
 		await expect(listEmployee).toBeVisible();
 		const employeeRow = listEmployee
 			.locator('li.xEmployeeItem')
@@ -3929,7 +3929,7 @@ When('I waiting 1s', async ({ page }) => {
 Then(
 	'I should see the position employee {string} is {string}',
 	async ({ page }, employeeName: string, position: string) => {
-		const listEmployee = page.locator('ul.ListItemEmployee__wrap');
+		const listEmployee = page.locator('ul.ListItemEmployee__wrap ').first();
 		await expect(listEmployee).toBeVisible();
 
 		const employeeRow = listEmployee
@@ -3946,7 +3946,7 @@ Then(
 Then(
 	'I should see the employee {string} is not at position 1',
 	async ({ page }, employeeName: string) => {
-		const listEmployee = page.locator('ul.ListItemEmployee__wrap ');
+		const listEmployee = page.locator('ul.ListItemEmployee__wrap ').first();
 		await expect(listEmployee).toBeVisible();
 		const employeeRow = listEmployee
 			.locator('li.xEmployeeItem')
