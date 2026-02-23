@@ -4477,3 +4477,20 @@ Then(
 		await expect(valueElement).toHaveText(expectedValue);
 	},
 );
+
+Then(
+	'I should see the Tech, Deductions, Tip, Amount as {string} in the bill render',
+	async ({ page }, expectedRow: string) => {
+		const [tech, deductions, tip, amount] = expectedRow.split(' ');
+
+		const row = page.locator('.sales-row').filter({
+			has: page.locator('.tech-name', { hasText: tech }),
+		});
+
+		await expect(row).toBeVisible();
+
+		await expect(row.locator('.deductions')).toHaveText(deductions);
+		await expect(row.locator('.tip')).toHaveText(tip);
+		await expect(row.locator('.amount')).toHaveText(amount);
+	},
+);
