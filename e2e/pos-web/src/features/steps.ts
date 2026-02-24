@@ -4089,3 +4089,12 @@ Then(
 		await expect(row.locator('.amount')).toHaveText(amount);
 	},
 );
+
+When(
+	'I search for {string} and select the result',
+	async ({ page }, text: string) => {
+		await page.locator('input[placeholder="Search…"]').first().fill(text);
+		await page.waitForTimeout(5000);
+		await page.locator('.MuiDataGrid-row').first().click();
+	},
+);
