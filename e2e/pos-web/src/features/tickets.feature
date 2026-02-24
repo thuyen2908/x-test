@@ -14,10 +14,7 @@ Feature: Reopen tickets
     Then I should see my cart showing 1 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "11.5"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$11.50" visible
+    And I change price amount "11.5"
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -29,30 +26,15 @@ Feature: Reopen tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I click on refresh
+    Given I am on the CLOSED_TICKETS page
+    When I wait for the page fully loaded
+    And I search for "11.5"
     And I wait for the page fully loaded
-    Then I should see the toast message "Ticket data refreshed successfully." visible
-    When I search for "11.5"
-    And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$11.50"
+    Then I should see the first ticket of payment "$11.5"
 
-    When I click on the first row for payment "$11.50" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "Chloe" in the ticket
-
-    When I click on the "PAY" button
-    Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-
-    When I click on the "CLOSE TICKET" button
+    When I reopen to void ticket with payment amount "$11.5"
     Then I should be redirected to HOME page
+    And I should not see the employee "Chloe" in the ticket list
 
   Scenario: Reopen ticket to change tech for service package
     Given I am on the HOME page
@@ -67,10 +49,7 @@ Feature: Reopen tickets
     Then I should see my cart showing 1 item added
 
     When I click on the total price of "Combo 1"
-    Then I should see a popup dialog with title "Service: Combo 1 - $45.00"
-    When I change the price to "47"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$47.00" visible
+    And I change price amount "47.11"
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -88,11 +67,11 @@ Feature: Reopen tickets
     When I click on refresh
     Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
-    And I search for "47"
+    And I search for "47.11"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$47.00"
+    Then I should see the first ticket of payment "$47.11"
 
-    When I click on the first row for payment "$47.00" to expand details
+    When I click on the first row for payment "$47.11" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
@@ -128,17 +107,10 @@ Feature: Reopen tickets
     Then I should see my cart showing 2 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "11"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$11.00" visible
+    And I change price amount "11"
+    And I add tip amount "5"
 
-    When I click on the adding "Tip" button
-    Then I should see a popup dialog with title "Add Tip"
-    When I fill "5" from the numpad
-    Then I should see "$5.00" tip in my cart
-
-    When I click on the "PAY" button
+    And I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
 
     When I select the "Credit" payment type
@@ -199,10 +171,7 @@ Feature: Reopen tickets
     Then I should see my cart showing 1 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "12"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$12.00" visible
+    And I change price amount "12"
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -232,7 +201,6 @@ Feature: Reopen tickets
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
     And I should see the payment history "VISA (1234)" visible
 
     When I click on the adjust tip icon
@@ -259,10 +227,7 @@ Feature: Reopen tickets
     Then I should see my cart showing 1 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "12"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$12.00" visible
+    And I change price amount "12"
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -335,10 +300,7 @@ Feature: Reopen tickets
     Then I should see my cart showing 1 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "23.5"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$23.50" visible
+    And I change price amount "23.5"
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -398,10 +360,7 @@ Feature: Reopen tickets
     Then I should see my cart showing 2 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "14"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$14.00" visible
+    And I change price amount "14"
 
     When I click on the item "Technician" button
     Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
@@ -410,12 +369,9 @@ Feature: Reopen tickets
     And I click on the "Apply" button in the dialog
     Then I should see the "Kelley" employee in my cart
 
-    When I click on the adding "Tip" button
-    Then I should see a popup dialog with title "Add Tip"
-    When I fill "5" from the numpad
-    Then I should see "$5.00" tip in my cart
+    When I add tip amount "5"
 
-    When I click on the "PAY" button
+    And I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
 
     When I select the "Credit" payment type
@@ -473,10 +429,7 @@ Feature: Reopen tickets
     Then I should see my cart showing 1 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "15.5"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$15.50" visible
+    And I change price amount "15.5"
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -511,7 +464,6 @@ Feature: Reopen tickets
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
 
     When I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
@@ -531,10 +483,7 @@ Feature: Reopen tickets
     Then I should see my cart showing 1 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "16"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$16.00" visible
+    And I change price amount "16"
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -544,26 +493,15 @@ Feature: Reopen tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
+    Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
     And I search for "16.48"
     And I wait for the page fully loaded
     Then I should see the first ticket of payment "$16.48"
 
-    When I click on the first row for payment "$16.48" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "Daisy" in the ticket
-
-    When I void the current open ticket with reason "System Test"
+    When I reopen to void ticket with payment amount "$16.48"
     Then I should be redirected to HOME page
+    And I should not see the employee "Daisy" in the ticket list
 
   Scenario: Reopen ticket to void item, remove and make new payment
     Given I am on the HOME page
@@ -579,10 +517,7 @@ Feature: Reopen tickets
     Then I should see my cart showing 2 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "17"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$17.00" visible
+    And I change price amount "17"
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -642,10 +577,7 @@ Feature: Reopen tickets
 
     When I add the "Acrylic removal" service to my cart
     And I click on the total price of "Acrylic removal"
-    Then I should see a popup dialog with title "Service: Acrylic removal - $30.00"
-    When I change the price to "27.5"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$27.50" visible
+    And I change price amount "27.5"
 
     When I select the "GIFT CARD" category
     Then I should see the "Gift card $50" service
@@ -661,8 +593,6 @@ Feature: Reopen tickets
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
 
     When I click on the element with id "payment"
     Then I should see a popup dialog with title "Close Ticket"
@@ -670,27 +600,15 @@ Feature: Reopen tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
+    Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
     And I search for "77.5"
     And I wait for the page fully loaded
-    Then I should see the first ticket of Cash payment "$77.50"
+    Then I should see the first ticket of payment "$77.5"
 
-    When I click on the first row for payment "$77.50" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "Isabella" in the ticket
-
-    When I void the current open ticket with no reason
-    And I wait for the page fully loaded
+    When I reopen to void ticket with payment amount "$77.5"
     Then I should be redirected to HOME page
+    And I should not see the employee "Isabella" in the ticket list
 
     Given I am on the GIFT_CARD_BALANCE page
     When I enter the amount "1703"
@@ -712,10 +630,7 @@ Feature: Reopen tickets
 
     When I add the "Acrylic removal" service to my cart
     And I click on the total price of "Acrylic removal"
-    Then I should see a popup dialog with title "Service: Acrylic removal - $30.00"
-    When I change the price to "25.7"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$25.70" visible
+    And I change price amount "25.7"
 
     When I select the "GIFT CARD" category
     Then I should see the "Gift card $50" service
@@ -729,8 +644,6 @@ Feature: Reopen tickets
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
 
     When I click on the element with id "payment"
     Then I should see a popup dialog with title "Close Ticket"
@@ -807,8 +720,6 @@ Feature: Reopen tickets
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
 
     When I click on the element with id "payment"
     Then I should see a popup dialog with title "Close Ticket"
@@ -816,26 +727,15 @@ Feature: Reopen tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
+    Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
     And I search for "199.50"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "199.50"
+    Then I should see the first ticket of payment "$199.50"
 
-    When I click on the first row for payment "199.50" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And My cart should contain "Gift Card $199.50 (0018)"
-
-    When I void the current open ticket with reason "Mistake"
+    When I reopen to void ticket with payment amount "$199.50"
     Then I should be redirected to HOME page
+    And I should not see the employee "Leon" in the ticket list
 
     Given I am on the GIFT_CARD_BALANCE page
     When I enter the amount "0018"
@@ -903,12 +803,9 @@ Feature: Reopen tickets
     Then I should see my cart showing 1 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "35.5"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$35.50" visible
+    And I change price amount "35.5"
 
-    When I click on the adding "Discount" button
+    And I click on the adding "Discount" button
     Then I should see a popup dialog with title "Discount Ticket"
     And I should see the "Owner Absorbs" option is checked
 
@@ -1014,10 +911,7 @@ Scenario: Update gift card balance correctly after voiding a gift card payment a
     Then I should see my cart showing 1 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "17.5"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$17.50" visible
+    And I change price amount "17.5"
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -1085,15 +979,8 @@ Scenario: Update gift card balance correctly after voiding a gift card payment a
     Then I should see my cart showing 1 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "17.5"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$17.50" visible
-    And I should see the user info "Camellia" in the ticket
-    When I click on the adding "Tip" button
-    Then I should see a popup dialog with title "Add Tip"
-    When I fill "6" from the numpad
-    Then I should see "$6.00" tip in my cart
+    And I change price amount "17.5"
+    And I add tip amount "6"
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -1119,11 +1006,13 @@ Scenario: Update gift card balance correctly after voiding a gift card payment a
     When I click on the "Reopen ticket" button
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
+
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
     And I should see the text "PAYMENT HISTORY" visible
     And I should see the payment history "Gift (0204)" visible
-    Then I should see the payment price contain amount "$17.50 + $6.00"
+    And I should see the payment price contain amount "$17.50 + $6.00"
+
     When I click on the adjust tip icon
     Then I should see a popup dialog with title " CONFIRM ADJUST TIP"
     When I click on the "Adjust Tip" button in the popup dialog

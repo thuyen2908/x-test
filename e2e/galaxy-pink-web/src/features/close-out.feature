@@ -75,7 +75,7 @@ Feature: Close Out report
     And I wait for the page fully loaded
     Then I should see the last ticket of payment "235.35"
 
-    When I void ticket with payment amount "$235.35"
+    When I reopen to void ticket with payment amount "$235.35"
     Then I should see the selected "SERVICE" tab on the Home page
     And I should not see the employee "Elena" in the ticket list
 
@@ -130,6 +130,6 @@ Feature: Close Out report
     And I wait for the page fully loaded
     Then I should see the last ticket of payment "236.38"
 
-    When I void ticket with payment amount "$236.38"
+    When I reopen to void ticket with payment amount "$236.38"
     Then I should see the selected "SERVICE" tab on the Home page
     And I should not see the employee "Gemma" in the ticket list

@@ -2,11 +2,11 @@ import { expect, type Locator, type Page } from '@playwright/test';
 import { Fixture, Given, When } from 'playwright-bdd/decorators';
 
 import { constants } from '#const';
-import type { PageId, TestOptions } from '#types';
+import { type PageId, type TestOptions } from '#types';
 
-import type { TestConfig } from '../test-config';
-import type { TestStorage } from '../test-storage';
-import type { TimesheetAction } from './parameters';
+import { type TestConfig } from '../test-config';
+import { type TestStorage } from '../test-storage';
+import { type TimesheetAction } from './parameters';
 
 declare global {
 	interface Window {
@@ -253,6 +253,282 @@ class xPage {
 		const closeButton = locators.dialogCloseButton(dialog);
 
 		await closeButton.click();
+	}
+
+	/**
+	 * Composite step: change item price then save, then verify total price is visible.
+	 *
+	 * Performs, in order, the same actions as these existing steps:
+	 *  1) When I change the price to "<amount>"
+	 *  2) And I click on the "Save" button in the popup dialog
+	 *  3) Then I should see the total price "$<amount>" visible
+	 */
+	@When('I change price amount {string}')
+	public async changePriceAmount(amount: string) {
+		// 1) When I change the price to "<amount>"
+		const priceInput = this.page.locator('input#itemNumbers\\.amount');
+		await expect(priceInput).toBeVisible();
+		await priceInput.clear();
+		await priceInput.fill(amount);
+
+		// 2) And I click on the "Save" button in the popup dialog
+		const dialog = this.page.locator('div[role="dialog"]').last();
+		const saveButton = dialog.getByRole('button', {
+			name: 'Save',
+			exact: true,
+		});
+		await expect(saveButton).toBeVisible();
+		await saveButton.click();
+
+		// 3) Then I should see the total price "$<amount>" visible
+		const displayPrice = amount.trim().startsWith('$')
+			? amount.trim()
+			: `$${amount.trim()}`;
+		const totalPriceElement = this.page.locator('.xTicketItems__total .price', {
+			hasText: displayPrice,
+		});
+		await expect(totalPriceElement).toBeVisible();
+	}
+
+	/**
+	 * Composite step: add a tip amount via the tip dialog.
+	 *
+	 * Performs, in order, the same actions as these existing steps:
+	 *  1) When I click on the adding "Tip" button
+	 *  2) Then I should see a popup dialog with title "Add Tip"
+	 *  3) When I fill "<amount>" from the numpad
+	 *  4) Then I should see "$<amount>.00" tip in my cart
+	 */
+	@When('I add tip amount {string}')
+	public async addTipAmount(amount: string) {
+		// 1) When I click on the adding "Tip" button
+		const tipButton = this.page.locator('.xCharge').getByText('Tip', {
+			exact: true,
+		});
+		await expect(tipButton).toBeVisible();
+		await tipButton.click();
+
+		// 2) Then I should see a popup dialog with title "Add Tip"
+		const dialog = this.page.locator('div[role="dialog"]').last();
+		const dialogTitleElement = dialog.locator('.MuiDialogTitle-root').last();
+		await expect(dialogTitleElement).toBeVisible();
+		await expect(dialogTitleElement).toHaveText('Add Tip');
+
+		// 3) When I fill "<amount>" from the numpad
+		const digits = amount.replace(/[^0-9]/g, '');
+		for (const digit of digits) {
+			await this.page
+				.locator(`button.key:has(span.text-num:has-text("${digit}"))`)
+				.click();
+		}
+		const okButton = dialog.getByRole('button', { name: 'OK', exact: true });
+		await expect(okButton).toBeVisible();
+		await okButton.click();
+
+		// 4) Then I should see "$<amount>.00" tip in my cart
+		const normalizedAmount = Number(amount.replace(/[^0-9.]/g, ''));
+		const displayTip = Number.isFinite(normalizedAmount)
+			? `$${normalizedAmount.toFixed(2)}`
+			: amount;
+		const tipElement = this.page.locator('ul.xCharge').getByText(displayTip);
+		await expect(tipElement).toHaveText(displayTip);
+	}
+
+	/**
+	 * Composite step: reopen a ticket from the payment list by payment amount.
+	 *
+	 * Performs, in order, the same actions as these existing steps:
+	 *  1) Then I should see the first ticket of payment "<amount>"
+	 *  2) When I click on the first row for payment "<amount>" to expand details
+	 *  3) Then I should see the "Reopen ticket" button visible
+	 *  4) When I click on the "Reopen ticket" button
+	 */
+	@When('I reopen ticket with payment amount {string}')
+	public async reopenTicketWithPaymentAmount(amount: string) {
+		// 1) Then I should see the first ticket of payment "<amount>"
+		const firstPaymentCell = this.page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="paymentTotal"]', { hasText: amount })
+			.first();
+		await expect(firstPaymentCell).toBeVisible();
+		await expect(firstPaymentCell).toContainText(amount);
+
+		// 2) When I click on the first row for payment "<amount>" to expand details
+		await firstPaymentCell.click();
+
+		// 3) Then I should see the "Reopen ticket" button visible
+		const reopenButton = this.page.getByRole('button', {
+			name: /reopen ticket/i,
+		});
+		await expect(reopenButton).toBeVisible();
+
+		// 4) When I click on the "Reopen ticket" button
+		await reopenButton.click();
+	}
+
+	/**
+	 * Composite step: adjust tip amount from payment history.
+	 *
+	 * Performs, in order, the same actions as these existing steps:
+	 *  1) When I click on the adjust tip icon
+	 *  2) Then I should see a popup dialog containing the title "CONFIRM ADJUST TIP "
+	 *  3) When I click on the action button "Adjust Tip" of the opening dialog
+	 *  4) Then I should see a popup dialog with title "Adjust Tip "
+	 *  5) When I enter the amount "<amount>"
+	 *  6) And I click on the "Add Tip" button in the popup dialog
+	 *  7) Then I should see the payment price contain amount "+ $<amount>.00"
+	 */
+	@When('I adjust tip amount {string}')
+	public async adjustTipAmount(amount: string) {
+		// 1) When I click on the adjust tip icon
+		const adjustTipIcon = this.page.locator('.xPayment__history--listBtn');
+		await expect(adjustTipIcon).toBeVisible();
+		await adjustTipIcon.click();
+
+		// 2) Then I should see a popup dialog containing the title "CONFIRM ADJUST TIP "
+		const confirmAdjustTipDialog = this.page
+			.locator('div[role="dialog"]')
+			.filter({
+				has: this.page.locator('.MuiDialogTitle-root', {
+					hasText: /confirm\s+adjust\s+tip/i,
+				}),
+			})
+			.last();
+		await expect(confirmAdjustTipDialog).toBeVisible();
+
+		// 3) When I click on the action button "Adjust Tip" of the opening dialog
+		// Prefer the common actions container, but fall back to any role=button in the dialog.
+		const adjustTipButton = confirmAdjustTipDialog
+			.locator('div.MuiDialogActions-root')
+			.getByRole('button', { name: /adjust\s*tip/i })
+			.or(
+				confirmAdjustTipDialog.getByRole('button', { name: /adjust\s*tip/i }),
+			);
+		await expect(adjustTipButton).toBeVisible();
+		await adjustTipButton.click();
+
+		// 4) Then I should see a popup dialog with title "Adjust Tip "
+		const adjustTipDialog = this.page
+			.locator('div[role="dialog"]')
+			.filter({
+				has: this.page.locator('.MuiDialogTitle-root', {
+					hasText: /adjust\s+tip/i,
+				}),
+			})
+			.last();
+		await expect(adjustTipDialog).toBeVisible();
+
+		// 5) When I enter the amount "<amount>"
+		const digits = amount.replace(/[^0-9]/g, '');
+		for (const digit of digits) {
+			await this.page
+				.locator(`button.key:has(span.text-num:has-text("${digit}"))`)
+				.click();
+		}
+
+		// 6) And I click on the "Add Tip" button in the popup dialog
+		const addTipButton = adjustTipDialog.getByRole('button', {
+			name: /add\s*tip/i,
+		});
+		await expect(addTipButton).toBeVisible();
+		await addTipButton.click();
+
+		// 7) Then I should see the payment price contain amount "+ $<amount>.00"
+		const normalizedAmount = Number(amount.replace(/[^0-9.]/g, ''));
+		const expectedDisplay = Number.isFinite(normalizedAmount)
+			? `+ $${normalizedAmount.toFixed(2)}`
+			: `+ $${amount}`;
+		const priceElement = this.page.locator('.xPayment__history--price');
+		await expect(priceElement).toContainText(expectedDisplay);
+	}
+
+	/**
+	 * Composite step: reopen a ticket from payments list then void it.
+	 *
+	 * Performs, in order, the same actions as these existing steps:
+	 *  1) When I click on the first row for payment "<amount>" to expand details
+	 *  2) Then I should see the "Reopen ticket" button visible
+	 *  3) When I click on the "Reopen ticket" button
+	 *  4) And I wait for the page fully loaded
+	 *  5) Then I should see the "Ticket View" screen
+	 *  6) When I void the current open ticket with reason "System Test"
+	 */
+	@When('I reopen to void ticket with payment amount {string}')
+	public async reopenToVoidTicketWithPaymentAmount(amount: string) {
+		// 1) When I click on the first row for payment "<amount>" to expand details
+		const firstPaymentCell = this.page
+			.locator('.MuiDataGrid-virtualScrollerContent')
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="paymentTotal"]', { hasText: amount })
+			.first();
+		await expect(firstPaymentCell).toBeVisible();
+		await firstPaymentCell.click();
+
+		// 2) Then I should see the "Reopen ticket" button visible
+		const reopenButton = this.page.getByRole('button', {
+			name: /reopen ticket/i,
+		});
+		await expect(reopenButton).toBeVisible();
+
+		// 3) When I click on the "Reopen ticket" button
+		await reopenButton.click();
+
+		// 4) And I wait for the page fully loaded
+		await this.waitForNetworkIdle();
+
+		// 5) Then I should see the "Ticket View" screen
+		const ticketViewTitle = this.locators.pageName
+			.getByText('Ticket View', { exact: true })
+			.last();
+		await expect(ticketViewTitle).toBeVisible();
+
+		// 6) When I void the current open ticket with reason "System Test"
+		const pageDetail = await this.locators.pageDetail.textContent();
+		const ticketNumber = pageDetail?.split('#')[1]?.trim();
+
+		const voidButton = this.page.getByRole('button', {
+			name: 'VOID TICKET',
+			exact: true,
+		});
+		await expect(voidButton).toBeVisible();
+		await voidButton.click();
+
+		const voidReasonDialog = this.locators.dialog('SELECT VOID REASON');
+		const voidTicketConfirmDialog = this.locators.dialog('VOID TICKET');
+		await expect(voidReasonDialog.or(voidTicketConfirmDialog)).toBeVisible();
+
+		if (await voidReasonDialog.isVisible()) {
+			await voidReasonDialog.getByText('System Test', { exact: true }).click();
+
+			// In UI HTML, confirm dialog title is "Confirm Void" (draggable), and confirm button text is "confirm".
+			const confirmDialog = this.page
+				.locator('div[role="dialog"]', {
+					has: this.page.locator('#draggable-dialog-title', {
+						hasText: /confirm void/i,
+					}),
+				})
+				.last();
+			await expect(confirmDialog).toBeVisible();
+			const confirmButton = confirmDialog.getByRole('button', {
+				name: /confirm/i,
+			});
+			await expect(confirmButton).toBeVisible();
+			await confirmButton.click();
+		} else {
+			const okButton = voidTicketConfirmDialog
+				.or(this.page.locator('div[role="dialog"]').last())
+				.getByRole('button', { name: 'OK', exact: true });
+			await expect(okButton).toBeVisible();
+			await okButton.click();
+
+			if (ticketNumber) {
+				await expect(
+					this.locators.toast.getByText(
+						`Ticket ${ticketNumber} deleted successfully.`,
+					),
+				).toBeVisible();
+			}
+		}
 	}
 
 	/**

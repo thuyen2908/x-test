@@ -53,7 +53,7 @@ Feature: Turn details
     And I wait for the page fully loaded
     Then I should see the last ticket of payment "27.11"
 
-    When I void ticket with payment amount "$27.11"
+    When I reopen to void ticket with payment amount "$27.11"
     Then I should see the selected "SERVICE" tab on the Home page
     And I should not see the employee "Jessica" in the ticket list
 

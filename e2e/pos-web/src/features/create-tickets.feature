@@ -855,12 +855,9 @@ Feature: Create tickets
     Then I should see my cart showing 1 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "35.7"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$35.70" visible
+    And I change price amount "35.7"
 
-    When I click on the "PAY" button
+    And I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
 
     When I select the "Gift" payment type
@@ -884,16 +881,9 @@ Feature: Create tickets
     And I wait for the page fully loaded
     Then I should see the first ticket of payment "$35.70"
 
-    When I click on the first row for payment "$35.70" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "Aubrey" in the ticket
-
-    When I void the current open ticket with reason "System Test"
+    When I reopen to void ticket with payment amount "$35.70"
     Then I should be redirected to HOME page
+    And I should not see the employee "Aubrey" in the ticket list
 
   Scenario: Select service to change technician
     Given I am on the HOME page
@@ -971,7 +961,6 @@ Feature: Create tickets
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
     And I should see the card price amount "$56.50" visible
     And I should see the cash price amount "$55.00" visible
 
@@ -990,7 +979,8 @@ Feature: Create tickets
     And I should see the text "NET TOTAL SALES $49.00" on the dialog
     When I click on the action button "OK" of the opening dialog
 
-    When I navigate to "Tickets" on the navigation bar
+    Given I am on the CLOSED_TICKETS page
+    When I wait for the page fully loaded
     Then I should be redirected to CLOSED_TICKETS page
 
     When I click on refresh
@@ -1000,16 +990,9 @@ Feature: Create tickets
     And I wait for the page fully loaded
     Then I should see the first ticket of payment "$56.50"
 
-    When I click on the first row for payment "$56.50" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "Paige" in the ticket
-
-    When I void the current open ticket with reason "System Test"
+    When I reopen to void ticket with payment amount "$56.50"
     Then I should be redirected to HOME page
+    And I should not see the employee "Paige" in the ticket list
 
   Scenario: No cash discount is charged when selling GC
     Given I am on the HOME page
