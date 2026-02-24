@@ -94,10 +94,8 @@ Feature: Payroll
     And I should see my cart showing 3 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "55.7"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$55.70" visible
+    And I change price amount "55.7"
+
 
     When I click on the adding "Tip" button
     Then I should see a popup dialog with title "Add Tip"
@@ -189,19 +187,11 @@ Feature: Payroll
     And I should see my cart showing 3 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "65.7"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$65.70" visible
-
-    When I click on the adding "Tip" button
-    Then I should see a popup dialog with title "Add Tip"
-    When I fill "10" from the numpad
-    Then I should see "$10.00" tip in my cart
+    And I change price amount "65.7"
+    And I add tip amount "10"
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
-    And I should see the button with id "payment" visible
 
     When I enter the amount "50"
     And I click on the element with id "payment"
@@ -258,16 +248,9 @@ Feature: Payroll
     And I wait for the page fully loaded
     Then I should see the first ticket of payment "$229.17"
 
-    When I click on the first row for payment "$229.17" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "Venus" in the ticket
-
-    When I void the current open ticket with reason "System Test"
+    When I reopen to void ticket with payment amount "$229.17"
     Then I should be redirected to HOME page
+    And I should not see the employee "Venus" in the ticket list
 
   Scenario: Hourly payroll details in the Employee View are calculated correctly
     Given I am on the HOME page
@@ -291,19 +274,11 @@ Feature: Payroll
     And I should see my cart showing 3 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "55.8"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$55.80" visible
-
-    When I click on the adding "Tip" button
-    Then I should see a popup dialog with title "Add Tip"
-    When I fill "10" from the numpad
-    Then I should see "$10.00" tip in my cart
+    And I change price amount "55.8"
+    And I add tip amount "10"
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
-    And I should see the button with id "payment" visible
 
     When I enter the amount "50"
     And I click on the element with id "payment"
@@ -338,28 +313,15 @@ Feature: Payroll
     And I should see the text "Daily Details" in the employee view
     And I should see the Reg Pay, NC Tip, Commission as "$0.00 $9.75 $5.00" in employee view
 
-    When I back to HOME page
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I wait for the page fully loaded
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
+    Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
     And I search for "218.97"
     And I wait for the page fully loaded
     Then I should see the first ticket of payment "$218.97"
 
-    When I click on the first row for payment "$218.97" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "Jazzie" in the ticket
-
-    When I void the current open ticket with reason "System Test"
+    When I reopen to void ticket with payment amount "$218.97"
     Then I should be redirected to HOME page
+    And I should not see the employee "Jazzie" in the ticket list
 
   Scenario: Hourly payroll details in the Owner View are calculated correctly
     Given I am on the HOME page
@@ -383,19 +345,11 @@ Feature: Payroll
     And I should see my cart showing 3 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "66.7"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$66.70" visible
-
-    When I click on the adding "Tip" button
-    Then I should see a popup dialog with title "Add Tip"
-    When I fill "10" from the numpad
-    Then I should see "$10.00" tip in my cart
+    And I change price amount "66.7"
+    And I add tip amount "10"
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
-    And I should see the button with id "payment" visible
 
     When I enter the amount "50"
     And I click on the element with id "payment"
@@ -435,20 +389,10 @@ Feature: Payroll
 
     Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
-    And I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
-    When I wait for the page fully loaded
     And I search for "230.20"
     And I wait for the page fully loaded
     Then I should see the first ticket of payment "$230.20"
 
-    When I click on the first row for payment "$230.20" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "June" in the ticket
-
-    When I void the current open ticket with reason "System Test"
+    When I reopen to void ticket with payment amount "$230.20"
     Then I should be redirected to HOME page
+    And I should not see the employee "June" in the ticket list

@@ -47,19 +47,11 @@ Feature: Ticket Payments
     And I should see my cart showing 3 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "68.7"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$68.70" visible
-
-    When I click on the adding "Tip" button
-    Then I should see a popup dialog with title "Add Tip"
-    When I fill "10" from the numpad
-    Then I should see "$10.00" tip in my cart
+    And I change price amount "68.7"
+    And I add tip amount "10"
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
-    And I should see the button with id "payment" visible
 
     When I enter the amount "50"
     And I click on the element with id "payment"
@@ -86,25 +78,13 @@ Feature: Ticket Payments
 
     Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
-    When I wait for the page fully loaded
     And I search for "232.26"
     And I wait for the page fully loaded
     Then I should see the first ticket of payment "$232.26"
 
-    When I click on the first row for payment "$232.26" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "Hilary" in the ticket
-
-    When I void the current open ticket with reason "System Test"
+    When I reopen to void ticket with payment amount "$232.26"
     Then I should be redirected to HOME page
+    And I should not see the employee "Hilary" in the ticket list
 
   Scenario: The Services/Products tab displays data correctly
     Given I am on the HOME page
@@ -117,16 +97,8 @@ Feature: Ticket Payments
     Then I should see my cart showing 1 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "69.7"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$69" visible
-
-    # Add Tip
-    When I click on the adding "Tip" button
-    Then I should see a popup dialog with title "Add Tip"
-    When I fill "10" from the numpad
-    Then I should see "$10.00" tip in my cart
+    And I change price amount "69.7"
+    And I add tip amount "10"
 
     # Add discount item
     When I click on the item "DISCOUNT ITEM" button
@@ -150,7 +122,6 @@ Feature: Ticket Payments
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
-    And I should see the button with id "payment" visible
 
     When I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
@@ -192,25 +163,13 @@ Feature: Ticket Payments
 
     Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
-    When I wait for the page fully loaded
     And I search for "71.83"
     And I wait for the page fully loaded
     Then I should see the first ticket of payment "$71.83"
 
-    When I click on the first row for payment "$71.83" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "Valerie" in the ticket
-
-    When I void the current open ticket with reason "System Test"
+    When I reopen to void ticket with payment amount "$71.83"
     Then I should be redirected to HOME page
+    And I should not see the employee "Valerie" in the ticket list
 
 
 

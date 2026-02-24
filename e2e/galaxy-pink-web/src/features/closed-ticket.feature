@@ -358,7 +358,7 @@ Feature: Closed Ticket
     And I wait for the page fully loaded
     Then I should see the last ticket of payment "$16.48"
 
-    When I void ticket with payment amount "$16.48"
+    When I reopen to void ticket with payment amount "$16.48"
     Then I should see the selected "SERVICE" tab on the Home page
     And I should not see the employee "Daisy" in the ticket list
 
@@ -453,7 +453,7 @@ Feature: Closed Ticket
     And I wait for the page fully loaded
     Then I should see the last ticket of payment "$77.5"
 
-    When I void ticket with payment amount "$77.5"
+    When I reopen to void ticket with payment amount "$77.5"
     Then I should see the selected "SERVICE" tab on the Home page
     And I should not see the employee "Isabella" in the ticket list
 

@@ -99,7 +99,7 @@ Feature: Quick payroll
     And I wait for the page fully loaded
     Then I should see the last ticket of payment "249.77"
 
-    When I void ticket with payment amount "$249.77"
+    When I reopen to void ticket with payment amount "$249.77"
     Then I should see the selected "SERVICE" tab on the Home page
     And I should not see the employee "Serena" in the ticket list
 
@@ -190,6 +190,6 @@ Feature: Quick payroll
     And I wait for the page fully loaded
     Then I should see the last ticket of payment "250.80"
 
-    When I void ticket with payment amount "$250.80"
+    When I reopen to void ticket with payment amount "$250.80"
     Then I should see the selected "SERVICE" tab on the Home page
     And I should not see the employee "Jen" in the ticket list

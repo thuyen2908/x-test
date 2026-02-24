@@ -556,7 +556,7 @@ class xPage {
 	 *  6) Then I should see a popup dialog with title "Confirm Void"
 	 *  7) When I click on the "confirm" button in the popup dialog
 	 */
-	@When('I void ticket with payment amount {string}')
+	@When('I reopen to void ticket with payment amount {string}')
 	public async voidTicketWithPaymentAmount(amount: string) {
 		// 1) When I reopen ticket with payment amount "<amount>"
 		await this.reopenTicketWithPaymentAmount(amount);

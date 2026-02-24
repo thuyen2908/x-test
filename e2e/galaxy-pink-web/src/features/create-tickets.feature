@@ -77,7 +77,7 @@ Feature: Create tickets
     And I wait for the page fully loaded
     Then I should see the last ticket of payment "$6.11"
 
-    When I void ticket with payment amount "$6.11"
+    When I reopen to void ticket with payment amount "$6.11"
     Then I should see the selected "SERVICE" tab on the Home page
     And I should not see the employee "Owner" in the ticket list
 
@@ -810,7 +810,7 @@ Feature: Create tickets
     And I wait for the page fully loaded
     Then I should see the last ticket of payment "$35.71"
 
-    When I void ticket with payment amount "$35.71"
+    When I reopen to void ticket with payment amount "$35.71"
     Then I should see the selected "SERVICE" tab on the Home page
     And I should not see the employee "Aubrey" in the ticket list
 
