@@ -9,7 +9,6 @@ Feature: Close Out report
     Then I should be redirected to CLOSE_OUT page
     And I should see the "Close Out" screen
 
-  @skip
   Scenario: Technician report display correctly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "7518"
@@ -64,7 +63,6 @@ Feature: Close Out report
     And I should see the "QTY" with value "3" in the sale row detail
     And I should see the "Tip" with value "$10.00" in the sale row detail
     And I should see the "Amount" with value "$221.70" in the sale row detail
-
     And I should see the title "Summary"
     And I should see the summary detail "Gift Card Sale $100.00" in the bill render
     And I should see the summary detail "Service/Product Sale $121.70" in the bill render
@@ -97,7 +95,6 @@ Feature: Close Out report
     When I void the current open ticket with reason "System Test"
     Then I should be redirected to HOME page
 
-  @skip
   Scenario: Technician report summary display correctly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "7298"
@@ -119,19 +116,27 @@ Feature: Close Out report
     Then I should see the service "Gift card $100 (2222)" in my cart
     And I should see my cart showing 3 item added
 
-    When I select the service "Manicure" in my cart
-    And I change price amount "72.7"
+    When I click on the total price of "Manicure"
+    Then I should see a popup dialog with title "Service: Manicure - $6.00"
+    When I change the price to "72.7"
+    And I click on the "Save" button in the popup dialog
+    Then I should see the total price "$72.7" visible
 
-    When I add tip amount "10"
+    When I click on the adding "Tip" button
+    Then I should see a popup dialog with title "Add Tip"
+    When I fill "10" from the numpad
+    Then I should see "$10.00" tip in my cart
 
-    When I click on the "Pay" button
-    And I enter the amount "50"
-    And I select the "Cash" payment type
+    When I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+    And I should see the button with id "payment" visible
+
+    When I enter the amount "50"
+    And I click on the element with id "payment"
     And I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
-    And I select the "VISA" on the menu
-    When I click on the "Close Ticket" button
-    Then I should see the selected "SERVICE" tab on the Home page
+    And I click on the element with id "payment"
+    Then I should be redirected to HOME page
 
     Given I am on the CLOSE_OUT page
     Then I should see the "Close Out" screen
@@ -141,14 +146,24 @@ Feature: Close Out report
     And I should see the title "Sale By Technicians"
     And I should see the Tech, Deductions, Tip, Amount as "Gemma ($3.00) $10.00 $219.70" in the bill render
 
-    When I back to HOME page
-    And I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    Given I am on the CLOSED_TICKETS page
+    When I wait for the page fully loaded
+    Then I should be redirected to CLOSED_TICKETS page
 
-    When I search for "236.38"
+    When I click on refresh
+    Then I should see the toast message "Ticket data refreshed successfully." visible
+    When I wait for the page fully loaded
+    And I search for "236.38"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "236.38"
+    Then I should see the first ticket of payment "$236.38"
 
-    When I void ticket with payment amount "$236.38"
-    Then I should see the selected "SERVICE" tab on the Home page
-    And I should not see the employee "Gemma" in the ticket list
+    When I click on the first row for payment "$236.38" to expand details
+    Then I should see the "Reopen ticket" button visible
+
+    When I click on the "Reopen ticket" button
+    And I wait for the page fully loaded
+    Then I should see the "Ticket View" screen
+    And I should see the user info "Gemma" in the ticket
+
+    When I void the current open ticket with reason "System Test"
+    Then I should be redirected to HOME page
