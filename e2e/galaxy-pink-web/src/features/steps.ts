@@ -3476,6 +3476,7 @@ When(
 			'Category menu item': 'div[id="mui-component-select-categoryId"]',
 			'Default Queue Group For Appt':
 				'div[id="mui-component-select-employeeSalon.defaultQueueGroupId"]',
+			'Department Type': 'div[id="mui-component-select-deptType"]',
 		};
 
 		const selector = fieldLocators[field];
@@ -3935,6 +3936,7 @@ When(
 			'Discount name': 'input[name="discountName"]',
 			DisplayDC: 'input[name="displayName"]',
 			'Amount Discount': 'input[id="amount"]',
+			'Department Name': 'input[name="name"]',
 		};
 
 		const selector = fieldLocators[fieldName];
@@ -4492,5 +4494,57 @@ Then(
 		await expect(row.locator('.deductions')).toHaveText(deductions);
 		await expect(row.locator('.tip')).toHaveText(tip);
 		await expect(row.locator('.amount')).toHaveText(amount);
+	},
+);
+
+Then(
+	'The department name should be {string}',
+	async ({ page }, name: string) => {
+		await expect(
+			page.getByRole('dialog').locator('input[name="name"]'),
+		).toHaveValue(name);
+	},
+);
+
+Then(
+	'The department type should be {string}',
+	async ({ page }, type: string) => {
+		await expect(
+			page
+				.getByRole('dialog')
+				.getByRole('combobox', { name: /department type/i }),
+		).toHaveText(new RegExp(type, 'i'));
+	},
+);
+
+Then('department type should be {string}', async ({ page }, type: string) => {
+	const deptTypeCell = page
+		.locator('.MuiDataGrid-row')
+		.first()
+		.locator('[data-field="deptType"]');
+
+	await expect(deptTypeCell).toContainText(type);
+});
+When(
+	'I double click on the department row {string}',
+	async ({ page }, departmentName: string) => {
+		const nameCell = page.locator(
+			`.MuiDataGrid-cell[data-field="name"]:has-text("${departmentName}")`,
+		);
+
+		await expect(nameCell).toBeVisible();
+		await nameCell.dblclick();
+	},
+);
+Then(
+	'I should see department {string} in the list',
+	async ({ page }, name: string) => {
+		const departmentCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="name"]', { hasText: name })
+			.first();
+
+		await expect(departmentCell).toBeVisible();
+		await expect(departmentCell).toContainText(name);
 	},
 );
