@@ -1,0 +1,427 @@
+@regression @smoke @slow
+Feature: Appointment
+  @skip
+  Scenario: Create an appointment for an existing customer, edit to change technician and create ticket
+    Given I am on the HOME page
+    When I navigate to "Appointment" on the navigation bar
+    Then I should be redirected to APPOINTMENT page
+
+    When I wait for the page fully loaded
+    Then I should see the title "Any Technician"
+    When I select the "Anna" employee from the technician dropdown
+    Then I should see the title "Anna"
+
+    When I double click on the time slot at "07:00 AM"
+    Then I should see the "Create Appointment" screen
+    And I should see the "Manicure" service
+
+    When I add the "Manicure" service to my cart
+    Then I should see the service "Manicure" in my cart
+    And I should see the duration "20 minutes"
+
+    When I add the "Tin" customer
+    Then I should see a new customer "Tin" on ticket
+
+    When I click on the "SAVE" button
+    And I handle the Confirm Validate Time dialog if it appears
+    Then I should see the customer "Tin" booked
+
+    When I select the booked of "Tin"
+    And I click on the "Edit" button
+    Then I should see the "Edit Appointment" screen
+    And I should see the service "Manicure" in my cart
+    And I should see the employee "Anna" in my cart
+    And I should see a new customer "Tin" on ticket
+    And I should see the time "07:00 AM" in my cart
+
+    When I select the service "Manicure" in my cart
+    Then I should see a popup dialog with title "Technician Multiple"
+    When I click on the "Addison" text inside the content section of the opening dialog
+    And I click on the "Apply" button in the dialog
+    Then I should see the "Addison" employee in my cart
+
+    When I click on the "SAVE" button
+    And I handle the Confirm Validate Time dialog if it appears
+    And I wait for the page fully loaded
+    And I select the last booking in the time slot at "07:00 AM"
+    And I click on the "Create Ticket" button
+    Then I should see the "Ticket View From Appointment" screen
+    And I should see the user info "Addison" in the ticket
+    And I should see the service "Manicure" in my cart
+    And I should see the employee "Addison" in my cart
+
+    When I click on the "PAY" button
+    Then I should see a popup dialog with title "Reward"
+    When I click on the "OK" button in the popup dialog
+
+    When I select the "Cash" payment type
+    And I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page
+
+  @skip
+  Scenario: Create an appointment for a new customer, edit to change technician and create ticket
+    Given I am on the HOME page
+    When I navigate to "Appointment" on the navigation bar
+    Then I should be redirected to APPOINTMENT page
+
+    When I wait for the page fully loaded
+    And I click on the sync appointment icon
+    And I wait for the page fully loaded
+    Then I should see the title "Any Technician"
+    When I select the "Anna" employee from the technician dropdown
+    Then I should see the title "Anna"
+
+    When I double click on the time slot at "09:20 AM"
+    Then I should see the "Create Appointment" screen
+    And I should see the "Manicure" service
+
+    When I add the "Manicure" service to my cart
+    Then I should see the service "Manicure" in my cart
+    And I should see the duration "20 minutes"
+
+    When I click on the Select customer
+    And I click on the "CLICK HERE TO ADD CUSTOMER" button
+    Then I should see a popup dialog with title "Create New Customer"
+
+    When I fill the new customer name "Booking"
+    And I fill the new customer phone
+    And I click on the "SAVE" button in the create new customer dialog
+    Then I should see a new customer "Booking" on ticket
+
+    When I click on the "SAVE" button
+    And I handle the Confirm Validate Time dialog if it appears
+    Then I should be redirected to APPOINTMENT page
+    And I should see the title "Any Technician"
+
+    When I select the "Anna" employee from the technician dropdown
+    Then I should see the title "Anna"
+
+    When I select the last booking in the time slot at "09:20 AM"
+    And I click on the "Edit" button
+    Then I should see the "Edit Appointment" screen
+    And I should see the service "Manicure" in my cart
+    And I should see the employee "Anna" in my cart
+    And I should see a new customer "Booking" on ticket
+    And I should see the time "09:20 AM" in my cart
+
+    When I select the service "Manicure" in my cart
+    Then I should see a popup dialog with title "Technician Multiple"
+    When I click on the "Addison" text inside the content section of the opening dialog
+    And I click on the "Apply" button in the dialog
+    Then I should see the "Addison" employee in my cart
+
+    When I click on the "SAVE" button
+    And I handle the Confirm Validate Time dialog if it appears
+    Then I should be redirected to APPOINTMENT page
+    When I wait for the page fully loaded
+    Then I should see the title "Any Technician"
+
+    When I select the "Addison" employee from the technician dropdown
+    Then I should see the title "Addison"
+
+    When I select the last booking in the time slot at "09:20 AM"
+    And I click on the "Create Ticket" button
+    Then I should see the "Ticket View From Appointment" screen
+    And I should see the user info "Addison" in the ticket
+    And I should see the service "Manicure" in my cart
+    And I should see the employee "Addison" in my cart
+
+    When I click on the "PAY" button
+    And I select the "Cash" payment type
+    And I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page
+
+  Scenario: Use Employee Color for Appointment Header
+    Given I am on the HOME page
+    When I navigate to "Appointment" on the navigation bar
+    Then I should be redirected to APPOINTMENT page
+
+    When I wait for the page fully loaded
+    Then I should see the color header for Any Technician displayed correctly
+    And I should see the color header for employee 'Anna' displayed correctly
+
+  Scenario: Sort Employee by Order
+    Given I am on the HOME page
+    When I navigate to "Appointment" on the navigation bar
+    Then I should be redirected to APPOINTMENT page
+
+    When I wait for the page fully loaded
+    Then I should see the title "Any Technician"
+    And I should see the employees sorted correctly
+
+  @skip
+  Scenario: Update appointment status Check-In
+    Given I am on the HOME page
+    When I navigate to "Appointment" on the navigation bar
+    Then I should be redirected to APPOINTMENT page
+
+    When I wait for the page fully loaded
+    And I click on the sync appointment icon
+    Then I should see the title "Any Technician"
+    When I select the "Anna" employee from the technician dropdown
+    Then I should see the title "Anna"
+
+    When I double click on the time slot at "08:00 AM"
+    Then I should see the "Create Appointment" screen
+    And I should see the "Manicure" service
+
+    When I add the "Manicure" service to my cart
+    Then I should see the service "Manicure" in my cart
+    And I should see the duration "20 minutes"
+
+    When I click on the Select customer
+    And I click on the "CLICK HERE TO ADD CUSTOMER" button
+    Then I should see a popup dialog with title "Create New Customer"
+
+    When I fill the new customer name "Check-In"
+    And I fill the new customer phone
+    And I click on the "SAVE" button in the create new customer dialog
+    Then I should see a new customer "Check-In" on ticket
+
+    When I click on the "SAVE" button
+    And I handle the Confirm Validate Time dialog if it appears
+
+    When I wait for the page fully loaded
+    Then I should see the title "Any Technician"
+    When I select the "Anna" employee from the technician dropdown
+    Then I should see the title "Anna"
+
+    When I select the last booking in the time slot at "08:00 AM"
+    And I wait for the page fully loaded
+    And I click on the "Create Ticket" button
+    Then I should see the "Ticket View From Appointment" screen
+    And I should see the service "Manicure" in my cart
+    And I should see the employee "Anna" in my cart
+    And I should see a new customer "Check-In" on ticket
+
+    When I back to HOME page
+    And I wait for the page fully loaded
+    And I navigate to "Appointment" on the navigation bar
+    Then I should be redirected to APPOINTMENT page
+
+    When I wait for the page fully loaded
+    Then I should see the title "Any Technician"
+    When I select the "Anna" employee from the technician dropdown
+    Then I should see the title "Anna"
+    When I select the last booking in the time slot at "08:00 AM"
+    And I click on the "Edit" button
+
+    Then I should see the "Edit Appointment" screen
+    And I should see the service "Manicure" in my cart
+    And I should see the employee "Anna" in my cart
+    And I should see a new customer "Check-In" on ticket
+    And I should see the time "08:00 AM" in my cart
+    And I should see the appointment status "Chosen Tech"
+    And I should see the appointment status "None"
+    And I should see the appointment status "Check In"
+
+  @skip
+  Scenario: Update appointment status Complete
+    Given I am on the HOME page
+    When I navigate to "Appointment" on the navigation bar
+    Then I should be redirected to APPOINTMENT page
+
+    When I wait for the page fully loaded
+    And I click on the sync appointment icon
+    Then I should see the title "Any Technician"
+    When I select the "Anna" employee from the technician dropdown
+    Then I should see the title "Anna"
+
+    When I double click on the time slot at "08:20 AM"
+    And I wait for the page fully loaded
+    Then I should see the "Create Appointment" screen
+    And I should see the "Manicure" service
+    Then I should see the time "08:20 AM" in my cart
+
+    When I add the "Manicure" service to my cart
+    Then I should see the service "Manicure" in my cart
+    And I should see the duration "20 minutes"
+
+    When I click on the Select customer
+    And I click on the "CLICK HERE TO ADD CUSTOMER" button
+    Then I should see a popup dialog with title "Create New Customer"
+
+    When I fill the new customer name "Complete"
+    And I fill the new customer phone
+    And I click on the "SAVE" button in the create new customer dialog
+    Then I should see a new customer "Complete" on ticket
+
+    When I click on the "SAVE" button
+    And I handle the Confirm Validate Time dialog if it appears
+
+    When I wait for the page fully loaded
+    Then I should see the title "Any Technician"
+    When I select the "Anna" employee from the technician dropdown
+    Then I should see the title "Anna"
+
+    When I select the last booking in the time slot at "08:20 AM"
+    And I click on the "Create Ticket" button
+    Then I should see the "Ticket View From Appointment" screen
+    And I should see the service "Manicure" in my cart
+    And I should see the employee "Anna" in my cart
+    And I should see a new customer "Complete" on ticket
+
+    When I click on the "PAY" button
+    And I select the "Cash" payment type
+    And I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page
+
+    When I wait for the page fully loaded
+    And I navigate to "Appointment" on the navigation bar
+    Then I should be redirected to APPOINTMENT page
+
+    When I wait for the page fully loaded
+    Then I should see the title "Any Technician"
+    When I select the "Anna" employee from the technician dropdown
+    Then I should see the title "Anna"
+    When I select the last booking in the time slot at "08:20 AM"
+    And I click on the "Edit" button
+
+    Then I should see the "Edit Appointment" screen
+    And I should see the service "Manicure" in my cart
+    And I should see the employee "Anna" in my cart
+    And I should see a new customer "Complete" on ticket
+    And I should see the time "08:20 AM" in my cart
+    And I should see the appointment status "Chosen Tech"
+    And I should see the appointment status "None"
+    And I should see the appointment status "Completed"
+
+  Scenario: Enable Zoom In / Zoom Out
+    Given I am on the HOME page
+    When I navigate to "Appointment" on the navigation bar
+    Then I should be redirected to APPOINTMENT page
+
+    When I wait for the page fully loaded
+    Then I should see the title "Any Technician"
+    And I should see the icon zoom out
+
+    When I click on the icon zoom out
+    Then I should see a popup dialog with content "Zoom In / Zoom Out"
+
+  Scenario: View Week display start on week correctly
+    Given I am on the HOME page
+    When I navigate to "Appointment" on the navigation bar
+    Then I should be redirected to APPOINTMENT page
+
+    When I wait for the page fully loaded
+    Then I should see the title "Any Technician"
+    When I select view "Week"
+    Then I should see the start of the week as "Tue"
+
+  Scenario: Add and delete block time slot
+    Given I am on the HOME page
+    When I navigate to "Appointment" on the navigation bar
+    Then I should be redirected to APPOINTMENT page
+
+    When I wait for the page fully loaded
+    Then I should see the title "Any Technician"
+    When I click on the "Block" button
+    Then I should see a popup dialog containing the title "Create Blocked Time"
+
+    When I select the "Bella" employee from the technician dropdown in the dialog
+    And I fill the start time "08:00 AM"
+    And I fill the end time "09:00 AM"
+    And I fill the reason block "Off for an hour"
+    And I click on the "Save" button
+    And I wait for the page fully loaded
+    Then I should see the toast message "Blocked time for Bella has been saved successfully." visible
+
+    When I select the "Bella" employee from the technician dropdown
+    Then I should see the title "Bella"
+
+    When I select the last booking in the time slot at "Blocked Time"
+    And I click on the "Delete" button
+    Then I should see a popup dialog with title "Confirm Delete"
+    And I should see a popup dialog with content "Are you sure you want to delete?"
+    And I should see a popup dialog with content "Blocked Time"
+    And I should see a popup dialog with content "Technician: Bella"
+    And I should see a popup dialog with content "08:00 AM - 09:00 AM"
+    When I click on the "confirm" button in the popup dialog
+    Then I should see the toast message "Blocked time for Bella has been deleted successfully!" visible
+
+  Scenario: Add and delete block time ALL DAY
+    Given I am on the HOME page
+    When I navigate to "Appointment" on the navigation bar
+    Then I should be redirected to APPOINTMENT page
+
+    When I wait for the page fully loaded
+    Then I should see the title "Any Technician"
+    When I click on the "Block" button
+    Then I should see a popup dialog containing the title "Create Blocked Time"
+
+    When I select the "Anna" employee from the technician dropdown in the dialog
+    And I switch ON "All Day"
+    And I fill the reason block "Block all day"
+    And I click on the "Save" button
+    And I wait for the page fully loaded
+    Then I should see the toast message "Blocked time for Anna has been saved successfully." visible
+
+    When I select the "Anna" employee from the technician dropdown
+    Then I should see the title "Anna"
+
+    When I select the last booking in the time slot at "Blocked Time"
+    And I click on the "Delete" button
+    Then I should see a popup dialog with title "Confirm Delete"
+    And I should see a popup dialog with content "Are you sure you want to delete?"
+    And I should see a popup dialog with content "Blocked Time"
+    And I should see a popup dialog with content "Technician: Anna"
+    And I should see a popup dialog with content "12:00 AM - 11:59 PM"
+    When I click on the "confirm" button in the popup dialog
+    Then I should see the toast message "Blocked time for Anna has been deleted successfully!" visible
+
+  @skip
+  Scenario: Drag and drop the appointment
+    Given I am on the HOME page
+    When I navigate to "Appointment" on the navigation bar
+    Then I should be redirected to APPOINTMENT page
+
+    When I wait for the page fully loaded
+    Then I should see the title "Any Technician"
+    When I select the "Anna" employee from the technician dropdown
+    Then I should see the title "Anna"
+
+    When I double click on the time slot at "12:00 AM"
+    Then I should see the "Create Appointment" screen
+    And I should see the "Manicure" service
+
+    When I add the "Manicure" service to my cart
+    Then I should see the service "Manicure" in my cart
+    And I should see the duration "20 minutes"
+
+    When I click on the Select customer
+    And I click on the "CLICK HERE TO ADD CUSTOMER" button
+    Then I should see a popup dialog with title "Create New Customer"
+    And I should see the loyalty program "2 Points = $1" visible
+
+    When I fill the new customer name "DnD"
+    And I fill the new customer phone
+    And I click on the "SAVE" button in the create new customer dialog
+    Then I should see a new customer "DnD" on ticket
+
+    When I click on the "SAVE" button
+    And I handle the Confirm Validate Time dialog if it appears
+    Then I should be redirected to APPOINTMENT page
+    Then I should see the title "Any Technician"
+    When I select the "Anna" employee from the technician dropdown
+    Then I should see the title "Anna"
+
+    When I drag the appointment from "12:00 AM"
+    And I drop it to "01:00 AM"
+    When I select the last booking in the time slot at "01:00 AM"
+    And I wait for the page fully loaded
+    And I click on the "Edit" button
+    Then I should see the "Edit Appointment" screen
+    And I should see the service "Manicure" in my cart
+    And I should see the employee "Anna" in my cart
+    And I should see a new customer "DnD" on ticket
+    And I should see the time "01:00 AM" in my cart
+
