@@ -157,7 +157,7 @@ Feature: Reopen tickets
     Then I should see all split tips non-zero
     When I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
-
+@fix
   Scenario: Reopen ticket to adjust tip for Credit Card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "3957"
@@ -203,17 +203,10 @@ Feature: Reopen tickets
     Then I should see the text "PAYMENT TICKET" visible
     And I should see the payment history "VISA (1234)" visible
 
-    When I click on the adjust tip icon
-    Then I should see a popup dialog containing the title "CONFIRM ADJUST TIP "
-    When I click on the action button "Adjust Tip" of the opening dialog
-    Then I should see a popup dialog with title "Adjust Tip "
-    When I enter the amount "10"
-    And I click on the "Add Tip" button in the popup dialog
-    Then I should see the payment price contain amount "+ $10.00"
-
-    When I click on the "CLOSE TICKET" button
+    When I adjust tip amount "10"
+    And I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
-
+@fix
   Scenario: Update GC balance after reopening to adjust tip
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8888"
@@ -267,14 +260,8 @@ Feature: Reopen tickets
     And I should see the text "PAYMENT HISTORY" visible
     And I should see the payment history "Gift (0104)" visible
 
-    When I click on the adjust tip icon
-    Then I should see a popup dialog with title " CONFIRM ADJUST TIP"
-    When I click on the "Adjust Tip" button in the popup dialog
-    When I enter the amount "10"
-    And I click on the "Add Tip" button in the popup dialog
-    Then I should see the payment price contain amount "+ $10.00"
-
-    When I click on the "CLOSE TICKET" button
+    When I adjust tip amount "10"
+    And I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
 
     Given I am on the GIFT_CARD_BALANCE page
@@ -966,8 +953,8 @@ Scenario: Update gift card balance correctly after voiding a gift card payment a
     And I should see the first date is not today in the gift card detail list
     And I should see the first type "ActivateNew" in the gift card detail list
     And I should see the first amount "$100.00" in the gift card detail list
-
- Scenario: Update gift card balance after increasing the tip via Adjust Tip of GC payment
+@fix
+  Scenario: Update gift card balance after increasing the tip via Adjust Tip of GC payment
     Given I am on the HOME page
     When I clock in the timesheet with PIN "4377"
     Then I should see the employee "Camellia" in the employee list
@@ -1013,15 +1000,8 @@ Scenario: Update gift card balance correctly after voiding a gift card payment a
     And I should see the payment history "Gift (0204)" visible
     And I should see the payment price contain amount "$17.50 + $6.00"
 
-    When I click on the adjust tip icon
-    Then I should see a popup dialog with title " CONFIRM ADJUST TIP"
-    When I click on the "Adjust Tip" button in the popup dialog
-    And I wait for the page fully loaded
-    When I enter the amount "10"
-    And I click on the "Add Tip" button in the popup dialog
-    Then I should see the payment price contain amount "+ $10.00"
-
-    When I click on the "CLOSE TICKET" button
+    When I adjust tip amount "10"
+    And I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
 
     Given I am on the GIFT_CARD_BALANCE page

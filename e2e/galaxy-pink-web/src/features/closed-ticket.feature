@@ -716,7 +716,7 @@ Feature: Closed Ticket
     When I select the payment history "Gift (0903)$17.50 "
     And I click on the "VOID" button
     Then I should see a popup dialog with title "Gift  - $17.50"
-    When I click on the "Remove" button 
+    When I click on the "Remove" button
     When I click on the "Cancel" button
     When I click on the total price of "Manicure"
     And I change price amount "17.51"

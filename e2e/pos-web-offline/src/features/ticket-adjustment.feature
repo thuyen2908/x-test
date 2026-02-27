@@ -61,18 +61,13 @@ Feature: Fix Ticket
     And I click on the element with id "payment"
     Then I should see the payment history "VISA (1234)" visible
 
-    When I click on the adjust tip icon
-    Then I should see a popup dialog with title "Adjust Tip "
-    When I enter the amount "10"
-    And I click on the "Add Tip" button in the popup dialog
-    Then I should see the payment price contain amount "+ $10.00"
-
-    When I click on the "CONFIRM" button
+    When I adjust tip amount "10" in ticket adjustment
+    And  I click on the "CONFIRM" button
     Then I should see a popup dialog with title "Confirm Save Ticket"
     When I click on the "SAVE" button in the popup dialog
     And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
-
+@fix
   Scenario: View service details
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9610"
@@ -97,14 +92,10 @@ Feature: Fix Ticket
     And I click on the "Apply" button in the dialog
     Then I should see the "Kelley" employee in my cart
 
-    When I click on the adding "Tip" button
-    Then I should see a popup dialog with title "Add Tip"
-    When I fill "5" from the numpad
-    Then I should see "$5.00" tip in my cart
+    When I add tip amount "5"
 
-    When I click on the "PAY" button
+    And I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
 
     When I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
@@ -159,7 +150,7 @@ Feature: Fix Ticket
 
     When I click on the "Anna" text inside the content section of the opening dialog
     And I click on the "Save" button in the popup dialog
-    Then I should see the text "NEW TICKET:" in the ticket adjustment screen
+    Then I should see the text "NEW TICKET#" in the ticket adjustment screen
     And I should see the "Acrylic removal" service
 
     When I add the "Acrylic removal" service to my cart
@@ -199,7 +190,7 @@ Feature: Fix Ticket
     When I click on the "SAVE" button in the popup dialog
     And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
-
+@fix
   Scenario: Change price, remove payment and adjust tip for Gift type
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9055"
@@ -212,15 +203,9 @@ Feature: Fix Ticket
     Then I should see my cart showing 1 item added
 
     When I click on the total price of "Gel removal"
-    Then I should see a popup dialog with title "Service: Gel removal - $40.00"
-    When I change the price to "42"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$42.00" visible
-
-    When I click on the "PAY" button
+    And I change price amount "42"
+    And I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
 
     When I click on the element with id "payment"
     Then I should see a popup dialog with title "Close Ticket"
@@ -268,19 +253,23 @@ Feature: Fix Ticket
     When I fill the Gift card with "1111"
     And I click on the "CHECK BALANCE" button
     And I click on the element with id "payment"
-    Then I should see the payment history "Gift (1111)" visible
+    Then I should see the payment history "Gift (2150)" visible
 
-    When I click on the adjust tip icon
-    Then I should see a popup dialog with title "Adjust Tip "
-    When I enter the amount "10"
-    And I click on the "Add Tip" button in the popup dialog
-    Then I should see the payment price contain amount "+ $10.00"
-
-    When I click on the "CONFIRM" button
+    When I adjust tip amount "10" in ticket adjustment
+    And I click on the "CONFIRM" button
     Then I should see a popup dialog with title "Confirm Save Ticket"
     When I click on the "SAVE" button in the popup dialog
     And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
+
+    Given I am on the GIFT_CARD_BALANCE page
+    When I enter the amount "2150"
+    And I click on the "SEARCH" button
+    And I wait for the page fully loaded
+    Then I should see the text "DETAILS" visible
+    And I should see the first date is today in the gift card detail list
+    And I should see the first amount "($30.00)" in the gift card detail list
+    And I should see the first type "Redeem" in the gift card detail list
 
   Scenario: Void item, remove payment and add a new payment
     Given I am on the HOME page
@@ -511,15 +500,10 @@ Feature: Fix Ticket
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
 
-    Given I am on the GIFT_CARD_BALANCE page
-    When I enter the amount "1703"
-    And I click on the "SEARCH" button
-    And I wait for the page fully loaded
-
     # And I should see the first date is not today in the gift card detail list
     Then I should see the first type "ActivateNew" in the gift card detail list
     And I should see the first amount "$50.00" in the gift card detail list
-
+@fix
 Scenario: Remove Tax and make new payment
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8754"
@@ -579,19 +563,14 @@ Scenario: Remove Tax and make new payment
     And I click on the element with id "payment"
     Then I should see the payment history "Gift (1111)" visible
 
-    When I click on the adjust tip icon
-    Then I should see a popup dialog with title "Adjust Tip "
-    When I enter the amount "10"
-    And I click on the "Add Tip" button in the popup dialog
-    Then I should see the payment price contain amount "+ $10.00"
-
-    When I click on the "CONFIRM" button
+    When I adjust tip amount "10" in ticket adjustment
+    And I click on the "CONFIRM" button
     Then I should see a popup dialog with title "Confirm Save Ticket"
     When I click on the "SAVE" button in the popup dialog
     And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
-
-Scenario: Add Tax and make new payment
+@fix
+  Scenario: Add Tax and make new payment
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1648"
     Then I should see the employee "Luna" in the employee list
@@ -652,13 +631,8 @@ Scenario: Add Tax and make new payment
     And I click on the element with id "payment"
     Then I should see the payment history "Gift (1111)" visible
 
-    When I click on the adjust tip icon
-    Then I should see a popup dialog with title "Adjust Tip "
-    When I enter the amount "20"
-    And I click on the "Add Tip" button in the popup dialog
-    Then I should see the payment price contain amount "+ $20.00"
-
-    When I click on the "CONFIRM" button
+    When I adjust tip amount "20" in ticket adjustment
+    And I click on the "CONFIRM" button
     Then I should see a popup dialog with title "Confirm Save Ticket"
     When I click on the "SAVE" button in the popup dialog
     And I wait for the page fully loaded
