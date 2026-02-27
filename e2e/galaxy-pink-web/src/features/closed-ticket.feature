@@ -356,7 +356,7 @@ Feature: Closed Ticket
 
     When I search for "16.48"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$16.48"
+    Then I should see the first ticket of payment "$16.48"
 
     When I reopen to void ticket with payment amount "$16.48"
     Then I should see the selected "SERVICE" tab on the Home page
@@ -451,7 +451,7 @@ Feature: Closed Ticket
     And I wait for the page fully loaded
     And I search for "77.5"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "$77.5"
+    Then I should see the first ticket of payment "$77.5"
 
     When I reopen to void ticket with payment amount "$77.5"
     Then I should see the selected "SERVICE" tab on the Home page

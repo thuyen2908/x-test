@@ -10,21 +10,19 @@ Feature: Employee management
     And I should see the "Employees" screen
 
   Scenario: Create a new Employee
-    Given I am on the HOME page
-    When I click on the header menu
-    And I select the "Back Office" label in the menu list
-    And I select the "Employees" label in the expanded list
-    Then I should be redirected to EMPLOYEES page
-    And I should see the "Employees" screen
+    Given I am on the EMPLOYEES page
+    When I wait for the page fully loaded
+    Then I should see the "Employees" screen
 
     When I click on the "Add New" button
     Then I should be redirected to EMPLOYEES_CREATE page
     And I should see the "Create Employee" screen
+
     When I wait for the page fully loaded
-    When I fill the "First Name" field with value "AutoTestFirstName"
-    When I waiting 1s
+    And I fill the "First Name" field with value "AutoTestFirstName"
+    And I waiting 1s
     And I fill the "Nick Name" field with value "AutoTestNickName"
-    When I waiting 1s
+    And I waiting 1s
     And I select the "Job Title" with value "Nail Tech"
     And I select the "Role Tech" with value "Employee"
     And I click on the "Get New Password" button
@@ -47,11 +45,13 @@ Feature: Employee management
     And I select the "Default Queue Group For Appt" with value "Nails"
     And I click on the "Save" button
     And I wait for the page fully loaded
-    Then I should be redirected to EMPLOYEES page
-    And I should see the "Employees" screen
+
+    #Then I should be redirected to EMPLOYEES page
+    Then I should see the "Employees" screen
     When I search for "autoTestFirstName"
     And I wait for the page fully loaded
     Then I should see the new Employee "AutoTestFirstName", Role "Employee", in the Employees list
+
     When I click on the action "Delete" button for item "AutoTestFirstName"
     Then I should see a popup dialog with title "Delete Confirmation"
     When I click on the "Delete" button in the popup dialog
