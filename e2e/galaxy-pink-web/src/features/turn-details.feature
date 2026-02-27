@@ -17,7 +17,8 @@ Feature: Turn details
     When I clock in the timesheet with PIN "5727"
     And I click on the queue "HAIR" button
     Then I should see the employee "Jessica" in the employee list
-    And I should see the turn number for "Jessica" is 0.0
+    And I should see Employee "Jessica" with "C = 0.0" in the employee list
+    #And I should see the turn number for "Jessica" is 0.0
 
     When I select the "Jessica" employee
     Then I should see the "Ticket View" screen
@@ -33,7 +34,8 @@ Feature: Turn details
 
     When I click on the queue "Hair" button
     Then I should see the employee "Jessica" in the employee list
-    And I should see the turn number for "Jessica" is 1.0
+    And I should see Employee "Jessica" with "C = 1.0" in the employee list
+    # And I should see the turn number for "Jessica" is 1.0
 
     When I select the "TURN DETAILS" tab
 
@@ -59,7 +61,8 @@ Feature: Turn details
 
     When I click on the queue "HAIR" button
     Then I should see the employee "Jessica" in the employee list
-    And I should see the turn number for "Jessica" is 0.0
+    And I should see Employee "Jessica" with "C = 0.0" in the employee list
+    # And I should see the turn number for "Jessica" is 0.0
 
     When I select the "TURN DETAILS" tab
     And I wait for the page fully loaded
@@ -74,7 +77,8 @@ Feature: Turn details
     Given I am on the HOME page
     When I clock in the timesheet with PIN "3818"
     Then I should see the employee "Avery" in the employee list
-    And I should see the turn number for "Avery" is 0.0
+    And I should see Employee "Avery" with "C = 0.0" in the employee list
+    # And I should see the turn number for "Avery" is 0.0
 
     When I select the "Avery" employee
     Then I should see the "Ticket View" screen
@@ -92,7 +96,8 @@ Feature: Turn details
 
     When I wait for the page fully loaded
     Then I should see the employee "Avery" in the employee list
-    And I should see the turn number for "Avery" is 1.0
+    And I should see Employee "Avery" with "C = 1.0" in the employee list
+    # And I should see the turn number for "Avery" is 1.0
 
     When I select the "CLOSED TICKET" tab
     And I click on refresh
@@ -113,8 +118,10 @@ Feature: Turn details
     When I click on the "Pay" button
     And I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
-    And I should see the turn number for "Avery" is 0.0
-    And I should see the turn number for "Zoey" is 1.0
+    And I should see Employee "Avery" with "C = 0.0" in the employee list
+    And I should see Employee "Zoey" with "C = 1.0" in the employee list
+    # And I should see the turn number for "Avery" is 0.0
+    # And I should see the turn number for "Zoey" is 1.0
 
     When I select the "TURN DETAILS" tab
     Then I should see the text "Technicians" visible
@@ -214,6 +221,7 @@ Feature: Turn details
     When I wait for the page fully loaded
     Then I should see the Turn 0.00 for "Amelia"
     And I should see the Round 0 for "Amelia"
+
  Scenario: Adjust turn - Add Late Turn, Remove Late Turn
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0210"
@@ -227,13 +235,14 @@ Feature: Turn details
     And I click on the "INCREASE" button in the popup dialog
     And I wait for the page fully loaded
     And I waiting 1s
-    Then I should see Employee "Late Turn" with "C = 20.0 " in the employee list
+    Then I should see Employee "Late Turn" with "C = 20.0" in the employee list
+
     When I hold the "Late Turn" employee two seconds
     Then I should see the "TURN" Adjustment
     When I click on the "Remove Late Turn" in turn adjustment
-     And I wait for the page fully loaded
+    And I wait for the page fully loaded
     And I waiting 1s
-    Then I should see Employee "Late Turn" with "C = 0.0 " in the employee list
+    Then I should see Employee "Late Turn" with "C = 0.0" in the employee list
 
  Scenario: Adjust turn - Add Go Again, Remove Go Again
     Given I am on the HOME page
@@ -241,58 +250,68 @@ Feature: Turn details
     Then I should see the employee "Go Again" in the employee list
     When I hold the "Go Again" employee two seconds
     Then I should see the "TURN" Adjustment
+
     When I click on the "Add Go Again" in turn adjustment
     And I wait for the page fully loaded
     And I waiting 1s
     And I waiting 1s
-    Then I should see Employee "Go Again" with "C = 0.0 " in the employee list
+    Then I should see Employee "Go Again" with "C = 0.0" in the employee list
+
     When I select the "Go Again" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
+
     When I select the service "Manicure" in my cart
     And I change price amount "21.26"
     Then I should see the total price "$21.26" visible
-    When I click on the "Pay" button
-    When I select the "Cash" payment type
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
-    Then I should see Employee "Go Again" with "C = 0.0 " in the employee list
+
+    When I pay the exact amount by "Cash"
+    And I wait for the page fully loaded
+    Then I should see the selected "SERVICE" tab on the Home page
+    And I should see Employee "Go Again" with "C = 0.0 " in the employee list
+
     When I hold the "Go Again" employee two seconds
     Then I should see the "TURN" Adjustment
-    When I click on the "Remove Go Again" in turn adjustment 
-    Then I should see Employee "Go Again" with "C = 1.0 " in the employee list
+    When I click on the "Remove Go Again" in turn adjustment
+    Then I should see Employee "Go Again" with "C = 1.0" in the employee list
+
     When I select the "CLOSED TICKET" tab
-    And I click on refresh
     And I wait for the page fully loaded
-    Then I should see the toast message "Ticket data refreshed successfully." visible
+
     When I search for "21.26"
     And I wait for the page fully loaded
-    When I void ticket with payment amount "$21.26"
+    Then I should see the first ticket of payment "21.26"
+
+    When I reopen to void ticket with payment amount "$21.26"
     Then I should see the selected "SERVICE" tab on the Home page
     And I should not see the employee "Go Again" in the ticket list
-    Then I should see Employee "Go Again" with "C = 0.0 " in the employee list
+    And I should see Employee "Go Again" with "C = 0.0" in the employee list
+
     When I select the "CLOSED TICKET" tab
     And I click on refresh
     And I wait for the page fully loaded
     Then I should see the toast message "Ticket data refreshed successfully." visible
+
     When I search for "21.26"
     And I wait for the page fully loaded
     When I click on the first row for payment "$21.26"
-    When I click the Delete ticket button
+    And I click the Delete ticket button
     Then I should see a popup dialog with title 'Confirm Delete'
+
     When I click on the "confirm" button in the popup dialog
     And I wait for the page fully loaded
+    Then I should see the toast message "deleted successfully" visible
 
  Scenario: Adjust turn - Move, Remove Move
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5781"
     Then I should see the employee "Move" in the employee list
+
     When I hold the "Move" employee two seconds
     Then I should see the "TURN" Adjustment
+
     When I click on the "Move" in turn adjustment
     Then I should see a popup dialog with title "Enter New Position"
     When I enter the amount Delete button
@@ -302,11 +321,9 @@ Feature: Turn details
     And I waiting 1s
     And I waiting 1s
     Then I should see the position employee "Move" is "#1"
+
     When I hold the "Move *" employee two seconds
     Then I should see the "TURN" Adjustment
     When I click on the "Remove Move" in turn adjustment
     And I wait for the page fully loaded
     Then I should see the employee "Move" is not at position 1
-   
-    
-    

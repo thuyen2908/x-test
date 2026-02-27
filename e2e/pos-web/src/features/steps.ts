@@ -2359,30 +2359,30 @@ Then(
 	},
 );
 
-Then(
-	'I should see the turn number for {string} is 0.0',
-	async ({ page }, name: string) => {
-		const employeeItem = page.locator('li.xEmployeeItem', {
-			has: page.getByText(name, { exact: true }),
-		});
+// Then(
+// 	'I should see the turn number for {string} is 0.0',
+// 	async ({ page }, name: string) => {
+// 		const employeeItem = page.locator('li.xEmployeeItem', {
+// 			has: page.getByText(name, { exact: true }),
+// 		});
 
-		const turnLabel = employeeItem.locator('.MuiChip-label', {
-			hasText: 'Turn: 0.0',
-		});
-		await expect(turnLabel).toBeVisible();
-	},
-);
+// 		const turnLabel = employeeItem.locator('.MuiChip-label', {
+// 			hasText: 'Turn: 0.0',
+// 		});
+// 		await expect(turnLabel).toBeVisible();
+// 	},
+// );
 
-Then(
-	'I should see the turn number for {string} is 1.0',
-	async ({ page }, name: string) => {
-		const employeeItem = page.locator('li.xEmployeeItem').filter({
-			has: page.getByText(name, { exact: true }),
-		});
-		const turnLabel = employeeItem.getByText('Turn: 1.0', { exact: true });
-		await expect(turnLabel).toBeVisible();
-	},
-);
+// Then(
+// 	'I should see the turn number for {string} is 1.0',
+// 	async ({ page }, name: string) => {
+// 		const employeeItem = page.locator('li.xEmployeeItem').filter({
+// 			has: page.getByText(name, { exact: true }),
+// 		});
+// 		const turnLabel = employeeItem.getByText('Turn: 1.0', { exact: true });
+// 		await expect(turnLabel).toBeVisible();
+// 	},
+// );
 
 Then(
 	'I should see the Round 1 for {string}',

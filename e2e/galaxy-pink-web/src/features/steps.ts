@@ -2523,35 +2523,35 @@ Then(
 	},
 );
 
-Then(
-	'I should see the turn number for {string} is 0.0',
-	async ({ page }, name: string) => {
-		const employeeItem = page.locator('li.xEmployeeItem').filter({
-			has: page.locator('.nickName', { hasText: name }),
-		});
-		await expect(employeeItem).toBeVisible();
+// Then(
+// 	'I should see the turn number for {string} is 0.0',
+// 	async ({ page }, name: string) => {
+// 		const employeeItem = page.locator('li.xEmployeeItem').filter({
+// 			has: page.locator('.nickName', { hasText: name }),
+// 		});
+// 		await expect(employeeItem).toBeVisible();
 
-		const turnLabel = employeeItem.locator('.MuiChip-label', {
-			hasText: /C\s*=\s*0\.0/,
-		});
-		await expect(turnLabel.first()).toBeVisible();
-	},
-);
+// 		const turnLabel = employeeItem.locator('.MuiChip-label', {
+// 			hasText: /C\s*=\s*0\.0/,
+// 		});
+// 		await expect(turnLabel.first()).toBeVisible();
+// 	},
+// );
 
-Then(
-	'I should see the turn number for {string} is 1.0',
-	async ({ page }, name: string) => {
-		const employeeItem = page.locator('li.xEmployeeItem').filter({
-			has: page.locator('.nickName', { hasText: name }),
-		});
-		await expect(employeeItem).toBeVisible();
+// Then(
+// 	'I should see the turn number for {string} is 1.0',
+// 	async ({ page }, name: string) => {
+// 		const employeeItem = page.locator('li.xEmployeeItem').filter({
+// 			has: page.locator('.nickName', { hasText: name }),
+// 		});
+// 		await expect(employeeItem).toBeVisible();
 
-		const turnLabel = employeeItem.locator('.MuiChip-label', {
-			hasText: /C\s*=\s*1\.0/,
-		});
-		await expect(turnLabel.first()).toBeVisible();
-	},
-);
+// 		const turnLabel = employeeItem.locator('.MuiChip-label', {
+// 			hasText: /C\s*=\s*1\.0/,
+// 		});
+// 		await expect(turnLabel.first()).toBeVisible();
+// 	},
+// );
 
 Then(
 	'I should see the Round 1 for {string}',
@@ -4419,6 +4419,8 @@ Then(
 		const numberPosition = employeeRow.locator('.number');
 		await expect(numberPosition).toBeVisible();
 		await expect(numberPosition).toHaveText(position);
+	},
+);
 
 Then(
 	'I should see the header {string} in the bill render',
@@ -4553,6 +4555,8 @@ When('I click the Delete ticket button', async ({ page }) => {
 	const buttonDelete = page.locator('svg[data-testid="DeleteIcon"]');
 	await buttonDelete.click();
 });
+
+Then(
 	'I should see the Tech, Deductions, Tip, Amount as {string} in the bill render',
 	async ({ page }, expectedRow: string) => {
 		const [tech, deductions, tip, amount] = expectedRow.split(' ');

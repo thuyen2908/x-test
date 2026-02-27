@@ -19,7 +19,8 @@ Feature: Turn details
     When I clock in the timesheet with PIN "5727"
     And I click on the queue "HAIR" button
     Then I should see the employee "Jessica" in the employee list
-    And I should see the turn number for "Jessica" is 0.0
+    And I should see Employee "Jessica" with "Turn: 0.0" in the employee list
+    # And I should see the turn number for "Jessica" is 0.0
 
     When I select the "Jessica" employee
     Then I should see the "Ticket View" screen
@@ -41,7 +42,8 @@ Feature: Turn details
 
     When I click on the queue "Hair" button
     Then I should see the employee "Jessica" in the employee list
-    And I should see the turn number for "Jessica" is 1.0
+    And I should see Employee "Jessica" with "Turn: 1.0" in the employee list
+    # And I should see the turn number for "Jessica" is 1.0
 
     When I navigate to "Turn" on the navigation bar
     Then I should be redirected to TURN_DETAILS page
@@ -67,7 +69,8 @@ Feature: Turn details
 
     When I click on the queue "HAIR" button
     Then I should see the employee "Jessica" in the employee list
-    And I should see the turn number for "Jessica" is 0.0
+    And I should see Employee "Jessica" with "Turn: 0.0" in the employee list
+    # And I should see the turn number for "Jessica" is 0.0
 
     When I navigate to "Turn" on the navigation bar
     Then I should be redirected to TURN_DETAILS page
@@ -84,7 +87,8 @@ Feature: Turn details
     Given I am on the HOME page
     When I clock in the timesheet with PIN "3818"
     Then I should see the employee "Avery" in the employee list
-    And I should see the turn number for "Avery" is 0.0
+    And I should see Employee "Avery" with "Turn: 0.0" in the employee list
+    # And I should see the turn number for "Avery" is 0.0
 
     When I select the "Avery" employee
     Then I should see the "Ticket View" screen
@@ -106,7 +110,8 @@ Feature: Turn details
     Then I should be redirected to HOME page
     When I wait for the page fully loaded
     Then I should see the employee "Avery" in the employee list
-    And I should see the turn number for "Avery" is 1.0
+    And I should see Employee "Avery" with "Turn: 1.0" in the employee list
+    # And I should see the turn number for "Avery" is 1.0
 
     Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
@@ -126,8 +131,10 @@ Feature: Turn details
     When I click on the "PAY" button
     And I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
-    And I should see the turn number for "Avery" is 0.0
-    And I should see the turn number for "Zoey" is 1.0
+    And I should see Employee "Avery" with "Turn: 0.0" in the employee list
+    And I should see Employee "Zoey" with "Turn: 1.0" in the employee list
+    # And I should see the turn number for "Avery" is 0.0
+    # And I should see the turn number for "Zoey" is 1.0
 
     When I navigate to "Turn" on the navigation bar
     Then I should be redirected to TURN_DETAILS page
