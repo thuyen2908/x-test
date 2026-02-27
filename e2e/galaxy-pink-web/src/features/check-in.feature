@@ -106,9 +106,7 @@ Feature: Check In
 
     Given I am on the GIFT_CARD_BALANCE page
     When I click on the "LOYALTY" button
-    When I enter the amount "6666666666"
-    And I click on the "SEARCH" button
-    And I wait for the page fully loaded
+    And I search gift card "6666666666"
 
     # Then I should see the text "Customer: Alice" visible
     Then I should see the first date is today in the loyalty detail list
