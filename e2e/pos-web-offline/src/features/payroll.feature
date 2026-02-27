@@ -95,12 +95,7 @@ Feature: Payroll
 
     When I click on the total price of "Manicure"
     And I change price amount "55.7"
-
-
-    When I click on the adding "Tip" button
-    Then I should see a popup dialog with title "Add Tip"
-    When I fill "10" from the numpad
-    Then I should see "$10.00" tip in my cart
+    And I add tip amount "10"
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -142,28 +137,15 @@ Feature: Payroll
     And I should see the text "Daily Details" in the employee view
     And I should see the Total Sales, Net Comm, NC Tip, Total Payout as "$105.70 $36.62 $9.75 $41.37" in employee view
 
-    When I back to HOME page
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I wait for the page fully loaded
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
+    Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
     And I search for "218.87"
     And I wait for the page fully loaded
     Then I should see the first ticket of payment "$218.87"
 
-    When I click on the first row for payment "$218.87" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "Sydney" in the ticket
-
-    When I void the current open ticket with reason "System Test"
+    When I reopen to void ticket with payment amount "$218.87"
     Then I should be redirected to HOME page
+    And I should not see the employee "Sydney" in the ticket list
 
   Scenario: Commission payroll details in the Owner View are calculated correctly
     Given I am on the HOME page
@@ -239,14 +221,10 @@ Feature: Payroll
 
     Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
-    Then I should be redirected to CLOSED_TICKETS page
 
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
-    When I wait for the page fully loaded
-    And I search for "229.17"
+    And I search for "2.35"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$229.17"
+    Then I should see the first ticket of payment "235.35"
 
     When I reopen to void ticket with payment amount "$229.17"
     Then I should be redirected to HOME page

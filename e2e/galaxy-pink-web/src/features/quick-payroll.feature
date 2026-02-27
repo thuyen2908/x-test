@@ -97,7 +97,7 @@ Feature: Quick payroll
 
     When I search for "249.77"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "249.77"
+    Then I should see the first ticket of payment "$249.77"
 
     When I reopen to void ticket with payment amount "$249.77"
     Then I should see the selected "SERVICE" tab on the Home page
@@ -163,32 +163,13 @@ Feature: Quick payroll
     And I should see the title "Daily Details" in the payroll receipt
     And I should see the NC Tip as "$9.75" in the payroll receipt
 
-    # When I back to HOME page
-    # And I select the "CLOSED TICKET" tab
-    # And I click on refresh
-    # Then I should see the toast message "Ticket data refreshed successfully." visible
-    # When I wait for the page fully loaded
-    # And I search for "250.80"
-    # And I wait for the page fully loaded
-
-    # And I reopen ticket with payment amount "$250.80"
-    # And I wait for the page fully loaded
-    # Then I should see the "Ticket View" screen
-    # And I should see the user info "Jen" in the ticket
-
-    # When I click on the "Void Ticket" button
-    # And I select the reason "Mistake"
-    # Then I should see a popup dialog with title "Confirm Void"
-    # When I click on the "confirm" button in the popup dialog
-    # Then I should see the selected "SERVICE" tab on the Home page
-
     When I back to HOME page
     And I select the "CLOSED TICKET" tab
     And I wait for the page fully loaded
 
     When I search for "250.80"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "250.80"
+    Then I should see the first ticket of payment "$250.80"
 
     When I reopen to void ticket with payment amount "$250.80"
     Then I should see the selected "SERVICE" tab on the Home page

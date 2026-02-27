@@ -589,33 +589,43 @@ class xPage {
 	 * Composite step: remove a payment history entry and confirm void.
 	 *
 	 * Performs, in order, the same actions as these existing steps:
-	 *  1) When I click on the tooltip remove
-	 *  2) Then I should see a popup dialog with title "VOID PAYMENT"
-	 *  3) And I should see a popup dialog with contain "<paymentType>"
-	 *  4) When I click on the "Remove" button in the popup dialog
-	 *  5) Then I should see a second popup dialog with title "Confirm Void Payment"
-	 *  6) When I click on the "Yes, void it" button in the popup dialog
+	 *  1) When I click on the more menu for payment history of "<paymentType>"
+	 *  2) Then I should see the tooltip remove
+	 *  3) When I click on the tooltip remove
+	 *  4) Then I should see a popup dialog with title "VOID PAYMENT"
+	 *  5) And I should see a popup dialog with content "<paymentType>"
+	 *  6) When I click on the "Remove" button in the popup dialog
+	 *  7) Then I should see a second popup dialog with title "Confirm Void Payment"
+	 *  8) When I click on the "Yes, void it" button in the popup dialog
 	 */
-	@When('I remove payment history {string}')
+	@When('I remove the payment history {string}')
 	public async removePaymentHistory(paymentType: string) {
-		// 1) When I click on the tooltip remove
+		// 1) When I click on the more menu for payment history of "<paymentType>"
+		const paymentHistoryItem = this.page
+			.locator('.xPayment__history--list li')
+			.filter({ hasText: paymentType });
+		await paymentHistoryItem.locator('button[aria-label="more"]').click();
+
+		// 2) Then I should see the tooltip remove
 		const tooltipRemove = this.page.locator(
 			'.xPayment__history--tooltip.active .label:has-text("Remove")',
 		);
 		await expect(tooltipRemove).toBeVisible();
+
+		// 3) When I click on the tooltip remove
 		await tooltipRemove.click();
 
-		// 2) Then I should see a popup dialog with title "VOID PAYMENT"
+		// 4) Then I should see a popup dialog with title "VOID PAYMENT"
 		const dialogTitleElement = this.page.locator('.MuiDialogTitle-root');
 		await expect(dialogTitleElement).toBeVisible();
 		await expect(dialogTitleElement).toHaveText('VOID PAYMENT');
 
-		// 3) And I should see a popup dialog with contain "<paymentType>"
+		// 5) And I should see a popup dialog with content "<paymentType>"
 		const dialogContentElement = this.page.locator('.MuiDialogContent-root');
 		await expect(dialogContentElement).toBeVisible();
 		await expect(dialogContentElement).toContainText(paymentType);
 
-		// 4) When I click on the "Remove" button in the popup dialog
+		// 6) When I click on the "Remove" button in the popup dialog
 		const dialog = this.page.locator('div[role="dialog"]');
 		const removeButton = dialog.getByRole('button', {
 			name: 'Remove',
@@ -624,17 +634,59 @@ class xPage {
 		await expect(removeButton).toBeVisible();
 		await removeButton.click();
 
-		// 5) Then I should see a second popup dialog with title "Confirm Void Payment"
+		// 7) Then I should see a second popup dialog with title "Confirm Void Payment"
 		const secondDialogTitle = this.page.locator('.MuiDialogTitle-root').last();
 		await expect(secondDialogTitle).toBeVisible();
 		await expect(secondDialogTitle).toHaveText('Confirm Void Payment');
 
-		// 6) When I click on the "Yes, void it" button in the popup dialog
+		// 8) When I click on the "Yes, void it" button in the popup dialog
 		const yesVoidButton = this.page
 			.locator('div[role="dialog"]')
 			.getByRole('button', { name: 'Yes, void it', exact: true });
 		await expect(yesVoidButton).toBeVisible();
 		await yesVoidButton.click();
+	}
+
+	/**
+	 * Composite step: remove a payment history entry in ticket view.
+	 *
+	 * Performs, in order, the same actions as these existing steps:
+	 *  1) When I click on the more menu for payment history of "<paymentType>"
+	 *  2) Then I should see the tooltip remove
+	 *  3) When I click on the tooltip remove
+	 *  4) Then I should see a popup dialog with title "<paymentType> "
+	 *  5) When I click on the "Remove" button in the popup dialog
+	 */
+	@When('I remove payment history {string} in ticket view')
+	public async removePaymentHistoryInTicketView(paymentType: string) {
+		// 1) When I click on the more menu for payment history of "<paymentType>"
+		const paymentHistoryItem = this.page
+			.locator('.xPayment__history--list li')
+			.filter({ hasText: paymentType });
+		await paymentHistoryItem.locator('button[aria-label="more"]').click();
+
+		// 2) Then I should see the tooltip remove
+		const tooltipRemove = this.page.locator(
+			'.xPayment__history--tooltip.active .label:has-text("Remove")',
+		);
+		await expect(tooltipRemove).toBeVisible();
+
+		// 3) When I click on the tooltip remove
+		await tooltipRemove.click();
+
+		// 4) Then I should see a popup dialog with title "<paymentType> "
+		const dialogTitleElement = this.page.locator('.MuiDialogTitle-root');
+		await expect(dialogTitleElement).toBeVisible();
+		await expect(dialogTitleElement).toContainText(paymentType);
+
+		// 5) When I click on the "Remove" button in the popup dialog
+		const dialog = this.page.locator('div[role="dialog"]');
+		const removeButton = dialog.getByRole('button', {
+			name: 'Remove',
+			exact: true,
+		});
+		await expect(removeButton).toBeVisible();
+		await removeButton.click();
 	}
 
 	/**

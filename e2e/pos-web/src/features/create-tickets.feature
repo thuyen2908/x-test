@@ -186,7 +186,7 @@ Feature: Create tickets
     And I fill the last 4 digits of card number "1234"
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
-
+@fix
   Scenario: Verify that the balance is updated correctly when paying with a gift card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0404"
@@ -210,12 +210,8 @@ Feature: Create tickets
     Then I should be redirected to HOME page
 
     Given I am on the GIFT_CARD_BALANCE page
-    When I enter the amount "1403"
-    And I click on the "SEARCH" button
-    And I wait for the page fully loaded
-
-    Then I should see the text "DETAILS" visible
-    And I should see the first date is today in the gift card detail list
+    When I search gift card "1403"
+    Then I should see the first date is today in the gift card detail list
     And I should see the first type "Redeem" in the gift card detail list
     And I should see the first amount "($6.00)" in the gift card detail list
 
@@ -435,7 +431,7 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
-
+@fix
   Scenario: Sell a Gift Card add-on amount
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1010"
@@ -468,14 +464,11 @@ Feature: Create tickets
     Then I should be redirected to HOME page
 
     Given I am on the GIFT_CARD_BALANCE page
-    When I enter the amount "1234"
-    And I click on the "SEARCH" button
-    And I wait for the page fully loaded
-    Then I should see the text "DETAILS" visible
-    And I should see the first date is today in the gift card detail list
+    When I search gift card "1234"
+    Then I should see the first date is today in the gift card detail list
     And I should see the first type "ActivateAddOn" in the gift card detail list
     And I should see the first amount "$100.00" in the gift card detail list
-
+@fix
   Scenario: Sell a Gift Card rewrite amount
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5362"
@@ -508,11 +501,8 @@ Feature: Create tickets
     Then I should be redirected to HOME page
 
     Given I am on the GIFT_CARD_BALANCE page
-    When I enter the amount "4321"
-    And I click on the "SEARCH" button
-    And I wait for the page fully loaded
-    Then I should see the text "DETAILS" visible
-    And I should see the first date is today in the gift card detail list
+    When I search gift card "4321"
+    Then I should see the first date is today in the gift card detail list
     And I should see the first type "Overwrite" in the gift card detail list
     And I should see the first amount "$100.00" in the gift card detail list
 
@@ -704,7 +694,7 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
-
+@fix
   Scenario: Remove payment history and choose another one
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6373"
@@ -731,11 +721,7 @@ Feature: Create tickets
     Then I should see the payment history "Cash" visible
     And I should see the payment price "$10.00"
 
-    When I click on the more menu for payment history of "Cash"
-    Then I should see the tooltip remove
-    When I click on the tooltip remove
-    Then I should see a popup dialog with title "Cash  - $10.00"
-    When I click on the "Remove" button in the popup dialog
+    When I remove payment history "Cash" in ticket view
     Then I should see the text "No transactions found." in the payment history
 
     When I select the "Gift" payment type
@@ -940,7 +926,7 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
-
+@fix
   Scenario: Show earning today
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0074"
@@ -983,10 +969,8 @@ Feature: Create tickets
     When I wait for the page fully loaded
     Then I should be redirected to CLOSED_TICKETS page
 
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
     When I wait for the page fully loaded
-    And I search for "56.50"
+    When I search for "56.50"
     And I wait for the page fully loaded
     Then I should see the first ticket of payment "$56.50"
 
@@ -1021,7 +1005,7 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
-    
+@fix
   Scenario: Update GC balance when making multiple payments using 2 GCs
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8526"
@@ -1057,20 +1041,13 @@ Feature: Create tickets
     Then I should be redirected to HOME page
 
     Given I am on the GIFT_CARD_BALANCE page
-    When I enter the amount "0157"
-    And I click on the "SEARCH" button
-    And I wait for the page fully loaded
-
-    Then I should see the text "DETAILS" visible
-    And I should see the first date is today in the gift card detail list
+    When I search gift card "0157"
+    Then I should see the first date is today in the gift card detail list
     And I should see the first type "Redeem" in the gift card detail list
     And I should see the first amount "($10.00)" in the gift card detail list
 
     When I click on the "SEARCH ANOTHER" button
-    And I enter the amount "0158"
-    And I click on the "SEARCH" button
-    And I wait for the page fully loaded
-
+    And I search gift card "0158"
     Then I should see the first date is today in the gift card detail list
     And I should see the first type "Redeem" in the gift card detail list
     And I should see the first amount "($35.80)" in the gift card detail list

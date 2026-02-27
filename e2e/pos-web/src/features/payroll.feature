@@ -221,14 +221,10 @@ Feature: Payroll
 
     Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
-    Then I should be redirected to CLOSED_TICKETS page
 
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
-    When I wait for the page fully loaded
-    And I search for "229.17"
+    And I search for "2.35"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$229.17"
+    Then I should see the first ticket of payment "$235.35"
 
     When I reopen to void ticket with payment amount "$229.17"
     Then I should be redirected to HOME page

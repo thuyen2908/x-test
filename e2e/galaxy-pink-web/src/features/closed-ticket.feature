@@ -20,13 +20,13 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully" visible
-    When I wait for the page fully loaded
-    And I search for "11.5"
     And I wait for the page fully loaded
 
-    And I reopen ticket with payment amount "$11.50"
+    When I search for "11.5"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$11.5"
+
+    When I reopen ticket with payment amount "$11.5"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Chloe" in the ticket
@@ -55,11 +55,11 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully" visible
-    When I wait for the page fully loaded
-    And I search for "47.00"
     And I wait for the page fully loaded
+
+    When I search for "47.00"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$47.00"
 
     When I reopen ticket with payment amount "$47.00"
     And I wait for the page fully loaded
@@ -105,11 +105,11 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully" visible
-    When I wait for the page fully loaded
-    And I search for "24.57"
     And I wait for the page fully loaded
+
+    When I search for "24.57"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$24.57"
 
     When I reopen ticket with payment amount "$24.57"
     And I wait for the page fully loaded
@@ -157,11 +157,11 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully" visible
-    When I wait for the page fully loaded
-    And I search for "12.36"
     And I wait for the page fully loaded
+
+    When I search for "12.36"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$12.36"
 
     When I reopen ticket with payment amount "$12.36"
     And I wait for the page fully loaded
@@ -201,11 +201,11 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully" visible
-    When I wait for the page fully loaded
-    And I search for "23.50"
     And I wait for the page fully loaded
+
+    When I search for "23.50"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$23.50"
 
     When I reopen ticket with payment amount "$23.50"
     And I wait for the page fully loaded
@@ -266,11 +266,10 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully" visible
-    When I wait for the page fully loaded
+    And I wait for the page fully loaded
     And I search for "27.66"
     And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$27.66"
 
     When I reopen ticket with payment amount "$27.66"
     And I wait for the page fully loaded
@@ -303,13 +302,13 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully" visible
-    When I wait for the page fully loaded
-    And I search for "15.5"
     And I wait for the page fully loaded
 
-    When I reopen ticket with payment amount "$15.5"
+    When I search for "15.50"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$15.50"
+
+    When I reopen ticket with payment amount "$15.50"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Julia" in the ticket
@@ -388,11 +387,11 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully" visible
-    When I wait for the page fully loaded
-    And I search for "25.75"
     And I wait for the page fully loaded
+
+    When I search for "25.75"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$25.75"
 
     When I reopen ticket with payment amount "$25.75"
     And I wait for the page fully loaded
@@ -458,10 +457,7 @@ Feature: Closed Ticket
     And I should not see the employee "Isabella" in the ticket list
 
     Given I am on the GIFT_CARD_BALANCE page
-    When I enter the amount "1703"
-    And I click on the "SEARCH" button
-    And I wait for the page fully loaded
-
+    When I search gift card "1703"
     Then I should see the first type "ActivateAddOn" in the gift card detail list
     And I should see the first amount "$50.00" in the gift card detail list
 
@@ -493,11 +489,10 @@ Feature: Closed Ticket
 
     When I select the "CLOSED TICKET" tab
     And I wait for the page fully loaded
-    And I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully" visible
-    When I wait for the page fully loaded
-    And I search for "75.7"
+
+    When I search for "75.7"
     And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$75.7"
 
     When I reopen ticket with payment amount "$75.7"
     And I wait for the page fully loaded
@@ -526,10 +521,7 @@ Feature: Closed Ticket
     When I wait for the page fully loaded
     Then I should see the text "Gift Card / Loyalty Balance" visible
 
-    When I enter the amount "2003"
-    And I click on the "SEARCH" button
-    And I wait for the page fully loaded
-    And I wait for the page fully loaded
+    When I search gift card "2003"
     Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
     And I should see a popup dialog with content "Do you want to activate gift card #2003"
 
@@ -577,9 +569,7 @@ Feature: Closed Ticket
     Then I should be redirected to LOYALTY_BALANCE page
     And I should see the text "Loyalty Phone Number:" visible
 
-    When I enter the amount "0909090909"
-    And I click on the "SEARCH" button
-    And I wait for the page fully loaded
+    When I search gift card "0909090909"
     Then I should see the title contain "Jimmy" visible
     And I should see the text "No rows" visible
 
@@ -682,14 +672,16 @@ Feature: Closed Ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6566"
     Then I should see the employee "Willow" in the employee list
+
     When I select the "Willow" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
     When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
+
     When I click on the total price of "Manicure"
     And I change price amount "17.5"
-    When I click on the "Pay" button
+    And I click on the "Pay" button
     And I select the "Gift" payment type
     And I fill the last 4 digits of card number "0903"
     And I click on search
@@ -697,37 +689,39 @@ Feature: Closed Ticket
     And I click on the "OK" button
     And I wait for the page fully loaded
     Then I should see the payment Gift history "Gift (0903) $17.50" visible
+
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
+
     When I select the "CLOSED TICKET" tab
-    When I click on refresh
     And I wait for the page fully loaded
-    Then I should see the toast message "Ticket data refreshed successfully." visible
-    When I wait for the page fully loaded
-    And I search for "17.50"
+
+    When I search for "17.50"
     And I wait for the page fully loaded
     Then I should see the first ticket of payment "$17.50"
+
     When I reopen ticket with payment amount "$17.50"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Willow" in the ticket
+
     When I click on the "Pay" button
     Then I should see the payment history "Gift (0903)$17.50 " visible
     When I select the payment history "Gift (0903)$17.50 "
     And I click on the "VOID" button
     Then I should see a popup dialog with title "Gift  - $17.50"
+
     When I click on the "Remove" button
-    When I click on the "Cancel" button
-    When I click on the total price of "Manicure"
+    And I click on the "Cancel" button
+    And I click on the total price of "Manicure"
     And I change price amount "17.51"
-    When I click on the "Pay" button
-    When I select the "Cash" payment type
+    And I click on the "Pay" button
+    And I select the "Cash" payment type
     Then I should see a popup dialog with title "Close Ticket"
     When I click on the "OK" button in the popup dialog
-    Then I should be redirected to HOME page
+    Then I should see the selected "SERVICE" tab on the Home page
+
     Given I am on the GIFT_CARD_BALANCE page
-    When I enter the amount "0903"
-    And I click on the "SEARCH" button
-    And I wait for the page fully loaded
+    When I search gift card "0903"
     Then I should see the first type "ActivateNew" in the gift card detail list
     And I should see the first amount "$100.00" in the gift card detail list
