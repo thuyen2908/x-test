@@ -1399,6 +1399,15 @@ When('I search for {string}', async ({ page }, text: string) => {
 	await page.waitForTimeout(5000);
 });
 
+When(
+	'I search for {string} and select the result',
+	async ({ page }, text: string) => {
+		await page.locator('input[placeholder="Search…"]').first().fill(text);
+		await page.waitForTimeout(5000);
+		await page.locator('.MuiDataGrid-row').first().click();
+	},
+);
+
 Then(
 	'I should see the last ticket of customer {string}',
 	async ({ page }, customerInfo: string) => {
@@ -2146,19 +2155,19 @@ Then(
 	},
 );
 
-Then(
-	'I should see the last ticket of payment {string}',
-	async ({ page }, amount: string) => {
-		const lastPaymentCell = page
-			.locator('.MuiDataGrid-row')
-			.locator('[data-field="paymentTotal"]', { hasText: amount })
-			.last();
+// Then(
+// 	'I should see the last ticket of payment {string}',
+// 	async ({ page }, amount: string) => {
+// 		const lastPaymentCell = page
+// 			.locator('.MuiDataGrid-row')
+// 			.locator('[data-field="paymentTotal"]', { hasText: amount })
+// 			.last();
 
-		await expect(lastPaymentCell).toBeVisible();
-		await lastPaymentCell.scrollIntoViewIfNeeded();
-		await expect(lastPaymentCell).toContainText(amount);
-	},
-);
+// 		await expect(lastPaymentCell).toBeVisible();
+// 		await lastPaymentCell.scrollIntoViewIfNeeded();
+// 		await expect(lastPaymentCell).toContainText(amount);
+// 	},
+// );
 
 // Then(
 // 	'I should see the first ticket of Cash payment {string}',
@@ -3471,6 +3480,7 @@ When(
 			'Category menu item': 'div[id="mui-component-select-categoryId"]',
 			'Default Queue Group For Appt':
 				'div[id="mui-component-select-employeeSalon.defaultQueueGroupId"]',
+			'Department Type': 'div[id="mui-component-select-deptType"]',
 		};
 
 		const selector = fieldLocators[field];
@@ -3930,6 +3940,7 @@ When(
 			'Discount name': 'input[name="discountName"]',
 			DisplayDC: 'input[name="displayName"]',
 			'Amount Discount': 'input[id="amount"]',
+			'Department Name': 'input[name="name"]',
 		};
 
 		const selector = fieldLocators[fieldName];
@@ -4408,6 +4419,119 @@ Then(
 		const numberPosition = employeeRow.locator('.number');
 		await expect(numberPosition).toBeVisible();
 		await expect(numberPosition).toHaveText(position);
+
+Then(
+	'I should see the header {string} in the bill render',
+	async ({ page }, header: string) => {
+		const billRender = page.locator('.bill-render');
+		await expect(billRender).toBeVisible();
+
+		const headerElement = billRender
+			.locator('p.header')
+			.getByText(header, { exact: true });
+		await expect(headerElement).toBeVisible();
+	},
+);
+
+Then(
+	'I should see the detail {string} in the bill render',
+	async ({ page }, detail: string) => {
+		const colonIndex = detail.indexOf(':');
+		if (colonIndex === -1) {
+			throw new Error(
+				`Invalid detail format: "${detail}". Expected format: "Label: Value"`,
+			);
+		}
+
+		const labelPart = detail.substring(0, colonIndex).trim(); // E.g.: "Technician Name"
+		const expectedValue = detail.substring(colonIndex + 1).trim(); // E.g.: "Elena"
+
+		const infoRow = page.locator('.info-row').filter({
+			has: page.locator('.info-label', {
+				hasText: new RegExp(`^\\s*${labelPart}\\s*:?\\s*$`),
+			}),
+		});
+
+		await expect(infoRow).toBeVisible();
+
+		const valueElement = infoRow.locator('.info-value');
+		await expect(valueElement).toBeVisible();
+		await expect(valueElement).toContainText(expectedValue);
+	},
+);
+
+Then(
+	'I should see the {string} with value {string} in the sale row detail',
+	async ({ page }, field: string, value: string) => {
+		const billRender = page.locator('.bill-render');
+		await expect(billRender).toBeVisible();
+
+		const salesRow = billRender
+			.locator('.sales-details .sales-row')
+			.filter({ hasNot: billRender.locator('.total-row') })
+			.first();
+		await expect(salesRow).toBeVisible();
+
+		const fieldToSelector: Record<string, string> = {
+			'Item Name': '.item-name',
+			QTY: '.quantity',
+			Tip: '.tip',
+			Amount: '.amount',
+		};
+
+		const selector = fieldToSelector[field];
+		if (!selector) {
+			throw new Error(
+				`Unsupported sale row field: "${field}". Supported fields: ${Object.keys(
+					fieldToSelector,
+				).join(', ')}`,
+			);
+		}
+
+		const cell = salesRow.locator(selector);
+		await expect(cell).toBeVisible();
+
+		if (field === 'Item Name') {
+			const cellText = (await cell.innerText()).replace(/\s+/g, ' ').trim();
+			const expected = value.replace(/\s+/g, ' ').trim();
+			expect(cellText).toContain(expected);
+			return;
+		}
+
+		await expect(cell).toHaveText(value, { useInnerText: true });
+	},
+);
+
+Then(
+	'I should see the summary detail {string} in the bill render',
+	async ({ page }, detail: string) => {
+		const match = detail.match(/^(.*?)\s+(\$?-?[\d,.]+(?:\/\d+)?)$/);
+
+		let label: string;
+		let expectedValue: string;
+
+		if (match) {
+			label = match[1].trim();
+			expectedValue = match[2].trim();
+		} else {
+			const lastSpaceIndex = detail.trim().lastIndexOf(' ');
+			label = detail.trim().slice(0, lastSpaceIndex).trim();
+			expectedValue = detail
+				.trim()
+				.slice(lastSpaceIndex + 1)
+				.trim();
+		}
+
+		const summaryRow = page.locator('.summary-row').filter({
+			has: page.locator('.summary-label', {
+				hasText: new RegExp(`^${label}$`, 'i'),
+			}),
+		});
+
+		await expect(summaryRow).toBeVisible();
+
+		const valueElement = summaryRow.locator('.summary-value');
+		await expect(valueElement).toHaveText(expectedValue);
 	},
 );
 
@@ -4429,3 +4553,70 @@ When('I click the Delete ticket button', async ({ page }) => {
 	const buttonDelete = page.locator('svg[data-testid="DeleteIcon"]');
 	await buttonDelete.click();
 });
+	'I should see the Tech, Deductions, Tip, Amount as {string} in the bill render',
+	async ({ page }, expectedRow: string) => {
+		const [tech, deductions, tip, amount] = expectedRow.split(' ');
+
+		const row = page.locator('.sales-row').filter({
+			has: page.locator('.tech-name', { hasText: tech }),
+		});
+
+		await expect(row).toBeVisible();
+
+		await expect(row.locator('.deductions')).toHaveText(deductions);
+		await expect(row.locator('.tip')).toHaveText(tip);
+		await expect(row.locator('.amount')).toHaveText(amount);
+	},
+);
+
+Then(
+	'The department name should be {string}',
+	async ({ page }, name: string) => {
+		await expect(
+			page.getByRole('dialog').locator('input[name="name"]'),
+		).toHaveValue(name);
+	},
+);
+
+Then(
+	'The department type should be {string}',
+	async ({ page }, type: string) => {
+		await expect(
+			page
+				.getByRole('dialog')
+				.getByRole('combobox', { name: /department type/i }),
+		).toHaveText(new RegExp(type, 'i'));
+	},
+);
+
+Then('department type should be {string}', async ({ page }, type: string) => {
+	const deptTypeCell = page
+		.locator('.MuiDataGrid-row')
+		.first()
+		.locator('[data-field="deptType"]');
+
+	await expect(deptTypeCell).toContainText(type);
+});
+When(
+	'I double click on the department row {string}',
+	async ({ page }, departmentName: string) => {
+		const nameCell = page.locator(
+			`.MuiDataGrid-cell[data-field="name"]:has-text("${departmentName}")`,
+		);
+
+		await expect(nameCell).toBeVisible();
+		await nameCell.dblclick();
+	},
+);
+Then(
+	'I should see department {string} in the list',
+	async ({ page }, name: string) => {
+		const departmentCell = page
+			.locator('.MuiDataGrid-row')
+			.locator('[data-field="name"]', { hasText: name })
+			.first();
+
+		await expect(departmentCell).toBeVisible();
+		await expect(departmentCell).toContainText(name);
+	},
+);

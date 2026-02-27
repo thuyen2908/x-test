@@ -143,6 +143,7 @@ We're using [CircleCI](https://circleci.com) for our CI/CD pipelines. Each e2e p
 ## Report dashboards
 
 - `pos-web`: https://thuyen2908.github.io/report-pos-web
+- `galaxy-pink-web`: https://thuyen2908.github.io/report-galaxy-pink-web
 
 ## Troubleshooting
 

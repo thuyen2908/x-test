@@ -12,7 +12,7 @@ Feature: Turn details
     When I click on the "Hair" button
     Then I should see the employees displayed correctly in turn details
 
-  Scenario: Turn update or remove when creating or voiding a ticket
+  Scenario: Turn update when voiding a ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5727"
     And I click on the queue "HAIR" button
@@ -51,9 +51,9 @@ Feature: Turn details
 
     When I search for "27.11"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "27.11"
+    Then I should see the first ticket of payment "27.11"
 
-    When I void ticket with payment amount "$27.11"
+    When I reopen to void ticket with payment amount "$27.11"
     Then I should see the selected "SERVICE" tab on the Home page
     And I should not see the employee "Jessica" in the ticket list
 
@@ -84,7 +84,7 @@ Feature: Turn details
     Then I should see my cart showing 1 item added
 
     When I select the service "Fill gel" in my cart
-    And I change price amount "23.55"
+    And I change price amount "23.58"
 
     When I pay the exact amount by "Cash"
     And I wait for the page fully loaded
@@ -95,14 +95,13 @@ Feature: Turn details
     And I should see the turn number for "Avery" is 1.0
 
     When I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    And I click on refresh
     Then I should see the toast message "Ticket data refreshed successfully" visible
-    When I click on refresh
-    And I wait for the page fully loaded
-    And I search for "23.55"
+    When I wait for the page fully loaded
+    And I search for "23.58"
     And I wait for the page fully loaded
 
-    When I reopen ticket with payment amount "$23.55"
+    And I reopen ticket with payment amount "$23.58"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Avery" in the ticket
@@ -111,8 +110,8 @@ Feature: Turn details
     And I select the "Zoey" employee in the list item employee
     Then I should see the "Zoey" employee in my cart
 
-    When I pay the exact amount by "Cash"
-    And I wait for the page fully loaded
+    When I click on the "Pay" button
+    And I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
     And I should see the turn number for "Avery" is 0.0
     And I should see the turn number for "Zoey" is 1.0
@@ -125,6 +124,17 @@ Feature: Turn details
     And I should see the Auto Turn 1.00 for "Zoey"
     And I should see the Round 0 for "Avery"
     And I should see the Turn 0.00 for "Avery"
+
+    When I select the "CLOSED TICKET" tab
+    And I wait for the page fully loaded
+
+    When I search for "23.58"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "23.58"
+
+    When I reopen to void ticket with payment amount "$23.58"
+    Then I should see the selected "SERVICE" tab on the Home page
+    And I should not see the employee "Zoey" in the ticket list
 
   Scenario: Manually adding decrease a turn reorders the employee queue
     Given I am on the HOME page

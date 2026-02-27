@@ -142,9 +142,9 @@ Feature: Payroll
 
     When I search for "218.87"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "218.87"
+    Then I should see the first ticket of payment "218.87"
 
-    When I void ticket with payment amount "$218.87"
+    When I reopen to void ticket with payment amount "$218.87"
     Then I should see the selected "SERVICE" tab on the Home page
     And I should not see the employee "Sydney" in the ticket list
 
@@ -226,9 +226,9 @@ Feature: Payroll
 
     When I search for "229.17"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "229.17"
+    Then I should see the first ticket of payment "229.17"
 
-    When I void ticket with payment amount "$229.17"
+    When I reopen to void ticket with payment amount "$229.17"
     Then I should see the selected "SERVICE" tab on the Home page
     And I should not see the employee "Venus" in the ticket list
 
@@ -299,9 +299,9 @@ Feature: Payroll
 
     When I search for "218.97"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "218.97"
+    Then I should see the first ticket of payment "218.97"
 
-    When I void ticket with payment amount "$218.97"
+    When I reopen to void ticket with payment amount "$218.97"
     Then I should see the selected "SERVICE" tab on the Home page
     And I should not see the employee "Jazzie" in the ticket list
 
@@ -375,8 +375,8 @@ Feature: Payroll
 
     When I search for "230.20"
     And I wait for the page fully loaded
-    Then I should see the last ticket of payment "230.20"
+    Then I should see the first ticket of payment "230.20"
 
-    When I void ticket with payment amount "$230.20"
+    When I reopen to void ticket with payment amount "$230.20"
     Then I should see the selected "SERVICE" tab on the Home page
     And I should not see the employee "June" in the ticket list

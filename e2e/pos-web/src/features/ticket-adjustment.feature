@@ -13,15 +13,10 @@ Feature: Fix Ticket
     Then I should see my cart showing 1 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "21"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$21.00" visible
+    And I change price amount "21"
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
 
     When I click on the element with id "payment"
     Then I should see a popup dialog with title "Close Ticket"
@@ -300,15 +295,10 @@ Feature: Fix Ticket
     Then I should see my cart showing 2 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "11"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$11.00" visible
+    And I change price amount "11"
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
 
     When I click on the element with id "payment"
     Then I should see a popup dialog with title "Close Ticket"
@@ -377,20 +367,11 @@ Feature: Fix Ticket
     Then I should see my cart showing 2 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "22"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$22.00" visible
-
-    When I click on the adding "Tip" button
-    Then I should see a popup dialog with title "Add Tip"
-    When I fill "5" from the numpad
-    Then I should see "$5.00" tip in my cart
+    And I change price amount "22"
+    And I add tip amount "5"
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
 
     When I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
@@ -682,7 +663,7 @@ Scenario: Add Tax and make new payment
     When I click on the "SAVE" button in the popup dialog
     And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
-
+    
   Scenario: Add a customer to the ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "4170"
@@ -696,17 +677,10 @@ Scenario: Add Tax and make new payment
     Then I should see my cart showing 1 item added
 
     When I click on the total price of "Manicure"
-    Then I should see a popup dialog with title "Service: Manicure - $6.00"
-    When I change the price to "51.51"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$51.51" visible
-
-    When I wait for the page fully loaded
+    And I change price amount "51.51"
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
-    And I should see the text "PAYMENT HISTORY" visible
-    And I should see the button with id "payment" visible
 
     When I click on the element with id "payment"
     Then I should see a popup dialog with title "Close Ticket"

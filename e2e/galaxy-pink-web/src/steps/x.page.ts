@@ -529,19 +529,34 @@ class xPage {
 
 	@When('I reopen ticket with payment amount {string}')
 	public async reopenTicketWithPaymentAmount(amount: string) {
-		const { locators } = this;
+		const { locators, page } = this;
 
-		const paymentRow = locators.lastPaymentRowByAmount(amount);
-		await paymentRow.scrollIntoViewIfNeeded();
+		const refreshButton = page.locator(
+			'[data-testid="RefreshOutlinedIconIcon"]',
+		);
+		await expect(refreshButton).toBeVisible();
+		await refreshButton.click();
+
+		const paymentRow = page
+			.locator('.MuiDataGrid-row')
+			.filter({
+				has: page.locator('[data-field="paymentTotal"]', { hasText: amount }),
+			})
+			.filter({
+				has: page.locator('[data-field="paymentMethod"]', { hasText: /.+/ }),
+			})
+			.first();
+
 		await expect(paymentRow).toBeVisible();
 
-		const avatarCell = paymentRow.locator('[data-field="avatar"]');
+		const avatarCell = paymentRow.locator('[data-field="avatar"]').first();
 		await expect(avatarCell).toBeVisible();
 		await avatarCell.click();
 
 		const reopenTask = locators.dailyTaskOption('Reopen ticket').first();
 		await expect(reopenTask).toBeVisible();
 		await reopenTask.click();
+		await this.waitForNetworkIdle();
 	}
 
 	/**
@@ -556,7 +571,7 @@ class xPage {
 	 *  6) Then I should see a popup dialog with title "Confirm Void"
 	 *  7) When I click on the "confirm" button in the popup dialog
 	 */
-	@When('I void ticket with payment amount {string}')
+	@When('I reopen to void ticket with payment amount {string}')
 	public async voidTicketWithPaymentAmount(amount: string) {
 		// 1) When I reopen ticket with payment amount "<amount>"
 		await this.reopenTicketWithPaymentAmount(amount);
