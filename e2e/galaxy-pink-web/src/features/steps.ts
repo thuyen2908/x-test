@@ -2151,19 +2151,19 @@ Then(
 	},
 );
 
-Then(
-	'I should see the last ticket of payment {string}',
-	async ({ page }, amount: string) => {
-		const lastPaymentCell = page
-			.locator('.MuiDataGrid-row')
-			.locator('[data-field="paymentTotal"]', { hasText: amount })
-			.last();
+// Then(
+// 	'I should see the last ticket of payment {string}',
+// 	async ({ page }, amount: string) => {
+// 		const lastPaymentCell = page
+// 			.locator('.MuiDataGrid-row')
+// 			.locator('[data-field="paymentTotal"]', { hasText: amount })
+// 			.last();
 
-		await expect(lastPaymentCell).toBeVisible();
-		await lastPaymentCell.scrollIntoViewIfNeeded();
-		await expect(lastPaymentCell).toContainText(amount);
-	},
-);
+// 		await expect(lastPaymentCell).toBeVisible();
+// 		await lastPaymentCell.scrollIntoViewIfNeeded();
+// 		await expect(lastPaymentCell).toContainText(amount);
+// 	},
+// );
 
 // Then(
 // 	'I should see the first ticket of Cash payment {string}',

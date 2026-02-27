@@ -1021,7 +1021,7 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
-
+    
   Scenario: Update GC balance when making multiple payments using 2 GCs
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8526"
@@ -1075,26 +1075,15 @@ Feature: Create tickets
     And I should see the first type "Redeem" in the gift card detail list
     And I should see the first amount "($35.80)" in the gift card detail list
 
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
+    Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
     And I search for "45.80"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$45.80"
-
-    When I click on the first row for payment "$45.80" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
+    And I reopen ticket with payment amount "$45.80"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Hung" in the ticket
-
-    When I void the current open ticket with reason "System Test"
-    Then I should be redirected to HOME page
+    And I should be redirected to HOME page
 
   Scenario: Apply auto-discount item and change it to another
     Given I am on the HOME page

@@ -1,0 +1,35 @@
+{
+	"name": "@x-test/pos-web-offline",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"description": "E2E test project for the web version of POS BLUE OFFLINE",
+	"scripts": {
+		"clean": "rimraf dist .turbo tsconfig.tsbuildinfo test-artifacts playwright-report allure-results allure-report",
+		"typecheck": "tsc --noEmit",
+		"bdd:watch": "nodemon -w src -e ts,feature --exec \"pnpm bddgen\"",
+		"report": "playwright show-report playwright-report",
+		"report:allure": "allure open allure-report",
+		"pretest": "bddgen",
+		"bddgen": "pnpm exec bddgen --tags \"not @skip\"",
+		"test": "playwright test",
+		"test:ui": "pnpm run pretest && pnpm exec playwright test --ui",
+		"test:debug": "pnpm test --debug"
+	},
+	"devDependencies": {
+		"@dotenvx/dotenvx": "^1.52.0",
+		"@playwright/test": "^1.58.2",
+		"@types/fs-extra": "^11.0.4",
+		"@types/node": "^24.10.13",
+		"@x-test/common": "workspace:*",
+		"allure-commandline": "^2.36.0",
+		"allure-playwright": "^3.4.5",
+		"fs-extra": "^11.3.3",
+		"nodemon": "^3.1.14",
+		"playwright-bdd": "^8.4.2",
+		"remeda": "^2.33.6",
+		"rimraf": "^6.1.3",
+		"typescript": "^5.9.3",
+		"zod": "^4.3.6"
+	}
+}

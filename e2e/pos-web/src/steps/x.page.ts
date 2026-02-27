@@ -345,16 +345,30 @@ class xPage {
 	 */
 	@When('I reopen ticket with payment amount {string}')
 	public async reopenTicketWithPaymentAmount(amount: string) {
+		const refreshButton = this.page.getByTestId('RefreshIcon');
+		await expect(refreshButton).toBeVisible();
+		await refreshButton.click();
+
+		await this.page.waitForLoadState('networkidle');
 		// 1) Then I should see the first ticket of payment "<amount>"
-		const firstPaymentCell = this.page
+		const firstPaymentRow = this.page
 			.locator('.MuiDataGrid-row')
-			.locator('[data-field="paymentTotal"]', { hasText: amount })
+			.filter({
+				has: this.page.locator('[data-field="paymentTotal"]', {
+					hasText: amount,
+				}),
+			})
+			.filter({
+				has: this.page.locator('[data-field="paymentMethod"]', {
+					hasText: /.+/,
+				}),
+			})
 			.first();
-		await expect(firstPaymentCell).toBeVisible();
-		await expect(firstPaymentCell).toContainText(amount);
+		await expect(firstPaymentRow).toBeVisible();
+		await expect(firstPaymentRow).toContainText(amount);
 
 		// 2) When I click on the first row for payment "<amount>" to expand details
-		await firstPaymentCell.click();
+		await firstPaymentRow.click();
 
 		// 3) Then I should see the "Reopen ticket" button visible
 		const reopenButton = this.page.getByRole('button', {
@@ -364,6 +378,81 @@ class xPage {
 
 		// 4) When I click on the "Reopen ticket" button
 		await reopenButton.click();
+	}
+
+	/**
+	 * Composite step: reopen a ticket from payments list then void it.
+	 *
+	 * Performs, in order, the same actions as these existing steps:
+	 *  1) Then I should see the first ticket of payment "<amount>"
+	 *  2) When I click on the first row for payment "<amount>" to expand details
+	 *  3) Then I should see the "Reopen ticket" button visible
+	 *  4) When I click on the "Reopen ticket" button
+	 *  5) And I wait for the page fully loaded
+	 *  6) Then I should see the "Ticket View" screen
+	 *  7) When I void the current open ticket with reason "System Test"
+	 */
+	@When('I reopen to void ticket with payment amount {string}')
+	public async reopenToVoidTicketWithPaymentAmount(amount: string) {
+		// Steps 1-4: reuse reopenTicketWithPaymentAmount
+		await this.reopenTicketWithPaymentAmount(amount);
+
+		// 5) And I wait for the page fully loaded
+		await this.waitForNetworkIdle();
+
+		// 6) Then I should see the "Ticket View" screen
+		const ticketViewTitle = this.locators.pageName
+			.getByText('Ticket View', { exact: true })
+			.last();
+		await expect(ticketViewTitle).toBeVisible();
+
+		// 7) When I void the current open ticket with reason "System Test"
+		const pageDetail = await this.locators.pageDetail.textContent();
+		const ticketNumber = pageDetail?.split('#')[1]?.trim();
+
+		const voidButton = this.page.getByRole('button', {
+			name: 'VOID TICKET',
+			exact: true,
+		});
+		await expect(voidButton).toBeVisible();
+		await voidButton.click();
+
+		const voidReasonDialog = this.locators.dialog('SELECT VOID REASON');
+		const voidTicketConfirmDialog = this.locators.dialog('VOID TICKET');
+		await expect(voidReasonDialog.or(voidTicketConfirmDialog)).toBeVisible();
+
+		if (await voidReasonDialog.isVisible()) {
+			await voidReasonDialog.getByText('System Test', { exact: true }).click();
+
+			// In UI HTML, confirm dialog title is "Confirm Void" (draggable), and confirm button text is "confirm".
+			const confirmDialog = this.page
+				.locator('div[role="dialog"]', {
+					has: this.page.locator('#draggable-dialog-title', {
+						hasText: /confirm void/i,
+					}),
+				})
+				.last();
+			await expect(confirmDialog).toBeVisible();
+			const confirmButton = confirmDialog.getByRole('button', {
+				name: /confirm/i,
+			});
+			await expect(confirmButton).toBeVisible();
+			await confirmButton.click();
+		} else {
+			const okButton = voidTicketConfirmDialog
+				.or(this.page.locator('div[role="dialog"]').last())
+				.getByRole('button', { name: 'OK', exact: true });
+			await expect(okButton).toBeVisible();
+			await okButton.click();
+
+			if (ticketNumber) {
+				await expect(
+					this.locators.toast.getByText(
+						`Ticket ${ticketNumber} deleted successfully.`,
+					),
+				).toBeVisible();
+			}
+		}
 	}
 
 	/**
@@ -440,95 +529,6 @@ class xPage {
 			: `+ $${amount}`;
 		const priceElement = this.page.locator('.xPayment__history--price');
 		await expect(priceElement).toContainText(expectedDisplay);
-	}
-
-	/**
-	 * Composite step: reopen a ticket from payments list then void it.
-	 *
-	 * Performs, in order, the same actions as these existing steps:
-	 *  1) When I click on the first row for payment "<amount>" to expand details
-	 *  2) Then I should see the "Reopen ticket" button visible
-	 *  3) When I click on the "Reopen ticket" button
-	 *  4) And I wait for the page fully loaded
-	 *  5) Then I should see the "Ticket View" screen
-	 *  6) When I void the current open ticket with reason "System Test"
-	 */
-	@When('I reopen to void ticket with payment amount {string}')
-	public async reopenToVoidTicketWithPaymentAmount(amount: string) {
-		// 1) When I click on the first row for payment "<amount>" to expand details
-		const firstPaymentCell = this.page
-			.locator('.MuiDataGrid-virtualScrollerContent')
-			.locator('.MuiDataGrid-row')
-			.locator('[data-field="paymentTotal"]', { hasText: amount })
-			.first();
-		await expect(firstPaymentCell).toBeVisible();
-		await firstPaymentCell.click();
-
-		// 2) Then I should see the "Reopen ticket" button visible
-		const reopenButton = this.page.getByRole('button', {
-			name: /reopen ticket/i,
-		});
-		await expect(reopenButton).toBeVisible();
-
-		// 3) When I click on the "Reopen ticket" button
-		await reopenButton.click();
-
-		// 4) And I wait for the page fully loaded
-		await this.waitForNetworkIdle();
-
-		// 5) Then I should see the "Ticket View" screen
-		const ticketViewTitle = this.locators.pageName
-			.getByText('Ticket View', { exact: true })
-			.last();
-		await expect(ticketViewTitle).toBeVisible();
-
-		// 6) When I void the current open ticket with reason "System Test"
-		const pageDetail = await this.locators.pageDetail.textContent();
-		const ticketNumber = pageDetail?.split('#')[1]?.trim();
-
-		const voidButton = this.page.getByRole('button', {
-			name: 'VOID TICKET',
-			exact: true,
-		});
-		await expect(voidButton).toBeVisible();
-		await voidButton.click();
-
-		const voidReasonDialog = this.locators.dialog('SELECT VOID REASON');
-		const voidTicketConfirmDialog = this.locators.dialog('VOID TICKET');
-		await expect(voidReasonDialog.or(voidTicketConfirmDialog)).toBeVisible();
-
-		if (await voidReasonDialog.isVisible()) {
-			await voidReasonDialog.getByText('System Test', { exact: true }).click();
-
-			// In UI HTML, confirm dialog title is "Confirm Void" (draggable), and confirm button text is "confirm".
-			const confirmDialog = this.page
-				.locator('div[role="dialog"]', {
-					has: this.page.locator('#draggable-dialog-title', {
-						hasText: /confirm void/i,
-					}),
-				})
-				.last();
-			await expect(confirmDialog).toBeVisible();
-			const confirmButton = confirmDialog.getByRole('button', {
-				name: /confirm/i,
-			});
-			await expect(confirmButton).toBeVisible();
-			await confirmButton.click();
-		} else {
-			const okButton = voidTicketConfirmDialog
-				.or(this.page.locator('div[role="dialog"]').last())
-				.getByRole('button', { name: 'OK', exact: true });
-			await expect(okButton).toBeVisible();
-			await okButton.click();
-
-			if (ticketNumber) {
-				await expect(
-					this.locators.toast.getByText(
-						`Ticket ${ticketNumber} deleted successfully.`,
-					),
-				).toBeVisible();
-			}
-		}
 	}
 
 	/**
