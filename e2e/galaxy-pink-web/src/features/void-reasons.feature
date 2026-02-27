@@ -9,7 +9,7 @@ Feature: Void reasons management
     And I select the "Void Reasons" label in the expanded list
     Then I should be redirected to VOID_REASONS page
     And I should see the "Void Reasons" screen
-@fix
+
   Scenario: Add and then delete a Void Reason
     Given I am on the VOID_REASONS page
     When I wait for the page fully loaded

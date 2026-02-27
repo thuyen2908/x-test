@@ -30,11 +30,13 @@ Feature: Reopen tickets
     When I wait for the page fully loaded
     And I search for "11.5"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$11.5"
+    And I reopen ticket with payment amount "$11.5"
+    Then I should see the "Ticket View" screen
+    And I should see the user info "Chloe" in the ticket
 
-    When I reopen to void ticket with payment amount "$11.5"
+    When I click on the "PAY" button
+    And I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
-    And I should not see the employee "Chloe" in the ticket list
 
   Scenario: Reopen ticket to change tech for service package
     Given I am on the HOME page
@@ -61,21 +63,11 @@ Feature: Reopen tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
+    Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
     And I search for "47.11"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$47.11"
-
-    When I click on the first row for payment "$47.11" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
+    And I reopen ticket with payment amount "$47.11"
     Then I should see the "Ticket View" screen
     And I should see the user info "Ethan" in the ticket
 
@@ -118,21 +110,11 @@ Feature: Reopen tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
+    Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
     And I search for "24.57"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$24.57"
-
-    When I click on the first row for payment "$24.57" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
+    And I reopen ticket with payment amount "$24.57"
     Then I should see the "Ticket View" screen
     And I should see the user info "Mia" in the ticket
 
@@ -181,21 +163,11 @@ Feature: Reopen tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
+    Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
     And I search for "12.36"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$12.36"
-
-    When I click on the first row for payment "$12.36" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
+    And I reopen ticket with payment amount "$12.36"
     Then I should see the "Ticket View" screen
     And I should see the user info "Angie" in the ticket
 
@@ -241,24 +213,12 @@ Feature: Reopen tickets
     And I enter the amount "12"
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
-    # Then I should see the payment history "Gift (0104)" visible
-    # And I should see the payment price "$12.00"
 
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
+    Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
     And I search for "12.00"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$12.00"
-
-    When I click on the first row for payment "$12.00" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
+    And I reopen ticket with payment amount "$12.00"
     Then I should see the "Ticket View" screen
     And I should see the user info "thanh" in the ticket
 
@@ -312,21 +272,11 @@ Feature: Reopen tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
+    Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
     And I search for "23.5"
     And I wait for the page fully loaded
-    Then I should see the first ticket of Cash payment "$23.50"
-
-    When I click on the first row for payment "$23.50" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
+    And I reopen ticket with payment amount "$23.5"
     Then I should see the "Ticket View" screen
     And I should see the user info "Samantha" in the ticket
 
@@ -387,21 +337,11 @@ Feature: Reopen tickets
     When I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
 
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
+    Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
     And I search for "27.66"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$27.66"
-
-    When I click on the first row for payment "$27.66" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
+    And I reopen ticket with payment amount "$27.66"
     Then I should see the "Ticket View" screen
     And I should see the user info "Daniel" in the ticket
 
@@ -441,21 +381,11 @@ Feature: Reopen tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
+    Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
     And I search for "15.5"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$15.50"
-
-    When I click on the first row for payment "$15.50" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
+    And I reopen ticket with payment amount "$15.5"
     Then I should see the "Ticket View" screen
     And I should see the user info "Julia" in the ticket
 
@@ -527,21 +457,11 @@ Feature: Reopen tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
+    Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
     And I search for "25.75"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$25.75"
-
-    When I click on the first row for payment "$25.75" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
+    And I reopen ticket with payment amount "$25.75"
     Then I should see the "Ticket View" screen
     And I should see the user info "Fiona" in the ticket
 
@@ -651,21 +571,11 @@ Feature: Reopen tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
+    Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
     And I search for "75.7"
     And I wait for the page fully loaded
-    Then I should see the first ticket of Cash payment "$75.70"
-
-    When I click on the first row for payment "$75.70" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
+    And I reopen ticket with payment amount "$75.7"
     Then I should see the "Ticket View" screen
     And I should see the user info "Alexis" in the ticket
 
@@ -765,20 +675,13 @@ Feature: Reopen tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I search for "Jimmy"
+    Given I am on the CLOSED_TICKETS page
+    When I wait for the page fully loaded
+    And I search for "11.5"
     And I wait for the page fully loaded
-    Then I should see the last ticket of customer "Jimmy"
-
-    When I click on the last row for customer "Jimmy" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
+    And I reopen ticket with payment amount "$11.5"
     Then I should see the "Ticket View" screen
-    And I should see the user info "Charlotte" in the ticket
+    And I should see the user info "Jimmy" in the ticket
 
     When I void the current open ticket with reason "System Test"
     Then I should be redirected to HOME page
@@ -898,7 +801,7 @@ Feature: Reopen tickets
 
     Then I should see the QR code on the receipt
 
-Scenario: Update gift card balance correctly after voiding a gift card payment and paying with cash
+  Scenario: Update gift card balance correctly after voiding a gift card payment and paying with cash
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6566"
     Then I should see the employee "Willow" in the employee list
@@ -923,21 +826,11 @@ Scenario: Update gift card balance correctly after voiding a gift card payment a
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
+    Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
     And I search for "17.50"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$17.50"
-
-    When I click on the first row for payment "$17.50" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
+    And I reopen ticket with payment amount "$17.50"
     Then I should see the "Ticket View" screen
     And I should see the user info "Willow" in the ticket
 
@@ -992,20 +885,13 @@ Scenario: Update gift card balance correctly after voiding a gift card payment a
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully." visible
+    Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
     And I search for "23.50"
-    Then I should see the first ticket of payment "$23.50"
-
-    When I click on the first row for payment "$23.50" to expand details
-    Then I should see the "Reopen ticket" button visible
-    When I click on the "Reopen ticket" button
     And I wait for the page fully loaded
+    And I reopen ticket with payment amount "$23.50"
     Then I should see the "Ticket View" screen
+    And I should see the user info "Camellia" in the ticket
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible

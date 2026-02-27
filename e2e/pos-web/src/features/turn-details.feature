@@ -14,7 +14,7 @@ Feature: Turn details
     When I click on the "Hair" button
     Then I should see the employees displayed correctly in turn details
 
-  Scenario: Turn update or remove when creating or voiding a ticket
+  Scenario: Turn update when voiding a ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5727"
     And I click on the queue "HAIR" button
@@ -26,6 +26,9 @@ Feature: Turn details
     And I should see the "Gel X" service
     When I add the "Gel X" service to my cart
     Then I should see my cart showing 1 item added
+
+    When I click on the total price of "Gel X"
+    And I change price amount "27.11"
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -52,23 +55,15 @@ Feature: Turn details
     And I should see the Turn 1.00 for "Jessica"
     And I should see the Auto Turn 1.00 for "Jessica"
 
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I search for "27"
+    Given I am on the CLOSED_TICKETS page
+    When I wait for the page fully loaded
+    And I search for "27.11"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$27.00"
+    Then I should see the first ticket of payment "$27.11"
 
-    When I click on the first row for payment "$27.00" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "Jessica" in the ticket
-
-    When I void the current open ticket with reason "System Test"
+    When I reopen to void ticket with payment amount "$27.11"
     Then I should be redirected to HOME page
+    And I should not see the employee "Jessica" in the ticket list
 
     When I click on the queue "HAIR" button
     Then I should see the employee "Jessica" in the employee list
@@ -98,6 +93,9 @@ Feature: Turn details
     And I add the "Fill gel" service to my cart
     Then I should see my cart showing 1 item added
 
+    When I click on the total price of "Fill gel"
+    And I change price amount "23.58"
+
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
 
@@ -110,18 +108,11 @@ Feature: Turn details
     Then I should see the employee "Avery" in the employee list
     And I should see the turn number for "Avery" is 1.0
 
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I search for "23.5"
+    Given I am on the CLOSED_TICKETS page
+    When I wait for the page fully loaded
+    And I search for "23.58"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$23.50"
-
-    When I click on the first row for payment "$23.50" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
+    And I reopen ticket with payment amount "$23.58"
     Then I should see the "Ticket View" screen
     And I should see the user info "Avery" in the ticket
 
@@ -148,23 +139,15 @@ Feature: Turn details
     And I should see the Round 0 for "Avery"
     And I should see the Turn 0.00 for "Avery"
 
-    When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
-
-    When I search for "23.5"
+    Given I am on the CLOSED_TICKETS page
+    When I wait for the page fully loaded
+    And I search for "23.58"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$23.50"
+    Then I should see the first ticket of payment "$23.58"
 
-    When I click on the first row for payment "$23.50" to expand details
-    Then I should see the "Reopen ticket" button visible
-
-    When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "Zoey" in the ticket
-
-    When I void the current open ticket with reason "System Test"
+    When I reopen to void ticket with payment amount "$23.58"
     Then I should be redirected to HOME page
+    And I should not see the employee "Zoey" in the ticket list
 
   Scenario: Manually adding decrease a turn reorders the employee queue
     Given I am on the HOME page

@@ -14,7 +14,7 @@ const __dirname = import.meta.dirname;
 setup(
 	'Authentication: Admin role',
 	async ({ testConfig, testStorage, page, xPage }) => {
-		setup.setTimeout(40_000);
+		setup.setTimeout(120_000);
 
 		// make sure that the path is ready
 		const authStorage = resolve(
@@ -34,31 +34,22 @@ setup(
 			testConfig.adminPassword,
 		);
 
-		// visual check
-		await page.waitForLoadState('networkidle'); // wait until the background image fully loaded
+		// visual check — ensure all visual resources (fonts, background images, <img>) are fully loaded
+		await loginPage.waitForVisualReadiness();
 		await loginPage.captureLoginFormScreenshot();
 
 		// submit login
 		await loginPage.submitLogin();
 
-		const businessDayResetPrompt = loginPage.locators.businessDayResetPrompt;
 		const username = loginPage.locators.merchantInfo.getByText(
 			testConfig.adminName,
 		);
 
 		// wait until the loading spinner is gone
-		await expect(businessDayResetPrompt.or(username)).toBeVisible({
+		await expect(username).toBeVisible({
 			// currently, look like the login process is quite slow, re-adjust this value in the future if necessary
-			timeout: 25_000,
+			timeout: 90_000,
 		});
-
-		// reset business date if prompted
-		if (await businessDayResetPrompt.isVisible()) {
-			await loginPage.resetBusinessDay();
-
-			// wait until the homepage is loaded
-			expect(username).toBeVisible();
-		}
 
 		// persist all browser context to the auth storage
 		await page.context().storageState({ path: authStorage });

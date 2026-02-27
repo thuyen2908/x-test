@@ -14,7 +14,7 @@ Feature: Turn details
     When I click on the "Hair" button
     Then I should see the employees displayed correctly in turn details
 
-  Scenario: Turn update or remove when creating or voiding a ticket
+  Scenario: Turn update when voiding a ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5727"
     And I click on the queue "HAIR" button
