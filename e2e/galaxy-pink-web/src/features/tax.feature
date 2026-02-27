@@ -24,12 +24,14 @@ Feature: Tax management
     Then Active button should be ON with value true
     When I click on the "Save" button in the popup dialog
     And I wait for the page fully loaded
+
     Then I should see the toast message "AutoTestTax created successfully" visible
 
     # When I click on the "Refresh" button
     # And I wait for the page fully loaded
     When I search for "AutoTestTax"
     And I wait for the page fully loaded
+    
     Then I should see the new "name" "AutoTestTax", created at today, in the list
 
     When I click on the action "Delete" button for item "AutoTestTax"
