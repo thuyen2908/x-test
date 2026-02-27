@@ -82,4 +82,15 @@ class HomePage extends xPage {
 		// keep track ongoing tickets, used for cleanup in case of test failure
 		ticketNumber && this.testStorage.ongoingTickets.add(ticketNumber);
 	}
+	@When('I hold the {string} employee two seconds')
+	public async selectHoldEmployee(employeeName: string) {
+		const { locators } = this;
+
+		const employee = locators.employee(employeeName);
+
+		await employee.hover();
+		await this.page.mouse.down();
+		await this.page.waitForTimeout(1500);
+		await this.page.mouse.up();
+	}
 }

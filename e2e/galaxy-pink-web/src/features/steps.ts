@@ -750,6 +750,10 @@ Then(
 		await expect(technicianElement).toHaveText(technician);
 	},
 );
+When('I enter the amount Delete button', async ({ page }) => {
+	const buttonDelete = page.locator('button.key-action');
+	await buttonDelete.click();
+});
 
 When('I enter the amount {string}', async ({ page }, amount: string) => {
 	for (const digit of amount) {
@@ -4364,6 +4368,57 @@ Then(
 		await expect(dateCell).toContainText(formattedToday);
 	},
 );
+Then(
+	'I should see the {string} Adjustment',
+	async ({ page }, Title: string) => {
+		const titleAdjustTurn = page.locator('.dailyTask__title');
+
+		await expect(titleAdjustTurn).toBeVisible();
+		await expect(titleAdjustTurn).toHaveText(Title);
+	},
+);
+When(
+	'I click on the {string} in turn adjustment',
+	async ({ page }, addJustTurn: string) => {
+		const lateTurn = page
+			.locator('.dailyTask')
+			.locator('.MuiListItem-root')
+			.filter({ hasText: new RegExp(`^${addJustTurn}$`) });
+		await expect(lateTurn).toBeVisible();
+		await expect(lateTurn).toHaveText(addJustTurn);
+		await lateTurn.click();
+	},
+);
+Then(
+	'I should see Employee {string} with {string} in the employee list',
+	async ({ page }, employeeName: string, turn: string) => {
+		const listEmployee = page.locator('ul.ListItemEmployee__wrap ').first();
+		await expect(listEmployee).toBeVisible();
+		const employeeRow = listEmployee
+			.locator('li.xEmployeeItem')
+			.filter({ hasText: employeeName });
+		await expect(employeeRow).toBeVisible();
+		const turnCell = employeeRow
+			.locator('div.xEmployeeItem__time')
+			.locator('span.MuiChip-label')
+			.first();
+		await expect(turnCell).toHaveText(turn);
+	},
+);
+Then(
+	'I should see the position employee {string} is {string}',
+	async ({ page }, employeeName: string, position: string) => {
+		const listEmployee = page.locator('ul.ListItemEmployee__wrap ').first();
+		await expect(listEmployee).toBeVisible();
+
+		const employeeRow = listEmployee
+			.locator('li.xEmployeeItem')
+			.filter({ hasText: employeeName });
+		await expect(employeeRow).toBeVisible();
+
+		const numberPosition = employeeRow.locator('.number');
+		await expect(numberPosition).toBeVisible();
+		await expect(numberPosition).toHaveText(position);
 
 Then(
 	'I should see the header {string} in the bill render',
@@ -4481,6 +4536,23 @@ Then(
 );
 
 Then(
+	'I should see the employee {string} is not at position 1',
+	async ({ page }, employeeName: string) => {
+		const listEmployee = page.locator('ul.ListItemEmployee__wrap ').first();
+		await expect(listEmployee).toBeVisible();
+		const employeeRow = listEmployee
+			.locator('li.xEmployeeItem')
+			.filter({ hasText: employeeName });
+		await expect(employeeRow).toBeVisible();
+		const numberPosition = employeeRow.locator('.number');
+		await expect(numberPosition).toBeVisible();
+		await expect(numberPosition).not.toHaveText('#1');
+	},
+);
+When('I click the Delete ticket button', async ({ page }) => {
+	const buttonDelete = page.locator('svg[data-testid="DeleteIcon"]');
+	await buttonDelete.click();
+});
 	'I should see the Tech, Deductions, Tip, Amount as {string} in the bill render',
 	async ({ page }, expectedRow: string) => {
 		const [tech, deductions, tip, amount] = expectedRow.split(' ');
