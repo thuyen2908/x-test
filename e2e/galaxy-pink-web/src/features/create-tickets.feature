@@ -587,8 +587,15 @@ Feature: Create tickets
     And I should see the service "Manicure" in my cart
     And I should see the employee "Eira" in my cart
 
-    When I pay the exact amount by "Cash"
+    # When I pay the exact amount by "Cash"
     # Then I should see the selected "SERVICE" tab on the Home page
+
+    When I click on the "Pay" button
+    And I select the "Cash" payment type
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    Then I should see the selected "SERVICE" tab on the Home page
 
     # When I wait for the page fully loaded
     Then I should not see the employee "Eira" in the ticket list
