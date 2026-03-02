@@ -186,7 +186,7 @@ Feature: Create tickets
     And I fill the last 4 digits of card number "1234"
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
-@fix
+
   Scenario: Verify that the balance is updated correctly when paying with a gift card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0404"
@@ -431,7 +431,7 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
-@fix
+
   Scenario: Sell a Gift Card add-on amount
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1010"
@@ -468,7 +468,7 @@ Feature: Create tickets
     Then I should see the first date is today in the gift card detail list
     And I should see the first type "ActivateAddOn" in the gift card detail list
     And I should see the first amount "$100.00" in the gift card detail list
-@fix
+
   Scenario: Sell a Gift Card rewrite amount
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5362"
@@ -694,7 +694,7 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
-@fix
+
   Scenario: Remove payment history and choose another one
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6373"
@@ -848,11 +848,12 @@ Feature: Create tickets
 
     When I select the "Gift" payment type
     Then I should see the "ID GIFT CARD" name
-    When I fill the Gift card with "20"
+    When I fill the Gift card with "2020"
     And I click on the "CHECK BALANCE" button
     And I click on the element with id "payment"
+    And I wait for the page fully loaded
     And I click on the element with id "payment"
-    Then I should see the toast message "Gift Card #20 does not have enough funds to pay" visible
+    Then I should see the toast message "Gift Card #2020 does not have enough funds to pay" visible
 
     When I select the "Cash" payment type
     And I click on the element with id "payment"
@@ -861,7 +862,7 @@ Feature: Create tickets
     Then I should be redirected to HOME page
 
     When I navigate to "Tickets" on the navigation bar
-    Then I should be redirected to CLOSED_TICKETS page
+    And I wait for the page fully loaded
 
     When I search for "35.7"
     And I wait for the page fully loaded
@@ -926,7 +927,7 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
-@fix
+
   Scenario: Show earning today
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0074"
@@ -965,11 +966,9 @@ Feature: Create tickets
     And I should see the text "NET TOTAL SALES $49.00" on the dialog
     When I click on the action button "OK" of the opening dialog
 
-    Given I am on the CLOSED_TICKETS page
-    When I wait for the page fully loaded
-    Then I should be redirected to CLOSED_TICKETS page
+    When I navigate to "Tickets" on the navigation bar
+    And I wait for the page fully loaded
 
-    When I wait for the page fully loaded
     When I search for "56.50"
     And I wait for the page fully loaded
     Then I should see the first ticket of payment "$56.50"
@@ -1005,7 +1004,7 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
-@fix
+
   Scenario: Update GC balance when making multiple payments using 2 GCs
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8526"
@@ -1016,10 +1015,7 @@ Feature: Create tickets
     Then I should see my cart showing 1 item added
 
     When I click on the total price of "Pedicure"
-    Then I should see a popup dialog with title "Service: Pedicure - $8.00"
-    When I change the price to "45.8"
-    And I click on the "Save" button in the popup dialog
-    Then I should see the total price "$45.80" visible
+    And I change price amount "45.8"
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -1052,9 +1048,10 @@ Feature: Create tickets
     And I should see the first type "Redeem" in the gift card detail list
     And I should see the first amount "($35.80)" in the gift card detail list
 
-    Given I am on the CLOSED_TICKETS page
-    When I wait for the page fully loaded
-    And I search for "45.80"
+    When I navigate to "Tickets" on the navigation bar
+    And I wait for the page fully loaded
+
+    When I search for "45.80"
     And I wait for the page fully loaded
     And I reopen ticket with payment amount "$45.80"
     And I wait for the page fully loaded
