@@ -615,6 +615,273 @@ class xPage {
 		await confirmButton.click();
 	}
 
+	/**
+	 * Composite step: remove a payment history entry and confirm void.
+	 *
+	 * Performs, in order, the same actions as these existing steps:
+	 *  1) When I click on the more menu for payment history of "<paymentType>"
+	 *  2) Then I should see the tooltip remove
+	 *  3) When I click on the tooltip remove
+	 *  4) Then I should see a popup dialog with title "VOID PAYMENT"
+	 *  5) And I should see a popup dialog with content "<paymentType>"
+	 *  6) When I click on the "Remove" button in the popup dialog
+	 *  7) Then I should see a second popup dialog with title "Confirm Void Payment"
+	 *  8) When I click on the "Yes, void it" button in the popup dialog
+	 */
+	@When('I remove the payment history {string}')
+	public async removePaymentHistory(paymentType: string) {
+		// 1) When I click on the more menu for payment history of "<paymentType>"
+		const paymentHistoryItem = this.page
+			.locator('.xPayment__history--list li')
+			.filter({ hasText: paymentType });
+		await paymentHistoryItem.locator('button[aria-label="more"]').click();
+
+		// 2) Then I should see the tooltip remove
+		const tooltipRemove = this.page.locator(
+			'.xPayment__history--tooltip.active .label:has-text("Remove")',
+		);
+		await expect(tooltipRemove).toBeVisible();
+
+		// 3) When I click on the tooltip remove
+		await tooltipRemove.click();
+
+		// 4) Then I should see a popup dialog with title "VOID PAYMENT"
+		const dialogTitleElement = this.page.locator('.MuiDialogTitle-root');
+		await expect(dialogTitleElement).toBeVisible();
+		await expect(dialogTitleElement).toHaveText('VOID PAYMENT');
+
+		// 5) And I should see a popup dialog with content "<paymentType>"
+		const dialogContentElement = this.page.locator('.MuiDialogContent-root');
+		await expect(dialogContentElement).toBeVisible();
+		await expect(dialogContentElement).toContainText(paymentType);
+
+		// 6) When I click on the "Remove" button in the popup dialog
+		const dialog = this.page.locator('div[role="dialog"]');
+		const removeButton = dialog.getByRole('button', {
+			name: 'Remove',
+			exact: true,
+		});
+		await expect(removeButton).toBeVisible();
+		await removeButton.click();
+
+		// 7) Then I should see a second popup dialog with title "Confirm Void Payment"
+		const secondDialogTitle = this.page.locator('.MuiDialogTitle-root').last();
+		await expect(secondDialogTitle).toBeVisible();
+		await expect(secondDialogTitle).toHaveText('Confirm Void Payment');
+
+		// 8) When I click on the "Yes, void it" button in the popup dialog
+		const yesVoidButton = this.page
+			.locator('div[role="dialog"]')
+			.getByRole('button', { name: 'Yes, void it', exact: true });
+		await expect(yesVoidButton).toBeVisible();
+		await yesVoidButton.click();
+	}
+
+	/**
+	 * Composite step: remove a payment history entry in ticket view.
+	 *
+	 * Performs, in order, the same actions as these existing steps:
+	 *  1) When I click on the more menu for payment history of "<paymentType>"
+	 *  2) Then I should see the tooltip remove
+	 *  3) When I click on the tooltip remove
+	 *  4) Then I should see a popup dialog with title "<paymentType> "
+	 *  5) When I click on the "Remove" button in the popup dialog
+	 */
+	@When('I remove payment history {string} in ticket view')
+	public async removePaymentHistoryInTicketView(paymentType: string) {
+		// 1) When I click on the more menu for payment history of "<paymentType>"
+		const paymentHistoryItem = this.page
+			.locator('.xPayment__history--list li')
+			.filter({ hasText: paymentType });
+		await paymentHistoryItem.locator('button[aria-label="more"]').click();
+
+		// 2) Then I should see the tooltip remove
+		const tooltipRemove = this.page.locator(
+			'.xPayment__history--tooltip.active .label:has-text("Remove")',
+		);
+		await expect(tooltipRemove).toBeVisible();
+
+		// 3) When I click on the tooltip remove
+		await tooltipRemove.click();
+
+		// 4) Then I should see a popup dialog with title "<paymentType> "
+		const dialogTitleElement = this.page.locator('.MuiDialogTitle-root');
+		await expect(dialogTitleElement).toBeVisible();
+		await expect(dialogTitleElement).toContainText(paymentType);
+
+		// 5) When I click on the "Remove" button in the popup dialog
+		const dialog = this.page.locator('div[role="dialog"]');
+		const removeButton = dialog.getByRole('button', {
+			name: 'Remove',
+			exact: true,
+		});
+		await expect(removeButton).toBeVisible();
+		await removeButton.click();
+	}
+
+	/**
+	 * Composite step: search for a gift card by number.
+	 *
+	 * Performs, in order, the same actions as these existing steps:
+	 *  1) When I enter the amount "<giftCardNumber>"
+	 *  2) And I click on the "SEARCH" button
+	 *  3) And I wait for the page fully loaded
+	 */
+	@When('I search gift card {string}')
+	public async searchGiftCard(giftCardNumber: string) {
+		// 1) When I enter the amount "<giftCardNumber>"
+		for (const digit of giftCardNumber) {
+			const keyLocator =
+				digit === '.'
+					? this.page.locator('button.key:has(span.text-dot)')
+					: this.page.locator(
+							`button.key:has(span.text-num:has-text("${digit}"))`,
+						);
+			await keyLocator.click();
+		}
+
+		// 2) And I click on the "SEARCH" button
+		const searchButton = this.page.getByRole('button', {
+			name: 'SEARCH',
+			exact: true,
+		});
+		await expect(searchButton).toBeVisible();
+		await searchButton.click();
+
+		// 3) And I wait for the page fully loaded
+		await this.waitForNetworkIdle();
+	}
+
+	/**
+	 * Composite step: adjust tip amount from payment history.
+	 *
+	 * Performs, in order, the same actions as these existing steps:
+	 *  1) When I click on the adjust tip icon
+	 *  2) Then I should see a popup dialog containing the title "CONFIRM ADJUST TIP "
+	 *  3) When I click on the action button "Adjust Tip" of the opening dialog
+	 *  4) Then I should see a popup dialog with title "Adjust Tip "
+	 *  5) When I enter the amount "<amount>"
+	 *  6) And I click on the "Add Tip" button in the popup dialog
+	 *  7) Then I should see the payment price contain amount "+ $<amount>.00"
+	 */
+	@When('I adjust tip amount {string}')
+	public async adjustTipAmount(amount: string) {
+		// 1) When I click on the adjust tip icon
+		const adjustTipIcon = this.page.locator('.xPayment__history--listBtn');
+		await expect(adjustTipIcon).toBeVisible();
+		await adjustTipIcon.click();
+
+		// 2) Then I should see a popup dialog containing the title "CONFIRM ADJUST TIP "
+		const confirmAdjustTipDialog = this.page
+			.locator('div[role="dialog"]')
+			.filter({
+				has: this.page.locator('.MuiDialogTitle-root', {
+					hasText: /confirm\s+adjust\s+tip/i,
+				}),
+			})
+			.last();
+		await expect(confirmAdjustTipDialog).toBeVisible();
+
+		// 3) When I click on the action button "Adjust Tip" of the opening dialog
+		// Prefer the common actions container, but fall back to any role=button in the dialog.
+		const adjustTipButton = confirmAdjustTipDialog
+			.locator('div.MuiDialogActions-root')
+			.getByRole('button', { name: /adjust\s*tip/i })
+			.or(
+				confirmAdjustTipDialog.getByRole('button', { name: /adjust\s*tip/i }),
+			);
+		await expect(adjustTipButton).toBeVisible();
+		await adjustTipButton.click();
+
+		// 4) Then I should see a popup dialog with title "Adjust Tip "
+		const adjustTipDialog = this.page
+			.locator('div[role="dialog"]')
+			.filter({
+				has: this.page.locator('.MuiDialogTitle-root', {
+					hasText: /adjust\s+tip/i,
+				}),
+			})
+			.last();
+		await expect(adjustTipDialog).toBeVisible();
+
+		// 5) When I enter the amount "<amount>"
+		const digits = amount.replace(/[^0-9]/g, '');
+		for (const digit of digits) {
+			await this.page
+				.locator(`button.key:has(span.text-num:has-text("${digit}"))`)
+				.click();
+		}
+
+		// 6) And I click on the "Add Tip" button in the popup dialog
+		const addTipButton = adjustTipDialog.getByRole('button', {
+			name: /add\s*tip/i,
+		});
+		await expect(addTipButton).toBeVisible();
+		await addTipButton.click();
+
+		// 7) Then I should see the payment price contain amount "+ $<amount>.00"
+		const normalizedAmount = Number(amount.replace(/[^0-9.]/g, ''));
+		const expectedDisplay = Number.isFinite(normalizedAmount)
+			? `+ $${normalizedAmount.toFixed(2)}`
+			: `+ $${amount}`;
+		const priceElement = this.page.locator('.xPayment__history--price');
+		await expect(priceElement).toContainText(expectedDisplay);
+		await this.waitForNetworkIdle();
+	}
+
+	/**
+	 * Composite step: adjust tip amount from payment history in the ticket adjustment.
+	 *
+	 * Performs, in order, the same actions as these existing steps:
+	 *  1) When I click on the adjust tip icon
+	 *  2) Then I should see a popup dialog with title "Adjust Tip "
+	 *  3) When I enter the amount "<amount>"
+	 *  4) And I click on the "Add Tip" button in the popup dialog
+	 *  5) Then I should see the payment price contain amount "+ $<amount>.00"
+	 */
+	@When('I adjust tip amount {string} in ticket adjustment')
+	public async adjustTipAmountTicketAdjustment(amount: string) {
+		// 1) When I click on the adjust tip icon
+		const adjustTipIcon = this.page.locator('.xPayment__history--listBtn');
+		await expect(adjustTipIcon).toBeVisible();
+		await adjustTipIcon.click();
+
+		// 2) Then I should see a popup dialog with title "Adjust Tip "
+		const adjustTipDialog = this.page
+			.locator('div[role="dialog"]')
+			.filter({
+				has: this.page.locator('.MuiDialogTitle-root', {
+					hasText: /adjust\s+tip/i,
+				}),
+			})
+			.last();
+		await expect(adjustTipDialog).toBeVisible();
+
+		// 3) When I enter the amount "<amount>"
+		const digits = amount.replace(/[^0-9]/g, '');
+		for (const digit of digits) {
+			await this.page
+				.locator(`button.key:has(span.text-num:has-text("${digit}"))`)
+				.click();
+		}
+
+		// 4) And I click on the "Add Tip" button in the popup dialog
+		const addTipButton = adjustTipDialog.getByRole('button', {
+			name: /add\s*tip/i,
+		});
+		await expect(addTipButton).toBeVisible();
+		await addTipButton.click();
+
+		// 5) Then I should see the payment price contain amount "+ $<amount>.00"
+		const normalizedAmount = Number(amount.replace(/[^0-9.]/g, ''));
+		const expectedDisplay = Number.isFinite(normalizedAmount)
+			? `+ $${normalizedAmount.toFixed(2)}`
+			: `+ $${amount}`;
+		const priceElement = this.page.locator('.xPayment__history--price');
+		await expect(priceElement).toContainText(expectedDisplay);
+		await this.waitForNetworkIdle();
+	}
+
 	@When('I clock {timesheetAction} the timesheet with PIN {string}')
 	public async clockTimesheetFromFunctions(
 		timesheetAction: TimesheetAction,

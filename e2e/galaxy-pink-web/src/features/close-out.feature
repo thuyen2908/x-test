@@ -73,7 +73,7 @@ Feature: Close Out report
 
     When I search for "235.35"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "235.35"
+    Then I should see the first ticket of payment "$235.35"
 
     When I reopen to void ticket with payment amount "$235.35"
     Then I should see the selected "SERVICE" tab on the Home page
@@ -128,7 +128,7 @@ Feature: Close Out report
 
     When I search for "236.38"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "236.38"
+    Then I should see the first ticket of payment "$236.38"
 
     When I reopen to void ticket with payment amount "$236.38"
     Then I should see the selected "SERVICE" tab on the Home page

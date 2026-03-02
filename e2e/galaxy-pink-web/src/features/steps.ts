@@ -434,7 +434,7 @@ Then(
 		const amountElement = page
 			.locator('.xPayment__history--price')
 			.getByText(amount, { exact: true });
-		await expect(amountElement).toHaveText(amount);
+		await expect(amountElement).toContainText(amount);
 	},
 );
 

@@ -5,9 +5,7 @@ Feature: Gift Card Balance
     Given I am on the GIFT_CARD_BALANCE page
     Then I should see the "Gift Card / Loyalty Balance" screen
 
-    When I enter the amount "1234"
-    And I click on the "SEARCH" button
-    And I wait for the page fully loaded
+    When I search gift card "1234"
     Then I should see the text "ACTIVATED DATE" visible
     And I should see the text "ORIGINAL VALUE" visible
     And I should see the text "LAST REDEEMED DATE" visible

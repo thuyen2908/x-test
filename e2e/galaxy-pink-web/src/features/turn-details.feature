@@ -100,13 +100,13 @@ Feature: Turn details
     # And I should see the turn number for "Avery" is 1.0
 
     When I select the "CLOSED TICKET" tab
-    And I click on refresh
-    Then I should see the toast message "Ticket data refreshed successfully" visible
-    When I wait for the page fully loaded
-    And I search for "23.58"
     And I wait for the page fully loaded
 
-    And I reopen ticket with payment amount "$23.58"
+    When I search for "23.58"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$23.58"
+
+    When I reopen ticket with payment amount "$23.58"
     And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Avery" in the ticket
@@ -137,7 +137,7 @@ Feature: Turn details
 
     When I search for "23.58"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "23.58"
+    Then I should see the first ticket of payment "$23.58"
 
     When I reopen to void ticket with payment amount "$23.58"
     Then I should see the selected "SERVICE" tab on the Home page
@@ -282,7 +282,7 @@ Feature: Turn details
 
     When I search for "21.26"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "21.26"
+    Then I should see the first ticket of payment "$21.26"
 
     When I reopen to void ticket with payment amount "$21.26"
     Then I should see the selected "SERVICE" tab on the Home page
