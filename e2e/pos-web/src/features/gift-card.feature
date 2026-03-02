@@ -1,6 +1,6 @@
 @slow @regression @smoke
 Feature: Gift Card Balance
-@fix
+
   Scenario: Search Gift Card
     Given I am on the GIFT_CARD_BALANCE page
     Then I should see the text "Gift Card" visible
@@ -13,7 +13,7 @@ Feature: Gift Card Balance
     Then I should see the text "ACTIVITY SUMMARY" visible
     And I should see the text "CURRENTLY VIEWING" visible
     And I should see the gift number "4321" visible
-@fix
+
   Scenario: Adjust Gift Card balance
     Given I am on the GIFT_CARD_BALANCE page
     Then I should see the text "Gift Card" visible

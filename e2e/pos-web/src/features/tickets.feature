@@ -178,7 +178,7 @@ Feature: Reopen tickets
     When I adjust tip amount "10"
     And I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
-@fix
+
   Scenario: Update GC balance after reopening to adjust tip
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8888"
@@ -229,7 +229,7 @@ Feature: Reopen tickets
     Then I should see the first date is today in the gift card detail list
     And I should see the first type "Redeem" in the gift card detail list
     And I should see the first amount "($22.00)" in the gift card detail list
-@fix
+
   Scenario: Reopen ticket to remove payment Cash and instead of Credit
     Given I am on the HOME page
     When I clock in the timesheet with PIN "4683"
@@ -411,7 +411,7 @@ Feature: Reopen tickets
     When I reopen to void ticket with payment amount "$16.48"
     Then I should be redirected to HOME page
     And I should not see the employee "Daisy" in the ticket list
-@fix
+
   Scenario: Reopen ticket to void item, remove and make new payment
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8546"
@@ -455,12 +455,12 @@ Feature: Reopen tickets
     When I click on the "PAY" button
     Then I should see the payment history "VISA (1234)" visible
 
-    When I remove payment history "VISA (1234)" in ticket view
+    When I remove payment history "VISA  - $25.75" in ticket view
     And I select the "Credit" payment type
     And I fill the last 4 digits of card number "4321"
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
-@fix
+
   Scenario: Update GC balance when selling an add-on gift card and then voiding the ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2463"
@@ -508,7 +508,7 @@ Feature: Reopen tickets
     When I search gift card "1703"
     Then I should see the first type "ActivateNew" in the gift card detail list
     And I should see the first amount "$50.00" in the gift card detail list
-@fix
+
   Scenario: Cannot find gift card after selling a new gift card and then voiding the item Gift Card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6727"
@@ -765,7 +765,7 @@ Feature: Reopen tickets
     And I should see the tip guide "20% TIP = $5.85" on the receipt
 
     Then I should see the QR code on the receipt
-@fix
+
   Scenario: Update gift card balance correctly after voiding a gift card payment and paying with cash
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6566"
@@ -804,7 +804,7 @@ Feature: Reopen tickets
     And I should see the text "PAYMENT HISTORY" visible
     And I should see the payment history "Gift (0903)" visible
 
-    When I remove payment history "Gift (0903)" in ticket view
+    When I remove payment history "Gift  - $17.50" in ticket view
     And I select the "Cash" payment type
     And I click on the element with id "payment"
     Then I should see a popup dialog with title "Close Ticket"
@@ -816,7 +816,7 @@ Feature: Reopen tickets
     Then I should see the first date is not today in the gift card detail list
     And I should see the first type "ActivateNew" in the gift card detail list
     And I should see the first amount "$100.00" in the gift card detail list
-@fix
+
   Scenario: Update gift card balance after increasing the tip via Adjust Tip of GC payment
     Given I am on the HOME page
     When I clock in the timesheet with PIN "4377"
