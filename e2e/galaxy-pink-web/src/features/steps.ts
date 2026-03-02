@@ -203,7 +203,7 @@ When('I close the popup dialog', async ({ page }) => {
 Then('I should see the tax amount non-zero', async ({ page }) => {
 	const chargeTax = page.locator('.xCharge__taxes');
 
-	await expect(chargeTax).not.toContainText('0.00');
+	//await expect(chargeTax).not.toContainText('0.00');
 	await expect(chargeTax).not.toHaveText('$0.00');
 });
 

@@ -622,11 +622,11 @@ Feature: Reopen tickets
     When I add the "Gift Card $199.50" service to my cart
     Then I should see a popup dialog with title "Activate Gift Card $199.50"
 
-    When I enter the amount "0018"
+    When I enter the amount "0019"
     And I click on the "OK" button in the popup dialog
-    Then I should see the number card "0018" visible
+    Then I should see the number card "0019" visible
     Then I should see my cart showing 1 item added
-    Then I should see the service "Gift Card $199.50 (0018)" in my cart
+    Then I should see the service "Gift Card $199.50 (0019)" in my cart
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -648,7 +648,7 @@ Feature: Reopen tickets
     And I should not see the employee "Leon" in the ticket list
 
     Given I am on the GIFT_CARD_BALANCE page
-    When I enter the amount "0018"
+    When I enter the amount "0019"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
     Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"

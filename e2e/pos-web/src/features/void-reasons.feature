@@ -14,14 +14,16 @@ Feature: Void reasons management
     When I wait for the page fully loaded
     Then I should see the "Void Reasons" screen
 
-    When I click on the "Add New" button
+    When I click on refresh
+    And I click on the "Add New" button
     Then I should see a popup dialog with title "Create New Reason"
     When I fill the "Void Reason" field with value "AutoTestVoidReason"
     Then Active button should be ON with value true
     When I click on the "Save" button in the popup dialog
     Then I should see the toast message "The data item has been added successfully" visible
 
-    When I search for "AutoTestVoidReason"
+    When I click on refresh
+    And I search for "AutoTestVoidReason"
     And I click on the action "Delete" button for item "AutoTestVoidReason"
     Then I should see a popup dialog with title "Delete Confirmation"
     When I click on the "Delete" button in the popup dialog
