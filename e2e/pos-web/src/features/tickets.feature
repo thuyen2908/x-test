@@ -792,7 +792,7 @@ Feature: Reopen tickets
 
     When I select the "Gift" payment type
     Then I should see the "ID GIFT CARD" name
-    When I fill the Gift card with "0903"
+    When I fill the Gift card with "1003"
     And I click on the "CHECK BALANCE" button
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
@@ -808,7 +808,7 @@ Feature: Reopen tickets
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
     And I should see the text "PAYMENT HISTORY" visible
-    And I should see the payment history "Gift (0903)" visible
+    And I should see the payment history "Gift (1003)" visible
 
     When I remove payment history "Gift" in ticket view
     And I select the "Cash" payment type
@@ -818,7 +818,7 @@ Feature: Reopen tickets
     Then I should be redirected to HOME page
 
     Given I am on the GIFT_CARD_BALANCE page
-    When I search gift card "0903"
+    When I search gift card "1003"
     Then I should see the first date is not today in the gift card detail list
     And I should see the first type "ActivateNew" in the gift card detail list
     And I should see the first amount "$100.00" in the gift card detail list

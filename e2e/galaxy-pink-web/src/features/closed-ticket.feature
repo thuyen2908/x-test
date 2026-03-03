@@ -667,7 +667,7 @@ Feature: Closed Ticket
     And I should see the tip guide "20% TIP = $5.85" on the receipt
 
     Then I should see the QR code on the receipt
-@fix
+
   Scenario: Update gift card balance correctly after voiding a gift card payment and paying with cash
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6566"
