@@ -58,8 +58,7 @@ Feature: Quick payroll
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-    When I wait for the page fully loaded
-    And I click on the header menu
+    When I click on the header menu
     And I select the "Manager" label in the menu list
     And I select the "Quick Payroll" label in the expanded list
     Then I should be redirected to QUICK_PAYROLL page
@@ -92,14 +91,16 @@ Feature: Quick payroll
     And I should see the Total Sales, Net Comm, NC Tip as "$135.70 $54.62 $9.75" in the payroll receipt
 
     Given I am on the CLOSED_TICKETS page
-    When I wait for the page fully loaded
-    And I search for "249.77"
+    # When I wait for the page fully loaded
+    When I search for "249.77"
     And I wait for the page fully loaded
     Then I should see the first ticket of payment "$249.77"
 
     When I reopen to void ticket with payment amount "$249.77"
     Then I should be redirected to HOME page
     And I should not see the employee "Serena" in the ticket list
+
+    When I delete ticket after void it with payment amount "245.70"
 
   Scenario: Display Hourly payroll details correctly in the payroll summary
     Given I am on the HOME page
@@ -136,12 +137,12 @@ Feature: Quick payroll
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
-    When I wait for the page fully loaded
-    And I clock out the timesheet with PIN "7016"
+    # When I wait for the page fully loaded
+    When I clock out the timesheet with PIN "7016"
     Then I should not see the employee "Jen" in the employee list
 
     Given I am on the QUICK_PAYROLL page
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the "Quick Payroll" screen
 
     When I wait for the page fully loaded
@@ -162,11 +163,13 @@ Feature: Quick payroll
     And I should see the NC Tip as "$9.75" in the payroll receipt
 
     Given I am on the CLOSED_TICKETS page
-    When I wait for the page fully loaded
-    And I search for "250.80"
+    # When I wait for the page fully loaded
+    When I search for "250.80"
     And I wait for the page fully loaded
     Then I should see the first ticket of payment "$250.80"
 
     When I reopen to void ticket with payment amount "$250.80"
     Then I should be redirected to HOME page
     And I should not see the employee "Jen" in the ticket list
+
+    When I delete ticket after void it with payment amount "246.70"

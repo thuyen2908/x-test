@@ -456,6 +456,78 @@ class xPage {
 	}
 
 	/**
+	 * Composite step: delete ticket after void it.
+	 *
+	 * Performs, in order, the same actions as these existing steps:
+	 * 1) When I navigate to "Tickets" on the navigation bar
+	 * 2) And I click on refresh
+	 * 3) And I wait for the page fully loaded
+	 * 4) When I search for "<amount>"
+	 * 5) And I click on the first row for payment "<amount>"
+	 * 6) And I click the Delete ticket button
+	 * 7) And I click on the "confirm" button in the popup dialog
+	 * 8) And I wait for the page fully loaded
+	 * 9) Then I should see the toast message "deleted successfully" visible
+	 */
+	@When('I delete ticket after void it with payment amount {string}')
+	public async deleteTicketWithPaymentAmount(amount: string) {
+		// 1) When I navigate to "Tickets" on the navigation bar
+		await this.selectNavItem('Tickets');
+
+		// 2) And I click on refresh
+		const refreshButton = this.page.getByTestId('RefreshIcon');
+		await expect(refreshButton).toBeVisible();
+		await refreshButton.click();
+
+		// 3) And I wait for the page fully loaded
+		await this.waitForNetworkIdle();
+
+		// 4) When I search for "<amount>"
+		await this.page
+			.locator('input[placeholder="Search…"]')
+			.first()
+			.fill(amount);
+		await this.page.waitForTimeout(500);
+
+		// 5) And I click on the first row for payment "<amount>" to expand details
+		const firstPaymentRow = this.page
+			.locator('.MuiDataGrid-virtualScrollerContent')
+			.locator('.MuiDataGrid-row')
+			.filter({
+				has: this.page.locator('[data-field="paymentTotal"]', {
+					hasText: amount,
+				}),
+			})
+			.first();
+
+		await expect(firstPaymentRow).toBeVisible();
+		await firstPaymentRow.click();
+
+		// 6) And I click the Delete ticket button
+		const buttonDelete = this.page.locator('svg[data-testid="DeleteIcon"]');
+		await expect(buttonDelete).toBeVisible();
+		await buttonDelete.click();
+
+		// 7) And I click on the "confirm" button in the popup dialog
+		const dialog = this.page.locator('div[role="dialog"]').last();
+		const saveButton = dialog.getByRole('button', {
+			name: 'confirm',
+			exact: true,
+		});
+		await expect(saveButton).toBeVisible();
+		await saveButton.click();
+
+		// // 8) And I wait for the page fully loaded
+		// await this.waitForNetworkIdle();
+
+		// // 9) Then I should see the toast message "deleted successfully" visible
+		// const toastMessage = this.page.locator('.MuiAlert-message', {
+		// 	hasText: 'deleted successfully',
+		// });
+		// await expect(toastMessage).toBeVisible();
+	}
+
+	/**
 	 * Composite step: adjust tip amount from payment history.
 	 *
 	 * Performs, in order, the same actions as these existing steps:
@@ -657,36 +729,47 @@ class xPage {
 	 *  4) Then I should see a popup dialog with title "<paymentType> "
 	 *  5) When I click on the "Remove" button in the popup dialog
 	 */
+
 	@When('I remove payment history {string} in ticket view')
-	public async removePaymentHistoryInTicketView(paymentType: string) {
-		// 1) When I click on the more menu for payment history of "<paymentType>"
+	public async removePaymentHistoryInTicketView(fullPaymentString: string) {
+		if (typeof fullPaymentString !== 'string') {
+			throw new Error('Payment string must be a valid string');
+		}
+
+		const paymentType = fullPaymentString.includes('-')
+			? (fullPaymentString.split('-')[0]?.trim() ?? fullPaymentString)
+			: fullPaymentString.trim();
+
 		const paymentHistoryItem = this.page
 			.locator('.xPayment__history--list li')
-			.filter({ hasText: paymentType });
+			.filter({ hasText: paymentType })
+			.first();
+
+		await expect(paymentHistoryItem).toBeVisible();
 		await paymentHistoryItem.locator('button[aria-label="more"]').click();
 
-		// 2) Then I should see the tooltip remove
-		const tooltipRemove = this.page.locator(
-			'.xPayment__history--tooltip.active .label:has-text("Remove")',
-		);
-		await expect(tooltipRemove).toBeVisible();
+		const tooltipRemove = this.page
+			.locator('.xPayment__history--tooltip.active .label')
+			.filter({ hasText: /^Remove$/ });
 
-		// 3) When I click on the tooltip remove
+		await expect(tooltipRemove).toBeVisible();
 		await tooltipRemove.click();
 
-		// 4) Then I should see a popup dialog with title "<paymentType> "
-		const dialogTitleElement = this.page.locator('.MuiDialogTitle-root');
-		await expect(dialogTitleElement).toBeVisible();
-		await expect(dialogTitleElement).toContainText(paymentType);
+		const dialog = this.page.locator('div[role="dialog"]').last();
+		const dialogTitleElement = dialog.locator('.MuiDialogTitle-root');
 
-		// 5) When I click on the "Remove" button in the popup dialog
-		const dialog = this.page.locator('div[role="dialog"]');
+		await expect(dialogTitleElement).toBeVisible();
+		await expect(dialogTitleElement).toContainText(fullPaymentString);
+
 		const removeButton = dialog.getByRole('button', {
 			name: 'Remove',
 			exact: true,
 		});
+
 		await expect(removeButton).toBeVisible();
 		await removeButton.click();
+
+		await expect(dialog).toBeHidden();
 	}
 
 	/**

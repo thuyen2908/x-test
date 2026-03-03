@@ -67,7 +67,10 @@ Feature: Turn details
     Then I should be redirected to HOME page
     And I should not see the employee "Jessica" in the ticket list
 
-    When I click on the queue "HAIR" button
+    When I delete ticket after void it with payment amount "27.11"
+    And I back to HOME page
+
+    And I click on the queue "HAIR" button
     Then I should see the employee "Jessica" in the employee list
     And I should see Employee "Jessica" with "Turn: 0.0" in the employee list
     # And I should see the turn number for "Jessica" is 0.0
@@ -311,6 +314,8 @@ Feature: Turn details
     Then I should be redirected to HOME page
     And I should not see the employee "Go Again" in the ticket list
     And I should see Employee "Go Again" with "Turn: 0.0" in the employee list
+
+    When I delete ticket after void it with payment amount "21.26"
 
  Scenario: Adjust turn - Move, Remove Move
     Given I am on the HOME page

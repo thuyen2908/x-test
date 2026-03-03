@@ -872,6 +872,8 @@ Feature: Create tickets
     Then I should be redirected to HOME page
     And I should not see the employee "Aubrey" in the ticket list
 
+    When I delete ticket after void it with payment amount "35.7"
+
   Scenario: Select service to change technician
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8226"
@@ -976,6 +978,8 @@ Feature: Create tickets
     When I reopen to void ticket with payment amount "$56.50"
     Then I should be redirected to HOME page
     And I should not see the employee "Paige" in the ticket list
+
+    When I delete ticket after void it with payment amount "55.00"
 
   Scenario: No cash discount is charged when selling GC
     Given I am on the HOME page

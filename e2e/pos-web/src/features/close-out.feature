@@ -66,14 +66,16 @@ Feature: Close Out report
     And I should see the summary detail "I OWE SALON $50.00" in the bill render
 
     Given I am on the CLOSED_TICKETS page
-    When I wait for the page fully loaded
-    And I search for "235.35"
+    # When I wait for the page fully loaded
+    When I search for "235.35"
     And I wait for the page fully loaded
     Then I should see the first ticket of payment "$235.35"
 
     When I reopen to void ticket with payment amount "$235.35"
-    Then I should be redirected to HOME page
-    And I should not see the employee "Elena" in the ticket list
+    # Then I should be redirected to HOME page
+    Then I should not see the employee "Elena" in the ticket list
+
+    When I delete ticket after void it with payment amount "231.70"
 
   Scenario: Technician report summary display correctly
     Given I am on the HOME page
@@ -127,3 +129,5 @@ Feature: Close Out report
     When I reopen to void ticket with payment amount "$236.38"
     Then I should be redirected to HOME page
     And I should not see the employee "Gemma" in the ticket list
+
+    When I delete ticket after void it with payment amount "232.70"

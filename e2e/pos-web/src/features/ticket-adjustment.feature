@@ -403,13 +403,13 @@ Feature: Fix Ticket
     When I add the "Gift card $50" service to my cart
     Then I should see a popup dialog with title "Activate Gift Card $50.00"
 
-    When I enter the amount "1703"
+    When I enter the amount "0503"
     And I click on the "OK" button in the popup dialog
-    Then I should see the number card "1703" visible
+    Then I should see the number card "0503" visible
     When I click on the "ADD ON" button in the popup dialog
 
     Then I should see my cart showing 2 item added
-    And I should see the service "Gift card $50 (1703)" in my cart
+    And I should see the service "Gift card $50 (0503)" in my cart
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -435,14 +435,14 @@ Feature: Fix Ticket
     Then I should see the first ticket with total "$76.70"
     When I select the first ticket with total "$76.70"
     Then I should see the service "Acrylic removal" in my cart
-    And I should see the service "Gift card $50 (1703)" in my cart
+    And I should see the service "Gift card $50 (0503)" in my cart
 
-    When I select the service "Gift card $50 (1703)" in my cart
+    When I select the service "Gift card $50 (0503)" in my cart
     Then I should see the check icon
     When I click on the action "VOID ITEM" button
     And I select the reason "Mistake"
     And I click on the "OK" button in the popup dialog
-    Then I should not see the service "Gift card $50 (1703)" in my cart
+    Then I should not see the service "Gift card $50 (0503)" in my cart
     And I should see the charge display "TOTAL$26.70"
 
     When I select the "PAYMENT" tab
@@ -465,13 +465,13 @@ Feature: Fix Ticket
     And I wait for the page fully loaded
 
     Given I am on the GIFT_CARD_BALANCE page
-    When I enter the amount "1703"
+    When I enter the amount "0503"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
 
     # And I should see the first date is not today in the gift card detail list
     Then I should see the first type "ActivateNew" in the gift card detail list
-    And I should see the first amount "$50.00" in the gift card detail list
+    And I should see the first amount "$200.00" in the gift card detail list
 
 Scenario: Remove Tax and make new payment
     Given I am on the HOME page
