@@ -138,14 +138,16 @@ Feature: Payroll
     And I should see the Total Sales, Net Comm, NC Tip, Total Payout as "$105.70 $36.62 $9.75 $41.37" in employee view
 
     Given I am on the CLOSED_TICKETS page
-    When I wait for the page fully loaded
-    And I search for "218.87"
+    # When I wait for the page fully loaded
+    When I search for "218.87"
     And I wait for the page fully loaded
     Then I should see the first ticket of payment "$218.87"
 
     When I reopen to void ticket with payment amount "$218.87"
     Then I should be redirected to HOME page
     And I should not see the employee "Sydney" in the ticket list
+    When I wait for the page fully loaded
+    And I delete ticket after void it with payment amount "215.70"
 
   Scenario: Commission payroll details in the Owner View are calculated correctly
     Given I am on the HOME page
@@ -220,15 +222,17 @@ Feature: Payroll
     And I should see the detail "Gross Profit: $73.84" in the single payroll view
 
     Given I am on the CLOSED_TICKETS page
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
 
-    And I search for "2.35"
+    When I search for "229.17"
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$235.35"
+    Then I should see the first ticket of payment "$229.17"
 
     When I reopen to void ticket with payment amount "$229.17"
     Then I should be redirected to HOME page
     And I should not see the employee "Venus" in the ticket list
+
+    When I delete ticket after void it with payment amount "225.70"
 
   Scenario: Hourly payroll details in the Employee View are calculated correctly
     Given I am on the HOME page
@@ -269,7 +273,7 @@ Feature: Payroll
     Then I should not see the employee "Jazzie" in the employee list
 
     Given I am on the PAYROLL page
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the "Payroll" screen
 
     When I wait for the page fully loaded
@@ -292,8 +296,8 @@ Feature: Payroll
     And I should see the Reg Pay, NC Tip, Commission as "$0.00 $9.75 $5.00" in employee view
 
     Given I am on the CLOSED_TICKETS page
-    When I wait for the page fully loaded
-    And I search for "218.97"
+    # When I wait for the page fully loaded
+    When I search for "218.97"
     And I wait for the page fully loaded
     Then I should see the first ticket of payment "$218.97"
 
@@ -340,7 +344,7 @@ Feature: Payroll
     When I wait for the page fully loaded
 
     Given I am on the PAYROLL page
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the "Payroll" screen
 
     When I wait for the page fully loaded
@@ -366,8 +370,8 @@ Feature: Payroll
     And I should see the detail "Gross Profit: $106.95" in the single payroll view
 
     Given I am on the CLOSED_TICKETS page
-    When I wait for the page fully loaded
-    And I search for "230.20"
+    # When I wait for the page fully loaded
+    When I search for "230.20"
     And I wait for the page fully loaded
     Then I should see the first ticket of payment "$230.20"
 

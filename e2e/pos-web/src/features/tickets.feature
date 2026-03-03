@@ -478,12 +478,12 @@ Feature: Reopen tickets
     When I add the "Gift card $50" service to my cart
     Then I should see a popup dialog with title "Activate Gift Card $50.00"
 
-    When I enter the amount "1703"
+    When I enter the amount "2030"
     And I click on the "OK" button in the popup dialog
-    Then I should see the number card "1703" visible
+    Then I should see the number card "2030" visible
     When I click on the "ADD ON" button in the popup dialog
     Then I should see my cart showing 2 item added
-    And I should see the service "Gift card $50 (1703)" in my cart
+    And I should see the service "Gift card $50 (2030)" in my cart
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -504,8 +504,10 @@ Feature: Reopen tickets
     Then I should be redirected to HOME page
     And I should not see the employee "Isabella" in the ticket list
 
+    When I delete ticket after void it with payment amount "77.5"
+
     Given I am on the GIFT_CARD_BALANCE page
-    When I search gift card "1703"
+    When I search gift card "2030"
     Then I should see the first type "ActivateNew" in the gift card detail list
     And I should see the first amount "$50.00" in the gift card detail list
 
@@ -587,11 +589,11 @@ Feature: Reopen tickets
     When I add the "Gift Card $199.50" service to my cart
     Then I should see a popup dialog with title "Activate Gift Card $199.50"
 
-    When I enter the amount "0019"
+    When I enter the amount "0020"
     And I click on the "OK" button in the popup dialog
-    Then I should see the number card "0019" visible
+    Then I should see the number card "0020" visible
     Then I should see my cart showing 1 item added
-    Then I should see the service "Gift Card $199.50 (0019)" in my cart
+    Then I should see the service "Gift Card $199.50 (0020)" in my cart
 
     When I click on the "PAY" button
     Then I should see the text "PAYMENT TICKET" visible
@@ -612,8 +614,10 @@ Feature: Reopen tickets
     Then I should be redirected to HOME page
     And I should not see the employee "Leon" in the ticket list
 
+    When I delete ticket after void it with payment amount "199.50"
+
     Given I am on the GIFT_CARD_BALANCE page
-    When I enter the amount "0019"
+    When I enter the amount "0020"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
     Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
@@ -650,6 +654,8 @@ Feature: Reopen tickets
 
     When I void the current open ticket with reason "System Test"
     Then I should be redirected to HOME page
+
+    When I delete ticket after void it with payment amount "11.50"
 
     When I navigate to "Balance" on the navigation bar
     And I select the "Loyalty" option
@@ -804,7 +810,7 @@ Feature: Reopen tickets
     And I should see the text "PAYMENT HISTORY" visible
     And I should see the payment history "Gift (0903)" visible
 
-    When I remove payment history "Gift  - $17.50" in ticket view
+    When I remove payment history "Gift" in ticket view
     And I select the "Cash" payment type
     And I click on the element with id "payment"
     Then I should see a popup dialog with title "Close Ticket"

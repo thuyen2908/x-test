@@ -61,7 +61,7 @@ Feature: Ticket Payments
     Then I should be redirected to HOME page
 
     Given I am on the TICKET_PAYMENTS page
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the "Ticket Payments" screen
 
     When I wait for the page fully loaded
@@ -77,14 +77,16 @@ Feature: Ticket Payments
     # Then I should see the Total Sale, Payment, Surcharge, Card Fee, Tip, Tax, Closed By as "$218.70 $232.26 $3.56 $10.00 $0.00 Hilary" in the tickets details
 
     Given I am on the CLOSED_TICKETS page
-    When I wait for the page fully loaded
-    And I search for "232.26"
+    # When I wait for the page fully loaded
+    When I search for "232.26"
     And I wait for the page fully loaded
     Then I should see the first ticket of payment "$232.26"
 
     When I reopen to void ticket with payment amount "$232.26"
     Then I should be redirected to HOME page
     And I should not see the employee "Hilary" in the ticket list
+
+    When I delete ticket after void it with payment amount "228.70"
 
   Scenario: The Services/Products tab displays data correctly
     Given I am on the HOME page
@@ -129,11 +131,11 @@ Feature: Ticket Payments
     Then I should be redirected to HOME page
 
     Given I am on the TICKET_PAYMENTS page
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the "Ticket Payments" screen
 
     When I click on the "SERVICES/PRODUCTS" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     And I search for "Valerie"
     And I wait for the page fully loaded
     Then I should see the "Total Net Price" has value "$66.70" in the ticket payment
@@ -162,8 +164,8 @@ Feature: Ticket Payments
     # Then I should see the Total Sale, Payment, Surcharge, Card Fee, Tip, Tax, Closed By as "$218.70 $232.26 $3.56 $10.00 $0.00 Hilary" in the tickets details
 
     Given I am on the CLOSED_TICKETS page
-    When I wait for the page fully loaded
-    And I search for "71.83"
+    # When I wait for the page fully loaded
+    When I search for "71.83"
     And I wait for the page fully loaded
     Then I should see the first ticket of payment "$71.83"
 

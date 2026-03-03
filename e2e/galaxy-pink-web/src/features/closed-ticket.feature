@@ -667,7 +667,7 @@ Feature: Closed Ticket
     And I should see the tip guide "20% TIP = $5.85" on the receipt
 
     Then I should see the QR code on the receipt
-
+@fix
   Scenario: Update gift card balance correctly after voiding a gift card payment and paying with cash
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6566"
@@ -683,12 +683,12 @@ Feature: Closed Ticket
     And I change price amount "17.5"
     And I click on the "Pay" button
     And I select the "Gift" payment type
-    And I fill the last 4 digits of card number "0903"
+    And I fill the last 4 digits of card number "1003"
     And I click on search
     And I wait for the page fully loaded
     And I click on the "OK" button
     And I wait for the page fully loaded
-    Then I should see the payment Gift history "Gift (0903) $17.50" visible
+    Then I should see the payment Gift history "Gift (1003) $17.50" visible
 
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
@@ -706,8 +706,8 @@ Feature: Closed Ticket
     And I should see the user info "Willow" in the ticket
 
     When I click on the "Pay" button
-    Then I should see the payment history "Gift (0903)$17.50 " visible
-    When I select the payment history "Gift (0903)$17.50 "
+    Then I should see the payment history "Gift (1003)$17.50 " visible
+    When I select the payment history "Gift (1003)$17.50 "
     And I click on the "VOID" button
     Then I should see a popup dialog with title "Gift  - $17.50"
 
@@ -722,6 +722,6 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     Given I am on the GIFT_CARD_BALANCE page
-    When I search gift card "0903"
+    When I search gift card "1003"
     Then I should see the first type "ActivateNew" in the gift card detail list
     And I should see the first amount "$100.00" in the gift card detail list
