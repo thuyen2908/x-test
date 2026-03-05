@@ -868,3 +868,65 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should see the selected "SERVICE" tab on the Home page
+  Scenario: Update GC balance when making multiple payments using 2 GCs
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "8526"
+    Then I should see the employee "Hung" in the employee list
+    When I select the "Hung" employee
+
+    When I add the "Pedicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I click on the total price of "Pedicure"
+    And I change price amount "45.8"
+
+    When I click on the "Pay" button
+    And I enter the amount "10"
+    When I select the "Gift" payment type
+    When I fill the last 4 digits of card number "0157"
+    And I click on search
+    And I wait for the page fully loaded
+    And I click on the "OK" button
+    And I wait for the page fully loaded
+    Then I should see the payment history "Gift (0157)$10.00 " visible
+
+    When I select the "Gift" payment type
+    And I fill the last 4 digits of card number "01578"
+    And I click on search
+    And I wait for the page fully loaded
+    And I click on the "OK" button
+    And I wait for the page fully loaded
+    When I click on the "Close Ticket" button
+    Then I should see the selected "SERVICE" tab on the Home page
+
+    Given I am on the GIFT_CARD_BALANCE page
+    When I search gift card "0157"
+    Then I should see the first date is today in the gift card detail list
+    And I should see the first type "Redeem" in the gift card detail list
+    And I should see the first amount "($10.00)" in the gift card detail list
+    When I search gift card "8"
+    Then I should see the first date is today in the gift card detail list
+    And I should see the first type "Redeem" in the gift card detail list
+    And I should see the first amount "($35.80)" in the gift card detail list
+
+    When I back to HOME page
+    Then I should see the selected "SERVICE" tab on the Home page
+    When I select the "CLOSED TICKET" tab
+    And I wait for the page fully loaded
+    When I search for "45.80"
+    When I reopen to void ticket with payment amount "$45.80"
+    Then I should be redirected to HOME page
+    When I waiting 1s
+    When I select the "CLOSED TICKET" tab
+    When I waiting 1s
+    When I click on refresh
+    And I wait for the page fully loaded 
+    When I search for "45.80"
+    And I wait for the page fully loaded
+    When I click on the first row for payment "$45.80"
+    And I click the Delete ticket button
+    Then I should see a popup dialog with title 'Confirm Delete'
+    When I click on the "confirm" button in the popup dialog
+    And I wait for the page fully loaded
+
+    
