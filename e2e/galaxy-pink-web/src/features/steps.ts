@@ -2688,7 +2688,7 @@ Then(
 );
 
 Then(
-	'I should see the Auto Turn 20.00 for {string}',
+	'I should see the Auto Turn 50.00 for {string}',
 	async ({ page }, name: string) => {
 		const row = page.locator('tr').filter({
 			has: page.locator(`[title="${name}"]`),
@@ -2696,7 +2696,7 @@ Then(
 		await expect(row).toBeVisible();
 
 		const turnCell = row.locator('td', {
-			has: page.locator('.MuiChip-label', { hasText: '20.00' }),
+			has: page.locator('.MuiChip-label', { hasText: '50.00' }),
 		});
 		await expect(turnCell.first()).toBeVisible();
 	},
@@ -2736,14 +2736,14 @@ Then(
 );
 
 Then(
-	'I should see the Turn 20.00 for {string}',
+	'I should see the Turn 50.00 for {string}',
 	async ({ page }, name: string) => {
 		const row = page.locator('td').filter({
 			has: page.getByTitle(name),
 		});
 		const turnLabel = row
 			.locator('.MuiChip-root', { hasText: 'Turn' })
-			.locator('.MuiChip-label', { hasText: '20.00' });
+			.locator('.MuiChip-label', { hasText: '50.00' });
 		await expect(turnLabel).toBeVisible();
 	},
 );

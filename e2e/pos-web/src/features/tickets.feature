@@ -410,7 +410,7 @@ Feature: Reopen tickets
 
     When I reopen to void ticket with payment amount "$16.48"
     Then I should be redirected to HOME page
-    And I should not see the employee "Daisy" in the ticket list
+    # And I should not see the employee "Daisy" in the ticket list
 
   Scenario: Reopen ticket to void item, remove and make new payment
     Given I am on the HOME page

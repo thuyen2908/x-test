@@ -448,12 +448,9 @@ Feature: Ticket adjustment
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
+    Given I am on the TICKET_ADJUSTMENT page
     When I wait for the page fully loaded
-    And I click on the header menu
-    And I select the "Manager" label in the menu list
-    And I select the "Ticket Adjustment" label in the expanded list
-    Then I should be redirected to TICKET_ADJUSTMENT page
-    And I should see the "Ticket Adjustment" screen
+    Then I should see the "Ticket Adjustment" screen
     And I should see the text "TICKET#" visible
 
     When I wait for the page fully loaded

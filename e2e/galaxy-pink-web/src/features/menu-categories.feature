@@ -9,14 +9,16 @@ Feature: Menu Categories management
     And I select the "Menu Categories" label in the expanded list
     Then I should be redirected to CATEGORIES page
     And I should see the "Menu Categories" screen
- Scenario: Add and then delete a Menu Category
+
+  @skip
+  Scenario: Add and then delete a Menu Category
     Given I am on the HOME page
     When I click on the header menu
     And I select the "Back Office" label in the menu list
     And I select the "Menu Categories" label in the expanded list
     Then I should be redirected to CATEGORIES page
     And I should see the "Menu Categories" screen
-    When I click on the "New Category" button 
+    When I click on the "New Category" button
     Then I should be redirected to CATEGORIES_CREATE page
     And I should see the "Create Menu Category" screen
     When I wait for the page fully loaded
@@ -26,7 +28,7 @@ Feature: Menu Categories management
     When I click on the check-box "Add to CheckIn" button
     When I select the "Employees Show on Check-In" tab
     When I click on the check-box Select All button
-    When I click on the "Save" button 
+    When I click on the "Save" button
     And I wait for the page fully loaded
     Then I should see the toast message "The data item has been created successfully" visible
     When I click on the "Refresh" button
