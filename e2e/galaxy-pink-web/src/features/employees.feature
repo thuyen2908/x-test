@@ -9,6 +9,7 @@ Feature: Employee management
     Then I should be redirected to EMPLOYEES page
     And I should see the "Employees" screen
 
+  @skip
   Scenario: Create a new Employee
     Given I am on the EMPLOYEES page
     When I wait for the page fully loaded

@@ -423,6 +423,7 @@ class xPage {
 
 		if (await voidReasonDialog.isVisible()) {
 			await voidReasonDialog.getByText('System Test', { exact: true }).click();
+			await this.waitForNetworkIdle();
 
 			// In UI HTML, confirm dialog title is "Confirm Void" (draggable), and confirm button text is "confirm".
 			const confirmDialog = this.page

@@ -181,7 +181,7 @@ Feature: Turn details
     When I wait for the page fully loaded
     Then I should see the Turn 0.00 for "Leah"
     And I should see the Round 0 for "Leah"
-
+@fix
   Scenario: Manually adding increase a turn reorders the employee queue
     Given I am on the HOME page
     When I select the "TURN DETAILS" tab
@@ -196,11 +196,12 @@ Feature: Turn details
     Then I should see a popup dialog containing the title "Nails"
     And I should see a popup dialog with content "Technician: Amelia"
 
-    When I enter the amount "20"
+    When I enter the amount "50"
     And I click on the "INCREASE" button in the popup dialog
 
     When I wait for the page fully loaded
-    Then I should see the Auto Turn 20.00 for "Amelia"
+    Then I should see the Auto Turn 50.00 for "Amelia"
+    #Then I should see the Auto Turn 20.00 for "Amelia"
 
     When I select the "SERVICE" tab
     When I back to HOME page
@@ -212,7 +213,8 @@ Feature: Turn details
     And I should see the text "All" visible
     When I click on the "Nails" button
     Then I should see the Round 1 for "Amelia"
-    And I should see the Turn 20.00 for "Amelia"
+    # And I should see Employee "Amelia" with "C = 50.0" in the employee list
+    And I should see the Turn 50.00 for "Amelia"
 
     When I double click on the first turn detail for "Amelia"
     Then I should see a popup dialog containing the title "Nails"

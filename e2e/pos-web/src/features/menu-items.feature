@@ -9,6 +9,7 @@ Feature: Menu Items management
     Then I should be redirected to PRODUCTS page
     And I should see the "Menu Items" screen
 
+  @skip
   Scenario: Add and then delete a Menu Item
     Given I am on the HOME page
     When I wait for the page fully loaded

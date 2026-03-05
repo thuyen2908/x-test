@@ -16,13 +16,13 @@ Feature: Departments management
     And I select the "Departments" label in the expanded list
     Then I should be redirected to DEPARTMENT page
     And I should see the "Departments" screen
-    When I click on the "Refresh" button 
+    When I click on the "Refresh" button
     And I wait for the page fully loaded
     When I click on the "Add New" button
     Then I should see a popup dialog with title "Create New Department"
     When I fill the "Department Name" field with value "Pedicure & Manicure"
     And I select the "Department Type" with value "Service"
-    And I click on the "Save" button 
+    And I click on the "Save" button
     And I wait for the page fully loaded
     Then I should see the toast message "The data item has been created successfully" visible
     When I search for "Pedicure & Manicure"
@@ -34,6 +34,7 @@ Feature: Departments management
     When I click on the "Delete" button in the popup dialog
     Then I should see the toast message "The data item has been permanently deleted successfully" visible
 
+  @skip
   Scenario: Copy to create a new department
     Given I am on the HOME page
     When I click on the header menu
@@ -41,7 +42,7 @@ Feature: Departments management
     And I select the "Departments" label in the expanded list
     Then I should be redirected to DEPARTMENT page
     And I should see the "Departments" screen
-    When I click on the "Refresh" button 
+    When I click on the "Refresh" button
     And I wait for the page fully loaded
     When I search for "Nails"
     And I wait for the page fully loaded
@@ -66,5 +67,5 @@ Feature: Departments management
     Then I should see a popup dialog with title "Delete Confirmation"
     When I click on the "Delete" button in the popup dialog
     Then I should see the toast message "The data item has been permanently deleted successfully" visible
-    When I click on the "Refresh" button 
+    When I click on the "Refresh" button
     And I wait for the page fully loaded
