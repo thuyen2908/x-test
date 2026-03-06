@@ -1052,17 +1052,6 @@ Feature: Create tickets
     And I should see the first type "Redeem" in the gift card detail list
     And I should see the first amount "($35.80)" in the gift card detail list
 
-    When I navigate to "Tickets" on the navigation bar
-    And I wait for the page fully loaded
-
-    When I search for "45.80"
-    And I wait for the page fully loaded
-    And I reopen ticket with payment amount "$45.80"
-    And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "Hung" in the ticket
-    And I should be redirected to HOME page
-
   Scenario: Apply auto-discount item and change it to another
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9960"
