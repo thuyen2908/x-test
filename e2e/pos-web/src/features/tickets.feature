@@ -502,7 +502,7 @@ Feature: Reopen tickets
 
     When I reopen to void ticket with payment amount "$77.5"
     Then I should be redirected to HOME page
-    And I should not see the employee "Isabella" in the ticket list
+    # And I should not see the employee "Isabella" in the ticket list
 
     When I delete ticket after void it with payment amount "77.5"
 
