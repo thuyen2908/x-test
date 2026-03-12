@@ -480,8 +480,15 @@ class xPage {
 		await expect(refreshButton).toBeVisible();
 		await refreshButton.click();
 
-		// 3) And I wait for the page fully loaded
-		await this.waitForNetworkIdle();
+		// 3) Then I should see the toast message "refreshed successfully" visible
+		const toastMessageSuccess = this.page.locator(
+			'[data-testid="SuccessAlertIconIcon"]',
+		);
+		await expect(toastMessageSuccess).toBeVisible();
+		// const toastMessageRefreshed = this.page.locator('.MuiAlert-message', {
+		// 	hasText: 'refreshed successfully.',
+		// });
+		// await expect(toastMessageRefreshed).toBeVisible();
 
 		// 4) When I search for "<amount>"
 		await this.page
@@ -521,11 +528,13 @@ class xPage {
 		// // 8) And I wait for the page fully loaded
 		// await this.waitForNetworkIdle();
 
-		// // 9) Then I should see the toast message "deleted successfully" visible
-		// const toastMessage = this.page.locator('.MuiAlert-message', {
+		// 9) Then I should see the toast message success visible
+		await expect(toastMessageSuccess).toBeVisible();
+
+		// const toastMessageDeleted = this.page.locator('.MuiAlert-message', {
 		// 	hasText: 'deleted successfully',
 		// });
-		// await expect(toastMessage).toBeVisible();
+		// await expect(toastMessageDeleted).toBeVisible();
 	}
 
 	/**
