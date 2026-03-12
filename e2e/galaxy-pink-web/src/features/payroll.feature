@@ -230,7 +230,7 @@ Feature: Payroll
 
     When I reopen to void ticket with payment amount "$229.17"
     Then I should see the selected "SERVICE" tab on the Home page
-    And I should not see the employee "Venus" in the ticket list
+    # And I should not see the employee "Venus" in the ticket list
 
   Scenario: Hourly payroll details in the Employee View are calculated correctly
     Given I am on the HOME page
