@@ -598,7 +598,7 @@ Scenario: Remove Tax and make new payment
     And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
 
-  Scenario: Add a customer to the ticket
+  Scenario: Update loyalty when adding a customer to the ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "4170"
     Then I should see the employee "Hazel" in the employee list

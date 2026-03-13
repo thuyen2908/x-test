@@ -2143,7 +2143,14 @@ Then(
 Then(
 	'I should see the employees displayed correctly in turn details',
 	async ({ page }) => {
-		const expectedEmployees = ['Addison', 'Anna', 'Avery', 'Emily', 'Jessica'];
+		const expectedEmployees = [
+			'Addison',
+			'Anna',
+			'Avery',
+			'Emily',
+			'Jessica',
+			'TurnDetail',
+		];
 
 		const employeeElements = page.locator('tbody tr td:first-child div[title]');
 		await expect(employeeElements).toHaveCount(expectedEmployees.length);
@@ -2520,88 +2527,6 @@ Then(
 		await expect(totalElement).not.toHaveText('Ticket Totals');
 		await expect(totalElement).toContainText(amount);
 		await expect(totalElement).toBeVisible();
-	},
-);
-
-// Then(
-// 	'I should see the turn number for {string} is 0.0',
-// 	async ({ page }, name: string) => {
-// 		const employeeItem = page.locator('li.xEmployeeItem').filter({
-// 			has: page.locator('.nickName', { hasText: name }),
-// 		});
-// 		await expect(employeeItem).toBeVisible();
-
-// 		const turnLabel = employeeItem.locator('.MuiChip-label', {
-// 			hasText: /C\s*=\s*0\.0/,
-// 		});
-// 		await expect(turnLabel.first()).toBeVisible();
-// 	},
-// );
-
-// Then(
-// 	'I should see the turn number for {string} is 1.0',
-// 	async ({ page }, name: string) => {
-// 		const employeeItem = page.locator('li.xEmployeeItem').filter({
-// 			has: page.locator('.nickName', { hasText: name }),
-// 		});
-// 		await expect(employeeItem).toBeVisible();
-
-// 		const turnLabel = employeeItem.locator('.MuiChip-label', {
-// 			hasText: /C\s*=\s*1\.0/,
-// 		});
-// 		await expect(turnLabel.first()).toBeVisible();
-// 	},
-// );
-
-Then(
-	'I should see the Round 1 for {string}',
-	async ({ page }, name: string) => {
-		const row = page.locator('td').filter({
-			has: page.getByTitle(name),
-		});
-		const roundLabel = row
-			.locator('.MuiChip-root', { hasText: 'Round' })
-			.locator('.MuiChip-label', { hasText: '1' });
-		await expect(roundLabel).toBeVisible();
-	},
-);
-
-Then(
-	'I should see the Round 0 for {string}',
-	async ({ page }, name: string) => {
-		const row = page.locator('td').filter({
-			has: page.getByTitle(name),
-		});
-		const roundLabel = row
-			.locator('.MuiChip-root', { hasText: 'Round' })
-			.locator('.MuiChip-label', { hasText: '0' });
-		await expect(roundLabel).toBeVisible();
-	},
-);
-
-Then(
-	'I should see the Turn 1.00 for {string}',
-	async ({ page }, name: string) => {
-		const row = page.locator('td').filter({
-			has: page.getByTitle(name),
-		});
-		const turnLabel = row
-			.locator('.MuiChip-root', { hasText: 'Turn' })
-			.locator('.MuiChip-label', { hasText: '1.00' });
-		await expect(turnLabel).toBeVisible();
-	},
-);
-
-Then(
-	'I should see the Turn 0.00 for {string}',
-	async ({ page }, name: string) => {
-		const row = page.locator('td').filter({
-			has: page.getByTitle(name),
-		});
-		const turnLabel = row
-			.locator('.MuiChip-root', { hasText: 'Turn' })
-			.locator('.MuiChip-label', { hasText: '0.00' });
-		await expect(turnLabel).toBeVisible();
 	},
 );
 
@@ -4622,5 +4547,28 @@ Then(
 
 		await expect(departmentCell).toBeVisible();
 		await expect(departmentCell).toContainText(name);
+	},
+);
+
+Then(
+	'I should see the Turn, Regular, Total, Left as {string} in turn details',
+	async ({ page }, expectedValues: string) => {
+		const values = expectedValues.split(' ');
+		expect(values).toHaveLength(4);
+
+		const [expectedTurn, expectedRegular, expectedTotal, expectedLeft] = values;
+		const detailsTable = page.locator('table.table-fixed');
+		const dataRow = detailsTable.locator('tr').nth(1);
+		await expect(dataRow).toBeVisible();
+
+		const turnCell = dataRow.locator('td').nth(1);
+		const regularCell = dataRow.locator('td').nth(2);
+		const totalCell = dataRow.locator('td').nth(3);
+		const leftCell = dataRow.locator('td').nth(4);
+
+		await expect(turnCell).toHaveText(expectedTurn);
+		await expect(regularCell).toHaveText(expectedRegular);
+		await expect(totalCell).toHaveText(expectedTotal);
+		await expect(leftCell).toHaveText(expectedLeft);
 	},
 );

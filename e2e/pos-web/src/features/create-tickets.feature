@@ -929,7 +929,7 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
-@fix
+
   Scenario: Show earning today
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0074"
