@@ -1,5 +1,5 @@
 import { expect, type Locator, type Page } from '@playwright/test';
-import { Fixture, Given, When } from 'playwright-bdd/decorators';
+import { Fixture, Given, Then, When } from 'playwright-bdd/decorators';
 
 import { constants } from '#const';
 import { type PageId, type TestOptions } from '#types';
@@ -938,5 +938,43 @@ class xPage {
 		if (await enterPasswordDialog.isVisible()) {
 			await this.closeOpeningDialog();
 		}
+	}
+
+	@When('I select the last turn {string} for {string}')
+	public async selectLastTurnForTechnician(turn: string, techName: string) {
+		const techRow = this.page.locator('tr.MuiTableRow-root', {
+			has: this.page.locator(`[title="${techName}"]`),
+		});
+
+		const turnCell = techRow
+			.locator('td.MuiTableCell-root')
+			.filter({ has: this.page.locator('p', { hasText: turn }) })
+			.last();
+
+		await expect(turnCell).toBeVisible();
+		await turnCell.click();
+	}
+	/**
+	 * Verify a specific chip value (Turn or Round) for a technician
+	 * @param chipInfo Format: "Label Value" (e.g., "Turn 0.00" or "Round 0")
+	 * @param techName Technician name (e.g., "Amelia")
+	 */
+	@Then('I should see {string} for {string}')
+	public async verifyChipValue(chipInfo: string, techName: string) {
+		const parts = chipInfo.split(' ');
+		const label = parts[0];
+		const value = parts.slice(1).join(' ');
+
+		const techRow = this.page.locator('tr.MuiTableRow-root', {
+			has: this.page.locator('.MuiBox-root', { hasText: techName }),
+		});
+
+		const chip = techRow.locator('.MuiChip-root', {
+			has: this.page.locator('.MuiChip-icon', { hasText: label }),
+		});
+
+		const chipLabel = chip.locator('.MuiChip-label');
+		await expect(chip).toBeVisible();
+		await expect(chipLabel).toHaveText(value);
 	}
 }

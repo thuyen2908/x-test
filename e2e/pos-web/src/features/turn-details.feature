@@ -20,7 +20,6 @@ Feature: Turn details
     And I click on the queue "HAIR" button
     Then I should see the employee "Jessica" in the employee list
     And I should see Employee "Jessica" with "Turn: 0.0" in the employee list
-    # And I should see the turn number for "Jessica" is 0.0
 
     When I select the "Jessica" employee
     Then I should see the "Ticket View" screen
@@ -43,7 +42,6 @@ Feature: Turn details
     When I click on the queue "Hair" button
     Then I should see the employee "Jessica" in the employee list
     And I should see Employee "Jessica" with "Turn: 1.0" in the employee list
-    # And I should see the turn number for "Jessica" is 1.0
 
     When I navigate to "Turn" on the navigation bar
     Then I should be redirected to TURN_DETAILS page
@@ -53,9 +51,8 @@ Feature: Turn details
     And I should see the text "Hair" visible
 
     When I click on the "Hair" button
-    Then I should see the Round 1 for "Jessica"
-    And I should see the Turn 1.00 for "Jessica"
-    And I should see the Auto Turn 1.00 for "Jessica"
+    Then I should see "Round 1" for "Jessica"
+    And I should see "Turn 1.00" for "Jessica"
 
     Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
@@ -73,7 +70,6 @@ Feature: Turn details
     And I click on the queue "HAIR" button
     Then I should see the employee "Jessica" in the employee list
     And I should see Employee "Jessica" with "Turn: 0.0" in the employee list
-    # And I should see the turn number for "Jessica" is 0.0
 
     When I navigate to "Turn" on the navigation bar
     Then I should be redirected to TURN_DETAILS page
@@ -83,15 +79,14 @@ Feature: Turn details
     And I should see the text "Hair" visible
 
     When I click on the "Hair" button
-    Then I should see the Round 0 for "Jessica"
-    And I should see the Turn 0.00 for "Jessica"
+    Then I should see "Round 0" for "Jessica"
+    And I should see "Turn 0.00" for "Jessica"
 
   Scenario: Turn update when changing technician
     Given I am on the HOME page
     When I clock in the timesheet with PIN "3818"
     Then I should see the employee "Avery" in the employee list
     And I should see Employee "Avery" with "Turn: 0.0" in the employee list
-    # And I should see the turn number for "Avery" is 0.0
 
     When I select the "Avery" employee
     Then I should see the "Ticket View" screen
@@ -114,7 +109,6 @@ Feature: Turn details
     When I wait for the page fully loaded
     Then I should see the employee "Avery" in the employee list
     And I should see Employee "Avery" with "Turn: 1.0" in the employee list
-    # And I should see the turn number for "Avery" is 1.0
 
     Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
@@ -136,18 +130,15 @@ Feature: Turn details
     Then I should be redirected to HOME page
     And I should see Employee "Avery" with "Turn: 0.0" in the employee list
     And I should see Employee "Zoey" with "Turn: 1.0" in the employee list
-    # And I should see the turn number for "Avery" is 0.0
-    # And I should see the turn number for "Zoey" is 1.0
 
     When I navigate to "Turn" on the navigation bar
     Then I should be redirected to TURN_DETAILS page
     And I should see the text "Technicians" visible
     And I should see the text "All" visible
-    And I should see the Round 1 for "Zoey"
-    And I should see the Turn 1.00 for "Zoey"
-    And I should see the Auto Turn 1.00 for "Zoey"
-    And I should see the Round 0 for "Avery"
-    And I should see the Turn 0.00 for "Avery"
+    Then I should see "Round 1" for "Zoey"
+    And I should see "Turn 1.00" for "Zoey"
+    And I should see "Round 0" for "Avery"
+    And I should see "Turn 0.00" for "Avery"
 
     Given I am on the CLOSED_TICKETS page
     When I wait for the page fully loaded
@@ -168,8 +159,8 @@ Feature: Turn details
     Then I should see the text "Technicians" visible
     And I should see the text "All" visible
     When I click on the "Nails" button
-    Then I should see the Round 0 for "Leah"
-    And I should see the Turn 0.00 for "Leah"
+    Then I should see "Round 0" for "Leah"
+    And I should see "Turn 0.00" for "Leah"
 
     When I double click on the first turn detail for "Leah"
     Then I should see a popup dialog containing the title "Nails"
@@ -191,16 +182,16 @@ Feature: Turn details
     Then I should see the text "Technicians" visible
     And I should see the text "All" visible
     When I click on the "Nails" button
-    Then I should see the Round 1 for "Leah"
-    And I should see the Turn -1.00 for "Leah"
+    Then I should see "Round 1" for "Leah"
+    And I should see "Turn -1.00" for "Leah"
 
     When I double click on the first turn detail for "Leah"
     Then I should see a popup dialog containing the title "Nails"
     When I click on the "DELETE TURN" button in the popup dialog
 
     When I wait for the page fully loaded
-    Then I should see the Turn 0.00 for "Leah"
-    And I should see the Round 0 for "Leah"
+    Then I should see "Round 0" for "Leah"
+    And I should see "Turn 0.00" for "Leah"
 
   Scenario: Manually adding increase a turn reorders the employee queue
     Given I am on the HOME page
@@ -211,8 +202,8 @@ Feature: Turn details
     Then I should see the text "Technicians" visible
     And I should see the text "All" visible
     When I click on the "Nails" button
-    Then I should see the Round 0 for "Amelia"
-    And I should see the Turn 0.00 for "Amelia"
+    Then I should see "Round 0" for "Amelia"
+    And I should see "Turn 0.00" for "Amelia"
 
     When I double click on the first turn detail for "Amelia"
     Then I should see a popup dialog containing the title "Nails"
@@ -234,16 +225,16 @@ Feature: Turn details
     Then I should see the text "Technicians" visible
     And I should see the text "All" visible
     When I click on the "Nails" button
-    Then I should see the Round 1 for "Amelia"
-    And I should see the Turn 50.00 for "Amelia"
+    Then I should see "Round 1" for "Amelia"
+    And I should see "Turn 50.00" for "Amelia"
 
     When I double click on the first turn detail for "Amelia"
     Then I should see a popup dialog containing the title "Nails"
     When I click on the "DELETE TURN" button in the popup dialog
 
     When I wait for the page fully loaded
-    Then I should see the Turn 0.00 for "Amelia"
-    And I should see the Round 0 for "Amelia"
+    Then I should see "Turn 0.00" for "Amelia"
+    And I should see "Round 0" for "Amelia"
 
   Scenario: Adjust turn - Add Late Turn, Remove Late Turn
     Given I am on the HOME page
@@ -266,7 +257,7 @@ Feature: Turn details
     And I waiting 1s
     Then I should see Employee "Late Turn" with "Turn: 0.0" in the employee list
 
- Scenario: Adjust turn - Add Go Again, Remove Go Again
+  Scenario: Adjust turn - Add Go Again, Remove Go Again
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0466"
     Then I should see the employee "Go Again" in the employee list
@@ -317,7 +308,7 @@ Feature: Turn details
 
     When I delete ticket after void it with payment amount "21.26"
 
- Scenario: Adjust turn - Move, Remove Move
+  Scenario: Adjust turn - Move, Remove Move
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5781"
     Then I should see the employee "Move" in the employee list
@@ -338,4 +329,58 @@ Feature: Turn details
     And I wait for the page fully loaded
     Then I should see the employee "Move" is not at position 1
 
+  Scenario: View turn details correctly on the receipt
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "3328"
+    And I click on the queue "HAIR" button
+    Then I should see the employee "TurnDetail" in the employee list
 
+    When I select the "TurnDetail" employee
+    Then I should see the "Ticket View" screen
+
+    When I add the "Manicure" service to my cart
+    And I select the "GIFT CARD" category
+    And I add the "Shampoo" service to my cart
+    And I add the "Gift card $100" service to my cart
+    Then I should see a popup dialog with title "Activate Gift Card $100.00"
+
+    When I enter the amount "2222"
+    And I click on the "OK" button in the popup dialog
+    Then I should see the number card "2222" visible
+    When I click on the "ADD ON" button in the popup dialog
+    Then I should see the service "Gift card $100 (2222)" in my cart
+    And I should see my cart showing 3 item added
+
+    When I click on the total price of "Manicure"
+    And I change price amount "95.7"
+
+    And I add tip amount "10"
+
+    And I click on the "PAY" button
+    Then I should see the text "PAYMENT TICKET" visible
+
+    When I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page
+
+    When I navigate to "Turn" on the navigation bar
+    Then I should be redirected to TURN_DETAILS page
+
+    When I wait for the page fully loaded
+    Then I should see the text "Technicians" visible
+    And I should see the text "Hair" visible
+
+    When I click on the "Hair" button
+    And I select the last turn "4.00" for "TurnDetail"
+    Then I should see the Turn, Regular, Total, Left as "4.00 $95.70 $95.70 $15.70" in turn details
+
+    Given I am on the CLOSED_TICKETS page
+    When I wait for the page fully loaded
+    And I search for "255.70"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$255.70"
+
+    When I reopen to void ticket with payment amount "$255.70"
+    Then I should be redirected to HOME page

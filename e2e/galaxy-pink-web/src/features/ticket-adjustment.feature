@@ -537,7 +537,7 @@ Feature: Ticket adjustment
     And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
 
-  Scenario: Add a customer to the ticket
+  Scenario: Update loyalty when adding a customer to the ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "4170"
     Then I should see the employee "Hazel" in the employee list
@@ -578,3 +578,12 @@ Feature: Ticket adjustment
     When I click on the "SAVE" button in the popup dialog
     And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
+
+    Given I am on the GIFT_CARD_BALANCE page
+    When I click on the "LOYALTY" button
+    And I search gift card "9999999999"
+
+    # Then I should see the text "Customer: Tin" visible
+    Then I should see the first date is today in the loyalty detail list
+    And I should see the first type "Issuance" in the loyalty detail list
+    And I should see the first amount "51" in the gift card detail list
