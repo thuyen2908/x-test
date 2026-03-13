@@ -943,7 +943,7 @@ class xPage {
 	@When('I select the last turn {string} for {string}')
 	public async selectLastTurnForTechnician(turn: string, techName: string) {
 		const techRow = this.page.locator('tr.MuiTableRow-root', {
-			has: this.page.locator('[title="' + techName + '"]'),
+			has: this.page.locator(`[title="${techName}"]`),
 		});
 
 		const turnCell = techRow
