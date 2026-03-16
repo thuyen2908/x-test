@@ -4572,3 +4572,91 @@ Then(
 		await expect(leftCell).toHaveText(expectedLeft);
 	},
 );
+
+When(
+	'I select the first ticket with payment {string}',
+	async ({ page }, total: string) => {
+		const ticketElement = page
+			.locator('.MuiDataGrid-row')
+			.first()
+			.filter({
+				has: page.locator('[data-field="paymentTotal"]', { hasText: total }),
+			});
+
+		await ticketElement.click();
+	},
+);
+
+When(
+	'I click on item button {string}',
+	async ({ page }, buttonName: string) => {
+		const itemText = page
+			.locator('.xGridContent')
+			.first()
+			.locator('div', { hasText: new RegExp(`^${buttonName}$`) })
+			.last();
+		await expect(itemText).toBeVisible();
+		await itemText.click();
+	},
+);
+
+When(
+	'I click on the avatar of the first ticket with payment {string}',
+	async ({ page }, amount: string) => {
+		const paymentRow = page
+			.locator('.MuiDataGrid-row')
+			.filter({
+				has: page.locator('[data-field="paymentTotal"]', { hasText: amount }),
+			})
+			.filter({
+				has: page.locator('[data-field="paymentMethod"]', { hasText: /.+/ }),
+			})
+			.first();
+		await expect(paymentRow).toBeVisible();
+
+		const avatarCell = paymentRow.locator('[data-field="avatar"]').first();
+		await expect(avatarCell).toBeVisible();
+		await avatarCell.click();
+	},
+);
+
+Then(
+	'I should see the Employee, Price, Tip as {string} on the work slip',
+	async ({ page }, expectedValues: string) => {
+		const values = expectedValues.split(' ');
+		const [emp, price, tip] = values;
+
+		const employeeRow = page
+			.locator('.render-bill div[style*="display: grid"]')
+			.filter({ hasText: emp });
+
+		await expect(employeeRow).toBeVisible();
+
+		await expect(employeeRow.locator('span').nth(0)).toHaveText(emp);
+		await expect(employeeRow.locator('span').nth(1)).toHaveText(price);
+		await expect(employeeRow.locator('span').nth(2)).toHaveText(tip);
+	},
+);
+
+Then(
+	'I should see the {string} on the work slip',
+	async ({ page }, expectedLine: string) => {
+		const parts = expectedLine.split(' ');
+		const expectedAmount = parts.pop();
+		const expectedLabel = parts.join(' ').replace(':', '');
+
+		const lineRow = page
+			.locator('.render-bill div[style*="display: flex"]')
+			.filter({
+				has: page
+					.locator('span')
+					.first()
+					.filter({ hasText: new RegExp(`^${expectedLabel}[:]?$`, 'i') }),
+			});
+
+		await expect(lineRow).toBeVisible();
+
+		const actualAmountCell = lineRow.locator('span').last();
+		await expect(actualAmountCell).toHaveText(expectedAmount);
+	},
+);
