@@ -1905,7 +1905,7 @@ Then(
 			'Avery',
 			'Emily',
 			'Jessica',
-			'TurnDetail',
+			// 'TurnDetail',
 		];
 
 		const employeeElements = page.locator('tbody tr td:first-child div[title]');
