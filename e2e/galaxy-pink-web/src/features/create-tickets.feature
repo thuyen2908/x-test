@@ -863,11 +863,14 @@ Feature: Create tickets
     Then I should see the card price amount "$0.18/$106.18" visible
     And I should see the cash price amount "$106.00" visible
 
-    When I select the "Cash" payment type
-    Then I should see a popup dialog with title "Close Ticket"
-    And I should see a popup dialog with content "CHANGE$0.00OK"
-    When I click on the "OK" button in the popup dialog
+    When I click on the "Pay" button
+    And I select the "Credit" payment type
+    And I fill the last 4 digits of card number "1234"
+    And I select the "VISA" on the menu
+    Then I should see the payment history "VISA (1234)$106.18" visible
+    When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
+
   Scenario: Update GC balance when making multiple payments using 2 GCs
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8526"
@@ -920,7 +923,7 @@ Feature: Create tickets
     When I select the "CLOSED TICKET" tab
     When I waiting 1s
     When I click on refresh
-    And I wait for the page fully loaded 
+    And I wait for the page fully loaded
     When I search for "45.80"
     And I wait for the page fully loaded
     When I click on the first row for payment "$45.80"
@@ -929,4 +932,4 @@ Feature: Create tickets
     When I click on the "confirm" button in the popup dialog
     And I wait for the page fully loaded
 
-    
+
