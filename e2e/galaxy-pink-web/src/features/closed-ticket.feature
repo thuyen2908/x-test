@@ -928,4 +928,87 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
     And I should not see the employee "WorkSlip" in the ticket list
 
+  Scenario: Work slip update after adjusting tip
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "9606"
+    Then I should see the employee "WorkSlipAdjustTip" in the employee list
 
+    When I select the "WorkSlipAdjustTip" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+    When I add the "Manicure" service to my cart
+
+    And I select the "FULL SET & FILL IN" category
+    And I add the "Taxable" service to my cart
+
+    And I select the "GIFT CARD" category
+    And I add the "Shampoo" service to my cart
+    And I add the "Gift card $100" service to my cart
+    Then I should see a popup dialog with title "Activate Gift Card $100.00"
+
+    When I enter the amount "2222"
+    And I click on the "OK" button in the popup dialog
+    Then I should see the number card "2222" visible
+    When I click on the "ADD ON" button in the popup dialog
+    Then I should see the service "Gift card $100 (2222)" in my cart
+    And I should see my cart showing 4 item added
+
+    When I select the service "Manicure" in my cart
+    And I change price amount "63.4"
+
+    When I click on the "Pay" button
+    And I select the "Credit" payment type
+    And I fill the last 4 digits of card number "1234"
+    And I select the "VISA" on the menu
+    And I click on the "Close Ticket" button
+    And I wait for the page fully loaded
+
+    When I back to HOME page
+    And I select the "CLOSED TICKET" tab
+    And I click on refresh
+    And I wait for the page fully loaded
+
+    When I search for "234.27"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$234.27"
+
+    When I reopen ticket with payment amount "$234.27"
+    And I wait for the page fully loaded
+    Then I should see the "Ticket View" screen
+    And I should see the user info "WorkSlipAdjustTip" in the ticket
+
+    When I click on the "Pay" button
+    Then I should see the payment history "VISA (1234)$234.27" visible
+
+    When I select the payment history "VISA (1234)$234.27"
+    Then I should see a popup dialog with title "CONFIRM ADJUST TIP "
+    When I click on the action button "Adjust Tip" of the opening dialog
+
+    When I enter the amount "10"
+    And I click on the "OK" button
+    Then I should see the payment history "VISA (1234)$234.27 + $10.00" visible
+    When I click on the "Close Ticket" button
+    And I wait for the page fully loaded
+
+    When I select the "CLOSED TICKET" tab
+    And I click on refresh
+    And I wait for the page fully loaded
+
+    When I search for "244.27"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$244.27"
+
+    When I select the first ticket with payment "$244.27"
+    And I click on item button "Work Slip"
+    Then I should see the Employee, Price, Tip as "WorkSlipAdjustTip $229.40 $10.00" on the work slip
+
+    And I should see the "Sub Total: $229.40" on the work slip
+    And I should see the "Tax: $0.96" on the work slip
+    And I should see the "Ticket Tip: $10.00" on the work slip
+
+    And I should see the "TOTAL: $240.36" on the work slip
+    And I should see the "Visa #1234 $240.36" on the work slip
+
+    When I reopen to void ticket with payment amount "$244.27"
+    Then I should see the selected "SERVICE" tab on the Home page
+    And I should not see the employee "WorkSlipAdjustTip" in the ticket list
