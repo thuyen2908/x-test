@@ -4572,3 +4572,50 @@ Then(
 		await expect(leftCell).toHaveText(expectedLeft);
 	},
 );
+
+When(
+	'I select the first ticket with payment {string}',
+	async ({ page }, total: string) => {
+		const ticketElement = page
+			.locator('.MuiDataGrid-row')
+			.first()
+			.filter({
+				has: page.locator('[data-field="paymentTotal"]', { hasText: total }),
+			});
+
+		await ticketElement.click();
+	},
+);
+
+When(
+	'I click on item button {string}',
+	async ({ page }, buttonName: string) => {
+		const itemText = page
+			.locator('.xGridContent')
+			.first()
+			.locator('div', { hasText: new RegExp(`^${buttonName}$`) })
+			.last();
+		await expect(itemText).toBeVisible();
+		await itemText.click();
+	},
+);
+
+When(
+	'I click on the avatar of the first ticket with payment {string}',
+	async ({ page }, amount: string) => {
+		const paymentRow = page
+			.locator('.MuiDataGrid-row')
+			.filter({
+				has: page.locator('[data-field="paymentTotal"]', { hasText: amount }),
+			})
+			.filter({
+				has: page.locator('[data-field="paymentMethod"]', { hasText: /.+/ }),
+			})
+			.first();
+		await expect(paymentRow).toBeVisible();
+
+		const avatarCell = paymentRow.locator('[data-field="avatar"]').first();
+		await expect(avatarCell).toBeVisible();
+		await avatarCell.click();
+	},
+);

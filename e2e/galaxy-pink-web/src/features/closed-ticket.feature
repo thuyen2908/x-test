@@ -725,3 +725,83 @@ Feature: Closed Ticket
     When I search gift card "1003"
     Then I should see the first type "ActivateNew" in the gift card detail list
     And I should see the first amount "$100.00" in the gift card detail list
+
+  Scenario: CC slip after adjusting tip
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "8959"
+    Then I should see the employee "CC_Slip" in the employee list
+
+    When I select the "CC_Slip" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+    When I add the "Manicure" service to my cart
+    And I select the "GIFT CARD" category
+    And I add the "Shampoo" service to my cart
+    And I add the "Gift card $100" service to my cart
+    Then I should see a popup dialog with title "Activate Gift Card $100.00"
+
+    When I enter the amount "2222"
+    And I click on the "OK" button in the popup dialog
+    Then I should see the number card "2222" visible
+    When I click on the "ADD ON" button in the popup dialog
+    Then I should see the service "Gift card $100 (2222)" in my cart
+    And I should see my cart showing 3 item added
+
+    When I select the service "Manicure" in my cart
+    And I change price amount "70.6"
+
+    When I click on the "Pay" button
+    And I select the "Credit" payment type
+    And I fill the last 4 digits of card number "1234"
+    And I select the "VISA" on the menu
+    And I click on the "Close Ticket" button
+    Then I should see the selected "SERVICE" tab on the Home page
+
+    When I back to HOME page
+    And I select the "CLOSED TICKET" tab
+    And I wait for the page fully loaded
+
+    When I search for "224.22"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$224.22"
+
+    When I reopen ticket with payment amount "$224.22"
+    And I wait for the page fully loaded
+    Then I should see the "Ticket View" screen
+    And I should see the user info "CC_Slip" in the ticket
+
+    When I click on the "Pay" button
+    Then I should see the payment history "VISA (1234)$224.22" visible
+
+    When I select the payment history "VISA (1234)$224.22"
+    Then I should see a popup dialog with title "CONFIRM ADJUST TIP "
+    When I click on the action button "Adjust Tip" of the opening dialog
+
+    When I enter the amount "10"
+    And I click on the "OK" button
+    Then I should see the payment history "VISA (1234)$224.22 + $10.00" visible
+
+    When I click on the "Close Ticket" button
+    And I wait for the page fully loaded
+    # Then I should see the selected "SERVICE" tab on the Home page
+
+    When I select the "CLOSED TICKET" tab
+    And I wait for the page fully loaded
+
+    When I search for "234.22"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$234.22"
+
+    When I select the first ticket with payment "$234.22"
+    And I click on item button "CCSlip"
+    Then I should see the detail "STATION #: 1" on the CC slip
+    And I should see the detail "TERMINAL #: 0" on the CC slip
+    And I should see the detail "CARD PRICE: $224.22" on the CC slip
+    And I should see the detail "CASH PRICE: $220.60" on the CC slip
+    And I should see the detail "SUBTOTAL: $224.22" on the CC slip
+    And I should see the detail "TAX: $0.00" on the CC slip
+    And I should see the detail "TOTAL: $234.22" on the CC slip
+
+    When I reopen to void ticket with payment amount "$234.22"
+    Then I should see the selected "SERVICE" tab on the Home page
+    And I should not see the employee "CC_Slip" in the ticket list
