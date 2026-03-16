@@ -811,9 +811,9 @@ Feature: Closed Ticket
   Scenario: CC slip with no tip
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5672"
-    Then I should see the employee "CC_Slip_no_tip" in the employee list
+    Then I should see the employee "CCSlipNoTip" in the employee list
 
-    When I select the "CC_Slip_no_tip" employee
+    When I select the "CCSlipNoTip" employee
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
     When I add the "Manicure" service to my cart
@@ -866,4 +866,66 @@ Feature: Closed Ticket
 
     When I reopen to void ticket with payment amount "$241.48"
     Then I should see the selected "SERVICE" tab on the Home page
-    And I should not see the employee "CC_Slip" in the ticket list
+    And I should not see the employee "CCSlipNoTip" in the ticket list
+
+  Scenario: Work slip receipt details
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "6374"
+    Then I should see the employee "WorkSlip" in the employee list
+
+    When I select the "WorkSlip" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+    When I add the "Manicure" service to my cart
+
+    And I select the "FULL SET & FILL IN" category
+    And I add the "Taxable" service to my cart
+
+    And I select the "GIFT CARD" category
+    And I add the "Shampoo" service to my cart
+    And I add the "Gift card $100" service to my cart
+    Then I should see a popup dialog with title "Activate Gift Card $100.00"
+
+    When I enter the amount "2222"
+    And I click on the "OK" button in the popup dialog
+    Then I should see the number card "2222" visible
+    When I click on the "ADD ON" button in the popup dialog
+    Then I should see the service "Gift card $100 (2222)" in my cart
+    And I should see my cart showing 4 item added
+
+    When I select the service "Manicure" in my cart
+    And I change price amount "73.4"
+    And I add tip amount "10"
+
+    When I click on the "Pay" button
+    And I select the "Credit" payment type
+    And I fill the last 4 digits of card number "1234"
+    And I select the "VISA" on the menu
+    And I click on the "Close Ticket" button
+    #Then I should see the selected "SERVICE" tab on the Home page
+    And I wait for the page fully loaded
+
+    When I select the "CLOSED TICKET" tab
+    And I click on refresh
+    And I wait for the page fully loaded
+
+    When I search for "254.57"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$254.57"
+
+    When I select the first ticket with payment "$254.57"
+    And I click on item button "Work Slip"
+    Then I should see the Employee, Price, Tip as "WorkSlip $239.40 $10.00" on the work slip
+
+    And I should see the "Sub Total: $239.40" on the work slip
+    And I should see the "Tax: $0.96" on the work slip
+    And I should see the "Ticket Tip: $10.00" on the work slip
+
+    And I should see the "TOTAL: $250.36" on the work slip
+    And I should see the "Visa #1234 $250.36" on the work slip
+
+    When I reopen to void ticket with payment amount "$254.57"
+    Then I should see the selected "SERVICE" tab on the Home page
+    And I should not see the employee "WorkSlip" in the ticket list
+
+

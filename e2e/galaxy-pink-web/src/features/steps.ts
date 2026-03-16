@@ -4619,3 +4619,44 @@ When(
 		await avatarCell.click();
 	},
 );
+
+Then(
+	'I should see the Employee, Price, Tip as {string} on the work slip',
+	async ({ page }, expectedValues: string) => {
+		const values = expectedValues.split(' ');
+		const [emp, price, tip] = values;
+
+		const employeeRow = page
+			.locator('.render-bill div[style*="display: grid"]')
+			.filter({ hasText: emp });
+
+		await expect(employeeRow).toBeVisible();
+
+		await expect(employeeRow.locator('span').nth(0)).toHaveText(emp);
+		await expect(employeeRow.locator('span').nth(1)).toHaveText(price);
+		await expect(employeeRow.locator('span').nth(2)).toHaveText(tip);
+	},
+);
+
+Then(
+	'I should see the {string} on the work slip',
+	async ({ page }, expectedLine: string) => {
+		const parts = expectedLine.split(' ');
+		const expectedAmount = parts.pop();
+		const expectedLabel = parts.join(' ').replace(':', '');
+
+		const lineRow = page
+			.locator('.render-bill div[style*="display: flex"]')
+			.filter({
+				has: page
+					.locator('span')
+					.first()
+					.filter({ hasText: new RegExp(`^${expectedLabel}[:]?$`, 'i') }),
+			});
+
+		await expect(lineRow).toBeVisible();
+
+		const actualAmountCell = lineRow.locator('span').last();
+		await expect(actualAmountCell).toHaveText(expectedAmount);
+	},
+);
