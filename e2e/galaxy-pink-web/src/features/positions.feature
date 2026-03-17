@@ -22,15 +22,15 @@ Feature: Positions management
     When I fill the "Regular Rate" field with value "100"
     When I fill the "Overtime Rate" field with value "150"
     When I click on the "Save" button in the popup dialog
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the toast message "The data item has been created successfully" visible
     When I click on the "Refresh" button
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     When I search for "AutoTestPosition"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the new "jobName" "AutoTestPosition", created at today, in the list
     When I click on the action "Delete" button for item "AutoTestPosition"
     Then I should see a popup dialog with title "Delete Confirmation"
     When I click on the "Delete" button in the popup dialog
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the toast message "The data has been deleted permanently successfully" visible

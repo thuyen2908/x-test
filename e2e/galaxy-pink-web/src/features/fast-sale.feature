@@ -3,8 +3,8 @@ Feature: Fast Sale tickets
 
   Scenario: Create a fast sale ticket
     Given I am on the HOME page
-    When I wait for the page fully loaded
-    And I navigate to "FAST SALE" on the navigation bar
+    # When I wait for the page fully loaded
+    When I navigate to "FAST SALE" on the navigation bar
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
     And I should see the user info "Christ" in the ticket

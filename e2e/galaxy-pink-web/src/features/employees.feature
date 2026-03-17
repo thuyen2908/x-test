@@ -12,15 +12,15 @@ Feature: Employee management
   @skip
   Scenario: Create a new Employee
     Given I am on the EMPLOYEES page
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the "Employees" screen
 
     When I click on the "Add New" button
     Then I should be redirected to EMPLOYEES_CREATE page
     And I should see the "Create Employee" screen
 
-    When I wait for the page fully loaded
-    And I fill the "First Name" field with value "AutoTestFirstName"
+    # When I wait for the page fully loaded
+    When I fill the "First Name" field with value "AutoTestFirstName"
     And I waiting 1s
     And I fill the "Nick Name" field with value "AutoTestNickName"
     And I waiting 1s
@@ -29,7 +29,7 @@ Feature: Employee management
     And I click on the "Get New Password" button
     And I click on the "Same as Business Hours" button
     And I select the "Compensation Info" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     And I select the "Payroll Type" with value "Commission"
     And I fill the "Non-cash tip" field with value "100"
     And I select the "Non-cash Tip Option" with value "Add To Check"
@@ -45,17 +45,17 @@ Feature: Employee management
     And I switch ON Queue group select all
     And I select the "Default Queue Group For Appt" with value "Nails"
     And I click on the "Save" button
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     #Then I should be redirected to EMPLOYEES page
     Then I should see the "Employees" screen
     When I search for "autoTestFirstName"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the new Employee "AutoTestFirstName", Role "Employee", in the Employees list
 
     When I click on the action "Delete" button for item "AutoTestFirstName"
     Then I should see a popup dialog with title "Delete Confirmation"
     When I click on the "Delete" button in the popup dialog
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the toast message "The employee deleted successfully" visible
 

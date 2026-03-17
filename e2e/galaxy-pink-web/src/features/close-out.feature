@@ -3,10 +3,10 @@ Feature: Close Out report
 
   Scenario: View the Close Out page
     Given I am on the HOME page
-    When I wait for the page fully loaded
-    And I click on the functions
+    # When I wait for the page fully loaded
+    When I click on the functions
     And I select the "Close Out" on the Daily Task
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should be redirected to CLOSE_OUT page
     And I should see the "Close Out" screen
 
@@ -69,10 +69,10 @@ Feature: Close Out report
 
     When I back to HOME page
     And I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "235.35"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$235.35"
 
     When I reopen to void ticket with payment amount "$235.35"
@@ -124,10 +124,10 @@ Feature: Close Out report
 
     When I back to HOME page
     And I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "236.38"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$236.38"
 
     When I reopen to void ticket with payment amount "$236.38"

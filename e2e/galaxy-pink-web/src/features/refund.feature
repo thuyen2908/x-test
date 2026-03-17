@@ -3,10 +3,10 @@ Feature: Refund
 
   Scenario: Create a refund ticket and pay with Cash
     Given I am on the HOME page
-    When I wait for the page fully loaded
-    And I click on the functions
+    # When I wait for the page fully loaded
+    When I click on the functions
     And I select the "Refund" on the Daily Task
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see a popup dialog with title "Create Ticket Refund"
     And I should see the employee "Christ" in the popup dialog
     And I should see the "Add Commission" option is checked

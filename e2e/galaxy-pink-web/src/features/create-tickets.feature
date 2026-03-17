@@ -71,10 +71,10 @@ Feature: Create tickets
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "6.11"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$6.11"
 
     When I reopen to void ticket with payment amount "$6.11"
@@ -89,8 +89,8 @@ Feature: Create tickets
     And I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I wait for the page fully loaded
-    And I add the phone number customer "5555555555"
+    # When I wait for the page fully loaded
+    When I add the phone number customer "5555555555"
     Then I should see a new customer "Bonnie" on ticket
 
     When I click on the "Pay" button
@@ -110,7 +110,7 @@ Feature: Create tickets
     When I click on the "LOYALTY" button
     When I enter the amount "5555555555"
     And I click on the "SEARCH" button
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     #Then I should see the text "Customer: Bonnie" visible
     Then I should see the first date is today in the loyalty detail list
@@ -196,9 +196,9 @@ Feature: Create tickets
     And I select the "Gift" payment type
     And I fill the last 4 digits of card number "1403"
     And I click on search
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     And I click on the "OK" button
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the payment Gift history "Gift (1403) $6.00" visible
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
@@ -206,7 +206,7 @@ Feature: Create tickets
     Given I am on the GIFT_CARD_BALANCE page
     When I enter the amount "1403"
     And I click on the "SEARCH" button
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     Then I should see the first date is today in the gift card detail list
     And I should see the first type "Redeem" in the gift card detail list
@@ -300,7 +300,7 @@ Feature: Create tickets
     And I select the "Gift" payment type
     And I fill the last 4 digits of card number "1111"
     And I click on search
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     And I click on the "OK" button
     Then I should see the payment Gift history "Gift (1111) $10.00" visible
 
@@ -342,8 +342,8 @@ Feature: Create tickets
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
 
-    When I wait for the page fully loaded
-    And I add the "Manicure" service to my cart
+    # When I wait for the page fully loaded
+    When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
 
     When I select the service "Manicure" in my cart
@@ -397,8 +397,8 @@ Feature: Create tickets
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
 
-    When I wait for the page fully loaded
-    And I select the "ADDITIONAL SERVICE" category
+    # When I wait for the page fully loaded
+    When I select the "ADDITIONAL SERVICE" category
     And I add the "Ombre" service to my cart
     Then I should see my cart showing 1 item added
     And I should see the "$3 Off (Original Price)" discount in my cart
@@ -441,14 +441,14 @@ Feature: Create tickets
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
-    When I wait for the page fully loaded
-    And I navigate to "Balance" on the navigation bar
+    # When I wait for the page fully loaded
+    When I navigate to "Balance" on the navigation bar
     Then I should be redirected to GIFT_CARD_BALANCE page
     And I should see the text "Gift Card / Loyalty Balance" visible
 
     When I enter the amount "1234"
     And I click on the "SEARCH" button
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the text "Activity History" visible
     And I should see the first date is today in the gift card detail list
     And I should see the first type "ActivateAddOn" in the gift card detail list
@@ -477,14 +477,14 @@ Feature: Create tickets
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
-    When I wait for the page fully loaded
-    And I navigate to "Balance" on the navigation bar
+    # When I wait for the page fully loaded
+    When I navigate to "Balance" on the navigation bar
     Then I should be redirected to GIFT_CARD_BALANCE page
     And I should see the text "Gift Card / Loyalty Balance" visible
 
     When I enter the amount "4321"
     And I click on the "SEARCH" button
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the text "Activity History" visible
     And I should see the first date is today in the gift card detail list
     And I should see the first type "Overwrite" in the gift card detail list
@@ -515,8 +515,8 @@ Feature: Create tickets
     When I select the "Kelley" employee
     Then I should see the "Ticket View" screen
 
-    When I wait for the page fully loaded
-    And I click on the "Void Ticket" button
+    # When I wait for the page fully loaded
+    When I click on the "Void Ticket" button
     And I select the reason "Mistake"
     And I click on the "confirm" button in the popup dialog
     Then I should see the selected "SERVICE" tab on the Home page
@@ -549,8 +549,8 @@ Feature: Create tickets
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
 
-    When I wait for the page fully loaded
-    And I add the "Manicure" service to my cart
+    # When I wait for the page fully loaded
+    When I add the "Manicure" service to my cart
     Then I should see my cart showing 1 item added
     And I should see the "Manicure" service with status wait
 
@@ -683,9 +683,9 @@ Feature: Create tickets
     And I select the "Gift" payment type
     And I enter the amount "1111"
     And I click on search
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     And I click on the "OK" button
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the payment Gift history "Gift (1111) $10.00" visible
 
     When I select the "Credit" payment type
@@ -790,20 +790,20 @@ Feature: Create tickets
     Then I should see the gift card balance "$20.00" visible
     When  I wait for the page fully loaded
     And I click on the "OK" button
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the payment Gift history "Gift (2020) $20.00" visible
 
     When I select the "Gift" payment type
     And I enter the amount "2020"
     And I click on search
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the card value "$20.00" visible
 
     When I click on the "OK" button
     Then I should see the toast message "Gift Card #2020 does not have enough funds to pay." visible
 
     When I click on the "Cancel" button
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     And I select the "Cash" payment type
     Then I should see a popup dialog with title "Close Ticket"
     And I should see a popup dialog with content "CHANGE$0.00OK"
@@ -811,10 +811,10 @@ Feature: Create tickets
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "35.71"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$35.71"
 
     When I reopen to void ticket with payment amount "$35.71"
@@ -888,17 +888,17 @@ Feature: Create tickets
     When I select the "Gift" payment type
     When I fill the last 4 digits of card number "0157"
     And I click on search
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     And I click on the "OK" button
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the payment history "Gift (0157)$10.00 " visible
 
     When I select the "Gift" payment type
     And I fill the last 4 digits of card number "01578"
     And I click on search
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     And I click on the "OK" button
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
 
@@ -915,7 +915,7 @@ Feature: Create tickets
     When I back to HOME page
     Then I should see the selected "SERVICE" tab on the Home page
     When I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     When I search for "45.80"
     When I reopen to void ticket with payment amount "$45.80"
     Then I should be redirected to HOME page
@@ -923,13 +923,13 @@ Feature: Create tickets
     When I select the "CLOSED TICKET" tab
     When I waiting 1s
     When I click on refresh
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     When I search for "45.80"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     When I click on the first row for payment "$45.80"
     And I click the Delete ticket button
     Then I should see a popup dialog with title 'Confirm Delete'
     When I click on the "confirm" button in the popup dialog
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
 

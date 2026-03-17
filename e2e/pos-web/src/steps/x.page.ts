@@ -372,7 +372,7 @@ class xPage {
 
 		// 3) Then I should see the "Reopen ticket" button visible
 		const reopenButton = this.page.getByRole('button', {
-			name: /reopen ticket/i,
+			name: 'Reopen ticket',
 		});
 		await expect(reopenButton).toBeVisible();
 
@@ -905,5 +905,34 @@ class xPage {
 		const chipLabel = chip.locator('.MuiChip-label');
 		await expect(chip).toBeVisible();
 		await expect(chipLabel).toHaveText(value);
+	}
+	/**
+	 * Verify a specific detail on the CC slip
+	 * @param detail Format: "LABEL: VALUE" (E.g: "STATION #: 1")
+	 */
+	@Then('I should see the detail {string} on the CC slip')
+	public async verifyCCSlipDetail(detail: string) {
+		const separatorIndex = detail.indexOf(':');
+		const label = detail.substring(0, separatorIndex).replace(':', '').trim();
+		const expectedValue = detail.substring(separatorIndex + 1).trim();
+
+		const ccSlip = this.page.locator('.render-bill');
+
+		const row = ccSlip.locator('tr').filter({
+			has: this.page
+				.locator('td')
+				.first()
+				.filter({ hasText: new RegExp(`^${label}$`, 'i') }),
+		});
+
+		const valueCell = row.locator('td').nth(1);
+
+		await expect(row).toBeVisible();
+
+		if (expectedValue === '') {
+			await expect(valueCell).toContainText(':');
+		} else {
+			await expect(valueCell).toContainText(expectedValue);
+		}
 	}
 }

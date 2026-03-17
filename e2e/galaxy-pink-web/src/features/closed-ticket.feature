@@ -20,14 +20,14 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "11.5"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$11.5"
 
     When I reopen ticket with payment amount "$11.5"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Chloe" in the ticket
 
@@ -55,14 +55,14 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "47.00"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$47.00"
 
     When I reopen ticket with payment amount "$47.00"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Ethan" in the ticket
 
@@ -105,14 +105,14 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "24.57"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$24.57"
 
     When I reopen ticket with payment amount "$24.57"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Mia" in the ticket
 
@@ -157,14 +157,14 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "12.36"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$12.36"
 
     When I reopen ticket with payment amount "$12.36"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Angie" in the ticket
 
@@ -201,14 +201,14 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "23.50"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$23.50"
 
     When I reopen ticket with payment amount "$23.50"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Samantha" in the ticket
 
@@ -266,13 +266,13 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     And I search for "27.66"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$27.66"
 
     When I reopen ticket with payment amount "$27.66"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Daniel" in the ticket
 
@@ -302,14 +302,14 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "15.50"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$15.50"
 
     When I reopen ticket with payment amount "$15.50"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Julia" in the ticket
 
@@ -351,10 +351,10 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "16.48"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$16.48"
 
     When I reopen to void ticket with payment amount "$16.48"
@@ -387,14 +387,14 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "25.75"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$25.75"
 
     When I reopen ticket with payment amount "$25.75"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Fiona" in the ticket
 
@@ -447,9 +447,9 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     And I search for "77.5"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$77.5"
 
     When I reopen to void ticket with payment amount "$77.5"
@@ -488,14 +488,14 @@ Feature: Closed Ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "75.7"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$75.7"
 
     When I reopen ticket with payment amount "$75.7"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Alexis" in the ticket
 
@@ -514,11 +514,11 @@ Feature: Closed Ticket
     Then I should see a popup dialog with title "Close Ticket"
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the selected "SERVICE" tab on the Home page
 
     Given I am on the GIFT_CARD_BALANCE page
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the text "Gift Card / Loyalty Balance" visible
 
     When I search gift card "2003"
@@ -550,14 +550,14 @@ Feature: Closed Ticket
     Then I should be redirected to CLOSED_TICKETS page
 
     When I search for "Jimmy"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the last ticket of customer "Jimmy"
 
     When I click on the last row for customer "Jimmy" to expand details
     Then I should see the "Reopen ticket" button visible
 
     When I click on the "Reopen ticket" button
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Charlotte" in the ticket
 
@@ -626,9 +626,9 @@ Feature: Closed Ticket
     When I select the "CLOSED TICKET" tab
     And I click on refresh
     Then I should see the toast message "Ticket data refreshed successfully." visible
-    When I wait for the page fully loaded
-    And I search for "29.25"
-    And I wait for the page fully loaded
+    # When I wait for the page fully loaded
+    When I search for "29.25"
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$29.25"
 
     When I click on the first row for payment "$29.25"
@@ -685,23 +685,23 @@ Feature: Closed Ticket
     And I select the "Gift" payment type
     And I fill the last 4 digits of card number "1003"
     And I click on search
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     And I click on the "OK" button
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the payment Gift history "Gift (1003) $17.50" visible
 
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "17.50"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$17.50"
 
     When I reopen ticket with payment amount "$17.50"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Willow" in the ticket
 
@@ -757,16 +757,15 @@ Feature: Closed Ticket
     And I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
 
-    When I back to HOME page
-    And I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    When I select the "CLOSED TICKET" tab
+    # And I wait for the page fully loaded
 
     When I search for "224.22"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$224.22"
 
     When I reopen ticket with payment amount "$224.22"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "CC_Slip" in the ticket
 
@@ -782,15 +781,14 @@ Feature: Closed Ticket
     Then I should see the payment history "VISA (1234)$224.22 + $10.00" visible
 
     When I click on the "Close Ticket" button
-    And I wait for the page fully loaded
-    # Then I should see the selected "SERVICE" tab on the Home page
+    Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
     And I click on refresh
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "234.22"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$234.22"
 
     When I select the first ticket with payment "$234.22"
@@ -841,15 +839,14 @@ Feature: Closed Ticket
     And I fill the last 4 digits of card number "1234"
     And I select the "VISA" on the menu
     And I click on the "Close Ticket" button
-    #Then I should see the selected "SERVICE" tab on the Home page
-    And I wait for the page fully loaded
+    Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
     And I click on refresh
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "241.48"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$241.48"
 
     When I select the first ticket with payment "$241.48"
@@ -902,15 +899,14 @@ Feature: Closed Ticket
     And I fill the last 4 digits of card number "1234"
     And I select the "VISA" on the menu
     And I click on the "Close Ticket" button
-    #Then I should see the selected "SERVICE" tab on the Home page
-    And I wait for the page fully loaded
+    Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
     And I click on refresh
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "254.57"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$254.57"
 
     When I select the first ticket with payment "$254.57"
@@ -961,19 +957,18 @@ Feature: Closed Ticket
     And I fill the last 4 digits of card number "1234"
     And I select the "VISA" on the menu
     And I click on the "Close Ticket" button
-    And I wait for the page fully loaded
+    Then I should see the selected "SERVICE" tab on the Home page
 
-    When I back to HOME page
-    And I select the "CLOSED TICKET" tab
+    When I select the "CLOSED TICKET" tab
     And I click on refresh
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "234.27"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$234.27"
 
     When I reopen ticket with payment amount "$234.27"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "WorkSlipAdjustTip" in the ticket
 
@@ -988,14 +983,14 @@ Feature: Closed Ticket
     And I click on the "OK" button
     Then I should see the payment history "VISA (1234)$234.27 + $10.00" visible
     When I click on the "Close Ticket" button
-    And I wait for the page fully loaded
+    Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
     And I click on refresh
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "244.27"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$244.27"
 
     When I select the first ticket with payment "$244.27"
