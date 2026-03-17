@@ -3,9 +3,9 @@ Feature: Payroll
 
   Scenario: Verify employee-specific Single Payroll information loads correctly
     Given I am on the HOME page
-    When I wait for the page fully loaded
-    And I click on the header menu
-    And I wait for the page fully loaded
+    # When I wait for the page fully loaded
+    When I click on the header menu
+    # And I wait for the page fully loaded
     And I select the "Manager" label in the menu list
     And I select the "Payroll" label in the expanded list
     Then I should be redirected to PAYROLL page
@@ -15,10 +15,10 @@ Feature: Payroll
     And I should see the "Save" button disable
     And I should see the print button "Print" visible
 
-    When I wait for the page fully loaded
-    And I search for "Anna"
+    # When I wait for the page fully loaded
+    When I search for "Anna"
     And I select the employee "Anna"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the technician name "Anna"
     And I should see the payroll type "Commission"
 
@@ -42,17 +42,17 @@ Feature: Payroll
 
   Scenario: Verify employee-specific Payroll Details information loads correctly
     Given I am on the HOME page
-    When I wait for the page fully loaded
-    And I click on the header menu
+    # When I wait for the page fully loaded
+    When I click on the header menu
     And I select the "Manager" label in the menu list
     And I select the "Payroll" label in the expanded list
     Then I should be redirected to PAYROLL page
     And I should see the "Payroll" screen
 
-    When I wait for the page fully loaded
-    And I search for "Anna"
+    # When I wait for the page fully loaded
+    When I search for "Anna"
     And I select the employee "Anna"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     And I click on the element with id "simple-tab-2"
     Then I should see the text "Date" visible
     And I should see the text "Ticket#" visible
@@ -68,7 +68,7 @@ Feature: Payroll
 
     When I search for "Anna"
     And I select the employee "Anna"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     And I click on the element with id "simple-tab-3"
     Then I should see the text "Date" visible
     And I should see the text "Hours" visible
@@ -111,13 +111,13 @@ Feature: Payroll
     Then I should see the selected "SERVICE" tab on the Home page
 
     Given I am on the PAYROLL page
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the "Payroll" screen
 
-    When I wait for the page fully loaded
-    And I search for "Sydney"
+    # When I wait for the page fully loaded
+    When I search for "Sydney"
     And I select the employee "Sydney"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     And I select the type "Employee View"
     Then I should see the Payroll Date default to today
     And I should see the detail "Technician Sydney" in the employee view
@@ -138,10 +138,10 @@ Feature: Payroll
 
     When I back to HOME page
     And I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "218.87"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$218.87"
 
     When I reopen to void ticket with payment amount "$218.87"
@@ -184,13 +184,13 @@ Feature: Payroll
     Then I should see the selected "SERVICE" tab on the Home page
 
     Given I am on the PAYROLL page
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the "Payroll" screen
 
-    When I wait for the page fully loaded
-    And I search for "Venus"
+    # When I wait for the page fully loaded
+    When I search for "Venus"
     And I select the employee "Venus"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the Payroll Date default to today
     And I should see the technician name "Venus" in the employee view
     And I should see the payroll type "Commission" in the employee view
@@ -222,10 +222,10 @@ Feature: Payroll
 
     When I back to HOME page
     And I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "229.17"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$229.17"
 
     When I reopen to void ticket with payment amount "$229.17"
@@ -271,13 +271,13 @@ Feature: Payroll
     Then I should not see the employee "Jazzie" in the employee list
 
     Given I am on the PAYROLL page
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the "Payroll" screen
 
-    When I wait for the page fully loaded
-    And I search for "Jazzie"
+    # When I wait for the page fully loaded
+    When I search for "Jazzie"
     And I select the employee "Jazzie"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     And I select the type "Employee View"
     Then I should see the Payroll Date default to today
     And I should see the detail "Technician Jazzie" in the employee view
@@ -295,10 +295,10 @@ Feature: Payroll
 
     When I back to HOME page
     And I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "218.97"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$218.97"
 
     When I reopen to void ticket with payment amount "$218.97"
@@ -342,15 +342,15 @@ Feature: Payroll
 
     When I clock out the timesheet with PIN "9146"
     Then I should not see the employee "June" in the employee list
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
 
     Given I am on the PAYROLL page
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the "Payroll" screen
 
     When I search for "June"
     And I select the employee "June"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the Payroll Date default to today
     And I should see the technician name "June" in the employee view
     And I should see the payroll type "Hourly" in the employee view
@@ -371,10 +371,10 @@ Feature: Payroll
 
     When I back to HOME page
     And I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "230.20"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$230.20"
 
     When I reopen to void ticket with payment amount "$230.20"

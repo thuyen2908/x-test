@@ -4593,8 +4593,7 @@ When(
 		const itemText = page
 			.locator('.xGridContent')
 			.first()
-			.locator('div', { hasText: new RegExp(`^${buttonName}$`) })
-			.last();
+			.getByText(buttonName, { exact: true });
 		await expect(itemText).toBeVisible();
 		await itemText.click();
 	},

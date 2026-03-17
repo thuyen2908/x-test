@@ -4,7 +4,7 @@ Feature: Turn details
   Scenario: Verify the specific queue loads correctly employees
     Given I am on the HOME page
     When I select the "TURN DETAILS" tab
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the text "Technicians" visible
     And I should see the text "Nails" visible
     And I should see the text "Hair" visible
@@ -37,7 +37,7 @@ Feature: Turn details
 
     When I select the "TURN DETAILS" tab
 
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the text "Technicians" visible
     And I should see the text "Hair" visible
 
@@ -46,10 +46,10 @@ Feature: Turn details
     And I should see "Turn 1.00" for "Jessica"
 
     When I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "27.11"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "27.11"
 
     When I reopen to void ticket with payment amount "$27.11"
@@ -61,7 +61,7 @@ Feature: Turn details
     And I should see Employee "Jessica" with "C = 0.0" in the employee list
 
     When I select the "TURN DETAILS" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the text "Technicians" visible
     And I should see the text "Hair" visible
 
@@ -86,22 +86,22 @@ Feature: Turn details
     And I change price amount "23.58"
 
     When I pay the exact amount by "Cash"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the selected "SERVICE" tab on the Home page
 
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the employee "Avery" in the employee list
     And I should see Employee "Avery" with "C = 1.0" in the employee list
 
     When I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "23.58"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$23.58"
 
     When I reopen ticket with payment amount "$23.58"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Avery" in the ticket
 
@@ -124,10 +124,10 @@ Feature: Turn details
     And I should see "Turn 0.00" for "Avery"
 
     When I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "23.58"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$23.58"
 
     When I reopen to void ticket with payment amount "$23.58"
@@ -137,7 +137,7 @@ Feature: Turn details
   Scenario: Manually adding decrease a turn reorders the employee queue
     Given I am on the HOME page
     When I select the "TURN DETAILS" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the text "Technicians" visible
     And I should see the text "All" visible
     When I click on the "Nails" button
@@ -152,14 +152,14 @@ Feature: Turn details
     When I enter the amount "1"
     And I click on the "DECREASE" button in the popup dialog
 
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the Auto Turn -1.00 for "Leah"
 
     When I select the "SERVICE" tab
     Then I should see the employee "Leah" listed first in the employee list
 
     When I select the "TURN DETAILS" tab
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the text "Technicians" visible
     And I should see the text "All" visible
     When I click on the "Nails" button
@@ -170,14 +170,14 @@ Feature: Turn details
     Then I should see a popup dialog containing the title "Nails"
     When I click on the "DELETE TURN" button in the popup dialog
 
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see "Round 0" for "Leah"
     And I should see "Turn 0.00" for "Leah"
 
   Scenario: Manually adding increase a turn reorders the employee queue
     Given I am on the HOME page
     When I select the "TURN DETAILS" tab
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the text "Technicians" visible
     And I should see the text "All" visible
     When I click on the "Nails" button
@@ -191,7 +191,7 @@ Feature: Turn details
     When I enter the amount "50"
     And I click on the "INCREASE" button in the popup dialog
 
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the Auto Turn 50.00 for "Amelia"
 
     When I select the "SERVICE" tab
@@ -199,7 +199,7 @@ Feature: Turn details
     Then I should see the employee "Amelia" listed last in the employee list
 
     When I select the "TURN DETAILS" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the text "Technicians" visible
     And I should see the text "All" visible
     When I click on the "Nails" button
@@ -210,7 +210,7 @@ Feature: Turn details
     Then I should see a popup dialog containing the title "Nails"
     When I click on the "DELETE TURN" button in the popup dialog
 
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see "Turn 0.00" for "Amelia"
     And I should see "Round 0" for "Amelia"
 
@@ -225,14 +225,14 @@ Feature: Turn details
     Then I should see a popup dialog with title "Adjust Turn"
     When I enter the amount "20"
     And I click on the "INCREASE" button in the popup dialog
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     And I waiting 1s
     Then I should see Employee "Late Turn" with "C = 20.0" in the employee list
 
     When I hold the "Late Turn" employee two seconds
     Then I should see the "TURN" Adjustment
     When I click on the "Remove Late Turn" in turn adjustment
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     And I waiting 1s
     Then I should see Employee "Late Turn" with "C = 0.0" in the employee list
 
@@ -244,7 +244,7 @@ Feature: Turn details
     Then I should see the "TURN" Adjustment
 
     When I click on the "Add Go Again" in turn adjustment
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     And I waiting 1s
     And I waiting 1s
     Then I should see Employee "Go Again" with "C = 0.0" in the employee list
@@ -260,7 +260,7 @@ Feature: Turn details
     Then I should see the total price "$21.26" visible
 
     When I pay the exact amount by "Cash"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the selected "SERVICE" tab on the Home page
     And I should see Employee "Go Again" with "C = 0.0 " in the employee list
 
@@ -270,10 +270,10 @@ Feature: Turn details
     Then I should see Employee "Go Again" with "C = 1.0" in the employee list
 
     When I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "21.26"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$21.26"
 
     When I reopen to void ticket with payment amount "$21.26"
@@ -283,17 +283,17 @@ Feature: Turn details
 
     When I select the "CLOSED TICKET" tab
     And I click on refresh
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the toast message "Ticket data refreshed successfully." visible
 
     When I search for "21.26"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     When I click on the first row for payment "$21.26"
     And I click the Delete ticket button
     Then I should see a popup dialog with title 'Confirm Delete'
 
     When I click on the "confirm" button in the popup dialog
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the toast message "deleted successfully" visible
 
  Scenario: Adjust turn - Move, Remove Move
@@ -309,7 +309,7 @@ Feature: Turn details
     When I enter the amount Delete button
     When I enter the amount Delete button
     And I click on the "CONFIRM" button in the popup dialog
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     And I waiting 1s
     And I waiting 1s
     Then I should see the position employee "Move" is "#1"
@@ -317,7 +317,7 @@ Feature: Turn details
     When I hold the "Move *" employee two seconds
     Then I should see the "TURN" Adjustment
     When I click on the "Remove Move" in turn adjustment
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the employee "Move" is not at position 1
 
   Scenario: View turn details correctly on the receipt
@@ -352,16 +352,16 @@ Feature: Turn details
 
     When I select the "TURN DETAILS" tab
 
-    When I wait for the page fully loaded
-    And I click on the "Hair" button
+    # When I wait for the page fully loaded
+    When I click on the "Hair" button
     When I select the last turn "4.00" for "TurnDetail"
     Then I should see the Turn, Regular, Total, Left as "4.00 $95.70 $95.70 $15.70" in turn details
 
     When I select the "CLOSED TICKET" tab
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
 
     When I search for "255.70"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the first ticket of payment "$255.70"
 
     When I reopen to void ticket with payment amount "$255.70"

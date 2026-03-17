@@ -556,7 +556,7 @@ class xPage {
 		const reopenTask = locators.dailyTaskOption('Reopen ticket').first();
 		await expect(reopenTask).toBeVisible();
 		await reopenTask.click();
-		await this.waitForNetworkIdle();
+		// await this.waitForNetworkIdle();
 	}
 
 	/**
@@ -577,7 +577,7 @@ class xPage {
 		await this.reopenTicketWithPaymentAmount(amount);
 
 		// 2) And I wait for the page fully loaded
-		await this.waitForNetworkIdle();
+		// await this.waitForNetworkIdle();
 
 		// 3) Then I should see the "Ticket View" screen
 		const ticketViewTitle = this.locators.pageName

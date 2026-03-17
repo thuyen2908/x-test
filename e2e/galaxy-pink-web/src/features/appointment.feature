@@ -6,7 +6,7 @@ Feature: Appointment
     When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the title "Any Technician"
     When I select the "Anna" employee from the technician dropdown
     Then I should see the title "Anna"
@@ -42,7 +42,7 @@ Feature: Appointment
 
     When I click on the "SAVE" button
     And I handle the Confirm Validate Time dialog if it appears
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     And I select the last booking in the time slot at "07:00 AM"
     And I click on the "Create Ticket" button
     Then I should see the "Ticket View From Appointment" screen
@@ -67,7 +67,7 @@ Feature: Appointment
     When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the title "Any Technician"
 
     When I click on the scale icon
@@ -76,7 +76,7 @@ Feature: Appointment
     Then I should see the title "Anna"
 
     When I double click on the time slot at "09:20 AM"
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the "Create Appointment" screen
     And I should see the "Manicure" service
 
@@ -106,7 +106,7 @@ Feature: Appointment
 
     When I select the time slot "09:20 AM - 09:40 AM" booked
     And I click on the "Check In" button on the header appointment
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the text "Ticket View From Appointment" visible
     And I should see the user info "Anna" in the ticket
 
@@ -119,7 +119,7 @@ Feature: Appointment
     When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the title "Any Technician"
     When I select the "Anna" employee from the technician dropdown
     Then I should see the title "Anna"
@@ -166,7 +166,7 @@ Feature: Appointment
     When I click on the "SAVE" button
     And I handle the Confirm Validate Time dialog if it appears
     Then I should be redirected to APPOINTMENT page
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the title "Any Technician"
 
     When I select the "Addison" employee from the technician dropdown
@@ -192,7 +192,7 @@ Feature: Appointment
     When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the color header for Any Technician displayed correctly
     And I should see the color header for employee 'Anna' displayed correctly
 
@@ -201,7 +201,7 @@ Feature: Appointment
     When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the title "Any Technician"
     And I should see the employees sorted correctly
 
@@ -211,7 +211,7 @@ Feature: Appointment
     When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the title "Any Technician"
     When I select the "Anna" employee from the technician dropdown
     Then I should see the title "Anna"
@@ -237,7 +237,7 @@ Feature: Appointment
     When I click on the "SAVE" button
     And I handle the Confirm Validate Time dialog if it appears
 
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the title "Any Technician"
     When I select the "Anna" employee from the technician dropdown
     Then I should see the title "Anna"
@@ -250,11 +250,11 @@ Feature: Appointment
     And I should see a new customer "Check-In" on ticket
 
     When I back to HOME page
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     And I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the title "Any Technician"
     When I select the "Anna" employee from the technician dropdown
     Then I should see the title "Anna"
@@ -276,7 +276,7 @@ Feature: Appointment
     When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the title "Any Technician"
     When I select the "Anna" employee from the technician dropdown
     Then I should see the title "Anna"
@@ -302,7 +302,7 @@ Feature: Appointment
     When I click on the "SAVE" button
     And I handle the Confirm Validate Time dialog if it appears
 
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the title "Any Technician"
     When I select the "Anna" employee from the technician dropdown
     Then I should see the title "Anna"
@@ -322,11 +322,11 @@ Feature: Appointment
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-    When I wait for the page fully loaded
-    And I navigate to "APPT BOOK" on the navigation bar
+    # When I wait for the page fully loaded
+    When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the title "Any Technician"
     When I select the "Anna" employee from the technician dropdown
     Then I should see the title "Anna"
@@ -347,7 +347,7 @@ Feature: Appointment
     When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the title "Any Technician"
     And I should see the icon zoom out
 
@@ -359,7 +359,7 @@ Feature: Appointment
     When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the title "Any Technician"
     When I select view "Week"
     Then I should see the start of the week as "Tue"
@@ -370,7 +370,7 @@ Feature: Appointment
     When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the title "Any Technician"
     When I click on the "Block" button
     Then I should see a popup dialog containing the title "Create Blocked Time"
@@ -380,7 +380,7 @@ Feature: Appointment
     And I fill the end time "09:00 AM"
     And I fill the reason block "Off for an hour"
     And I click on the "Save" button
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the toast message "Blocked time for Bella has been saved successfully." visible
 
     # Filter technician
@@ -404,7 +404,7 @@ Feature: Appointment
     When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the title "Any Technician"
     When I click on the "Block" button
     Then I should see a popup dialog containing the title "Create Blocked Time"
@@ -413,7 +413,7 @@ Feature: Appointment
     And I switch ON "All Day"
     And I fill the reason block "Block all day"
     And I click on the "Save" button
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the toast message "Blocked time for Anna has been saved successfully." visible
 
     When I click on the triangle open

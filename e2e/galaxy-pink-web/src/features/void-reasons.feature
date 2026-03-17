@@ -3,8 +3,8 @@ Feature: Void reasons management
 
   Scenario: User can view the list of void reasons
     Given I am on the HOME page
-    When I wait for the page fully loaded
-    And I click on the header menu
+    # When I wait for the page fully loaded
+    When I click on the header menu
     And I select the "Back Office" label in the menu list
     And I select the "Void Reasons" label in the expanded list
     Then I should be redirected to VOID_REASONS page
@@ -12,7 +12,7 @@ Feature: Void reasons management
 
   Scenario: Add and then delete a Void Reason
     Given I am on the VOID_REASONS page
-    When I wait for the page fully loaded
+    # When I wait for the page fully loaded
     Then I should see the "Void Reasons" screen
 
     When I click on the "Add New" button
@@ -26,5 +26,5 @@ Feature: Void reasons management
     And I click on the action "Delete" button for item "AutoTestVoidReason"
     Then I should see a popup dialog with title "Delete Confirmation"
     When I click on the "Delete" button in the popup dialog
-    And I wait for the page fully loaded
+    # And I wait for the page fully loaded
     Then I should see the toast message "The data has been deleted permanently successfully" visible
