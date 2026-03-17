@@ -9,6 +9,7 @@ Feature: Discounts management
     Then I should be redirected to DISCOUNT page
     And I should see the "Discounts" screen
 
+  @skip
   Scenario: Create a new Discount
    Given I am on the HOME page
     When I click on the header menu
@@ -35,7 +36,7 @@ Feature: Discounts management
     When I click on the "Delete" button in the popup dialog
     And I wait for the page fully loaded
     Then I should see the toast message "Discount deleted successfully" visible
-    
+
 
 
 

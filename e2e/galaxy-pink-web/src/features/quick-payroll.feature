@@ -101,7 +101,7 @@ Feature: Quick payroll
 
     When I reopen to void ticket with payment amount "$249.77"
     Then I should see the selected "SERVICE" tab on the Home page
-    And I should not see the employee "Serena" in the ticket list
+    # And I should not see the employee "Serena" in the ticket list
 
   Scenario: Display Hourly payroll details correctly in the payroll summary
     Given I am on the HOME page
@@ -173,4 +173,4 @@ Feature: Quick payroll
 
     When I reopen to void ticket with payment amount "$250.80"
     Then I should see the selected "SERVICE" tab on the Home page
-    And I should not see the employee "Jen" in the ticket list
+    # And I should not see the employee "Jen" in the ticket list

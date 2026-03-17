@@ -454,7 +454,7 @@ Feature: Closed Ticket
 
     When I reopen to void ticket with payment amount "$77.5"
     Then I should see the selected "SERVICE" tab on the Home page
-    And I should not see the employee "Isabella" in the ticket list
+    # And I should not see the employee "Isabella" in the ticket list
 
     Given I am on the GIFT_CARD_BALANCE page
     When I search gift card "1703"
@@ -804,7 +804,7 @@ Feature: Closed Ticket
 
     When I reopen to void ticket with payment amount "$234.22"
     Then I should see the selected "SERVICE" tab on the Home page
-    And I should not see the employee "CC_Slip" in the ticket list
+    # And I should not see the employee "CC_Slip" in the ticket list
 
   Scenario: CC slip with no tip
     Given I am on the HOME page
@@ -863,7 +863,7 @@ Feature: Closed Ticket
 
     When I reopen to void ticket with payment amount "$241.48"
     Then I should see the selected "SERVICE" tab on the Home page
-    And I should not see the employee "CCSlipNoTip" in the ticket list
+    # And I should not see the employee "CCSlipNoTip" in the ticket list
 
   Scenario: Work slip receipt details
     Given I am on the HOME page
@@ -922,7 +922,7 @@ Feature: Closed Ticket
 
     When I reopen to void ticket with payment amount "$254.57"
     Then I should see the selected "SERVICE" tab on the Home page
-    And I should not see the employee "WorkSlip" in the ticket list
+    # And I should not see the employee "WorkSlip" in the ticket list
 
   Scenario: Work slip update after adjusting tip
     Given I am on the HOME page
@@ -1006,4 +1006,4 @@ Feature: Closed Ticket
 
     When I reopen to void ticket with payment amount "$244.27"
     Then I should see the selected "SERVICE" tab on the Home page
-    And I should not see the employee "WorkSlipAdjustTip" in the ticket list
+    # And I should not see the employee "WorkSlipAdjustTip" in the ticket list

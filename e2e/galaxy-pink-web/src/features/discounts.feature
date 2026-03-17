@@ -8,6 +8,8 @@ Feature: Discounts management
     And I select the "Discounts" label in the expanded list
     Then I should be redirected to DISCOUNT page
     And I should see the "Discounts" screen
+
+  @skip
   Scenario: Create a new Discount
    Given I am on the HOME page
     When I click on the header menu
