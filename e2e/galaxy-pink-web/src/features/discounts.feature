@@ -9,7 +9,7 @@ Feature: Discounts management
     Then I should be redirected to DISCOUNT page
     And I should see the "Discounts" screen
 
-  @skip
+  @skip @fix
   Scenario: Create a new Discount
    Given I am on the HOME page
     When I click on the header menu

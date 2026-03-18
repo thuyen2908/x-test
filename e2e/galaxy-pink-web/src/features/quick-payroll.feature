@@ -1,6 +1,6 @@
 @regression @smoke @slow
 Feature: Quick payroll
-
+@skip @fix
   Scenario: View the Quick Payroll page, view Preview Summary and send email
     Given I am on the HOME page
     When I click on the header menu

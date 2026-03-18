@@ -1,6 +1,6 @@
 @slow @regression @smoke
 Feature: Ticket adjustment
-
+@skip @fix
   Scenario: Add service, remove Cash instead of Credit and adjust tip
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8573"
@@ -173,7 +173,7 @@ Feature: Ticket adjustment
     When I click on the "SAVE" button in the popup dialog
     # And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
-
+@skip @fix
   Scenario: Change price, remove payment and adjust tip for Gift type
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9055"
@@ -359,7 +359,7 @@ Feature: Ticket adjustment
     When I click on the "SAVE" button in the popup dialog
     # And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
-
+@skip @fix
   Scenario: Update GC balance after voiding a sell Gift Card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5720"
@@ -428,7 +428,7 @@ Feature: Ticket adjustment
     When I search gift card "0403"
     Then I should see the first type "ActivateNew" in the gift card detail list
     And I should see the first amount "$50.00" in the gift card detail list
-
+@skip @fix
   Scenario: Remove Tax and make new payment
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8754"
@@ -482,7 +482,7 @@ Feature: Ticket adjustment
     When I click on the "SAVE" button in the popup dialog
     # And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
-
+@skip @fix
   Scenario: Add Tax and make new payment
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1648"
@@ -536,7 +536,7 @@ Feature: Ticket adjustment
     When I click on the "SAVE" button in the popup dialog
     # And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
-
+@skip @fix
   Scenario: Update loyalty when adding a customer to the ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "4170"

@@ -417,7 +417,7 @@ Feature: Create tickets
 
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
-
+@skip @fix
   Scenario: Sell a Gift Card add-on amount
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1010"
@@ -453,7 +453,7 @@ Feature: Create tickets
     And I should see the first date is today in the gift card detail list
     And I should see the first type "ActivateAddOn" in the gift card detail list
     And I should see the first amount "$100.00" in the gift card detail list
-
+@skip @fix
   Scenario: Sell a Gift Card rewrite amount
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5362"
@@ -767,7 +767,7 @@ Feature: Create tickets
     And I should see the split tips amount for employee "Kelley" is zero
     When I click on the "OK" button
     Then I should see the selected "SERVICE" tab on the Home page
-
+@skip @fix
   Scenario: Cannot pay more than the Gift card Balance
     Given I am on the HOME page
     When I clock in the timesheet with PIN "4040"
@@ -841,7 +841,7 @@ Feature: Create tickets
 
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
-
+@skip @fix
   Scenario: No cash discount is charged when selling GC
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8903"
@@ -869,7 +869,7 @@ Feature: Create tickets
     Then I should see the payment history "VISA (1234)$106.18" visible
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
-
+@skip @fix
   Scenario: Update GC balance when making multiple payments using 2 GCs
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8526"

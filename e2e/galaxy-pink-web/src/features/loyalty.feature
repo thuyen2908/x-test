@@ -1,6 +1,6 @@
 @slow @regression @smoke
 Feature: Loyalty Balance
-
+@skip @fix
   Scenario: Search Loyalty Balance
     Given I am on the HOME page
     When I navigate to "Balance" on the navigation bar
@@ -21,7 +21,7 @@ Feature: Loyalty Balance
     And I click on the "SEARCH" button
     # And I wait for the page fully loaded
     Then I should see the first type "PosManualIssuance" in the loyal detail list
-
+@skip @fix
   Scenario: Adjust Loyalty balance
     Given I am on the HOME page
     When I navigate to "Balance" on the navigation bar

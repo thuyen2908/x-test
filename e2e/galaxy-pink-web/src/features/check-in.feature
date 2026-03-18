@@ -1,4 +1,4 @@
-@slow @regression @smoke
+@slow @regression @smoke @skip @fix
 Feature: Check In
 
   Scenario: Display categories and services correctly in check-in

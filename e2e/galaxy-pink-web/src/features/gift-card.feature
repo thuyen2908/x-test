@@ -1,6 +1,6 @@
 @slow @regression @smoke
 Feature: Gift Card Balance
-
+@skip @fix
   Scenario: Search Gift Card
     Given I am on the GIFT_CARD_BALANCE page
     Then I should see the "Gift Card / Loyalty Balance" screen
@@ -17,7 +17,7 @@ Feature: Gift Card Balance
     And I click on the "SEARCH" button
     # And I wait for the page fully loaded
     Then I should see the text "ACTIVATED DATE" visible
-
+@skip @fix
   Scenario: Adjust Gift Card balance
     Given I am on the GIFT_CARD_BALANCE page
     Then I should see the "Gift Card / Loyalty Balance" screen

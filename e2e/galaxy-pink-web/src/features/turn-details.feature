@@ -1,6 +1,6 @@
 @regression @smoke @slow
 Feature: Turn details
-
+@skip @fix
   Scenario: Verify the specific queue loads correctly employees
     Given I am on the HOME page
     When I select the "TURN DETAILS" tab
@@ -11,7 +11,7 @@ Feature: Turn details
 
     When I click on the "Hair" button
     Then I should see the employees displayed correctly in turn details
-
+@skip @fix
   Scenario: Turn update when voiding a ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5727"

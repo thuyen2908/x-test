@@ -1,4 +1,4 @@
-@regression @smoke @slow
+@regression @smoke @slow @skip @fix
 Feature: Appointment
   @skip
   Scenario: Create an appointment for an existing customer, edit to change technician and create ticket

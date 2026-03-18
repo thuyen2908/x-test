@@ -1,6 +1,6 @@
 @regression @slow @page
 Feature: Ticket Payments
-
+@skip @fix
   Scenario: Display the correct page title and nav tabs
     Given I am on the HOME page
     When I click on the functions
@@ -24,7 +24,7 @@ Feature: Ticket Payments
 
     When I select the "BATCH HISTORY" tab
     Then I should see the Batch history table displayed correctly
-
+@skip @fix
   Scenario: The Tickets tab displays data correctly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1250"

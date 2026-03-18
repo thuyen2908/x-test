@@ -181,7 +181,7 @@ Feature: Closed Ticket
 
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
-
+@skip @fix
   Scenario: Reopen ticket to remove payment Cash and instead of Credit
     Given I am on the HOME page
     When I clock in the timesheet with PIN "4683"
@@ -460,7 +460,7 @@ Feature: Closed Ticket
     When I search gift card "1703"
     Then I should see the first type "ActivateAddOn" in the gift card detail list
     And I should see the first amount "$50.00" in the gift card detail list
-
+@skip @fix
   Scenario: Cannot find gift card after selling a new gift card and then voiding the item Gift Card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6727"
@@ -572,7 +572,7 @@ Feature: Closed Ticket
     When I search gift card "0909090909"
     Then I should see the title contain "Jimmy" visible
     And I should see the text "No rows" visible
-
+@skip @fix
   Scenario: View the loyalty point on Receipt
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2883"

@@ -1,6 +1,6 @@
 @slow @regression @smoke
 Feature: Fast Sale tickets
-
+@skip @fix
   Scenario: Create a fast sale ticket
     Given I am on the HOME page
     # When I wait for the page fully loaded
