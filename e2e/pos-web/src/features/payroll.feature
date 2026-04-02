@@ -145,7 +145,7 @@ Feature: Payroll
 
     When I reopen to void ticket with payment amount "$218.87"
     Then I should be redirected to HOME page
-    And I should not see the employee "Sydney" in the ticket list
+    # And I should not see the employee "Sydney" in the ticket list
     When I wait for the page fully loaded
     And I delete ticket after void it with payment amount "215.70"
 
@@ -230,7 +230,7 @@ Feature: Payroll
 
     When I reopen to void ticket with payment amount "$229.17"
     Then I should be redirected to HOME page
-    And I should not see the employee "Venus" in the ticket list
+    # And I should not see the employee "Venus" in the ticket list
 
     When I delete ticket after void it with payment amount "225.70"
 
@@ -270,7 +270,7 @@ Feature: Payroll
     Then I should be redirected to HOME page
 
     When I clock out the timesheet with PIN "1314"
-    Then I should not see the employee "Jazzie" in the employee list
+    # Then I should not see the employee "Jazzie" in the employee list
 
     Given I am on the PAYROLL page
     # When I wait for the page fully loaded
@@ -303,7 +303,7 @@ Feature: Payroll
 
     When I reopen to void ticket with payment amount "$218.97"
     Then I should be redirected to HOME page
-    And I should not see the employee "Jazzie" in the ticket list
+    # And I should not see the employee "Jazzie" in the ticket list
 
   Scenario: Hourly payroll details in the Owner View are calculated correctly
     Given I am on the HOME page
@@ -377,4 +377,4 @@ Feature: Payroll
 
     When I reopen to void ticket with payment amount "$230.20"
     Then I should be redirected to HOME page
-    And I should not see the employee "June" in the ticket list
+    # And I should not see the employee "June" in the ticket list

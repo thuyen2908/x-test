@@ -1,6 +1,6 @@
 @slow @regression @smoke
 Feature: Ticket adjustment
-@skip @fix
+
   Scenario: Add service, remove Cash instead of Credit and adjust tip
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8573"
@@ -18,7 +18,7 @@ Feature: Ticket adjustment
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I click on the header menu
     And I select the "Manager" label in the menu list
     And I select the "Ticket Adjustment" label in the expanded list
@@ -26,7 +26,7 @@ Feature: Ticket adjustment
     And I should see the "Ticket Adjustment" screen
     And I should see the text "TICKET#" visible
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I search for "21"
     Then I should see the first ticket with total "$21.00"
 
@@ -53,7 +53,7 @@ Feature: Ticket adjustment
     And I click on the "CONFIRM" button
     Then I should see a popup dialog with title "Confirm Save Ticket"
     When I click on the "SAVE" button in the popup dialog
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
 
   Scenario: View service details
@@ -88,7 +88,7 @@ Feature: Ticket adjustment
     When I click on the "OK" button
     Then I should see the selected "SERVICE" tab on the Home page
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I click on the header menu
     And I select the "Manager" label in the menu list
     And I select the "Ticket Adjustment" label in the expanded list
@@ -96,7 +96,7 @@ Feature: Ticket adjustment
     And I should see the "Ticket Adjustment" screen
     And I should see the text "TICKET#" visible
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I search for "55.47"
     Then I should see the first ticket with total "$55.47"
     When I select the first ticket with total "$55.47"
@@ -118,8 +118,8 @@ Feature: Ticket adjustment
 
   Scenario: Create a ticket for today, add tip, apply discount item and apply discount ticket
     Given I am on the HOME page
-    # When I wait for the page fully loaded
-    When I click on the header menu
+    When I wait for the page fully loaded
+    And I click on the header menu
     And I select the "Manager" label in the menu list
     And I select the "Ticket Adjustment" label in the expanded list
     Then I should be redirected to TICKET_ADJUSTMENT page
@@ -134,7 +134,7 @@ Feature: Ticket adjustment
     Then I should see the text "NEW TICKET#" in the ticket adjustment screen
     And I should see the "Acrylic removal" service
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I add the "Acrylic removal" service to my cart
     Then I should see the service "Acrylic removal" in my cart
     And I should see the employee "Anna" in my cart
@@ -171,9 +171,9 @@ Feature: Ticket adjustment
     When I click on the "CONFIRM" button
     Then I should see a popup dialog with title "Confirm Save Ticket"
     When I click on the "SAVE" button in the popup dialog
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
-@skip @fix
+
   Scenario: Change price, remove payment and adjust tip for Gift type
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9055"
@@ -191,7 +191,7 @@ Feature: Ticket adjustment
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I click on the header menu
     And I select the "Manager" label in the menu list
     And I select the "Ticket Adjustment" label in the expanded list
@@ -199,7 +199,7 @@ Feature: Ticket adjustment
     And I should see the "Ticket Adjustment" screen
     And I should see the text "TICKET#" visible
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I search for "42"
     Then I should see the first ticket with total "$42.00"
     When I select the first ticket with total "$42.00"
@@ -231,7 +231,7 @@ Feature: Ticket adjustment
     When I click on the "CONFIRM" button
     Then I should see a popup dialog with title "Confirm Save Ticket"
     When I click on the "SAVE" button in the popup dialog
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
 
   Scenario: Void item, remove payment and add a new payment
@@ -252,7 +252,7 @@ Feature: Ticket adjustment
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I click on the header menu
     And I select the "Manager" label in the menu list
     And I select the "Ticket Adjustment" label in the expanded list
@@ -260,7 +260,7 @@ Feature: Ticket adjustment
     And I should see the "Ticket Adjustment" screen
     And I should see the text "TICKET#" visible
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I search for "51"
     Then I should see the first ticket with total "$51.00"
     When I select the first ticket with total "$51.00"
@@ -289,7 +289,7 @@ Feature: Ticket adjustment
     When I click on the "CONFIRM" button
     Then I should see a popup dialog with title "Confirm Save Ticket"
     When I click on the "SAVE" button in the popup dialog
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
 
   Scenario: Change tech and split tip
@@ -318,7 +318,7 @@ Feature: Ticket adjustment
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I click on the header menu
     And I select the "Manager" label in the menu list
     And I select the "Ticket Adjustment" label in the expanded list
@@ -326,7 +326,7 @@ Feature: Ticket adjustment
     And I should see the "Ticket Adjustment" screen
     And I should see the text "TICKET#" visible
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I search for "35.9"
     Then I should see the first ticket with total "$35.90"
     When I select the first ticket with total "$35.90"
@@ -336,7 +336,7 @@ Feature: Ticket adjustment
     When I select the service "Manicure" in my cart
     Then I should see the check icon
     When I select the "TECHS" tab
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     And I select the employee "Anna" in the ticket adjustment screen
     Then I should see a popup dialog with title "SELECT TURN GROUP"
     When I select the group "Nails"
@@ -357,9 +357,9 @@ Feature: Ticket adjustment
     When I click on the "CONFIRM" button
     Then I should see a popup dialog with title "Confirm Save Ticket"
     When I click on the "SAVE" button in the popup dialog
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
-@skip @fix
+
   Scenario: Update GC balance after voiding a sell Gift Card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5720"
@@ -387,7 +387,7 @@ Feature: Ticket adjustment
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I click on the header menu
     And I select the "Manager" label in the menu list
     And I select the "Ticket Adjustment" label in the expanded list
@@ -395,7 +395,7 @@ Feature: Ticket adjustment
     And I should see the "Ticket Adjustment" screen
     And I should see the text "TICKET#" visible
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I search for "76.7"
     Then I should see the first ticket with total "$76.70"
     When I select the first ticket with total "$76.70"
@@ -421,14 +421,14 @@ Feature: Ticket adjustment
     When I click on the "CONFIRM" button
     Then I should see a popup dialog with title "Confirm Save Ticket"
     When I click on the "SAVE" button in the popup dialog
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
 
     Given I am on the GIFT_CARD_BALANCE page
     When I search gift card "0403"
     Then I should see the first type "ActivateNew" in the gift card detail list
     And I should see the first amount "$50.00" in the gift card detail list
-@skip @fix
+
   Scenario: Remove Tax and make new payment
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8754"
@@ -449,11 +449,11 @@ Feature: Ticket adjustment
     Then I should be redirected to HOME page
 
     Given I am on the TICKET_ADJUSTMENT page
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     Then I should see the "Ticket Adjustment" screen
     And I should see the text "TICKET#" visible
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I search for "16.96"
     Then I should see the first ticket with total "$16.96"
     When I select the first ticket with total "$16.96"
@@ -480,9 +480,9 @@ Feature: Ticket adjustment
     When I click on the "CONFIRM" button
     Then I should see a popup dialog with title "Confirm Save Ticket"
     When I click on the "SAVE" button in the popup dialog
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
-@skip @fix
+
   Scenario: Add Tax and make new payment
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1648"
@@ -503,11 +503,11 @@ Feature: Ticket adjustment
     Then I should be redirected to HOME page
 
     Given I am on the TICKET_ADJUSTMENT page
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     Then I should see the "Ticket Adjustment" screen
     And I should see the text "TICKET#" visible
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I search for "16"
     Then I should see the first ticket with total "$16.00"
     When I select the first ticket with total "$16.00"
@@ -534,9 +534,9 @@ Feature: Ticket adjustment
     When I click on the "CONFIRM" button
     Then I should see a popup dialog with title "Confirm Save Ticket"
     When I click on the "SAVE" button in the popup dialog
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
-@skip @fix
+
   Scenario: Update loyalty when adding a customer to the ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "4170"
@@ -552,7 +552,7 @@ Feature: Ticket adjustment
     When I select the service "Manicure" in my cart
     When I change price amount "51.51"
     Then I should see the total price "$51.51" visible
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I click on the "Pay" button
     When I select the "Cash" payment type
     Then I should see a popup dialog with title "Close Ticket"
@@ -561,11 +561,11 @@ Feature: Ticket adjustment
     Then I should be redirected to HOME page
 
     Given I am on the TICKET_ADJUSTMENT page
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     Then I should see the "Ticket Adjustment" screen
     And I should see the text "TICKET#" visible
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I search for "51.51"
     Then I should see the first ticket with total "$51.51"
     When I select the first ticket with total "$51.51"
@@ -576,14 +576,13 @@ Feature: Ticket adjustment
     When I click on the "CONFIRM" button
     Then I should see a popup dialog with title "Confirm Save Ticket"
     When I click on the "SAVE" button in the popup dialog
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
 
     Given I am on the GIFT_CARD_BALANCE page
     When I click on the "LOYALTY" button
     And I search gift card "9999999999"
 
-    # Then I should see the text "Customer: Tin" visible
     Then I should see the first date is today in the loyalty detail list
     And I should see the first type "Issuance" in the loyalty detail list
     And I should see the first amount "51" in the gift card detail list

@@ -4627,13 +4627,24 @@ Then(
 
 		const employeeRow = page
 			.locator('.render-bill div[style*="display: grid"]')
-			.filter({ hasText: emp });
+			.filter({
+				has: page
+					.locator('span')
+					.first()
+					.filter({ hasText: new RegExp(`^${emp}$`) }),
+			});
 
 		await expect(employeeRow).toBeVisible();
 
-		await expect(employeeRow.locator('span').nth(0)).toHaveText(emp);
-		await expect(employeeRow.locator('span').nth(1)).toHaveText(price);
-		await expect(employeeRow.locator('span').nth(2)).toHaveText(tip);
+		await expect(employeeRow.locator('span').nth(0)).toHaveText(emp, {
+			exact: true,
+		});
+		await expect(employeeRow.locator('span').nth(1)).toHaveText(price, {
+			exact: true,
+		});
+		await expect(employeeRow.locator('span').nth(2)).toHaveText(tip, {
+			exact: true,
+		});
 	},
 );
 

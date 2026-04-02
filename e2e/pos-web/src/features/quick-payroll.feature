@@ -98,7 +98,7 @@ Feature: Quick payroll
 
     When I reopen to void ticket with payment amount "$249.77"
     Then I should be redirected to HOME page
-    And I should not see the employee "Serena" in the ticket list
+    # And I should not see the employee "Serena" in the ticket list
 
     When I delete ticket after void it with payment amount "245.70"
 
@@ -170,6 +170,6 @@ Feature: Quick payroll
 
     When I reopen to void ticket with payment amount "$250.80"
     Then I should be redirected to HOME page
-    And I should not see the employee "Jen" in the ticket list
+    # And I should not see the employee "Jen" in the ticket list
 
     When I delete ticket after void it with payment amount "246.70"

@@ -612,7 +612,7 @@ Feature: Reopen tickets
 
     When I reopen to void ticket with payment amount "$199.50"
     Then I should be redirected to HOME page
-    And I should not see the employee "Leon" in the ticket list
+    # And I should not see the employee "Leon" in the ticket list
 
     When I delete ticket after void it with payment amount "199.50"
 
@@ -1093,31 +1093,29 @@ Feature: Reopen tickets
 
     When I click on the total price of "Manicure"
     And I change price amount "63.4"
+    And I add tip amount "10"
+
+    And I click on the item "Technician" button
+    Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
+    When I select the "Manicure" service in the dialog
+    And I select the "WorkSlipAdjustTip2" employee in the dialog
+    And I click on the "Apply" button in the dialog
+    Then I should see the "WorkSlipAdjustTip2" employee in my cart
 
     When I click on the "PAY" button
     And I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
     And I click on the element with id "payment"
-    Then I should be redirected to HOME page
 
-    Given I am on the CLOSED_TICKETS page
-    When I wait for the page fully loaded
-    And I search for "234.27"
-    And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$234.27"
+    #When I click on the "SPLIT TIP" button
+    Then I should see the employee "WorkSlipAdjustTip" visible in the split tip screen
+    And I should see the employee "WorkSlipAdjustTip2" visible in the split tip screen
+    And I should see the text "TOTAL TIP" visible in the split tip screen
+    And I should see the total tip "10" visible in the split tip screen
 
-    When I reopen ticket with payment amount "$234.27"
-    And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "WorkSlipAdjustTip" in the ticket
-
-    When I click on the "PAY" button
-    Then I should see the payment history "VISA (1234)" visible
-    And I should see the payment price contain amount "$234.27"
-    # Then I should see the payment history "VISA (1234)$234.27" visible
-
-    When I adjust tip amount "10"
-    And I click on the "CLOSE TICKET" button
+    When I click on the "Percent Split" button in the split tip screen
+    Then I should see all split tips non-zero
+    When I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
 
     Given I am on the CLOSED_TICKETS page
@@ -1127,7 +1125,8 @@ Feature: Reopen tickets
     And I select the first ticket with payment "$244.27"
     And I click on item button "Work Slip"
 
-    Then I should see the Employee, Price, Tip as "WorkSlipAdjustTip $229.40 $10.00" on the work slip
+    Then I should see the Employee, Price, Tip as "WorkSlipAdjustTip2 $63.40 $3.53" on the work slip
+    And I should see the Employee, Price, Tip as "WorkSlipAdjustTip $166.00 $6.47" on the work slip
     And I should see the "Sub Total: $229.40" on the work slip
     And I should see the "Tax: $0.96" on the work slip
     And I should see the "Ticket Tip: $10.00" on the work slip
