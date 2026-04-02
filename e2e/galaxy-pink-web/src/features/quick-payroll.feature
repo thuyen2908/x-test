@@ -1,6 +1,6 @@
 @regression @smoke @slow
 Feature: Quick payroll
-@skip @fix
+
   Scenario: View the Quick Payroll page, view Preview Summary and send email
     Given I am on the HOME page
     When I click on the header menu
@@ -15,7 +15,7 @@ Feature: Quick payroll
     And I should see the "PRINT ALL PAYROLL" button visible on the header
 
     When I click on the "Today" button
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     And I click on the "PREVIEW SUMMARY" button
     Then I should see the text "Payroll Summary" in the payroll summary
 
@@ -58,14 +58,14 @@ Feature: Quick payroll
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I click on the header menu
     And I select the "Manager" label in the menu list
     And I select the "Quick Payroll" label in the expanded list
     Then I should be redirected to QUICK_PAYROLL page
     And I should see the "Quick Payroll" screen
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I search for "Serena"
     And I select the employee "Serena"
     Then I should see the default filter set to Today
@@ -93,10 +93,10 @@ Feature: Quick payroll
 
     When I back to HOME page
     And I select the "CLOSED TICKET" tab
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
 
     When I search for "249.77"
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the first ticket of payment "$249.77"
 
     When I reopen to void ticket with payment amount "$249.77"
@@ -138,22 +138,22 @@ Feature: Quick payroll
     And I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I clock out the timesheet with PIN "7016"
     Then I should not see the employee "Jen" in the employee list
 
     Given I am on the QUICK_PAYROLL page
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     Then I should see the "Quick Payroll" screen
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I search for "Jen"
     And I select the employee "Jen"
     Then I should see the default filter set to Today
     And I should see the detail "Employee Name: Jen" in the payroll receipt
     And I should see the detail "Payroll Type: Hourly" in the payroll receipt
     And I should see the title "Employee Pay" in the payroll receipt
-    # And I should see the detail "Regular Pay" in the payroll receipt
+    And I should see the detail "Regular Pay" in the payroll receipt
     And I should see the detail "+Non-Cash Tips: $9.75" in the payroll receipt
     And I should see the detail "Total Pay: $14.75" in the payroll receipt
     And I should see the detail "Check: $3.00" in the payroll receipt
@@ -165,10 +165,10 @@ Feature: Quick payroll
 
     When I back to HOME page
     And I select the "CLOSED TICKET" tab
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
 
     When I search for "250.80"
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the first ticket of payment "$250.80"
 
     When I reopen to void ticket with payment amount "$250.80"

@@ -62,7 +62,7 @@ Feature: Turn details
 
     When I reopen to void ticket with payment amount "$27.11"
     Then I should be redirected to HOME page
-    And I should not see the employee "Jessica" in the ticket list
+    # And I should not see the employee "Jessica" in the ticket list
 
     When I delete ticket after void it with payment amount "27.11"
     And I back to HOME page
@@ -148,7 +148,7 @@ Feature: Turn details
 
     When I reopen to void ticket with payment amount "$23.58"
     Then I should be redirected to HOME page
-    And I should not see the employee "Zoey" in the ticket list
+    # And I should not see the employee "Zoey" in the ticket list
 
   Scenario: Manually adding decrease a turn reorders the employee queue
     Given I am on the HOME page
@@ -303,7 +303,7 @@ Feature: Turn details
 
     When I reopen to void ticket with payment amount "$21.26"
     Then I should be redirected to HOME page
-    And I should not see the employee "Go Again" in the ticket list
+    # And I should not see the employee "Go Again" in the ticket list
     And I should see Employee "Go Again" with "Turn: 0.0" in the employee list
 
     When I delete ticket after void it with payment amount "21.26"

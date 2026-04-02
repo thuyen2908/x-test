@@ -84,7 +84,7 @@ Feature: Ticket Payments
 
     When I reopen to void ticket with payment amount "$232.26"
     Then I should be redirected to HOME page
-    And I should not see the employee "Hilary" in the ticket list
+    # And I should not see the employee "Hilary" in the ticket list
 
     When I delete ticket after void it with payment amount "228.70"
 

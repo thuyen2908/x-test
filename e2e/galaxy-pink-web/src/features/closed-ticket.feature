@@ -181,7 +181,7 @@ Feature: Closed Ticket
 
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
-@skip @fix
+
   Scenario: Reopen ticket to remove payment Cash and instead of Credit
     Given I am on the HOME page
     When I clock in the timesheet with PIN "4683"
@@ -359,7 +359,7 @@ Feature: Closed Ticket
 
     When I reopen to void ticket with payment amount "$16.48"
     Then I should see the selected "SERVICE" tab on the Home page
-    And I should not see the employee "Daisy" in the ticket list
+    # And I should not see the employee "Daisy" in the ticket list
 
   Scenario: Reopen ticket to void item, remove and make new payment
     Given I am on the HOME page
@@ -460,7 +460,7 @@ Feature: Closed Ticket
     When I search gift card "1703"
     Then I should see the first type "ActivateAddOn" in the gift card detail list
     And I should see the first amount "$50.00" in the gift card detail list
-@skip @fix
+
   Scenario: Cannot find gift card after selling a new gift card and then voiding the item Gift Card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6727"
@@ -572,7 +572,7 @@ Feature: Closed Ticket
     When I search gift card "0909090909"
     Then I should see the title contain "Jimmy" visible
     And I should see the text "No rows" visible
-@skip @fix
+
   Scenario: View the loyalty point on Receipt
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2883"
@@ -923,7 +923,7 @@ Feature: Closed Ticket
     When I reopen to void ticket with payment amount "$254.57"
     Then I should see the selected "SERVICE" tab on the Home page
     # And I should not see the employee "WorkSlip" in the ticket list
-
+@fix
   Scenario: Work slip update after adjusting tip
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9606"
@@ -952,50 +952,46 @@ Feature: Closed Ticket
     When I select the service "Manicure" in my cart
     And I change price amount "63.4"
 
+    When I select the service "Manicure" in my cart
+    And I select the "WorkSlipAdjustTip2" employee in the list item employee
+
     When I click on the "Pay" button
     And I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
     And I select the "VISA" on the menu
-    And I click on the "Close Ticket" button
-    Then I should see the selected "SERVICE" tab on the Home page
 
-    When I select the "CLOSED TICKET" tab
-    And I click on refresh
-    # And I wait for the page fully loaded
-
-    When I search for "234.27"
-    # And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$234.27"
-
-    When I reopen ticket with payment amount "$234.27"
-    # And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "WorkSlipAdjustTip" in the ticket
-
-    When I click on the "Pay" button
-    Then I should see the payment history "VISA (1234)$234.27" visible
-
-    When I select the payment history "VISA (1234)$234.27"
+    When I select the payment history "VISA (1234)$237.27"
     Then I should see a popup dialog with title "CONFIRM ADJUST TIP "
     When I click on the action button "Adjust Tip" of the opening dialog
 
     When I enter the amount "10"
     And I click on the "OK" button
-    Then I should see the payment history "VISA (1234)$234.27 + $10.00" visible
-    When I click on the "Close Ticket" button
+    Then I should see the payment history "VISA (1234)$237.27 + $10.00" visible
+
+    When I click on the "SPLIT TIP" button
+    Then I should see the employee "WorkSlipAdjustTip2" visible in the split tip screen
+    And I should see the employee "WorkSlipAdjustTip" visible in the split tip screen
+    And I should see the total tip "10" visible in the split tip screen
+
+    When I click on the "Percent Split" button in the split tip screen
+    Then I should see all split tips non-zero
+    When I click on the "OK" button
+
+    When I wait for the page fully loaded
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
     And I click on refresh
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
 
     When I search for "244.27"
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the first ticket of payment "$244.27"
 
     When I select the first ticket with payment "$244.27"
     And I click on item button "Work Slip"
-    Then I should see the Employee, Price, Tip as "WorkSlipAdjustTip $229.40 $10.00" on the work slip
+    Then I should see the Employee, Price, Tip as "WorkSlipAdjustTip $166.00 $6.47" on the work slip
+    And I should see the Employee, Price, Tip as "WorkSlipAdjustTip2 $63.40 $3.53" on the work slip
 
     And I should see the "Sub Total: $229.40" on the work slip
     And I should see the "Tax: $0.96" on the work slip

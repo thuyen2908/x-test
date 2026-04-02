@@ -1,9 +1,9 @@
-@slow @regression @smoke @skip @fix
+@slow @regression @smoke
 Feature: Check In
 
   Scenario: Display categories and services correctly in check-in
     Given I am on the HOME page
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I navigate to "WAIT" on the navigation bar
     Then I should be redirected to CREATE_WAITING page
     And I should see the text "Create Waiting" visible
@@ -13,7 +13,7 @@ Feature: Check In
 
   Scenario: Assign a service package to any technician and use the default waiting list technician when creating a ticket
     Given I am on the HOME page
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I navigate to "WAIT" on the navigation bar
     Then I should be redirected to CREATE_WAITING page
     And I should see the text "Create Waiting" visible
@@ -32,17 +32,17 @@ Feature: Check In
     And I should see the employee "Any Technician" for all items in a package in my cart
 
     When I click on the "SAVE" button
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the selected "WAITING LIST" tab on the Home page
     And I should see the customer "Check-in" in the waiting list
     And I should see the new customer icon
     And I should see the service "Combo 1" in the waiting list
     And I should see the technician "Any Technician" in the waiting list
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I click on the first row for customer "Check-in" to expand details
     And I select the "Create Ticket" on the Daily Task
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Anna" in the ticket
 
@@ -55,7 +55,7 @@ Feature: Check In
     Then I should be redirected to CREATE_WAITING page
     And I should see the text "Create Waiting" visible
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I add the "6666666666" customer
     Then I should see a new customer "Alice" on ticket
 
@@ -73,10 +73,10 @@ Feature: Check In
     And I should see the employee "Claire" in my cart
 
     When I click on the "SAVE" button
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the selected "WAITING LIST" tab on the Home page
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     Then I should see the customer "Alice" in the waiting list
     And I should see the service "Manicure" in the waiting list
     And I should see the service "Pedicure" in the waiting list
@@ -85,7 +85,7 @@ Feature: Check In
 
     When I click on the first row for customer "Alice" to expand details
     And I select the "Create Ticket" on the Daily Task
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Emily" in the ticket
     And I should see my cart showing 2 item added
@@ -108,7 +108,6 @@ Feature: Check In
     When I click on the "LOYALTY" button
     And I search gift card "6666666666"
 
-    # Then I should see the text "Customer: Alice" visible
     Then I should see the first date is today in the loyalty detail list
     And I should see the first type "Issuance" in the loyalty detail list
     And I should see the first amount "28" in the gift card detail list
@@ -129,23 +128,23 @@ Feature: Check In
     And I should see the employee "Next Available" in my cart
 
     When I click on the "SAVE" button
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the selected "WAITING LIST" tab on the Home page
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     Then I should see the customer "Waiting" in the waiting list
     And I should see the service "MANI & PEDI" in the waiting list
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I click on the first row for customer "Waiting" to expand details
     And I select the "Create Ticket" on the Daily Task
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Christ" in the ticket
     And I should see the service hint
     And I should see the hint details "MANI & PEDI (Next Available)"
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I add the "Acrylic removal" service to my cart
     Then I should see my cart showing 1 item added
     And I should see the "Christ" employee in my cart
@@ -170,15 +169,15 @@ Feature: Check In
     And I should see the employee "Addison" in my cart
 
     When I click on the "SAVE" button
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the selected "WAITING LIST" tab on the Home page
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     Then I should see the customer "Editing" in the waiting list
     And I should see the service "Gel X" in the waiting list
     And I should see the technician "Addison" in the waiting list
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I click on the first row for customer "Editing" to expand details
     And I select the "Edit" on the Daily Task
     Then I should see the "Edit Waiting" screen
@@ -194,18 +193,18 @@ Feature: Check In
     And I should see multiple "Addison" employees in my cart
 
     When I click on the "SAVE" button
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the selected "WAITING LIST" tab on the Home page
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     Then I should see the customer "Editing" in the waiting list
     And I should see the service "Gel X" in the waiting list
     And I should see the service "Cut cuticle" in the waiting list
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I click on the first row for customer "Editing" to expand details
     And I select the "Create Ticket" on the Daily Task
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Addison" in the ticket
 
@@ -214,7 +213,7 @@ Feature: Check In
 
   Scenario: Make appointment for Next Available Service and fill duration
     Given I am on the HOME page
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I navigate to "WAIT" on the navigation bar
     Then I should be redirected to CREATE_WAITING page
     And I should see the text "Create Waiting" visible
@@ -231,32 +230,32 @@ Feature: Check In
     And I should see the employee "Next Available" in my cart
 
     When I click on the "SAVE" button
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the selected "WAITING LIST" tab on the Home page
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     Then I should see the customer "Duration" in the waiting list
     And I should see the service "FULL SET & FILL IN" in the waiting list
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I click on the first row for customer "Duration" to expand details
     And I select the "Make Appt" on the Daily Task
 
     Then I should see a popup dialog with title "ENTER DURATION"
     When I enter the amount "10"
     And I click on the "OK" button in the popup dialog
-		# And I wait for the page fully loaded
+		And I wait for the page fully loaded
     Then I should see the pin appointment
 
     When I click on the first row for customer "Duration" to expand details
     And I select the "Create Ticket" on the Daily Task
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the "Ticket View From Appointment" screen
     And I should see the user info "Christ" in the ticket
     And I should see the service hint
     And I should see the hint details "FULL SET & FILL IN (Next Available)"
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I add the "Fill gel" service to my cart
     Then I should see my cart showing 1 item added
     And I should see the "Christ" employee in my cart
@@ -266,7 +265,7 @@ Feature: Check In
 
   Scenario: Delete a waiting
     Given I am on the HOME page
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I navigate to "WAIT" on the navigation bar
     Then I should be redirected to CREATE_WAITING page
     And I should see the text "Create Waiting" visible
@@ -282,10 +281,10 @@ Feature: Check In
     And I should see the employee "Next Available" in my cart
 
     When I click on the "SAVE" button
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the selected "WAITING LIST" tab on the Home page
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     Then I should see the customer "Delete" in the waiting list
     And I should see the service "ADDITIONAL SERVICE" in the waiting list
 
@@ -293,13 +292,13 @@ Feature: Check In
     And I select the "Delete" on the Daily Task
     Then I should see a popup dialog with title "Remove Confirmation"
     When I click on the "confirm" button in the popup dialog
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should not see the customer "Delete" in the waiting list
     Then I should see the toast message "Item successfully deleted" visible
 
   Scenario: Update the user info when changing technician for ticket check-in
     Given I am on the HOME page
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I navigate to "WAIT" on the navigation bar
     Then I should be redirected to CREATE_WAITING page
     And I should see the text "Create Waiting" visible
@@ -315,23 +314,23 @@ Feature: Check In
     And I should see the employee "Victoria" in my cart
 
     When I click on the "SAVE" button
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the selected "WAITING LIST" tab on the Home page
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     Then I should see the customer "Update-user" in the waiting list
     And I should see the service "Acrylic removal" in the waiting list
     And I should see the technician "Victoria" in the waiting list
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I click on the first row for customer "Update-user" to expand details
     And I select the "Create Ticket" on the Daily Task
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Victoria" in the ticket
     And I should see the "Pedicure" service
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I add the "Pedicure" service to my cart
     Then I should see the service "Pedicure" in my cart
 
@@ -353,7 +352,7 @@ Feature: Check In
 
   Scenario: Recreate a waiting after voiding ticket
     Given I am on the HOME page
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I navigate to "WAIT" on the navigation bar
     Then I should be redirected to CREATE_WAITING page
     And I should see the text "Create Waiting" visible
@@ -369,30 +368,30 @@ Feature: Check In
     And I should see the duration "25 mins" in my cart
 
     When I click on the "SAVE" button
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the selected "WAITING LIST" tab on the Home page
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     Then I should see the customer "Recreate" in the waiting list
     And I should see the service "Full set" in the waiting list
     And I should see the technician "Anna" in the waiting list
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I click on the first row for customer "Recreate" to expand details
     And I select the "Create Ticket" on the Daily Task
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
     And I should see the user info "Anna" in the ticket
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I click on the "Void Ticket" button
     And I select the reason "Mistake"
     And I click on the "confirm" button in the popup dialog
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "WAITING LIST" tab
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     And I click on the first row for customer "Recreate" to expand details
     And I select the "Create Ticket" on the Daily Task
     Then I should see the "Ticket View" screen

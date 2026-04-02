@@ -9,7 +9,7 @@ Feature: Close Out report
     # When I wait for the page fully loaded
     Then I should be redirected to CLOSE_OUT page
     And I should see the "Close Out" screen
-@skip @fix
+
   Scenario: Technician report display correctly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "7518"
@@ -77,8 +77,7 @@ Feature: Close Out report
 
     When I reopen to void ticket with payment amount "$235.35"
     Then I should see the selected "SERVICE" tab on the Home page
-    # And I should not see the employee "Elena" in the ticket list
-@skip @fix
+
   Scenario: Technician report summary display correctly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "7298"
