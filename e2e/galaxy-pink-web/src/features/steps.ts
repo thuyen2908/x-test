@@ -4670,3 +4670,8 @@ Then(
 		await expect(actualAmountCell).toHaveText(expectedAmount);
 	},
 );
+
+Then('I should see ticket number sort by descending', async ({ page }) => {
+	const ticketNumberColumn = page.locator('[data-field="ticketNumber"]');
+	await expect(ticketNumberColumn).toHaveAttribute('aria-sort', 'descending');
+});

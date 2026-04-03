@@ -525,7 +525,6 @@ Feature: Closed Ticket
     Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
     And I should see a popup dialog with content "Do you want to activate gift card #2003"
 
-  @skip
   Scenario: Remove loyalty balance when voiding ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "7217"
@@ -537,41 +536,31 @@ Feature: Closed Ticket
     When I add the "Acrylic removal" service to my cart
     Then I should see my cart showing 1 item added
 
+    When I select the service "Acrylic removal" in my cart
+    And I change price amount "18.11"
+
     When I add the "Jimmy" customer
     Then I should see a new customer "Jimmy" on ticket
 
-    When I click on the "PAY" button
-    And I select the "Credit" payment type
-    And I fill the last 4 digits of card number "1234"
-    And I click on the element with id "payment"
-    Then I should be redirected to HOME page
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
 
-    When I click on the "Tickets" label in the header
-    Then I should be redirected to CLOSED_TICKETS page
+    When I select the "CLOSED TICKET" tab
+    And I wait for the page fully loaded
 
-    When I search for "Jimmy"
-    # And I wait for the page fully loaded
-    Then I should see the last ticket of customer "Jimmy"
+    When I search for "18.11"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$18.11"
 
-    When I click on the last row for customer "Jimmy" to expand details
-    Then I should see the "Reopen ticket" button visible
+    When I reopen to void ticket with payment amount "$18.11"
+    Then I should see the selected "SERVICE" tab on the Home page
 
-    When I click on the "Reopen ticket" button
-    # And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "Charlotte" in the ticket
-
-    When I void the current open ticket with reason "System Test"
-    Then I should be redirected to HOME page
-
-    When I navigate to "Balance" on the navigation bar
-    And I select the "Loyalty" option
-    Then I should be redirected to LOYALTY_BALANCE page
-    And I should see the text "Loyalty Phone Number:" visible
-
-    When I search gift card "0909090909"
-    Then I should see the title contain "Jimmy" visible
-    And I should see the text "No rows" visible
+    Given I am on the GIFT_CARD_BALANCE page
+    When I click on the "LOYALTY" button
+    When I enter the amount "3333333333"
+    And I click on the "SEARCH" button
+    And I wait for the page fully loaded
+    Then I should see the text "No rows" visible
 
   Scenario: View the loyalty point on Receipt
     Given I am on the HOME page
@@ -1003,3 +992,10 @@ Feature: Closed Ticket
     When I reopen to void ticket with payment amount "$244.27"
     Then I should see the selected "SERVICE" tab on the Home page
     # And I should not see the employee "WorkSlipAdjustTip" in the ticket list
+  @skip
+  Scenario: Closed ticket number sort by Descending
+    Given I am on the HOME page
+    When I wait for the page fully loaded
+    And I select the "CLOSED TICKET" tab
+    And I click on refresh
+    Then I should see ticket number sort by descending
