@@ -28,7 +28,8 @@ declare global {
 }
 
 const __dirname = import.meta.dirname;
-const envPath = resolve(__dirname, '../../..', '.env');
+const envFile = process.env.CI ? '.env.ci' : '.env';
+const envPath = resolve(__dirname, '../../..', envFile);
 
 /**
  * Extend the common environment variables with this project specific ones
@@ -39,7 +40,6 @@ class Env extends BaseEnv<typeof EnvSchema> {
 		dotenvx.config({
 			path: [envPath],
 			logLevel: 'error',
-			ignore: ['DEPRECATION NOTICE'],
 		});
 
 		// extend the common schema with ours

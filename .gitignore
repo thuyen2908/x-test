@@ -26,9 +26,8 @@ node_modules
 
 # dotenv
 .env*
-!.env.vault
-!.env.project
-!.env.example
+!.env.ci
+.env.keys
 .flaskenv*
 
 # AIs
