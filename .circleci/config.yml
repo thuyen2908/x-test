@@ -247,9 +247,6 @@ jobs:
         type: string
     steps:
       - checkout
-      - run:
-          name: Set up CI environment variables
-          command: touch .env
       - *restore_pnpm_cache
         # this Convenience Image requires a sudo permission to use Corepack
         # that's why we duplicate the dependencies installing steps with the sudo access here
