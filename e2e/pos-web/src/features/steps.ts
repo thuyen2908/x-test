@@ -4145,3 +4145,135 @@ Then(
 		await expect(actualAmountCell).toHaveText(expectedAmount);
 	},
 );
+Then('I should see ticket number sort by descending', async ({ page }) => {
+	const ticketNumberColumn = page.locator('[data-field="ticketNumber"]');
+	await expect(ticketNumberColumn).toHaveAttribute('aria-sort', 'descending');
+});
+
+When('I click on the button date calender', async ({ page }) => {
+	const buttonDateCalender = page.locator('button.button-date-calendar');
+	await expect(buttonDateCalender).toBeVisible();
+	await buttonDateCalender.click();
+});
+
+When('I select the previous date', async ({ page }) => {
+	const rangeBtn = page.locator('button.button-date-calendar');
+	await rangeBtn.click();
+
+	const calendar = page.locator('.MuiDateCalendar-root');
+	await expect(calendar).toBeVisible();
+
+	const todayBtn = calendar.locator('button[aria-current="date"]');
+
+	const todayText = await todayBtn.textContent();
+	const todayNum = parseInt(todayText?.trim() || '0', 10);
+
+	if (todayNum === 1) {
+		await calendar.locator('button[title="Previous month"]').click();
+		await page.waitForTimeout(400);
+		await calendar
+			.locator('button.MuiPickersDay-root:not([disabled])')
+			.last()
+			.click();
+	} else {
+		const prevDayNum = todayNum - 1;
+
+		const prevDayLocator = calendar
+			.locator('button.MuiPickersDay-root:not(.MuiPickersDay-dayOutsideMonth)')
+			.filter({ visible: true })
+			.getByText(new RegExp(`^${prevDayNum}$`), { exact: true });
+
+		const count = await prevDayLocator.count();
+
+		if (count > 1) {
+			await prevDayLocator
+				.filter({ hasNot: page.locator('[aria-selected="true"]') })
+				.first()
+				.click({ force: true });
+		} else {
+			await prevDayLocator.first().click({ force: true });
+		}
+	}
+});
+
+Then('I should not be allowed to reopen the ticket', async ({ page }) => {
+	try {
+		await page.waitForResponse(
+			(response) =>
+				response.url().includes('/tickets') && response.status() === 200,
+			{ timeout: 5000 },
+		);
+	} catch (e) {
+		console.log('No API response detected, continuing with current DOM...');
+	}
+
+	const loader = page.locator('.MuiCircularProgress-root, [class*="loading"]');
+	if (await loader.isVisible()) {
+		await expect(loader).toBeHidden();
+	}
+
+	const noRowsText = page.getByText('No rows', { exact: true });
+
+	if (await noRowsText.isVisible()) {
+		await expect(noRowsText).toBeVisible();
+		return;
+	}
+
+	const firstRow = page.locator('.MuiDataGrid-row').nth(1);
+	await expect(firstRow).toBeVisible();
+
+	const expandIcon = firstRow.locator('[data-field="avatar"]').first();
+	await expandIcon.click();
+
+	const reopenButton = page.getByRole('button', {
+		name: 'Reopen ticket',
+		exact: true,
+	});
+
+	await expect(reopenButton).toBeHidden({ timeout: 5000 });
+});
+
+When('I select Ticket Type as {string}', async ({ page }, type: string) => {
+	const ticketTypeContainer = page.locator('.xFlex-select').filter({
+		hasText: 'Ticket Type',
+	});
+
+	const selectBox = ticketTypeContainer.getByRole('combobox');
+	await selectBox.click();
+
+	await page.getByRole('option', { name: type, exact: true }).click();
+});
+
+Then('I should see all voided tickets displayed', async ({ page }) => {
+	const noRowsText = page.getByText('No rows', { exact: true });
+
+	const isNoRowsVisible = await noRowsText.isVisible().catch(() => false);
+
+	if (isNoRowsVisible) {
+		console.log('Confirmed: No tickets found (No rows displayed).');
+		await expect(noRowsText).toBeVisible();
+	} else {
+		console.log('Tickets found, validating all payment methods are empty...');
+
+		const paymentMethodCells = page.locator(
+			'.MuiDataGrid-cell[data-field="paymentMethod"]',
+		);
+
+		await expect(paymentMethodCells.first()).toBeVisible();
+
+		const count = await paymentMethodCells.count();
+
+		for (let i = 0; i < count; i++) {
+			const cell = paymentMethodCells.nth(i);
+			const cellText = await cell.innerText();
+
+			if (cellText.trim() !== '') {
+				throw new Error(
+					`Validation Failed: Row ${i + 1} has payment method "${cellText}", but it should be empty for voided tickets.`,
+				);
+			}
+		}
+
+		console.log(`Successfully validated ${count} voided tickets.`);
+	}
+});

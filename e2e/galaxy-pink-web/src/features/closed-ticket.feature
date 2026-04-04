@@ -999,3 +999,42 @@ Feature: Closed Ticket
     And I select the "CLOSED TICKET" tab
     And I click on refresh
     Then I should see ticket number sort by descending
+
+  Scenario: Not allow to reopen ticket of the previous day
+    Given I am on the HOME page
+    When I wait for the page fully loaded
+    And I select the "CLOSED TICKET" tab
+    And I wait for the page fully loaded
+    And I click on the button date calender
+
+    When I select the previous date
+    And I wait for the page fully loaded
+    Then I should not be allowed to reopen the ticket
+
+  Scenario: Filter closed/voided ticket
+    Given I am on the HOME page
+    When I wait for the page fully loaded
+    And I select the "CLOSED TICKET" tab
+    And I wait for the page fully loaded
+
+    When I select Ticket Type as "Void"
+    Then I should see all voided tickets displayed
+
+  Scenario: Filter technician
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "1234"
+    Then I should see the employee "Owner" in the employee list
+
+    When I select the "Owner" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+    When I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
+    When I select the "CLOSED TICKET" tab
+    And I wait for the page fully loaded
+
+    When I select Technician Type as "Owner"
+    Then I should see all filtered technicians displayed

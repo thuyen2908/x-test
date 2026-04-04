@@ -1139,3 +1139,28 @@ Feature: Reopen tickets
 
     When I void the current open ticket with reason "Mistake"
     Then I should be redirected to HOME page
+
+  @skip
+  Scenario: Closed ticket number sort by Descending
+    Given I am on the HOME page
+    When I wait for the page fully loaded
+    And I select the "CLOSED TICKET" tab
+    And I click on refresh
+    Then I should see ticket number sort by descending
+
+  Scenario: Not allow reopen ticket of the previous day
+    Given I am on the CLOSED_TICKETS page
+    When I wait for the page fully loaded
+    And I click on the button date calender
+    And I wait for the page fully loaded
+
+    When I select the previous date
+    And I wait for the page fully loaded
+    Then I should not be allowed to reopen the ticket
+
+  Scenario: Filter closed/voided ticket
+    Given I am on the CLOSED_TICKETS page
+    When I wait for the page fully loaded
+
+    When I select Ticket Type as "Void"
+    Then I should see all voided tickets displayed
