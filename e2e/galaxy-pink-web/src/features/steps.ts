@@ -4822,27 +4822,17 @@ Then('I should see all filtered technicians displayed', async ({ page }) => {
 	if (await noRowsText.isVisible()) {
 		await expect(noRowsText).toBeVisible();
 	} else {
-		// 1. Xác định vùng chứa dữ liệu (Vùng nhạy cảm với con lăn chuột)
 		const dataGridRole = page.getByRole('grid');
-		//const firstRow = page.locator('.MuiDataGrid-row').first();
 
-		// 2. KỸ THUẬT SENIOR: Giả lập con lăn chuột (Mouse Wheel)
-		// Di chuyển chuột vào giữa bảng để đảm bảo bắt đúng sự kiện
 		await dataGridRole.hover();
-
-		// Thực hiện cuộn ngang bằng cách giữ nguyên Y (0) và tăng X (ví dụ 5000)
-		// deltaX dương là cuộn sang phải, deltaY là cuộn lên xuống
 		await page.mouse.wheel(5000, 0);
 
-		// Đợi một chút để Grid render dữ liệu sau khi cuộn
 		await page.waitForTimeout(500);
 
-		// 3. Sử dụng phím mũi tên nếu Mouse Wheel vẫn bị chặn (Dự phòng)
 		const technicianCell = page
 			.locator('.MuiDataGrid-cell[data-field="closeUserInfo"]')
 			.first();
 
-		// 4. Kiểm tra dữ liệu
 		await expect(technicianCell).toBeVisible();
 		const expectedName = (await technicianCell.innerText()).trim();
 
@@ -4851,7 +4841,7 @@ Then('I should see all filtered technicians displayed', async ({ page }) => {
 
 		for (let i = 0; i < count; i++) {
 			const cell = cells.nth(i);
-			await cell.scrollIntoViewIfNeeded(); // Playwright sẽ tự xử lý các tầng scroll lồng nhau
+			await cell.scrollIntoViewIfNeeded();
 
 			const currentText = (await cell.innerText()).trim();
 			if (currentText !== expectedName) {
@@ -4862,3 +4852,28 @@ Then('I should see all filtered technicians displayed', async ({ page }) => {
 		}
 	}
 });
+
+Then(
+	'I should see the formula {string} in the single payroll view',
+	async ({ page }, detail: string) => {
+		const colonIndex = detail.indexOf(':');
+		if (colonIndex === -1) {
+			throw new Error(
+				`Invalid detail format: "${detail}". Expected format: "Label: Value"`,
+			);
+		}
+
+		const label = detail.substring(0, colonIndex + 1).trim();
+		const expectedValue = detail.substring(colonIndex + 1).trim();
+
+		const detailRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: label })
+			.first();
+
+		const valueCell = detailRow.locator('td').nth(2);
+
+		await expect(valueCell).toBeVisible();
+		await expect(valueCell).toContainText(expectedValue);
+	},
+);

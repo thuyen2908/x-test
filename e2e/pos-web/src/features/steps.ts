@@ -4101,7 +4101,6 @@ Then(
 	'I should see the Employee, Price, Tip as {string} on the work slip',
 	async ({ page }, expectedValues: string) => {
 		const values = expectedValues.split(' ');
-		``;
 		const [emp, price, tip] = values;
 
 		const employeeRow = page
@@ -4277,3 +4276,28 @@ Then('I should see all voided tickets displayed', async ({ page }) => {
 		console.log(`Successfully validated ${count} voided tickets.`);
 	}
 });
+
+Then(
+	'I should see the formula {string} in the single payroll view',
+	async ({ page }, detail: string) => {
+		const colonIndex = detail.indexOf(':');
+		if (colonIndex === -1) {
+			throw new Error(
+				`Invalid detail format: "${detail}". Expected format: "Label: Value"`,
+			);
+		}
+
+		const label = detail.substring(0, colonIndex + 1).trim();
+		const expectedValue = detail.substring(colonIndex + 1).trim();
+
+		const detailRow = page
+			.locator('table tbody tr')
+			.filter({ hasText: label })
+			.first();
+
+		const valueCell = detailRow.locator('td').nth(2);
+
+		await expect(valueCell).toBeVisible();
+		await expect(valueCell).toContainText(expectedValue);
+	},
+);
