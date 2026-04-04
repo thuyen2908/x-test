@@ -380,3 +380,22 @@ Feature: Payroll
     When I reopen to void ticket with payment amount "$230.20"
     Then I should see the selected "SERVICE" tab on the Home page
     # And I should not see the employee "June" in the ticket list
+
+  Scenario: Show payroll formula
+    Given I am on the PAYROLL page
+    When I wait for the page fully loaded
+    Then I should see the "Payroll" screen
+
+    When I wait for the page fully loaded
+    When I search for "Addison"
+    And I select the employee "Addison"
+    Then I should see the Payroll Date default to today
+    And I should see the technician name "Addison" in the employee view
+    And I should see the payroll type "Commission" in the employee view
+    And I should see the formula "Total: Product Sale + Service Sale" in the single payroll view
+    And I should see the formula "Tax Withheld on Cash: Cash X Tax Withheld on Cash %" in the single payroll view
+    And I should see the formula "Net Total Sale: Total Sales - Service Deductions" in the single payroll view
+    And I should see the formula "Net Commission: (Product Commission + Service Commission) - Daily Maintenance Fee" in the single payroll view
+    And I should see the formula "Pay 1: Net Non-Cash Tip + Check (50.00%)" in the single payroll view
+    And I should see the formula "Pay 2: Cash (50.00%) - Tax Withheld on Cash" in the single payroll view
+    And I should see the formula "Gross Profit: Total Sales W Tip - Total Discount - Total Payout" in the single payroll view
