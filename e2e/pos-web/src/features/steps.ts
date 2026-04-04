@@ -4101,7 +4101,6 @@ Then(
 	'I should see the Employee, Price, Tip as {string} on the work slip',
 	async ({ page }, expectedValues: string) => {
 		const values = expectedValues.split(' ');
-		``;
 		const [emp, price, tip] = values;
 
 		const employeeRow = page
