@@ -17,10 +17,10 @@
 		"test:debug": "pnpm test --debug"
 	},
 	"devDependencies": {
-		"@dotenvx/dotenvx": "^1.59.1",
+		"@dotenvx/dotenvx": "^1.60.0",
 		"@playwright/test": "^1.59.1",
 		"@types/fs-extra": "^11.0.4",
-		"@types/node": "^24.12.0",
+		"@types/node": "^24.12.2",
 		"@x-test/common": "workspace:*",
 		"allure-commandline": "^2.38.1",
 		"allure-playwright": "^3.6.0",
