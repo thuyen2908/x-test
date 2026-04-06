@@ -3229,13 +3229,15 @@ Then(
 When(
 	'I click on the action {string} button for item {string}',
 	async ({ page }, action: string, itemName: string) => {
-		const row = page.locator(`.MuiDataGrid-row:has-text("${itemName}")`);
-		const button = row.locator(`[aria-label="${action}"]`);
-		await button.click();
+		const row = page.locator(`.MuiDataGrid-row:has-text("${itemName}")`).last();
+		const actionRow = row.locator(`[data-field="actions"]`);
+		await expect(actionRow).toBeVisible();
+		const buttonAction = row.locator(`[aria-label="${action}"]`);
+		await expect(buttonAction).toBeVisible();
+		await buttonAction.click();
 	},
 );
 
-//////////////////////////////////////////////////////////////////////////POS > Customer/////////////////////////////////////////////////////////////////////////
 When('I click on the Search customer', async ({ page }) => {
 	const searchInput = page.getByPlaceholder('Search...');
 	await expect(searchInput).toBeVisible({ timeout: 15000 });
@@ -4299,5 +4301,21 @@ Then(
 
 		await expect(valueCell).toBeVisible();
 		await expect(valueCell).toContainText(expectedValue);
+	},
+);
+
+When(
+	'I click delete action for employee {string}',
+	async ({ page }, name: string) => {
+		const row = page.locator('.MuiDataGrid-row').filter({ hasText: name });
+
+		const deleteBtn = row.locator(
+			'button[aria-label="delete"], [data-testid="DeleteIcon"]',
+		);
+
+		await deleteBtn.scrollIntoViewIfNeeded();
+
+		await expect(deleteBtn).toBeVisible({ timeout: 5000 });
+		await deleteBtn.click();
 	},
 );

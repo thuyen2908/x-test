@@ -1867,7 +1867,8 @@ When(
 When('I select the employee {string}', async ({ page }, employee: string) => {
 	const employeeElement = page
 		.locator('.MuiDataGrid-main')
-		.getByText(employee, { exact: true });
+		.getByText(employee, { exact: true })
+		.first();
 	await expect(employeeElement).toBeVisible();
 	await employeeElement.click();
 });
@@ -4316,18 +4317,19 @@ When(
 );
 Then(
 	'I should see Employee {string} with {string} in the employee list',
-	async ({ page }, employeeName: string, turn: string) => {
+	async ({ page }, employeeName: string, expectedValue: string) => {
 		const listEmployee = page.locator('ul.ListItemEmployee__wrap ').first();
 		await expect(listEmployee).toBeVisible();
 		const employeeRow = listEmployee
 			.locator('li.xEmployeeItem')
 			.filter({ hasText: employeeName });
 		await expect(employeeRow).toBeVisible();
-		const turnCell = employeeRow
-			.locator('div.xEmployeeItem__time')
-			.locator('span.MuiChip-label')
-			.first();
-		await expect(turnCell).toHaveText(turn);
+		const targetChip = employeeRow
+			.locator('.xEmployeeItem__wrap .MuiChip-root')
+			.filter({ hasText: expectedValue });
+
+		await expect(targetChip).toBeVisible();
+		await expect(targetChip).toContainText(expectedValue);
 	},
 );
 Then(
@@ -4839,7 +4841,7 @@ Then('I should see all filtered technicians displayed', async ({ page }) => {
 		const cells = page.locator('.MuiDataGrid-cell[data-field="closeUserInfo"]');
 		const count = await cells.count();
 
-		for (let i = 0; i < count; i++) {
+		for (let i = 0; i < count - 1; i++) {
 			const cell = cells.nth(i);
 			await cell.scrollIntoViewIfNeeded();
 

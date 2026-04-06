@@ -39,6 +39,7 @@ Feature: Closed Ticket
   Scenario: Reopen ticket to change tech for service package
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9860"
+    And I wait for the page fully loaded
     Then I should see the employee "Ethan" in the employee list
 
     When I select the "Ethan" employee
@@ -136,6 +137,7 @@ Feature: Closed Ticket
   Scenario: Reopen ticket to adjust tip for Credit Card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "3957"
+    And I wait for the page fully loaded
     Then I should see the employee "Angie" in the employee list
 
     When I select the "Angie" employee
