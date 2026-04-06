@@ -1094,3 +1094,39 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
+
+  @skip
+  Scenario: In Service - show Service Count, Price Service Ticket, Done Time
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "7779"
+    Then I should see the employee "Ciara" in the employee list
+
+    When I select the "Ciara" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+    When I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I click on the total price of "Manicure"
+    And I change price amount "20.11"
+
+    When I click on the "PAY" button
+    And I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page
+
+    Then I should see Employee "Ciara" with "T = 20.11" in the employee list
+    And I should see Employee "Ciara" with "L = 20.11" in the employee list
+    # And I should see Employee "Ciara" with "07:00 AM" in the employee list
+
+    When I navigate to "Tickets" on the navigation bar
+    And I wait for the page fully loaded
+
+    When I search for "20.11"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$20.11"
+
+    When I reopen to void ticket with payment amount "$20.11"
+    Then I should be redirected to HOME page
