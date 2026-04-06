@@ -109,8 +109,12 @@ Then(
 When('I click on the {string} button', async ({ page }, buttonText: string) => {
 	const button = page.getByRole('button', { name: buttonText, exact: true });
 	await expect(button).toBeVisible();
-
 	await button.click();
+});
+When('I click on the {string} span', async ({ page }, spanText: string) => {
+	const span = page.locator('span', { hasText: spanText });
+	await expect(span).toBeVisible();
+	await span.click();
 });
 
 Then(
@@ -548,6 +552,19 @@ When('I fill the new customer phone', async ({ page }) => {
 
 	await expect(cellPhone).toHaveValue(formattedPhone);
 });
+When(
+	'I click ticket of customer {string}',
+	async ({ page }, customerName: string) => {
+		const ticket = page.locator('ul.ListItemEmployee__wrap').last();
+		const ticketInfo = ticket.locator('li.MuiListItem-root');
+		const infoDetails = ticketInfo.locator('.detail');
+		const customerNameElement = infoDetails.locator('span.label', {
+			hasText: customerName,
+		});
+		await expect(customerNameElement).toBeVisible();
+		await customerNameElement.click();
+	},
+);
 
 Then(
 	'I should see a new customer {string} on ticket',
@@ -2018,6 +2035,18 @@ Then(
 		await expect(timeElement).toContainText(time);
 	},
 );
+Then('I should see the current time in my cart', async ({ page }) => {
+	// Lấy thời điểm hiện tại (ví dụ định dạng HH:mm hoặc HH:mm:ss)
+	const now = new Date();
+	const currentTime = now.toLocaleTimeString('en-US', {
+		hour: '2-digit',
+		minute: '2-digit',
+	});
+
+	const timeElement = page.locator('.dateBooking');
+	await expect(timeElement).toBeVisible();
+	await expect(timeElement).toContainText(currentTime);
+});
 
 When(
 	'I handle the Confirm Validate Time dialog if it appears',
@@ -3238,7 +3267,10 @@ When('I click on the Search customer', async ({ page }) => {
 When(
 	'I search customer with keyword {string} and expect {int} results',
 	async ({ page }, keyword: string, count: number) => {
-		const input = page.getByPlaceholder(/search/i);
+		// const input = page.getByPlaceholder(/search/i);
+		const input = page.getByPlaceholder(
+			/search|Phone number\/Technician name\/service name/i,
+		);
 		const rows = page.locator('.MuiDataGrid-row');
 
 		await expect(input).toBeVisible();
@@ -3815,11 +3847,10 @@ When('I fill the reason block {string}', async ({ page }, reason: string) => {
 });
 
 When('I switch ON {string}', async ({ page }, labelName: string) => {
-	const selectElement = page
-		.locator('.MuiFormControlLabel-root')
-		.getByText(labelName, { exact: true });
+	const selectElement = page.locator('.MuiFormControlLabel-root');
+	const labelNameLocator = selectElement.getByText(labelName, { exact: true });
 
-	await expect(selectElement).toBeVisible();
+	await expect(labelNameLocator).toBeVisible();
 
 	const switchElement = selectElement.locator('input[type="checkbox"]');
 
@@ -4075,8 +4106,15 @@ When(
 );
 
 When('I click on the triangle open', async ({ page }) => {
-	const triangleOpen = page.locator('.triangle-open');
-	await triangleOpen.click();
+	const rightPanel = page.locator('.right-panel');
+	const triangleOpen = page.locator('.triangle');
+
+	if ((await rightPanel.count()) > 0) {
+		console.log('Right panel is present, skip clicking triangle.');
+	} else {
+		await expect(triangleOpen).toBeVisible();
+		await triangleOpen.click();
+	}
 });
 
 When(

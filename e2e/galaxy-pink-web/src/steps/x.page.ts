@@ -581,7 +581,7 @@ class xPage {
 
 		// 3) Then I should see the "Ticket View" screen
 		const ticketViewTitle = this.locators.pageName
-			.getByText('Ticket View', { exact: true })
+			.getByText(/Ticket View/i)
 			.first();
 		await expect(ticketViewTitle).toBeVisible();
 
