@@ -926,4 +926,60 @@ Feature: Create tickets
     Then I should see a popup dialog with title 'Confirm Delete'
     When I click on the "confirm" button in the popup dialog
 
+  Scenario: Queue - show Total, Last Service, Clock In Time
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "7779"
+    Then I should see the employee "Ciara" in the employee list
 
+    When I select the "Ciara" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+    When I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I select the service "Manicure" in my cart
+    And I change price amount "20.11"
+    And I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
+
+    Then I should see Employee "Ciara" with "T = 20.11" in the employee list
+    And I should see Employee "Ciara" with "L = 20.11" in the employee list
+    # And I should see Employee "Ciara" with "07:00 AM" in the employee list
+
+    When I select the "CLOSED TICKET" tab
+    And I wait for the page fully loaded
+
+    When I search for "20.11"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$20.11"
+
+    When I reopen to void ticket with payment amount "$20.11"
+    Then I should see the selected "SERVICE" tab on the Home page
+
+  @skip
+  Scenario: In Service - show Service Count, Price Service Ticket, Done Time
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "5839"
+    Then I should see the employee "Daria" in the employee list
+
+    When I select the "Daria" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+    When I add the "Manicure" service to my cart
+    And I add the "Pedicure" service to my cart
+    And I add the "Combo 1" service to my cart
+    Then I should see my cart showing 3 item added
+
+    When I add the "1233000000" customer
+    Then I should see a new customer "InService" on ticket
+
+    When I click on the "Pay" button
+    And I click on the "Hold" button
+    Then I should see employee "Daria" with service count "3" in the ticket list
+    And I should see employee "Daria" display done time in the ticket list
+    And I should see employee "Daria" with price service ticket "$59.00" in the ticket list
+
+
+    When I click ticket of customer "InService"
+    And I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page

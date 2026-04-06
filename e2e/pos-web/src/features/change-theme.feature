@@ -18,3 +18,10 @@ Feature: Change theme
     And I click on the action button "Save" of the opening dialog
     # And I click on the "Save" button in the dialog
     Then I should see the theme "default" applied to the application
+
+  Scenario: Display the synchronized popup
+    Given I am on the HOME page
+    When I wait for the page fully loaded
+    And I click on the header menu
+    And I select the "Synchronize" label in the menu list
+    Then I should see a popup dialog with title "Synchronize"

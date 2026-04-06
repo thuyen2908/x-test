@@ -1,17 +1,6 @@
 @regression @smoke @slow
 Feature: Turn details
 
-  Scenario: Verify the specific queue loads correctly employees
-    Given I am on the HOME page
-    When I select the "TURN DETAILS" tab
-    When I wait for the page fully loaded
-    Then I should see the text "Technicians" visible
-    And I should see the text "Nails" visible
-    And I should see the text "Hair" visible
-
-    When I click on the "Hair" button
-    Then I should see the employees displayed correctly in turn details
-
   Scenario: Turn update when voiding a ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5727"

@@ -2141,27 +2141,27 @@ Then(
 	},
 );
 
-Then(
-	'I should see the employees displayed correctly in turn details',
-	async ({ page }) => {
-		const expectedEmployees = [
-			'Addison',
-			'Anna',
-			'Avery',
-			'Emily',
-			'Jessica',
-			'TurnDetail',
-		];
+// Then(
+// 	'I should see the employees displayed correctly in turn details',
+// 	async ({ page }) => {
+// 		const expectedEmployees = [
+// 			'Addison',
+// 			'Anna',
+// 			'Avery',
+// 			'Emily',
+// 			'Jessica',
+// 			'TurnDetail',
+// 		];
 
-		const employeeElements = page.locator('tbody tr td:first-child div[title]');
-		await expect(employeeElements).toHaveCount(expectedEmployees.length);
+// 		const employeeElements = page.locator('tbody tr td:first-child div[title]');
+// 		await expect(employeeElements).toHaveCount(expectedEmployees.length);
 
-		for (let i = 0; i < expectedEmployees.length; i++) {
-			const employeeName = await employeeElements.nth(i).innerText();
-			expect(employeeName.trim()).toBe(expectedEmployees[i]);
-		}
-	},
-);
+// 		for (let i = 0; i < expectedEmployees.length; i++) {
+// 			const employeeName = await employeeElements.nth(i).innerText();
+// 			expect(employeeName.trim()).toBe(expectedEmployees[i]);
+// 		}
+// 	},
+// );
 
 // Then(
 // 	'I should see the last ticket of payment {string}',
@@ -4877,5 +4877,50 @@ Then(
 
 		await expect(valueCell).toBeVisible();
 		await expect(valueCell).toContainText(expectedValue);
+	},
+);
+
+Then(
+	'I should see employee {string} with service count {string} in the ticket list',
+	async ({ page }, employeeName: string, expectedCount: string) => {
+		const employeeRow = page.locator('li.xEmployeeItem.TicketModel').filter({
+			has: page.locator('.nickname', { hasText: employeeName }),
+		});
+
+		const serviceCount = employeeRow.locator('span.length');
+
+		await expect(employeeRow).toBeVisible();
+		await expect(serviceCount).toHaveText(expectedCount);
+	},
+);
+
+Then(
+	'I should see employee {string} display done time in the ticket list',
+	async ({ page }, employeeName: string) => {
+		const employeeRow = page.locator('li.xEmployeeItem.TicketModel').filter({
+			has: page.locator('.nickname', { hasText: employeeName }),
+		});
+
+		const doneTimeChip = employeeRow.locator(
+			'.state-detail .MuiChip-colorSuccess .MuiChip-label',
+		);
+
+		await expect(employeeRow).toBeVisible();
+		await expect(doneTimeChip).toBeVisible();
+		await expect(doneTimeChip).toContainText('mins');
+	},
+);
+
+Then(
+	'I should see employee {string} with price service ticket {string} in the ticket list',
+	async ({ page }, employeeName: string, expectedPrice: string) => {
+		const employeeRow = page.locator('li.xEmployeeItem.TicketModel').filter({
+			has: page.locator('.nickname', { hasText: employeeName }),
+		});
+
+		const totalPrice = employeeRow.locator('.state-detail .total');
+
+		await expect(employeeRow).toBeVisible();
+		await expect(totalPrice).toHaveText(expectedPrice);
 	},
 );

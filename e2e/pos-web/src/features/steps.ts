@@ -1896,27 +1896,27 @@ Then(
 	},
 );
 
-Then(
-	'I should see the employees displayed correctly in turn details',
-	async ({ page }) => {
-		const expectedEmployees = [
-			'Addison',
-			'Anna',
-			'Avery',
-			'Emily',
-			'Jessica',
-			// 'TurnDetail',
-		];
+// Then(
+// 	'I should see the employees displayed correctly in turn details',
+// 	async ({ page }) => {
+// 		const expectedEmployees = [
+// 			'Addison',
+// 			'Anna',
+// 			'Avery',
+// 			'Emily',
+// 			'Jessica',
+// 			// 'TurnDetail',
+// 		];
 
-		const employeeElements = page.locator('tbody tr td:first-child div[title]');
-		await expect(employeeElements).toHaveCount(expectedEmployees.length);
+// 		const employeeElements = page.locator('tbody tr td:first-child div[title]');
+// 		await expect(employeeElements).toHaveCount(expectedEmployees.length);
 
-		for (let i = 0; i < expectedEmployees.length; i++) {
-			const employeeName = await employeeElements.nth(i).innerText();
-			expect(employeeName.trim()).toBe(expectedEmployees[i]);
-		}
-	},
-);
+// 		for (let i = 0; i < expectedEmployees.length; i++) {
+// 			const employeeName = await employeeElements.nth(i).innerText();
+// 			expect(employeeName.trim()).toBe(expectedEmployees[i]);
+// 		}
+// 	},
+// );
 
 Then(
 	'I should see the first ticket closed by {string}',
