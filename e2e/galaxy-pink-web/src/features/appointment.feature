@@ -1,4 +1,4 @@
-@regression @smoke @slow @fix
+@regression @smoke @slow
 Feature: Appointment
 
   Scenario: Create an appointment for an existing customer, edit to change technician and create ticket
@@ -6,7 +6,7 @@ Feature: Appointment
     When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     Then I should see the title "Any Technician"
       # Filter technician
     When I click on the triangle open
@@ -44,12 +44,9 @@ Feature: Appointment
 
     When I click on the "SAVE" button
     And I handle the Confirm Validate Time dialog if it appears
-    # And I wait for the page fully loaded
-#check đến đây rồi mai làm tiếp nha
-    When I click on the "Search" span
-    Then I should see a popup dialog with title "Search Appointment"
-    When I search customer with keyword "0000006868" and expect 1 results
-    And I click on the "Check In" button
+    And I wait for the page fully loaded
+    And I select the last booking in the time slot at "07:00 AM"
+    And I click on the "Create Ticket" button
     Then I should see the "Ticket View From Appointment" screen
     And I should see the user info "Addison" in the ticket
     And I should see the service "Manicure" in my cart
@@ -84,7 +81,7 @@ Feature: Appointment
     When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     Then I should see the title "Any Technician"
 
     When I click on the triangle open
@@ -92,7 +89,7 @@ Feature: Appointment
     Then I should see the title "Anna"
 
     When I double click on the time slot at "09:20 AM"
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the "Create Appointment" screen
     And I should see the "Manicure" service
 
@@ -122,7 +119,7 @@ Feature: Appointment
 
     When I select the time slot "09:20 AM - 09:40 AM" booked
     And I click on the "Check In" button on the header appointment
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the text "Ticket View From Appointment" visible
     And I should see the user info "Anna" in the ticket
 
@@ -152,7 +149,8 @@ Feature: Appointment
     Given I am on the HOME page
     When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
-    # When I wait for the page fully loaded
+
+    When I wait for the page fully loaded
     Then I should see the title "Any Technician"
     When I click on the triangle open
     And I select to filter the "Anna" employee
@@ -198,8 +196,8 @@ Feature: Appointment
     When I click on the "SAVE" button
     And I handle the Confirm Validate Time dialog if it appears
     Then I should be redirected to APPOINTMENT page
-    # When I wait for the page fully loaded
-    Then I should see the title "Anna"
+    When I wait for the page fully loaded
+    Then I should see the title "Any Technician"
 
     When I select to filter the "Addison" employee
     Then I should see the title "Addison"
@@ -219,7 +217,7 @@ Feature: Appointment
     When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     Then I should see the color header for Any Technician displayed correctly
     And I should see the color header for employee 'Anna' displayed correctly
 
@@ -228,7 +226,7 @@ Feature: Appointment
     When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     Then I should see the title "Any Technician"
     And I should see the employees sorted correctly
 
@@ -237,6 +235,8 @@ Feature: Appointment
     Given I am on the HOME page
     When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
+
+    When I wait for the page fully loaded
     Then I should see the title "Any Technician"
     When I click on the triangle open
     And I select to filter the "Anna" employee
@@ -255,6 +255,10 @@ Feature: Appointment
     Then I should see a new customer "Ten" on ticket
     When I click on the "SAVE" button
     And I handle the Confirm Validate Time dialog if it appears
+
+    When I wait for the page fully loaded
+    Then I should see the title "Any Technician"
+    When I select the "Anna" employee from the technician dropdown
     Then I should see the title "Anna"
     When I select the last booking in the time slot at "02:00 AM"
     And I click on the "check In" span
@@ -263,10 +267,11 @@ Feature: Appointment
     And I should see the employee "Anna" in my cart
     And I should see a new customer "Ten" on ticket
     When I back to HOME page
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     And I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
-    # When I wait for the page fully loaded
+
+    When I wait for the page fully loaded
     Then I should see the title "Any Technician"
     When I click on the triangle open
     And I select to filter the "Anna" employee
@@ -294,6 +299,8 @@ Feature: Appointment
     Then I should see the selected "SERVICE" tab on the Home page
     When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
+
+    When I wait for the page fully loaded
     Then I should see the title "Any Technician"
     When I click on the triangle open
     And I select to filter the "Anna" employee
@@ -343,9 +350,14 @@ Feature: Appointment
     Then I should see a new customer "Tun" on ticket
     When I click on the "SAVE" button
     And I handle the Confirm Validate Time dialog if it appears
-    Then I should see the title "Bella"
-    When I select the last booking in the time slot at "03:00 AM"
-    And I click on the "check In" span
+
+    When I wait for the page fully loaded
+    Then I should see the title "Any Technician"
+    When I select the "Anna" employee from the technician dropdown
+    Then I should see the title "Anna"
+
+    When I select the last booking in the time slot at "08:20 AM"
+    And I click on the "Create Ticket" button
     Then I should see the "Ticket View From Appointment" screen
     And I should see the service "Manicure" in my cart
     And I should see the employee "Bella" in my cart
@@ -374,14 +386,11 @@ Feature: Appointment
      When I select the "CLOSED TICKET" tab
     # And I wait for the page fully loaded
 
-    When I search for "428.46"
-    # And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$428.46"
-
-    When I reopen to void ticket with payment amount "$428.46"
-    Then I should see the selected "SERVICE" tab on the Home page
+    When I wait for the page fully loaded
     When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
+
+    When I wait for the page fully loaded
     Then I should see the title "Any Technician"
     When I click on the triangle open
     And I select to filter the "Bella" employee
@@ -411,7 +420,7 @@ Feature: Appointment
     When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     Then I should see the title "Any Technician"
     And I should see the icon zoom out
 
@@ -423,7 +432,7 @@ Feature: Appointment
     When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     Then I should see the title "Any Technician"
     When I select view "Week"
     Then I should see the start of the week as "Tue"
@@ -434,7 +443,7 @@ Feature: Appointment
     When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     Then I should see the title "Any Technician"
     When I click on the "Block" span
     Then I should see a popup dialog containing the title "Create Blocked Time"
@@ -444,7 +453,7 @@ Feature: Appointment
     And I fill the end time "09:00 AM"
     And I fill the reason block "Off for an hour"
     And I click on the "Save" button
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the toast message "Blocked time for Bella has been saved successfully." visible
 
     # Filter technician
@@ -468,7 +477,7 @@ Feature: Appointment
     When I navigate to "APPT BOOK" on the navigation bar
     Then I should be redirected to APPOINTMENT page
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     Then I should see the title "Any Technician"
     When I click on the "Block" span
     Then I should see a popup dialog containing the title "Create Blocked Time"
@@ -477,7 +486,7 @@ Feature: Appointment
     And I switch ON "All Day"
     And I fill the reason block "Block all day"
     And I click on the "Save" button
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the toast message "Blocked time for Anna has been saved successfully." visible
 
     When I click on the triangle open

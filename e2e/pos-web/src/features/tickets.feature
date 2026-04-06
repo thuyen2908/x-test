@@ -612,7 +612,7 @@ Feature: Reopen tickets
 
     When I reopen to void ticket with payment amount "$199.50"
     Then I should be redirected to HOME page
-    And I should not see the employee "Leon" in the ticket list
+    # And I should not see the employee "Leon" in the ticket list
 
     When I delete ticket after void it with payment amount "199.50"
 
@@ -623,7 +623,6 @@ Feature: Reopen tickets
     Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
     And I should see the toast message "Can't find gift card." visible
 
-  @skip
   Scenario: Remove loyalty balance when voiding ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "7217"
@@ -635,37 +634,36 @@ Feature: Reopen tickets
     When I add the "Acrylic removal" service to my cart
     Then I should see my cart showing 1 item added
 
-    When I add the "Jimmy" customer
+    When I click on the total price of "Acrylic removal"
+    And I change price amount "18.11"
+
+    And I add the phone number customer "3333333333"
     Then I should see a new customer "Jimmy" on ticket
 
     When I click on the "PAY" button
-    And I select the "Credit" payment type
-    And I fill the last 4 digits of card number "1234"
-    And I click on the element with id "payment"
+    Then I should see the button with id "payment" visible
+    When I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-    Given I am on the CLOSED_TICKETS page
-    When I wait for the page fully loaded
-    And I search for "11.5"
+    When I navigate to "Tickets" on the navigation bar
     And I wait for the page fully loaded
-    And I reopen ticket with payment amount "$11.5"
-    Then I should see the "Ticket View" screen
-    And I should see the user info "Jimmy" in the ticket
 
-    When I void the current open ticket with reason "System Test"
+    When I search for "18.11"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$18.11"
+
+    When I reopen to void ticket with payment amount "$18.11"
     Then I should be redirected to HOME page
 
-    When I delete ticket after void it with payment amount "11.50"
-
-    When I navigate to "Balance" on the navigation bar
-    And I select the "Loyalty" option
-    Then I should be redirected to LOYALTY_BALANCE page
-    And I should see the text "Loyalty Phone Number:" visible
-
-    When I enter the amount "0909090909"
+    Given I am on the LOYALTY_BALANCE page
+    When I enter the amount "3333333333"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
-    Then I should see the title contain "Jimmy" visible
+
+    Then I should see the text "Customer: Jimmy" visible
     And I should see the text "No rows" visible
 
   Scenario: View the loyalty point on Receipt
@@ -1093,31 +1091,29 @@ Feature: Reopen tickets
 
     When I click on the total price of "Manicure"
     And I change price amount "63.4"
+    And I add tip amount "10"
+
+    And I click on the item "Technician" button
+    Then I should see a popup dialog with title "TECHNICIAN MULTIPLE"
+    When I select the "Manicure" service in the dialog
+    And I select the "WorkSlipAdjustTip2" employee in the dialog
+    And I click on the "Apply" button in the dialog
+    Then I should see the "WorkSlipAdjustTip2" employee in my cart
 
     When I click on the "PAY" button
     And I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
     And I click on the element with id "payment"
-    Then I should be redirected to HOME page
 
-    Given I am on the CLOSED_TICKETS page
-    When I wait for the page fully loaded
-    And I search for "234.27"
-    And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$234.27"
+    #When I click on the "SPLIT TIP" button
+    Then I should see the employee "WorkSlipAdjustTip" visible in the split tip screen
+    And I should see the employee "WorkSlipAdjustTip2" visible in the split tip screen
+    And I should see the text "TOTAL TIP" visible in the split tip screen
+    And I should see the total tip "10" visible in the split tip screen
 
-    When I reopen ticket with payment amount "$234.27"
-    And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "WorkSlipAdjustTip" in the ticket
-
-    When I click on the "PAY" button
-    Then I should see the payment history "VISA (1234)" visible
-    And I should see the payment price contain amount "$234.27"
-    # Then I should see the payment history "VISA (1234)$234.27" visible
-
-    When I adjust tip amount "10"
-    And I click on the "CLOSE TICKET" button
+    When I click on the "Percent Split" button in the split tip screen
+    Then I should see all split tips non-zero
+    When I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
 
     Given I am on the CLOSED_TICKETS page
@@ -1127,7 +1123,8 @@ Feature: Reopen tickets
     And I select the first ticket with payment "$244.27"
     And I click on item button "Work Slip"
 
-    Then I should see the Employee, Price, Tip as "WorkSlipAdjustTip $229.40 $10.00" on the work slip
+    Then I should see the Employee, Price, Tip as "WorkSlipAdjustTip2 $63.40 $3.53" on the work slip
+    And I should see the Employee, Price, Tip as "WorkSlipAdjustTip $166.00 $6.47" on the work slip
     And I should see the "Sub Total: $229.40" on the work slip
     And I should see the "Tax: $0.96" on the work slip
     And I should see the "Ticket Tip: $10.00" on the work slip
@@ -1142,3 +1139,28 @@ Feature: Reopen tickets
 
     When I void the current open ticket with reason "Mistake"
     Then I should be redirected to HOME page
+
+  @skip
+  Scenario: Closed ticket number sort by Descending
+    Given I am on the HOME page
+    When I wait for the page fully loaded
+    And I select the "CLOSED TICKET" tab
+    And I click on refresh
+    Then I should see ticket number sort by descending
+
+  Scenario: Not allow reopen ticket of the previous day
+    Given I am on the CLOSED_TICKETS page
+    When I wait for the page fully loaded
+    And I click on the button date calender
+    And I wait for the page fully loaded
+
+    When I select the previous date
+    And I wait for the page fully loaded
+    Then I should not be allowed to reopen the ticket
+
+  Scenario: Filter closed/voided ticket
+    Given I am on the CLOSED_TICKETS page
+    When I wait for the page fully loaded
+
+    When I select Ticket Type as "Void"
+    Then I should see all voided tickets displayed

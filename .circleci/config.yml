@@ -254,7 +254,22 @@ jobs:
       - *build
       - run:
           name: Install Playwright browsers
-          command: pnpm playwright:install-browsers
+          command: |
+            echo "=== DIAG: Checking Playwright installation ==="
+            pnpm ls playwright @playwright/test 2>/dev/null || echo "Playwright not found in dependencies"
+            echo ""
+            echo "=== DIAG: Node version and architecture ==="
+            node --version
+            uname -m
+            echo ""
+            echo "=== DIAG: Installing Playwright browsers ==="
+            pnpm playwright:install-browsers
+            echo ""
+            echo "=== DIAG: Verifying browser cache ==="
+            ls -la ~/.cache/ms-playwright/ 2>/dev/null || echo "ms-playwright cache not found"
+            echo ""
+            echo "=== DIAG: Checking for chromium binary ==="
+            find ~/.cache/ms-playwright -name "chrome*" -type f 2>/dev/null | head -20
       - run:
           name: "Run tests for project: << parameters.project >>"
           # intentionally using `|| true` to avoid failing the job if tests fail

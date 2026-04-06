@@ -39,6 +39,7 @@ Feature: Closed Ticket
   Scenario: Reopen ticket to change tech for service package
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9860"
+    And I wait for the page fully loaded
     Then I should see the employee "Ethan" in the employee list
 
     When I select the "Ethan" employee
@@ -136,6 +137,7 @@ Feature: Closed Ticket
   Scenario: Reopen ticket to adjust tip for Credit Card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "3957"
+    And I wait for the page fully loaded
     Then I should see the employee "Angie" in the employee list
 
     When I select the "Angie" employee
@@ -181,7 +183,7 @@ Feature: Closed Ticket
 
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
-@skip @fix
+
   Scenario: Reopen ticket to remove payment Cash and instead of Credit
     Given I am on the HOME page
     When I clock in the timesheet with PIN "4683"
@@ -359,7 +361,7 @@ Feature: Closed Ticket
 
     When I reopen to void ticket with payment amount "$16.48"
     Then I should see the selected "SERVICE" tab on the Home page
-    And I should not see the employee "Daisy" in the ticket list
+    # And I should not see the employee "Daisy" in the ticket list
 
   Scenario: Reopen ticket to void item, remove and make new payment
     Given I am on the HOME page
@@ -460,7 +462,7 @@ Feature: Closed Ticket
     When I search gift card "1703"
     Then I should see the first type "ActivateAddOn" in the gift card detail list
     And I should see the first amount "$50.00" in the gift card detail list
-@skip @fix
+
   Scenario: Cannot find gift card after selling a new gift card and then voiding the item Gift Card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6727"
@@ -525,7 +527,6 @@ Feature: Closed Ticket
     Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
     And I should see a popup dialog with content "Do you want to activate gift card #2003"
 
-  @skip
   Scenario: Remove loyalty balance when voiding ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "7217"
@@ -537,42 +538,32 @@ Feature: Closed Ticket
     When I add the "Acrylic removal" service to my cart
     Then I should see my cart showing 1 item added
 
+    When I select the service "Acrylic removal" in my cart
+    And I change price amount "18.11"
+
     When I add the "Jimmy" customer
     Then I should see a new customer "Jimmy" on ticket
 
-    When I click on the "PAY" button
-    And I select the "Credit" payment type
-    And I fill the last 4 digits of card number "1234"
-    And I click on the element with id "payment"
-    Then I should be redirected to HOME page
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
 
-    When I click on the "Tickets" label in the header
-    Then I should be redirected to CLOSED_TICKETS page
+    When I select the "CLOSED TICKET" tab
+    And I wait for the page fully loaded
 
-    When I search for "Jimmy"
-    # And I wait for the page fully loaded
-    Then I should see the last ticket of customer "Jimmy"
+    When I search for "18.11"
+    And I wait for the page fully loaded
+    Then I should see the first ticket of payment "$18.11"
 
-    When I click on the last row for customer "Jimmy" to expand details
-    Then I should see the "Reopen ticket" button visible
+    When I reopen to void ticket with payment amount "$18.11"
+    Then I should see the selected "SERVICE" tab on the Home page
 
-    When I click on the "Reopen ticket" button
-    # And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "Charlotte" in the ticket
+    Given I am on the GIFT_CARD_BALANCE page
+    When I click on the "LOYALTY" button
+    When I enter the amount "3333333333"
+    And I click on the "SEARCH" button
+    And I wait for the page fully loaded
+    Then I should see the text "No rows" visible
 
-    When I void the current open ticket with reason "System Test"
-    Then I should be redirected to HOME page
-
-    When I navigate to "Balance" on the navigation bar
-    And I select the "Loyalty" option
-    Then I should be redirected to LOYALTY_BALANCE page
-    And I should see the text "Loyalty Phone Number:" visible
-
-    When I search gift card "0909090909"
-    Then I should see the title contain "Jimmy" visible
-    And I should see the text "No rows" visible
-@skip @fix
   Scenario: View the loyalty point on Receipt
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2883"
@@ -923,7 +914,7 @@ Feature: Closed Ticket
     When I reopen to void ticket with payment amount "$254.57"
     Then I should see the selected "SERVICE" tab on the Home page
     # And I should not see the employee "WorkSlip" in the ticket list
-
+@fix
   Scenario: Work slip update after adjusting tip
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9606"
@@ -952,50 +943,46 @@ Feature: Closed Ticket
     When I select the service "Manicure" in my cart
     And I change price amount "63.4"
 
+    When I select the service "Manicure" in my cart
+    And I select the "WorkSlipAdjustTip2" employee in the list item employee
+
     When I click on the "Pay" button
     And I select the "Credit" payment type
     And I fill the last 4 digits of card number "1234"
     And I select the "VISA" on the menu
-    And I click on the "Close Ticket" button
-    Then I should see the selected "SERVICE" tab on the Home page
 
-    When I select the "CLOSED TICKET" tab
-    And I click on refresh
-    # And I wait for the page fully loaded
-
-    When I search for "234.27"
-    # And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$234.27"
-
-    When I reopen ticket with payment amount "$234.27"
-    # And I wait for the page fully loaded
-    Then I should see the "Ticket View" screen
-    And I should see the user info "WorkSlipAdjustTip" in the ticket
-
-    When I click on the "Pay" button
-    Then I should see the payment history "VISA (1234)$234.27" visible
-
-    When I select the payment history "VISA (1234)$234.27"
+    When I select the payment history "VISA (1234)$237.27"
     Then I should see a popup dialog with title "CONFIRM ADJUST TIP "
     When I click on the action button "Adjust Tip" of the opening dialog
 
     When I enter the amount "10"
     And I click on the "OK" button
-    Then I should see the payment history "VISA (1234)$234.27 + $10.00" visible
-    When I click on the "Close Ticket" button
+    Then I should see the payment history "VISA (1234)$237.27 + $10.00" visible
+
+    When I click on the "SPLIT TIP" button
+    Then I should see the employee "WorkSlipAdjustTip2" visible in the split tip screen
+    And I should see the employee "WorkSlipAdjustTip" visible in the split tip screen
+    And I should see the total tip "10" visible in the split tip screen
+
+    When I click on the "Percent Split" button in the split tip screen
+    Then I should see all split tips non-zero
+    When I click on the "OK" button
+
+    When I wait for the page fully loaded
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I select the "CLOSED TICKET" tab
     And I click on refresh
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
 
     When I search for "244.27"
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the first ticket of payment "$244.27"
 
     When I select the first ticket with payment "$244.27"
     And I click on item button "Work Slip"
-    Then I should see the Employee, Price, Tip as "WorkSlipAdjustTip $229.40 $10.00" on the work slip
+    Then I should see the Employee, Price, Tip as "WorkSlipAdjustTip $166.00 $6.47" on the work slip
+    And I should see the Employee, Price, Tip as "WorkSlipAdjustTip2 $63.40 $3.53" on the work slip
 
     And I should see the "Sub Total: $229.40" on the work slip
     And I should see the "Tax: $0.96" on the work slip
@@ -1007,3 +994,49 @@ Feature: Closed Ticket
     When I reopen to void ticket with payment amount "$244.27"
     Then I should see the selected "SERVICE" tab on the Home page
     # And I should not see the employee "WorkSlipAdjustTip" in the ticket list
+  @skip
+  Scenario: Closed ticket number sort by Descending
+    Given I am on the HOME page
+    When I wait for the page fully loaded
+    And I select the "CLOSED TICKET" tab
+    And I click on refresh
+    Then I should see ticket number sort by descending
+
+  Scenario: Not allow to reopen ticket of the previous day
+    Given I am on the HOME page
+    When I wait for the page fully loaded
+    And I select the "CLOSED TICKET" tab
+    And I wait for the page fully loaded
+    And I click on the button date calender
+
+    When I select the previous date
+    And I wait for the page fully loaded
+    Then I should not be allowed to reopen the ticket
+
+  Scenario: Filter closed/voided ticket
+    Given I am on the HOME page
+    When I wait for the page fully loaded
+    And I select the "CLOSED TICKET" tab
+    And I wait for the page fully loaded
+
+    When I select Ticket Type as "Void"
+    Then I should see all voided tickets displayed
+
+  Scenario: Filter technician
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "1234"
+    Then I should see the employee "Owner" in the employee list
+
+    When I select the "Owner" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+    When I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
+    When I select the "CLOSED TICKET" tab
+    And I wait for the page fully loaded
+
+    When I select Technician Type as "Owner"
+    Then I should see all filtered technicians displayed

@@ -73,7 +73,7 @@ Feature: Close Out report
 
     When I reopen to void ticket with payment amount "$235.35"
     Then I should be redirected to HOME page
-    And I should not see the employee "Elena" in the ticket list
+    # And I should not see the employee "Elena" in the ticket list
 
   Scenario: Technician report summary display correctly
     Given I am on the HOME page

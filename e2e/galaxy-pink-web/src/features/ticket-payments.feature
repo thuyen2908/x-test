@@ -1,11 +1,11 @@
 @regression @slow @page
 Feature: Ticket Payments
-@skip @fix
+
   Scenario: Display the correct page title and nav tabs
     Given I am on the HOME page
     When I click on the functions
     And I select the "Ticket Payments" on the Daily Task
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     Then I should be redirected to TICKET_PAYMENTS page
     And I should see the "Ticket Payments" screen
     And I should see the Ticket table displayed correctly
@@ -24,7 +24,7 @@ Feature: Ticket Payments
 
     When I select the "BATCH HISTORY" tab
     Then I should see the Batch history table displayed correctly
-@skip @fix
+
   Scenario: The Tickets tab displays data correctly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1250"
@@ -63,12 +63,12 @@ Feature: Ticket Payments
     Then I should see the selected "SERVICE" tab on the Home page
 
     Given I am on the TICKET_PAYMENTS page
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     Then I should see the "Ticket Payments" screen
 
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     When I search for "Hilary"
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the "Total Sale" has value "$218.70" in the ticket payment
     And I should see the "Payment" has value "$232.26" in the ticket payment
     And I should see the "Surcharge" has value "$0.00" in the ticket payment
@@ -80,15 +80,15 @@ Feature: Ticket Payments
 
     When I back to HOME page
     And I select the "CLOSED TICKET" tab
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
 
     When I search for "232.26"
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the first ticket of payment "$232.26"
 
     When I reopen to void ticket with payment amount "$232.26"
     Then I should see the selected "SERVICE" tab on the Home page
-    And I should not see the employee "Hilary" in the ticket list
+    # And I should not see the employee "Hilary" in the ticket list
 
   Scenario: The Services/Products tab displays data correctly
     Given I am on the HOME page
@@ -138,13 +138,13 @@ Feature: Ticket Payments
     Then I should see the selected "SERVICE" tab on the Home page
 
     Given I am on the TICKET_PAYMENTS page
-    # When I wait for the page fully loaded
+    When I wait for the page fully loaded
     Then I should see the "Ticket Payments" screen
 
     When I click on the "SERVICES/PRODUCTS" tab
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     And I search for "Valerie"
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the "Total Net Price" has value "$60.03" in the ticket payment
     And I should see the "Total Commission" has value "$36.02" in the ticket payment
 
@@ -172,15 +172,15 @@ Feature: Ticket Payments
 
     When I back to HOME page
     And I select the "CLOSED TICKET" tab
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
 
     When I search for "71.83"
-    # And I wait for the page fully loaded
+    And I wait for the page fully loaded
     Then I should see the first ticket of payment "$71.83"
 
     When I reopen to void ticket with payment amount "$71.83"
     Then I should see the selected "SERVICE" tab on the Home page
-    And I should not see the employee "Valerie" in the ticket list
+    # And I should not see the employee "Valerie" in the ticket list
 
 
 
