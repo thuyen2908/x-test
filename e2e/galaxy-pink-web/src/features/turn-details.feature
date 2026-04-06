@@ -217,6 +217,7 @@ Feature: Turn details
  Scenario: Adjust turn - Add Late Turn, Remove Late Turn
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0210"
+    And I wait for the page fully loaded
     Then I should see the employee "Late Turn" in the employee list
     When I hold the "Late Turn" employee two seconds
     Then I should see the "TURN" Adjustment
@@ -239,6 +240,7 @@ Feature: Turn details
  Scenario: Adjust turn - Add Go Again, Remove Go Again
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0466"
+    And I wait for the page fully loaded
     Then I should see the employee "Go Again" in the employee list
     When I hold the "Go Again" employee two seconds
     Then I should see the "TURN" Adjustment

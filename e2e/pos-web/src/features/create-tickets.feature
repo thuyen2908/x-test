@@ -994,7 +994,7 @@ Feature: Create tickets
     When I enter the amount "4321"
     And I click on the "OK" button in the popup dialog
     Then I should see the number card "4321" visible
-    When I click on the "REWRITE" button in the popup dialog
+    When I click on the "ADD ON" button in the popup dialog
     Then I should see the service "Gift card $100 (4321)" in my cart
     And I should see my cart showing 2 item added
 

@@ -432,6 +432,7 @@ Feature: Ticket adjustment
   Scenario: Remove Tax and make new payment
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8754"
+    And I wait for the page fully loaded
     Then I should see the employee "Iris" in the employee list
 
     When I select the "Iris" employee
@@ -486,6 +487,7 @@ Feature: Ticket adjustment
   Scenario: Add Tax and make new payment
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1648"
+    And I wait for the page fully loaded
     Then I should see the employee "Luna" in the employee list
     When I select the "Luna" employee
     And I select the "FULL SET & FILL IN" category
