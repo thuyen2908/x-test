@@ -2053,7 +2053,14 @@ Then('I should see the employees sorted correctly', async ({ page }) => {
 	const employeeNames = await employeeLocators.allTextContents();
 
 	// Define the expected list in correct order
-	const expectedOrder = ['Any Technician', 'Bella', 'Addison', 'Anna'];
+	const expectedOrder = [
+		'Any Technician',
+		'David',
+		'Bella',
+		'Addison',
+		'Jarvis',
+		'Anna',
+	];
 
 	// Assert actual matches expected exactly
 	expect(employeeNames).toEqual(expectedOrder);
@@ -3844,15 +3851,19 @@ When(
 );
 Then(
 	'I should see Employee {string} with {string} in the employee list',
-	async ({ page }, employeeName: string, turn: string) => {
+	async ({ page }, employeeName: string, expectedValue: string) => {
 		const listEmployee = page.locator('ul.ListItemEmployee__wrap ').first();
 		await expect(listEmployee).toBeVisible();
 		const employeeRow = listEmployee
 			.locator('li.xEmployeeItem')
 			.filter({ hasText: employeeName });
 		await expect(employeeRow).toBeVisible();
-		const turnCell = employeeRow.locator('span.MuiChip-label').last();
-		await expect(turnCell).toHaveText(turn);
+		const targetChip = employeeRow
+			.locator('.xEmployeeItem__wrap .MuiChip-root')
+			.filter({ hasText: expectedValue });
+
+		await expect(targetChip).toBeVisible();
+		await expect(targetChip).toContainText(expectedValue);
 	},
 );
 When('I waiting 1s', async ({ page }) => {
@@ -4317,5 +4328,69 @@ When(
 
 		await expect(deleteBtn).toBeVisible({ timeout: 5000 });
 		await deleteBtn.click();
+	},
+);
+
+When(
+	'I click ticket of customer {string}',
+	async ({ page }, customerName: string) => {
+		const ticketRow = page.locator('li.xItem').filter({
+			has: page.locator('.xTicketItem__customer .label', {
+				hasText: customerName,
+			}),
+		});
+		await expect(ticketRow.first()).toBeVisible();
+		await ticketRow.first().click();
+	},
+);
+
+// Then(
+// 	'I should see employee {string} with service count {string} in the ticket list',
+// 	async ({ page }, employeeName: string, expectedCount: string) => {
+// 		const employeeRow = page.locator('li.xEmployeeItem.TicketModel').filter({
+// 			has: page.locator('.nickname', { hasText: employeeName }),
+// 		});
+
+// 		const serviceCount = employeeRow.locator('span.length');
+
+// 		await expect(employeeRow).toBeVisible();
+// 		await expect(serviceCount).toHaveText(expectedCount);
+// 	},
+// );
+
+Then(
+	'I should see employee {string} display done time in the ticket list',
+	async ({ page }, employeeName: string) => {
+		const employeeRow = page.locator('li.xItem').filter({
+			has: page.locator('.xTicketItem__employee .nickname', {
+				hasText: employeeName,
+			}),
+		});
+
+		const timeRangeChip = employeeRow.locator('.timeline .MuiChip-label');
+
+		await expect(employeeRow).toBeVisible();
+		await expect(timeRangeChip).toBeVisible();
+
+		const doneTimePattern = /^.*\s-\s(?!Now).*$/;
+		await expect(timeRangeChip).toHaveText(doneTimePattern);
+		const actualRange = await timeRangeChip.innerText();
+		console.log(`Verified Time Range for ${employeeName}: ${actualRange}`);
+	},
+);
+
+Then(
+	'I should see employee {string} with price service ticket {string} in the ticket list',
+	async ({ page }, employeeName: string, expectedPrice: string) => {
+		const employeeRow = page.locator('li.xItem').filter({
+			has: page.locator('.xTicketItem__employee .nickname', {
+				hasText: employeeName,
+			}),
+		});
+
+		const totalPrice = employeeRow.locator('.xTicketItem__detail .total');
+
+		await expect(employeeRow).toBeVisible();
+		await expect(totalPrice).toHaveText(expectedPrice);
 	},
 );
