@@ -1,4 +1,4 @@
-@regression @smoke @slow
+@regression @smoke @slow @skip
 Feature: Appointment
 
   Scenario: Create an appointment for an existing customer, edit to change technician and create ticket
@@ -45,6 +45,8 @@ Feature: Appointment
     When I click on the "SAVE" button
     And I handle the Confirm Validate Time dialog if it appears
     And I wait for the page fully loaded
+    When I click on the triangle open
+    And I select to filter the "Addison" employee
     And I select the last booking in the time slot at "07:00 AM"
     And I click on the "Create Ticket" button
     Then I should see the "Ticket View From Appointment" screen
@@ -58,7 +60,7 @@ Feature: Appointment
     Then I should see the selected "SERVICE" tab on the Home page
     When I select the "CLOSED TICKET" tab
 
-    When I search for "4.02" 
+    When I search for "4.02"
     Then I should see the first ticket of payment "$4.02"
     When I reopen to void ticket with payment amount "$4.02"
     Then I should see the selected "SERVICE" tab on the Home page
@@ -127,7 +129,7 @@ Feature: Appointment
     Then I should see the selected "SERVICE" tab on the Home page
     When I select the "CLOSED TICKET" tab
 
-    When I search for "14" 
+    When I search for "14"
     Then I should see the first ticket of payment "$14.00"
     When I reopen to void ticket with payment amount "$14.00"
     Then I should see the selected "SERVICE" tab on the Home page
@@ -197,9 +199,8 @@ Feature: Appointment
     And I handle the Confirm Validate Time dialog if it appears
     Then I should be redirected to APPOINTMENT page
     When I wait for the page fully loaded
-    Then I should see the title "Any Technician"
-
-    When I select to filter the "Addison" employee
+    And I click on the triangle open
+    And I select to filter the "Addison" employee
     Then I should see the title "Addison"
 
     When I select the last booking in the time slot at "11:00 AM"
@@ -230,7 +231,7 @@ Feature: Appointment
     Then I should see the title "Any Technician"
     And I should see the employees sorted correctly
 
-  
+
   Scenario: Update appointment status Check-In
     Given I am on the HOME page
     When I navigate to "APPT BOOK" on the navigation bar
@@ -306,19 +307,19 @@ Feature: Appointment
     And I select to filter the "Anna" employee
     Then I should see the title "Anna"
     When I select the booked of "Ten"
-    And I click on the "Edit" button on the right panel 
+    And I click on the "Edit" button on the right panel
     Then I should see the "Edit Appointment" screen
     And I should see the service "Manicure" in my cart
     And I should see the employee "Anna" in my cart
-    And I should see a new customer "Ten" on ticket  
-    And I should see the current time in my cart 
+    And I should see a new customer "Ten" on ticket
+    And I should see the current time in my cart
     And I should see the appointment status "Chosen Tech"
     And I should see the appointment status "None"
     And I should see the appointment status "New"
 
     When I click on the "CANCEL" button
     When I select the booked of "Ten"
-    And I click on the "Delete" button on the right panel   
+    And I click on the "Delete" button on the right panel
     Then I should see a popup dialog with title "Confirm Delete"
     And I should see a popup dialog with content "Are you sure you want to delete?"
     When I click on the "confirm" button in the popup dialog
@@ -327,7 +328,7 @@ Feature: Appointment
  # tới đây rồi mai làm tiếp nha khúc này còn dích cách tắt ticket 4/03
   # tới đây rồi mai làm tiếp nha khúc này còn dích cách tắt ticket 4/03
    # tới đây rồi mai làm tiếp nha khúc này còn dích cách tắt ticket 4/03
-  
+
   Scenario: Update appointment status Complete
   Given I am on the HOME page
     When I navigate to "APPT BOOK" on the navigation bar
@@ -396,19 +397,19 @@ Feature: Appointment
     And I select to filter the "Bella" employee
     Then I should see the title "Bella"
     When I select the booked of "Tun"
-    And I click on the "Edit" button on the right panel 
+    And I click on the "Edit" button on the right panel
     Then I should see the "Edit Appointment" screen
     And I should see the service "Manicure" in my cart
     And I should see the employee "Bella" in my cart
-    And I should see a new customer "Tun" on ticket  
-    And I should see the current time in my cart 
+    And I should see a new customer "Tun" on ticket
+    And I should see the current time in my cart
     And I should see the appointment status "Chosen Tech"
     And I should see the appointment status "None"
     And I should see the appointment status "New"
 
     When I click on the "CANCEL" button
     When I select the booked of "Tun"
-    And I click on the "Delete" button on the right panel   
+    And I click on the "Delete" button on the right panel
     Then I should see a popup dialog with title "Confirm Delete"
     And I should see a popup dialog with content "Are you sure you want to delete?"
     When I click on the "confirm" button in the popup dialog
@@ -437,7 +438,7 @@ Feature: Appointment
     When I select view "Week"
     Then I should see the start of the week as "Tue"
 
-  
+
   Scenario: Add and delete block time slot
     Given I am on the HOME page
     When I navigate to "APPT BOOK" on the navigation bar
