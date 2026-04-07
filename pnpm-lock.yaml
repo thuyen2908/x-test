@@ -45,8 +45,8 @@ importers:
   e2e/booking-online:
     devDependencies:
       '@dotenvx/dotenvx':
-        specifier: ^1.60.0
-        version: 1.60.0
+        specifier: ^1.60.1
+        version: 1.60.1
       '@playwright/test':
         specifier: ^1.59.1
         version: 1.59.1
@@ -75,8 +75,8 @@ importers:
   e2e/galaxy-in-pink:
     devDependencies:
       '@dotenvx/dotenvx':
-        specifier: ^1.60.0
-        version: 1.60.0
+        specifier: ^1.60.1
+        version: 1.60.1
       '@playwright/test':
         specifier: ^1.59.1
         version: 1.59.1
@@ -105,8 +105,8 @@ importers:
   e2e/galaxy-pink-web:
     devDependencies:
       '@dotenvx/dotenvx':
-        specifier: ^1.60.0
-        version: 1.60.0
+        specifier: ^1.60.1
+        version: 1.60.1
       '@playwright/test':
         specifier: ^1.59.1
         version: 1.59.1
@@ -150,8 +150,8 @@ importers:
   e2e/pos-web:
     devDependencies:
       '@dotenvx/dotenvx':
-        specifier: ^1.60.0
-        version: 1.60.0
+        specifier: ^1.60.1
+        version: 1.60.1
       '@playwright/test':
         specifier: ^1.59.1
         version: 1.59.1
@@ -195,8 +195,8 @@ importers:
   e2e/pos-web-offline:
     devDependencies:
       '@dotenvx/dotenvx':
-        specifier: ^1.60.0
-        version: 1.60.0
+        specifier: ^1.60.1
+        version: 1.60.1
       '@playwright/test':
         specifier: ^1.59.1
         version: 1.59.1
@@ -518,8 +518,8 @@ packages:
   '@cucumber/tag-expressions@6.2.0':
     resolution: {integrity: sha512-KIF0eLcafHbWOuSDWFw0lMmgJOLdDRWjEL1kfXEWrqHmx2119HxVAr35WuEd9z542d3Yyg+XNqSr+81rIKqEdg==}
 
-  '@dotenvx/dotenvx@1.60.0':
-    resolution: {integrity: sha512-zWepVRNan/5gCALiT/QCHVsmxvq81xenBqGRyoTUy+ClJ+Mgs+tTJ6h4f65nqs8ijVFe6xg4lIQAIwe+HfgWXg==}
+  '@dotenvx/dotenvx@1.60.1':
+    resolution: {integrity: sha512-pPKqhE/HiaPDfbSf6doJnxeqzLszWP4eLICB89wRDZGaBaLzGpa3RgahVYIauBonaEWT8oxqAyacWKHtD+n3hQ==}
     hasBin: true
 
   '@ecies/ciphers@0.2.2':
@@ -2849,7 +2849,7 @@ snapshots:
 
   '@cucumber/tag-expressions@6.2.0': {}
 
-  '@dotenvx/dotenvx@1.60.0':
+  '@dotenvx/dotenvx@1.60.1':
     dependencies:
       commander: 11.1.0
       dotenv: 17.2.2
