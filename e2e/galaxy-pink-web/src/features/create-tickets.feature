@@ -956,8 +956,7 @@ Feature: Create tickets
     When I reopen to void ticket with payment amount "$20.11"
     Then I should see the selected "SERVICE" tab on the Home page
 
-  @skip
-  Scenario: In Service - show Service Count, Price Service Ticket, Done Time
+  Scenario: In Service - show Service Count, Price Service Ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5839"
     Then I should see the employee "Daria" in the employee list
@@ -974,11 +973,10 @@ Feature: Create tickets
     Then I should see a new customer "InService" on ticket
 
     When I click on the "Pay" button
-    And I click on the "Hold" button
+    And I click on the "Hold" button on the header
     Then I should see employee "Daria" with service count "3" in the ticket list
     And I should see employee "Daria" display done time in the ticket list
     And I should see employee "Daria" with price service ticket "$59.00" in the ticket list
-
 
     When I click ticket of customer "InService"
     And I pay the exact amount by "Cash"

@@ -2037,7 +2037,6 @@ Then(
 	},
 );
 Then('I should see the current time in my cart', async ({ page }) => {
-	// Lấy thời điểm hiện tại (ví dụ định dạng HH:mm hoặc HH:mm:ss)
 	const now = new Date();
 	const currentTime = now.toLocaleTimeString('en-US', {
 		hour: '2-digit',
@@ -2298,7 +2297,14 @@ Then('I should see the employees sorted correctly', async ({ page }) => {
 	const employeeNames = await employeeLocators.allTextContents();
 
 	// Define the expected list in correct order
-	const expectedOrder = ['Any Technician', 'Bella', 'Addison', 'Anna'];
+	const expectedOrder = [
+		'Any Technician',
+		'David',
+		'Bella',
+		'Addison',
+		'Jarvis',
+		'Anna',
+	];
 
 	// Assert actual matches expected exactly
 	expect(employeeNames).toEqual(expectedOrder);
@@ -4939,13 +4945,15 @@ Then(
 			has: page.locator('.nickname', { hasText: employeeName }),
 		});
 
-		const doneTimeChip = employeeRow.locator(
-			'.state-detail .MuiChip-colorSuccess .MuiChip-label',
-		);
+		const timeRangeChip = employeeRow.locator('.timeline .MuiChip-label');
 
 		await expect(employeeRow).toBeVisible();
-		await expect(doneTimeChip).toBeVisible();
-		await expect(doneTimeChip).toContainText('mins');
+		await expect(timeRangeChip).toBeVisible();
+
+		const doneTimePattern = /^.*\s-\s(?!Now).*$/;
+		await expect(timeRangeChip).toHaveText(doneTimePattern);
+		const actualRange = await timeRangeChip.innerText();
+		console.log(`Verified Time Range for ${employeeName}: ${actualRange}`);
 	},
 );
 
