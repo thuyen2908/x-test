@@ -38,6 +38,8 @@ Feature: Reopen tickets
     And I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
 
+    When I clock out the timesheet with PIN "2429"
+
   Scenario: Reopen ticket to change tech for service package
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9860"
@@ -84,6 +86,8 @@ Feature: Reopen tickets
 
     When I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
+
+    When I clock out the timesheet with PIN "9860"
 
   Scenario: Reopen ticket to change technician and split tip
     Given I am on the HOME page
@@ -179,6 +183,8 @@ Feature: Reopen tickets
     And I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
 
+    When I clock out the timesheet with PIN "3957"
+
   Scenario: Update GC balance after reopening to adjust tip
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8888"
@@ -230,6 +236,8 @@ Feature: Reopen tickets
     And I should see the first type "Redeem" in the gift card detail list
     And I should see the first amount "($22.00)" in the gift card detail list
 
+    When I clock out the timesheet with PIN "8888"
+
   Scenario: Reopen ticket to remove payment Cash and instead of Credit
     Given I am on the HOME page
     When I clock in the timesheet with PIN "4683"
@@ -274,6 +282,8 @@ Feature: Reopen tickets
     And I fill the last 4 digits of card number "1234"
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
+
+    When I clock out the timesheet with PIN "4683"
 
   Scenario: Reopen ticket to change split tip Percent to Equal
     Given I am on the HOME page
@@ -335,6 +345,8 @@ Feature: Reopen tickets
     When I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
 
+    When I clock out the timesheet with PIN "2174"
+
   Scenario: Reopen ticket to add service and make payment Credit
     Given I am on the HOME page
     When I clock in the timesheet with PIN "7139"
@@ -379,6 +391,8 @@ Feature: Reopen tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
+    When I clock out the timesheet with PIN "7139"
+
   Scenario: Reopen ticket to void ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5971"
@@ -410,7 +424,8 @@ Feature: Reopen tickets
 
     When I reopen to void ticket with payment amount "$16.48"
     Then I should be redirected to HOME page
-    # And I should not see the employee "Daisy" in the ticket list
+
+    When I clock out the timesheet with PIN "5971"
 
   Scenario: Reopen ticket to void item, remove and make new payment
     Given I am on the HOME page
@@ -461,6 +476,8 @@ Feature: Reopen tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
+    When I clock out the timesheet with PIN "8546"
+
   Scenario: Update GC balance when selling an add-on gift card and then voiding the ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2463"
@@ -510,6 +527,8 @@ Feature: Reopen tickets
     When I search gift card "2030"
     Then I should see the first type "ActivateNew" in the gift card detail list
     And I should see the first amount "$50.00" in the gift card detail list
+
+    When I clock out the timesheet with PIN "2463"
 
   Scenario: Cannot find gift card after selling a new gift card and then voiding the item Gift Card
     Given I am on the HOME page
@@ -576,9 +595,11 @@ Feature: Reopen tickets
     Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
     And I should see a popup dialog with content "Do you want to activate gift card #2003"
 
+    When I clock out the timesheet with PIN "6727"
+
   Scenario: Cannot find gift card after selling a new gift card and then voiding the ticket
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "01"
+    When I clock in the timesheet with PIN "0001"
     Then I should see the employee "Leon" in the employee list
     When I select the "Leon" employee
     Then I should see the "Ticket View" screen
@@ -623,6 +644,8 @@ Feature: Reopen tickets
     Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
     And I should see the toast message "Can't find gift card." visible
 
+    When I clock out the timesheet with PIN "0001"
+
   Scenario: Remove loyalty balance when voiding ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "7217"
@@ -665,6 +688,8 @@ Feature: Reopen tickets
 
     Then I should see the text "Customer: Jimmy" visible
     And I should see the text "No rows" visible
+
+    When I clock out the timesheet with PIN "7217"
 
   Scenario: View the loyalty point on Receipt
     Given I am on the HOME page
@@ -770,6 +795,8 @@ Feature: Reopen tickets
 
     Then I should see the QR code on the receipt
 
+    When I clock out the timesheet with PIN "2883"
+
   Scenario: Update gift card balance correctly after voiding a gift card payment and paying with cash
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6566"
@@ -821,6 +848,8 @@ Feature: Reopen tickets
     And I should see the first type "ActivateNew" in the gift card detail list
     And I should see the first amount "$100.00" in the gift card detail list
 
+    When I clock out the timesheet with PIN "6566"
+
   Scenario: Update gift card balance after increasing the tip via Adjust Tip of GC payment
     Given I am on the HOME page
     When I clock in the timesheet with PIN "4377"
@@ -869,6 +898,8 @@ Feature: Reopen tickets
     Then I should see the first date is today in the gift card detail list
     And I should see the first amount "($27.50)" in the gift card detail list
     And I should see the first type "Redeem" in the gift card detail list
+
+    When I clock out the timesheet with PIN "4377"
 
   Scenario: CC slip after adjusting tip
     Given I am on the HOME page
@@ -947,6 +978,8 @@ Feature: Reopen tickets
     When I void the current open ticket with reason "Mistake"
     Then I should be redirected to HOME page
 
+    When I clock out the timesheet with PIN "8959"
+
   Scenario: CC slip with no tip
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5672"
@@ -1006,6 +1039,8 @@ Feature: Reopen tickets
     When I void the current open ticket with reason "Mistake"
     Then I should be redirected to HOME page
 
+    When I clock out the timesheet with PIN "5672"
+
   Scenario: Work slip receipt details
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6374"
@@ -1063,6 +1098,8 @@ Feature: Reopen tickets
 
     When I void the current open ticket with reason "Mistake"
     Then I should be redirected to HOME page
+
+    When I clock out the timesheet with PIN "6374"
 
   Scenario: Work slip update after adjusting tip
     Given I am on the HOME page
@@ -1139,6 +1176,8 @@ Feature: Reopen tickets
 
     When I void the current open ticket with reason "Mistake"
     Then I should be redirected to HOME page
+
+    When I clock out the timesheet with PIN "9606"
 
   @skip
   Scenario: Closed ticket number sort by Descending

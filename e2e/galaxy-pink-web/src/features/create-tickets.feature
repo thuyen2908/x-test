@@ -595,6 +595,8 @@ Feature: Create tickets
     Then I should not see the employee "Eira" in the ticket list
     And I should not see the employee "Maya" in the ticket list
 
+    When I clock out the timesheet with PIN "4857"
+
   Scenario: Void the item when creating a ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0404"

@@ -189,7 +189,7 @@ Feature: Create tickets
 @fix
   Scenario: Verify that the balance is updated correctly when paying with a gift card
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "0404"
+    When I clock in the timesheet with PIN "0004"
     Then I should see the employee "Emma" in the employee list
     When I select the "Emma" employee
     Then I should see the "Ticket View" screen

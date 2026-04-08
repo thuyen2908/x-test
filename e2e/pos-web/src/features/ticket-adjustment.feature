@@ -61,6 +61,9 @@ Feature: Fix Ticket
     And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
 
+    When I back to HOME page
+    And I clock out the timesheet with PIN "8573"
+
   Scenario: View service details
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9610"
@@ -127,6 +130,9 @@ Feature: Fix Ticket
     And I should see the detail "Item Supply Fee($3.00)"
     And I should see the detail "Package Amount$29.00"
     And I should see the detail "Commission$15.00"
+
+    When I back to HOME page
+    And I clock out the timesheet with PIN "9610"
 
   Scenario: Create a ticket for today, add tip, apply discount item and apply discount ticket
     Given I am on the HOME page
@@ -318,6 +324,9 @@ Feature: Fix Ticket
     And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
 
+    When I back to HOME page
+    And I clock out the timesheet with PIN "3412"
+
   Scenario: Change tech and split tip
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8414"
@@ -382,6 +391,9 @@ Feature: Fix Ticket
     When I click on the "SAVE" button in the popup dialog
     And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
+
+    When I back to HOME page
+    And I clock out the timesheet with PIN "8414"
 
   Scenario: Update GC balance after voiding a sell Gift Card
     Given I am on the HOME page
@@ -463,6 +475,7 @@ Feature: Fix Ticket
 
     When I back to HOME page
     And I wait for the page fully loaded
+    And I clock out the timesheet with PIN "5720"
 
     Given I am on the GIFT_CARD_BALANCE page
     When I enter the amount "0503"
@@ -532,6 +545,9 @@ Scenario: Remove Tax and make new payment
     And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
 
+    When I back to HOME page
+    And I clock out the timesheet with PIN "8754"
+
   Scenario: Add Tax and make new payment
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1648"
@@ -591,6 +607,9 @@ Scenario: Remove Tax and make new payment
     And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
 
+    When I back to HOME page
+    And I clock out the timesheet with PIN "1648"
+
   Scenario: Update loyalty when adding a customer to the ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "4170"
@@ -637,3 +656,5 @@ Scenario: Remove Tax and make new payment
     And I wait for the page fully loaded
     Then I should see the text "Please select a ticket." in the ticket adjustment screen
 
+    When I back to HOME page
+    And I clock out the timesheet with PIN "4170"

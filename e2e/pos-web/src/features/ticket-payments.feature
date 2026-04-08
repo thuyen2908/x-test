@@ -87,6 +87,7 @@ Feature: Ticket Payments
     # And I should not see the employee "Hilary" in the ticket list
 
     When I delete ticket after void it with payment amount "228.70"
+    And I clock out the timesheet with PIN "1250"
 
   Scenario: The Services/Products tab displays data correctly
     Given I am on the HOME page
@@ -174,5 +175,5 @@ Feature: Ticket Payments
     # And I should not see the employee "Valerie" in the ticket list
 
     When I delete ticket after void it with payment amount "70.03"
-
+    And I clock out the timesheet with PIN "6118"
 

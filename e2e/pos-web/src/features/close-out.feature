@@ -77,6 +77,7 @@ Feature: Close Out report
     # Then I should not see the employee "Elena" in the ticket list
 
     When I delete ticket after void it with payment amount "231.70"
+    And I clock out the timesheet with PIN "7518"
 
   Scenario: Technician report summary display correctly
     Given I am on the HOME page
@@ -132,3 +133,4 @@ Feature: Close Out report
     # And I should not see the employee "Gemma" in the ticket list
 
     When I delete ticket after void it with payment amount "232.70"
+    And I clock out the timesheet with PIN "7298"
