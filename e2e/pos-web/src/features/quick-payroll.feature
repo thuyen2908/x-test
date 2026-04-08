@@ -101,6 +101,7 @@ Feature: Quick payroll
     # And I should not see the employee "Serena" in the ticket list
 
     When I delete ticket after void it with payment amount "245.70"
+    When I clock out the timesheet with PIN "2771"
 
   Scenario: Display Hourly payroll details correctly in the payroll summary
     Given I am on the HOME page

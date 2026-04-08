@@ -103,6 +103,8 @@ Feature: Create tickets
     And I should see the first type "Issuance" in the loyalty detail list
     And I should see the first amount "0" in the gift card detail list
 
+    When I clock out the timesheet with PIN "8102"
+
   Scenario: Create a new customer on the fly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0917"
@@ -160,6 +162,8 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
+    When I clock out the timesheet with PIN "2860"
+
   Scenario: Create a ticket, add Tip and pay with Credit card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0101"
@@ -187,9 +191,11 @@ Feature: Create tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
+    When I clock out the timesheet with PIN "0101"
+
   Scenario: Verify that the balance is updated correctly when paying with a gift card
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "0404"
+    When I clock in the timesheet with PIN "0004"
     Then I should see the employee "Emma" in the employee list
     When I select the "Emma" employee
     Then I should see the "Ticket View" screen
@@ -215,6 +221,8 @@ Feature: Create tickets
     And I should see the first type "Redeem" in the gift card detail list
     And I should see the first amount "($6.00)" in the gift card detail list
 
+    When I clock out the timesheet with PIN "0004"
+
   Scenario: Create a ticket and pay with Zelle type
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0505"
@@ -233,6 +241,8 @@ Feature: Create tickets
     When I select the "Zelle" payment type
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
+
+    When I clock out the timesheet with PIN "0505"
 
   Scenario: Split tip by Percent on ticket after paying by Credit card
     Given I am on the HOME page
@@ -276,6 +286,8 @@ Feature: Create tickets
     When I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
 
+    When I clock out the timesheet with PIN "0202"
+
   Scenario: Create a ticket and pay with Cash change
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9076"
@@ -298,6 +310,8 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$60.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
+
+    When I clock out the timesheet with PIN "9076"
 
   Scenario: Make multiple payments using Gift Card and Credit
     Given I am on the HOME page
@@ -331,6 +345,8 @@ Feature: Create tickets
     And I click on the element with id "payment"
     Then I should be redirected to HOME page
 
+    When I clock out the timesheet with PIN "1219"
+
   Scenario: Change price and add note for service in ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1828"
@@ -360,6 +376,8 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
+
+    When I clock out the timesheet with PIN "1828"
 
   Scenario: Add the Open Discount amount for Discount item
     Given I am on the HOME page
@@ -399,6 +417,8 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
+    When I clock out the timesheet with PIN "8623"
+
   Scenario: Add the Open Discount percent for Discount ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9962"
@@ -431,6 +451,8 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
+
+    When I clock out the timesheet with PIN "9962"
 
   Scenario: Sell a Gift Card add-on amount
     Given I am on the HOME page
@@ -469,6 +491,8 @@ Feature: Create tickets
     And I should see the first type "ActivateAddOn" in the gift card detail list
     And I should see the first amount "$100.00" in the gift card detail list
 
+    When I clock out the timesheet with PIN "1010"
+
   Scenario: Sell a Gift Card rewrite amount
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5362"
@@ -506,6 +530,8 @@ Feature: Create tickets
     And I should see the first type "Overwrite" in the gift card detail list
     And I should see the first amount "$100.00" in the gift card detail list
 
+    When I clock out the timesheet with PIN "5362"
+
   Scenario: Remove tax in ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6993"
@@ -529,6 +555,8 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
+
+    When I clock out the timesheet with PIN "6993"
 
   Scenario: Void an empty ticket
     Given I am on the HOME page
@@ -621,6 +649,8 @@ Feature: Create tickets
     Then I should not see the employee "Eira" in the ticket list
     And I should not see the employee "Maya" in the ticket list
 
+    When I clock out the timesheet with PIN "4857"
+
   Scenario: Void the item when creating a ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0404"
@@ -661,6 +691,8 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
+    When I clock out the timesheet with PIN "0404"
+
   Scenario: Change Technician for Service package
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6769"
@@ -694,6 +726,8 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
+
+    When I clock out the timesheet with PIN "6769"
 
   Scenario: Remove payment history and choose another one
     Given I am on the HOME page
@@ -777,6 +811,8 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
+    When I clock out the timesheet with PIN "2406"
+
   Scenario: Select Tech to split tip by percent
     Given I am on the HOME page
     When I clock in the timesheet with PIN "3030"
@@ -829,6 +865,8 @@ Feature: Create tickets
     When I click on the "CLOSE TICKET" button
     Then I should be redirected to HOME page
 
+    When I clock out the timesheet with PIN "3030"
+
   Scenario: Cannot pay more than the Gift card Balance
     Given I am on the HOME page
     When I clock in the timesheet with PIN "4040"
@@ -873,6 +911,7 @@ Feature: Create tickets
     # And I should not see the employee "Aubrey" in the ticket list
 
     When I delete ticket after void it with payment amount "35.7"
+    And I clock out the timesheet with PIN "4040"
 
   Scenario: Select service to change technician
     Given I am on the HOME page
@@ -900,6 +939,8 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
+
+    When I clock in the timesheet with PIN "8226"
 
   Scenario: Add the Discount ticket while paying
     Given I am on the HOME page
@@ -929,6 +970,8 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
+
+    When I clock out the timesheet with PIN "6512"
 
   Scenario: Show earning today
     Given I am on the HOME page
@@ -980,6 +1023,7 @@ Feature: Create tickets
     # And I should not see the employee "Paige" in the ticket list
 
     When I delete ticket after void it with payment amount "55.00"
+    And I clock out the timesheet with PIN "0074"
 
   Scenario: No cash discount is charged when selling GC
     Given I am on the HOME page
@@ -1008,6 +1052,8 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
+
+    When I clock out the timesheet with PIN "8903"
 
   Scenario: Update GC balance when making multiple payments using 2 GCs
     Given I am on the HOME page
@@ -1052,6 +1098,8 @@ Feature: Create tickets
     And I should see the first type "Redeem" in the gift card detail list
     And I should see the first amount "($35.80)" in the gift card detail list
 
+    When I clock out the timesheet with PIN "8526"
+
   Scenario: Apply auto-discount item and change it to another
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9960"
@@ -1095,6 +1143,8 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
+    When I clock out the timesheet with PIN "9960"
+
   Scenario: Queue - show Total, Last Service, Clock In Time
     Given I am on the HOME page
     When I clock in the timesheet with PIN "7779"
@@ -1130,6 +1180,8 @@ Feature: Create tickets
     When I reopen to void ticket with payment amount "$20.11"
     Then I should be redirected to HOME page
 
+    When I clock out the timesheet with PIN "7779"
+
   Scenario: In Service - show Service Count, Price Service Ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5839"
@@ -1161,3 +1213,5 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$0.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
+
+    When I clock out the timesheet with PIN "5839"

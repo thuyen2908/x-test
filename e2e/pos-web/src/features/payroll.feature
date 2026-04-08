@@ -148,6 +148,7 @@ Feature: Payroll
     # And I should not see the employee "Sydney" in the ticket list
     When I wait for the page fully loaded
     And I delete ticket after void it with payment amount "215.70"
+    And I clock out the timesheet with PIN "6789"
 
   Scenario: Commission payroll details in the Owner View are calculated correctly
     Given I am on the HOME page
@@ -233,6 +234,7 @@ Feature: Payroll
     # And I should not see the employee "Venus" in the ticket list
 
     When I delete ticket after void it with payment amount "225.70"
+    And I clock out the timesheet with PIN "9969"
 
   Scenario: Hourly payroll details in the Employee View are calculated correctly
     Given I am on the HOME page
@@ -303,7 +305,8 @@ Feature: Payroll
 
     When I reopen to void ticket with payment amount "$218.97"
     Then I should be redirected to HOME page
-    # And I should not see the employee "Jazzie" in the ticket list
+
+    When I clock out the timesheet with PIN "1314"
 
   Scenario: Hourly payroll details in the Owner View are calculated correctly
     Given I am on the HOME page
@@ -386,6 +389,7 @@ Feature: Payroll
 
     When I wait for the page fully loaded
     When I search for "Addison"
+    And I wait for the page fully loaded
     And I select the employee "Addison"
     Then I should see the Payroll Date default to today
     And I should see the technician name "Addison" in the employee view
