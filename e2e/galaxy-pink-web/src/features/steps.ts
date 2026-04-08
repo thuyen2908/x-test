@@ -1067,14 +1067,6 @@ When('I select the {string} discount type', async ({ page }, type: string) => {
 });
 
 Then('I should see the discount sorted correctly', async ({ page }) => {
-	const discountItems = page.locator('.listDiscount__item ul li p');
-	const count = await discountItems.count();
-
-	const texts: string[] = [];
-
-	for (let i = 0; i < count; i++) {
-		texts.push((await discountItems.nth(i).innerText()).trim());
-	}
 	const expectedOrder = [
 		'Open Discount',
 		'$5 Off',
@@ -1083,7 +1075,9 @@ Then('I should see the discount sorted correctly', async ({ page }) => {
 		'20% Off - exclude Product',
 	];
 
-	await expect(texts).toEqual(expectedOrder);
+	const discountItems = page.locator('.listDiscount__item ul li p');
+
+	await expect(discountItems).toHaveText(expectedOrder);
 });
 
 When('I select the discount {string}', async ({ page }, discount: string) => {
@@ -4968,5 +4962,32 @@ Then(
 
 		await expect(employeeRow).toBeVisible();
 		await expect(totalPrice).toHaveText(expectedPrice);
+	},
+);
+
+Then(
+	'I should see the services displayed correctly in ticket view',
+	async ({ page }) => {
+		const expectedServices = [
+			'Manicure',
+			'Pedicure',
+			'Cut cuticle',
+			'Gel removal',
+			'Acrylic removal',
+			'Gel X',
+			'Request price',
+			'Combo 1',
+			'Combo 2',
+			'Supper combo',
+		];
+
+		const serviceElements = page.locator(
+			'li.ItemService .ItemService__name span',
+		);
+		await expect(serviceElements).toHaveText(expectedServices, {
+			timeout: 5000,
+		});
+
+		console.log('Validated all services display in correct order.');
 	},
 );

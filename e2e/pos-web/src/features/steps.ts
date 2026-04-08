@@ -4394,3 +4394,48 @@ Then(
 		await expect(totalPrice).toHaveText(expectedPrice);
 	},
 );
+
+Then(
+	'I should see the services displayed correctly in ticket view',
+	async ({ page }) => {
+		const expectedServices = [
+			'Manicure',
+			'Pedicure',
+			'Cut cuticle',
+			'Gel removal',
+			'Acrylic removal',
+			'Gel X',
+			'Request price',
+			'Combo 1',
+			'Combo 2',
+			'Supper combo',
+		];
+
+		const serviceElements = page.locator(
+			'li.ItemService .ItemService__name span',
+		);
+		await expect(serviceElements).toHaveText(expectedServices, {
+			timeout: 5000,
+		});
+
+		console.log('Validated all services display in correct order.');
+	},
+);
+
+Then('I should see the discount sorted correctly', async ({ page }) => {
+	const expectedOrder = [
+		'Open Discount',
+		'$5 Off',
+		'5% Off',
+		'10% Off',
+		'20% Off - exclude Product',
+	];
+
+	const discountItems = page.locator('.listDiscount__item ul li p');
+
+	await expect(discountItems).toHaveText(expectedOrder);
+});
+
+When('I close the popup dialog', async ({ page }) => {
+	await page.locator('button[title="Close"]').click();
+});
