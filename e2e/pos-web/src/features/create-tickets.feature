@@ -1215,3 +1215,41 @@ Feature: Create tickets
     Then I should be redirected to HOME page
 
     When I clock out the timesheet with PIN "5839"
+
+  Scenario: Can close ticket $0.00
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "3732"
+    Then I should see the employee "Freya" in the employee list
+
+    When I select the "Freya" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+    When I add the "Supper combo" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I click on the "PAY" button
+    And I click on the "CLOSE TICKET" button
+    And I clock out the timesheet with PIN "3732"
+
+  Scenario: Services are displayed in the correct order
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "4831"
+    Then I should see the employee "Calantha" in the employee list
+    When I select the "Calantha" employee
+    Then I should see the "Ticket View" screen
+    And I should see the services displayed correctly in ticket view
+    When I void the current open ticket with reason "System Test"
+
+  Scenario: Discount items are in the correct order
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "4831"
+    Then I should see the employee "Calantha" in the employee list
+    When I select the "Calantha" employee
+    Then I should see the "Ticket View" screen
+
+    When I add the "Manicure" service to my cart
+    And I click on the item "DISCOUNT ITEM" button
+    And I select the "Manicure" service in the dialog
+    Then I should see the discount sorted correctly
+    When I close the popup dialog
+    And I void the current open ticket with reason "System Test"
