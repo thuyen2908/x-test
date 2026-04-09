@@ -34,6 +34,8 @@ Feature: Create tickets
     When I click on the "confirm" button in the popup dialog
     Then I should see the selected "SERVICE" tab on the Home page
 
+    When I clock out the timesheet with PIN "5254"
+
   Scenario: Display correct category and service data
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0917"
@@ -118,6 +120,9 @@ Feature: Create tickets
     And I should see the first type "Issuance" in the loyalty detail list
     And I should see the first amount "0" in the gift card detail list
 
+    When I back to HOME page
+    And I clock out the timesheet with PIN "8102"
+
   Scenario: Create a new customer on the fly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0917"
@@ -161,6 +166,8 @@ Feature: Create tickets
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
+    When I clock out the timesheet with PIN "2860"
+
   Scenario: Create a ticket, add Tip and pay with Credit card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0101"
@@ -182,9 +189,11 @@ Feature: Create tickets
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
 
+    When I clock out the timesheet with PIN "0101"
+
   Scenario: Verify that the balance is updated correctly when paying with a gift card
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "4"
+    When I clock in the timesheet with PIN "0004"
     Then I should see the employee "Emma" in the employee list
     When I select the "Emma" employee
     Then I should see the "Ticket View" screen
@@ -213,6 +222,9 @@ Feature: Create tickets
     And I should see the first type "Redeem" in the gift card detail list
     And I should see the first amount "($6.00)" in the gift card detail list
 
+    When I back to HOME page
+    And I clock out the timesheet with PIN "0004"
+
   Scenario: Create a ticket and pay with Debit type
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0505"
@@ -231,6 +243,8 @@ Feature: Create tickets
     Then I should see the payment history "DEBIT (1234)$6.00" visible
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
+
+    When I clock out the timesheet with PIN "0505"
 
   Scenario: Split tip by Percent on ticket after paying by Credit card
     Given I am on the HOME page
@@ -266,6 +280,8 @@ Feature: Create tickets
     When I click on the "OK" button
     Then I should see the selected "SERVICE" tab on the Home page
 
+    When I clock out the timesheet with PIN "0202"
+
   Scenario: Create a ticket and pay with Cash change
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9076"
@@ -283,6 +299,8 @@ Feature: Create tickets
     And I should see a popup dialog with content "CHANGE$60.00OK"
     When I click on the "OK" button in the popup dialog
     Then I should see the selected "SERVICE" tab on the Home page
+
+    When I clock out the timesheet with PIN "9076"
 
   Scenario: Make multiple payments using Gift Card and Credit
     Given I am on the HOME page
@@ -312,6 +330,8 @@ Feature: Create tickets
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
 
+    When I clock out the timesheet with PIN "1219"
+
   Scenario: Change price and add request for service in ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1828"
@@ -334,6 +354,8 @@ Feature: Create tickets
 
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
+
+    When I clock out the timesheet with PIN "1828"
 
   Scenario: Add the Open Discount amount for Discount item
     Given I am on the HOME page
@@ -360,6 +382,8 @@ Feature: Create tickets
 
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
+
+    When I clock out the timesheet with PIN "8623"
 
   Scenario: Add the Open Discount percent for Discount ticket
     Given I am on the HOME page
@@ -390,6 +414,8 @@ Feature: Create tickets
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
+    When I clock out the timesheet with PIN "9962"
+
   Scenario: Apply auto-discount item and change it to another
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9960"
@@ -419,6 +445,8 @@ Feature: Create tickets
 
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
+
+    When I clock out the timesheet with PIN "9960"
 
   Scenario: Sell a Gift Card add-on amount
     Given I am on the HOME page
@@ -456,9 +484,12 @@ Feature: Create tickets
     And I should see the first type "ActivateAddOn" in the gift card detail list
     And I should see the first amount "$100.00" in the gift card detail list
 
+    When I clock out the timesheet with PIN "1010"
+
   Scenario: Sell a Gift Card rewrite amount
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5362"
+    And I wait for the page fully loaded
     Then I should see the employee "Sandy" in the employee list
     When I select the "Sandy" employee
     Then I should see the "Ticket View" screen
@@ -492,9 +523,13 @@ Feature: Create tickets
     And I should see the first type "Overwrite" in the gift card detail list
     And I should see the first amount "$100.00" in the gift card detail list
 
+    When I back to HOME page
+    And I clock out the timesheet with PIN "5362"
+
   Scenario: Remove tax in ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6993"
+    And I wait for the page fully loaded
     Then I should see the employee "Jack" in the employee list
     When I select the "Jack" employee
     And I select the "FULL SET & FILL IN" category
@@ -509,6 +544,8 @@ Feature: Create tickets
 
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
+
+    When I clock out the timesheet with PIN "6993"
 
   Scenario: Void an empty ticket
     Given I am on the HOME page
@@ -629,6 +666,8 @@ Feature: Create tickets
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
+    When I clock out the timesheet with PIN "0404"
+
   Scenario: Change Technician for Service package
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6769"
@@ -652,6 +691,8 @@ Feature: Create tickets
 
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
+
+    When I clock out the timesheet with PIN "6769"
 
   Scenario: Remove payment history and choose another one
     Given I am on the HOME page
@@ -722,6 +763,8 @@ Feature: Create tickets
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
+    When I clock out the timesheet with PIN "2406"
+
   Scenario: Select Tech to split tip by percent
     Given I am on the HOME page
     When I clock in the timesheet with PIN "3030"
@@ -765,6 +808,8 @@ Feature: Create tickets
     And I should see the split tips amount for employee "Kelley" is zero
     When I click on the "OK" button
     Then I should see the selected "SERVICE" tab on the Home page
+
+    When I clock out the timesheet with PIN "3030"
 
   Scenario: Cannot pay more than the Gift card Balance
     Given I am on the HOME page
@@ -817,7 +862,8 @@ Feature: Create tickets
 
     When I reopen to void ticket with payment amount "$35.71"
     Then I should see the selected "SERVICE" tab on the Home page
-    # And I should not see the employee "Aubrey" in the ticket list
+
+    When I clock out the timesheet with PIN "4040"
 
   Scenario: Add the Discount ticket while paying
     Given I am on the HOME page
@@ -839,6 +885,8 @@ Feature: Create tickets
 
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
+
+    When I clock out the timesheet with PIN "6512"
 
   Scenario: No cash discount is charged when selling GC
     Given I am on the HOME page
@@ -868,6 +916,8 @@ Feature: Create tickets
     # Then I should see the payment history "VISA (1234)$106.18" visible
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
+
+    When I clock out the timesheet with PIN "8903"
 
   Scenario: Update GC balance when making multiple payments using 2 GCs
     Given I am on the HOME page
@@ -930,6 +980,8 @@ Feature: Create tickets
     Then I should see a popup dialog with title 'Confirm Delete'
     When I click on the "confirm" button in the popup dialog
 
+    When I clock out the timesheet with PIN "8526"
+
   Scenario: Queue - show Total, Last Service, Clock In Time
     Given I am on the HOME page
     When I clock in the timesheet with PIN "7779"
@@ -960,6 +1012,8 @@ Feature: Create tickets
     When I reopen to void ticket with payment amount "$20.11"
     Then I should see the selected "SERVICE" tab on the Home page
 
+    When I clock out the timesheet with PIN "7779"
+
   Scenario: In Service - show Service Count, Price Service Ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5839"
@@ -986,6 +1040,8 @@ Feature: Create tickets
     And I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
 
+    When I clock out the timesheet with PIN "5839"
+
   Scenario: Can close ticket $0.00
     Given I am on the HOME page
     When I clock in the timesheet with PIN "3732"
@@ -1005,20 +1061,22 @@ Feature: Create tickets
 
   Scenario: Services are displayed in the correct order
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "4831"
+    When I clock in the timesheet with PIN "2486"
     And I wait for the page fully loaded
-    Then I should see the employee "Calantha" in the employee list
-    When I select the "Calantha" employee
+    Then I should see the employee "Service Order" in the employee list
+    When I select the "Service Order" employee
     Then I should see the "Ticket View" screen
     And I should see the services displayed correctly in ticket view
     When I void the current open ticket with reason "System Test"
 
+    When I clock out the timesheet with PIN "2486"
+
   Scenario: Discount items are in the correct order
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "4831"
+    When I clock in the timesheet with PIN "1173"
     And I wait for the page fully loaded
-    Then I should see the employee "Calantha" in the employee list
-    When I select the "Calantha" employee
+    Then I should see the employee "Discount Order" in the employee list
+    When I select the "Discount Order" employee
     Then I should see the "Ticket View" screen
 
     When I add the "Manicure" service to my cart
@@ -1028,4 +1086,50 @@ Feature: Create tickets
 
     When I click on the "Cancel" button
     And I void the current open ticket with reason "System Test"
+    And I wait for the page fully loaded
+    And I clock out the timesheet with PIN "1173"
 
+  Scenario: Add multiple discounts
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "1000"
+    Then I should see the employee "Donna" in the employee list
+    When I select the "Donna" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+
+    When I wait for the page fully loaded
+    When I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I select the service "Manicure" in my cart
+    And I select the "DISCOUNT ITEM" on the menu
+    Then I should see the "Original Price (Owner)" option is active
+
+    When I select the discount "Open Discount"
+    Then I should see the "Amount" discount type is active
+    When I enter the amount "3"
+    And I click on the "OK" button
+    Then I should see the "Open Discount (Original Price)" discount in my cart
+    And I should see discount "($3.00)" in my cart
+
+    When I select the service "Manicure" in my cart
+    And I select the "DISCOUNT ITEM" on the menu
+    And I click on the "Add Discount" text inside the content section of the opening dialog
+    Then I should see the "Original Price (Owner)" option is active
+
+    When I select the discount absorb type "Discounted Price (Technician)"
+    Then I should see the "Discounted Price (Technician)" option is active
+
+    When I select the discount "Open Discount"
+    And I select the "Percent" discount type
+    Then I should see the "Percent" discount type is active
+
+    When I enter the amount "10"
+    And I click on the "OK" button
+    Then I should see the "Open Discount 10% (Discounted Price)" discount in my cart
+    And I should see discount "($0.30)" in my cart
+
+    When I pay the exact amount by "Cash"
+    Then I should see the selected "SERVICE" tab on the Home page
+
+    When I clock out the timesheet with PIN "1000"

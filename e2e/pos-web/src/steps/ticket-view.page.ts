@@ -1,5 +1,5 @@
 import { expect } from '@playwright/test';
-import { Fixture, When } from 'playwright-bdd/decorators';
+import { Fixture, Then, When } from 'playwright-bdd/decorators';
 
 import { constants } from '#const';
 import { PageId } from '#types';
@@ -102,5 +102,30 @@ class TicketViewPage extends xPage {
 	@When('I void the current open ticket with reason {string}')
 	public async voidTicketWithProvidedReason(reason: string) {
 		return this.voidTicket(reason);
+	}
+
+	@Then('I should see the discount item {string} in my cart')
+	public async seeDiscountItem(fullText: string) {
+		const match = fullText.match(/^(.+?)\s*\(([^)]+)\)$/);
+
+		const discountItem = this.page.locator('.xTicketItems__discount');
+
+		if (match?.[1] && match?.[2]) {
+			await expect(
+				discountItem
+					.filter({
+						has: this.page.locator('.xTicketItems__discount--title', {
+							hasText: match[1].trim(),
+						}),
+					})
+					.filter({
+						has: this.page.locator('.xTicketItems__discount--price', {
+							hasText: `(${match[2]})`,
+						}),
+					}),
+			).toBeVisible();
+		} else {
+			await expect(discountItem.filter({ hasText: fullText })).toBeVisible();
+		}
 	}
 }

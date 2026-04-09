@@ -9,7 +9,8 @@ Feature: Tax management
     And I select the "Tax" label in the expanded list
     Then I should be redirected to TAX page
     And I should see the "Tax" screen
-  @skip @fix
+    
+  @skip
   Scenario: Add and then delete a Tax
     Given I am on the TAX page
     # When I wait for the page fully loaded

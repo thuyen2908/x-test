@@ -121,7 +121,8 @@ Feature: Turn details
 
     When I reopen to void ticket with payment amount "$23.58"
     Then I should see the selected "SERVICE" tab on the Home page
-    # And I should not see the employee "Zoey" in the ticket list
+
+    When I clock out the timesheet with PIN "3818"
 
   Scenario: Manually adding decrease a turn reorders the employee queue
     Given I am on the HOME page
@@ -226,6 +227,8 @@ Feature: Turn details
     And I waiting 1s
     Then I should see Employee "Late Turn" with "C = 0.0" in the employee list
 
+    When I clock out the timesheet with PIN "0210"
+
  Scenario: Adjust turn - Add Go Again, Remove Go Again
     Given I am on the HOME page
     When I clock in the timesheet with PIN "0466"
@@ -287,6 +290,8 @@ Feature: Turn details
     And I wait for the page fully loaded
     Then I should see the toast message "deleted successfully" visible
 
+    When I clock out the timesheet with PIN "0466"
+
  Scenario: Adjust turn - Move, Remove Move
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5781"
@@ -310,6 +315,8 @@ Feature: Turn details
     When I click on the "Remove Move" in turn adjustment
     And I wait for the page fully loaded
     Then I should see the employee "Move" is not at position 1
+
+    When I clock out the timesheet with PIN "5781"
 
   Scenario: View turn details correctly on the receipt
     Given I am on the HOME page
@@ -357,3 +364,5 @@ Feature: Turn details
 
     When I reopen to void ticket with payment amount "$255.70"
     Then I should see the selected "SERVICE" tab on the Home page
+
+    When I clock out the timesheet with PIN "3328"
