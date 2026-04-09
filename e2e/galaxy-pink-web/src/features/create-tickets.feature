@@ -12,7 +12,7 @@ Feature: Create tickets
     And I should see the loyalty program "2 Points = $1" visible
     And I should see the loyalty program list displayed correctly
 
-    When I close the opening dialog
+    When I close the popup dialog
     And I void the current open ticket with reason "System Test"
 
   Scenario: Card fee is calculated correctly for cash discounts
@@ -438,7 +438,9 @@ Feature: Create tickets
     When I select the service "Ombre" in my cart
     And I select the "DISCOUNT ITEM" on the menu
     Then I should see a popup dialog with title "DISCOUNT"
-    When I select the change charge action "Change Discount"
+    When I click on the "Remove Discount" text inside the content section of the opening dialog
+    And I select the service "Ombre" in my cart
+    And I select the "DISCOUNT ITEM" on the menu
     And I select the discount "$5 Off"
     Then I should see the "$5 Off (Original Price)" discount in my cart
     And I should see discount "($5.00)" in my cart
@@ -470,6 +472,7 @@ Feature: Create tickets
 
     When I pay the exact amount by "Cash"
     Then I should see the selected "SERVICE" tab on the Home page
+    When I clock out the timesheet with PIN "1010"
 
     When I wait for the page fully loaded
     When I navigate to "Balance" on the navigation bar
@@ -483,8 +486,6 @@ Feature: Create tickets
     And I should see the first date is today in the gift card detail list
     And I should see the first type "ActivateAddOn" in the gift card detail list
     And I should see the first amount "$100.00" in the gift card detail list
-
-    When I clock out the timesheet with PIN "1010"
 
   Scenario: Sell a Gift Card rewrite amount
     Given I am on the HOME page

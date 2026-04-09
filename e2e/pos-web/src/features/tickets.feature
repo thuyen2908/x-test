@@ -588,14 +588,14 @@ Feature: Reopen tickets
     And I wait for the page fully loaded
     Then I should be redirected to HOME page
 
+    When I clock out the timesheet with PIN "6727"
+
     Given I am on the GIFT_CARD_BALANCE page
     When I enter the amount "2003"
     And I click on the "SEARCH" button
     And I wait for the page fully loaded
     Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
     And I should see a popup dialog with content "Do you want to activate gift card #2003"
-
-    When I clock out the timesheet with PIN "6727"
 
   Scenario: Cannot find gift card after selling a new gift card and then voiding the ticket
     Given I am on the HOME page
@@ -633,7 +633,8 @@ Feature: Reopen tickets
 
     When I reopen to void ticket with payment amount "$199.50"
     Then I should be redirected to HOME page
-    # And I should not see the employee "Leon" in the ticket list
+
+    When I clock out the timesheet with PIN "0001"
 
     When I delete ticket after void it with payment amount "199.50"
 
@@ -643,8 +644,6 @@ Feature: Reopen tickets
     And I wait for the page fully loaded
     Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
     And I should see the toast message "Can't find gift card." visible
-
-    When I clock out the timesheet with PIN "0001"
 
   Scenario: Remove loyalty balance when voiding ticket
     Given I am on the HOME page

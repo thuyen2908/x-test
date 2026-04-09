@@ -4361,11 +4361,14 @@ When(
 Then(
 	'I should see employee {string} display done time in the ticket list',
 	async ({ page }, employeeName: string) => {
-		const employeeRow = page.locator('li.xItem').filter({
-			has: page.locator('.xTicketItem__employee .nickname', {
-				hasText: employeeName,
-			}),
-		});
+		const employeeRow = page
+			.locator('li.xItem')
+			.filter({
+				has: page.locator('.xTicketItem__employee .nickname', {
+					hasText: employeeName,
+				}),
+			})
+			.last();
 
 		const timeRangeChip = employeeRow.locator('.timeline .MuiChip-label');
 

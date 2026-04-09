@@ -546,6 +546,8 @@ Feature: Closed Ticket
     # And I wait for the page fully loaded
     Then I should see the selected "SERVICE" tab on the Home page
 
+    When I clock out the timesheet with PIN "6727"
+
     Given I am on the GIFT_CARD_BALANCE page
     # When I wait for the page fully loaded
     Then I should see the text "Gift Card / Loyalty Balance" visible
@@ -553,9 +555,6 @@ Feature: Closed Ticket
     When I search gift card "2003"
     Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
     And I should see a popup dialog with content "Do you want to activate gift card #2003"
-
-    When I back to HOME page
-    And I clock out the timesheet with PIN "6727"
 
   Scenario: Remove loyalty balance when voiding ticket
     Given I am on the HOME page
