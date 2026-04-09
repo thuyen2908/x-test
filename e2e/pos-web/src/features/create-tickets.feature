@@ -1233,18 +1233,18 @@ Feature: Create tickets
 
   Scenario: Services are displayed in the correct order
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "4831"
-    Then I should see the employee "Calantha" in the employee list
-    When I select the "Calantha" employee
+    When I clock in the timesheet with PIN "2486"
+    Then I should see the employee "Service Order" in the employee list
+    When I select the "Service Order" employee
     Then I should see the "Ticket View" screen
     And I should see the services displayed correctly in ticket view
     When I void the current open ticket with reason "System Test"
 
   Scenario: Discount items are in the correct order
     Given I am on the HOME page
-    When I clock in the timesheet with PIN "4831"
-    Then I should see the employee "Calantha" in the employee list
-    When I select the "Calantha" employee
+    When I clock in the timesheet with PIN "1173"
+    Then I should see the employee "Discount Order" in the employee list
+    When I select the "Discount Order" employee
     Then I should see the "Ticket View" screen
 
     When I add the "Manicure" service to my cart
@@ -1253,3 +1253,48 @@ Feature: Create tickets
     Then I should see the discount sorted correctly
     When I close the popup dialog
     And I void the current open ticket with reason "System Test"
+
+    When I clock out the timesheet with PIN "1173"
+    
+  Scenario: Add multiple discounts
+    Given I am on the HOME page
+    When I clock in the timesheet with PIN "1000"
+    Then I should see the employee "Donna" in the employee list
+    When I select the "Donna" employee
+    Then I should see the "Ticket View" screen
+    And I should see the "Manicure" service
+
+    When I wait for the page fully loaded
+    When I add the "Manicure" service to my cart
+    Then I should see my cart showing 1 item added
+
+    When I click on the item "DISCOUNT ITEM" button
+    Then I should see a popup dialog with title "DISCOUNT MULTIPLE"
+    When I select the "Manicure" service in the dialog
+    Then I should see the "Owner Absorbs" option is checked
+
+    When I select the discount "Open Discount"
+    And I select the type "Amount" option
+    Then I should see the discount type "Amount" visible
+    When I enter the discount amount "3"
+    And I click on the "Add Value" button in the popup dialog
+    And I click on the "Apply" button in the popup dialog
+    Then I should see the discount item "Open Discount (Owner Absorbs) ($3.00)" in my cart
+
+    When I click on the item "DISCOUNT ITEM" button
+    And I select the "Manicure" service in the dialog
+    And I select the discount "Open Discount"
+    And I select the "Percent" discount type
+    And I enter the discount percent "10"
+    And I click on the "Add Value" button in the popup dialog
+    And I click on the "Apply" button in the popup dialog
+    Then I should see the discount item "Open Discount (Owner Absorbs) ($0.30)" in my cart
+
+    When I click on the "PAY" button
+    And I click on the element with id "payment"
+    Then I should see a popup dialog with title "Close Ticket"
+    And I should see a popup dialog with content "CHANGE$0.00OK"
+    When I click on the "OK" button in the popup dialog
+    Then I should be redirected to HOME page
+
+    When I clock out the timesheet with PIN "1000"

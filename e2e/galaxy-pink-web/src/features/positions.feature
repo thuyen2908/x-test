@@ -8,7 +8,8 @@ Feature: Positions management
     And I select the "Positions" label in the expanded list
     Then I should be redirected to POSITIONS page
     And I should see the "Positions" screen
-  @skip @fix
+    
+  @skip
   Scenario: Add and then delete a Position
     Given I am on the HOME page
     When I click on the header menu

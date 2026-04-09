@@ -4,6 +4,7 @@ Feature: Closed Ticket
   Scenario: Reopen ticket then close ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2429"
+    And I wait for the page fully loaded
     Then I should see the employee "Chloe" in the employee list
 
     When I select the "Chloe" employee
@@ -35,6 +36,8 @@ Feature: Closed Ticket
     Then I should see the payment history "Cash $11.50" visible
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
+
+    When I clock out the timesheet with PIN "2429"
 
   Scenario: Reopen ticket to change tech for service package
     Given I am on the HOME page
@@ -78,9 +81,12 @@ Feature: Closed Ticket
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
 
+    When I clock out the timesheet with PIN "9860"
+
   Scenario: Reopen ticket to change technician and split tip
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6373"
+    And I wait for the page fully loaded
     Then I should see the employee "Mia" in the employee list
 
     When I select the "Mia" employee
@@ -184,9 +190,12 @@ Feature: Closed Ticket
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
 
+    When I clock out the timesheet with PIN "3957"
+
   Scenario: Reopen ticket to remove payment Cash and instead of Credit
     Given I am on the HOME page
     When I clock in the timesheet with PIN "4683"
+    And I wait for the page fully loaded
     Then I should see the employee "Samantha" in the employee list
 
     When I select the "Samantha" employee
@@ -229,9 +238,12 @@ Feature: Closed Ticket
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
 
+    When I clock out the timesheet with PIN "4683"
+
   Scenario: Reopen ticket to change split tip Percent to Equal
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2174"
+    And I wait for the page fully loaded
     Then I should see the employee "Daniel" in the employee list
 
     When I select the "Daniel" employee
@@ -285,9 +297,12 @@ Feature: Closed Ticket
     When I click on the "OK" button
     Then I should see the selected "SERVICE" tab on the Home page
 
+    When I clock out the timesheet with PIN "2174"
+
   Scenario: Reopen ticket to add service and make payment Credit
     Given I am on the HOME page
     When I clock in the timesheet with PIN "7139"
+    And I wait for the page fully loaded
     Then I should see the employee "Julia" in the employee list
 
     When I select the "Julia" employee
@@ -328,9 +343,12 @@ Feature: Closed Ticket
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
 
+    When I clock out the timesheet with PIN "7139"
+
   Scenario: Reopen ticket to void ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5971"
+    And I wait for the page fully loaded
     Then I should see the employee "Daisy" in the employee list
 
     When I select the "Daisy" employee
@@ -361,11 +379,13 @@ Feature: Closed Ticket
 
     When I reopen to void ticket with payment amount "$16.48"
     Then I should see the selected "SERVICE" tab on the Home page
-    # And I should not see the employee "Daisy" in the ticket list
+
+    When I clock out the timesheet with PIN "5971"
 
   Scenario: Reopen ticket to void item, remove and make new payment
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8546"
+    And I wait for the page fully loaded
     Then I should see the employee "Fiona" in the employee list
 
     When I select the "Fiona" employee
@@ -423,9 +443,12 @@ Feature: Closed Ticket
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
 
+    When I clock out the timesheet with PIN "8546"
+
   Scenario: Update GC balance when selling an add-on gift card and then voiding the ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2463"
+    And I wait for the page fully loaded
     Then I should see the employee "Isabella" in the employee list
     When I select the "Isabella" employee
     Then I should see the "Ticket View" screen
@@ -463,9 +486,13 @@ Feature: Closed Ticket
     Then I should see the first type "ActivateAddOn" in the gift card detail list
     And I should see the first amount "$50.00" in the gift card detail list
 
+    When I back to HOME page
+    And I clock out the timesheet with PIN "2463"
+
   Scenario: Cannot find gift card after selling a new gift card and then voiding the item Gift Card
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6727"
+    And I wait for the page fully loaded
     Then I should see the employee "Alexis" in the employee list
     When I select the "Alexis" employee
     Then I should see the "Ticket View" screen
@@ -527,9 +554,13 @@ Feature: Closed Ticket
     Then I should see a popup dialog containing the title "ACTIVATE GIFT CARD"
     And I should see a popup dialog with content "Do you want to activate gift card #2003"
 
+    When I back to HOME page
+    And I clock out the timesheet with PIN "6727"
+
   Scenario: Remove loyalty balance when voiding ticket
     Given I am on the HOME page
     When I clock in the timesheet with PIN "7217"
+    And I wait for the page fully loaded
     Then I should see the employee "Charlotte" in the employee list
     When I select the "Charlotte" employee
     Then I should see the "Ticket View" screen
@@ -564,9 +595,13 @@ Feature: Closed Ticket
     And I wait for the page fully loaded
     Then I should see the text "No rows" visible
 
+    When I back to HOME page
+    And I clock out the timesheet with PIN "7217"
+
   Scenario: View the loyalty point on Receipt
     Given I am on the HOME page
     When I clock in the timesheet with PIN "2883"
+    And I wait for the page fully loaded
     Then I should see the employee "Gabriella" in the employee list
     When I select the "Gabriella" employee
     And I add the "Manicure" service to my cart
@@ -658,10 +693,12 @@ Feature: Closed Ticket
     And I should see the tip guide "20% TIP = $5.85" on the receipt
 
     Then I should see the QR code on the receipt
+    When I clock out the timesheet with PIN "2883"
 
   Scenario: Update gift card balance correctly after voiding a gift card payment and paying with cash
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6566"
+    And I wait for the page fully loaded
     Then I should see the employee "Willow" in the employee list
 
     When I select the "Willow" employee
@@ -717,9 +754,13 @@ Feature: Closed Ticket
     Then I should see the first type "ActivateNew" in the gift card detail list
     And I should see the first amount "$100.00" in the gift card detail list
 
+    When I back to HOME page
+    And I clock out the timesheet with PIN "6566"
+
   Scenario: CC slip after adjusting tip
     Given I am on the HOME page
     When I clock in the timesheet with PIN "8959"
+    And I wait for the page fully loaded
     Then I should see the employee "CC_Slip" in the employee list
 
     When I select the "CC_Slip" employee
@@ -795,11 +836,13 @@ Feature: Closed Ticket
 
     When I reopen to void ticket with payment amount "$234.22"
     Then I should see the selected "SERVICE" tab on the Home page
-    # And I should not see the employee "CC_Slip" in the ticket list
+
+    When I clock out the timesheet with PIN "8959"
 
   Scenario: CC slip with no tip
     Given I am on the HOME page
     When I clock in the timesheet with PIN "5672"
+    And I wait for the page fully loaded
     Then I should see the employee "CCSlipNoTip" in the employee list
 
     When I select the "CCSlipNoTip" employee
@@ -854,11 +897,13 @@ Feature: Closed Ticket
 
     When I reopen to void ticket with payment amount "$241.48"
     Then I should see the selected "SERVICE" tab on the Home page
-    # And I should not see the employee "CCSlipNoTip" in the ticket list
+
+    When I clock out the timesheet with PIN "5672"
 
   Scenario: Work slip receipt details
     Given I am on the HOME page
     When I clock in the timesheet with PIN "6374"
+    And I wait for the page fully loaded
     Then I should see the employee "WorkSlip" in the employee list
 
     When I select the "WorkSlip" employee
@@ -913,11 +958,13 @@ Feature: Closed Ticket
 
     When I reopen to void ticket with payment amount "$254.57"
     Then I should see the selected "SERVICE" tab on the Home page
-    # And I should not see the employee "WorkSlip" in the ticket list
-@fix
+
+    When I clock out the timesheet with PIN "6374"
+
   Scenario: Work slip update after adjusting tip
     Given I am on the HOME page
     When I clock in the timesheet with PIN "9606"
+    And I wait for the page fully loaded
     Then I should see the employee "WorkSlipAdjustTip" in the employee list
 
     When I select the "WorkSlipAdjustTip" employee
@@ -993,7 +1040,8 @@ Feature: Closed Ticket
 
     When I reopen to void ticket with payment amount "$244.27"
     Then I should see the selected "SERVICE" tab on the Home page
-    # And I should not see the employee "WorkSlipAdjustTip" in the ticket list
+
+    When I clock out the timesheet with PIN "9606"
   @skip
   Scenario: Closed ticket number sort by Descending
     Given I am on the HOME page
@@ -1025,6 +1073,7 @@ Feature: Closed Ticket
   Scenario: Filter technician
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1234"
+    And I wait for the page fully loaded
     Then I should see the employee "Owner" in the employee list
 
     When I select the "Owner" employee

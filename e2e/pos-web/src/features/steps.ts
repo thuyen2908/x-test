@@ -4439,3 +4439,14 @@ Then('I should see the discount sorted correctly', async ({ page }) => {
 When('I close the popup dialog', async ({ page }) => {
 	await page.locator('button[title="Close"]').click();
 });
+
+When('I select the {string} discount type', async ({ page }, type: string) => {
+	const typeDiscount = page.locator('#mui-component-select-typeDiscount');
+
+	await expect(typeDiscount).toBeVisible();
+	await typeDiscount.click();
+
+	const discountElement = page.locator('ul.MuiMenu-list li').getByText(type);
+	await expect(discountElement).toHaveText(type);
+	await discountElement.click();
+});

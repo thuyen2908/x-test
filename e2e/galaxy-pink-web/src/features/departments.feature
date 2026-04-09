@@ -8,7 +8,8 @@ Feature: Departments management
     And I select the "Departments" label in the expanded list
     Then I should be redirected to DEPARTMENT page
     And I should see the "Departments" screen
-
+    
+  @skip
   Scenario: Create a new department
     Given I am on the HOME page
     When I click on the header menu

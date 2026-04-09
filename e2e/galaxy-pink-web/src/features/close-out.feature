@@ -13,6 +13,7 @@ Feature: Close Out report
   Scenario: Technician report display correctly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "7518"
+    And I wait for the page fully loaded
     Then I should see the employee "Elena" in the employee list
 
     When I select the "Elena" employee
@@ -78,9 +79,12 @@ Feature: Close Out report
     When I reopen to void ticket with payment amount "$235.35"
     Then I should see the selected "SERVICE" tab on the Home page
 
+    When I clock out the timesheet with PIN "7518"
+
   Scenario: Technician report summary display correctly
     Given I am on the HOME page
     When I clock in the timesheet with PIN "7298"
+    And I wait for the page fully loaded
     Then I should see the employee "Gemma" in the employee list
 
     When I select the "Gemma" employee
@@ -132,3 +136,5 @@ Feature: Close Out report
     When I reopen to void ticket with payment amount "$236.38"
     Then I should see the selected "SERVICE" tab on the Home page
     # And I should not see the employee "Gemma" in the ticket list
+
+    When I clock out the timesheet with PIN "7298"

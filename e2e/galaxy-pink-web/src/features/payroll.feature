@@ -146,7 +146,8 @@ Feature: Payroll
 
     When I reopen to void ticket with payment amount "$218.87"
     Then I should see the selected "SERVICE" tab on the Home page
-    # And I should not see the employee "Sydney" in the ticket list
+
+    When I clock out the timesheet with PIN "6789"
 
   Scenario: Commission payroll details in the Owner View are calculated correctly
     Given I am on the HOME page
@@ -230,7 +231,8 @@ Feature: Payroll
 
     When I reopen to void ticket with payment amount "$229.17"
     Then I should see the selected "SERVICE" tab on the Home page
-    # And I should not see the employee "Venus" in the ticket list
+
+    When I clock out the timesheet with PIN "9969"
 
   Scenario: Hourly payroll details in the Employee View are calculated correctly
     Given I am on the HOME page

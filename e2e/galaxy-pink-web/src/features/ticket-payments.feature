@@ -88,7 +88,8 @@ Feature: Ticket Payments
 
     When I reopen to void ticket with payment amount "$232.26"
     Then I should see the selected "SERVICE" tab on the Home page
-    # And I should not see the employee "Hilary" in the ticket list
+
+    When I clock out the timesheet with PIN "1250"
 
   Scenario: The Services/Products tab displays data correctly
     Given I am on the HOME page
@@ -167,9 +168,6 @@ Feature: Ticket Payments
     And I should see the "Ticket Disc $" has value "($6.67)" in the ticket payment
     And I should see the "Ticket Disc %" has value "$0.00" in the ticket payment
 
-    # And I should see the "Closed By" has value "Hilary" in the ticket payment
-    # Then I should see the Total Sale, Payment, Surcharge, Card Fee, Tip, Tax, Closed By as "$218.70 $232.26 $3.56 $10.00 $0.00 Hilary" in the tickets details
-
     When I back to HOME page
     And I select the "CLOSED TICKET" tab
     And I wait for the page fully loaded
@@ -180,8 +178,8 @@ Feature: Ticket Payments
 
     When I reopen to void ticket with payment amount "$71.83"
     Then I should see the selected "SERVICE" tab on the Home page
-    # And I should not see the employee "Valerie" in the ticket list
 
+    When I clock out the timesheet with PIN "6118"
 
 
 
