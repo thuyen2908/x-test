@@ -201,7 +201,24 @@ When(
 );
 
 When('I close the popup dialog', async ({ page }) => {
-	await page.locator('button[title="Close"]').click();
+	const backdrops = page.locator('.MuiBackdrop-root.MuiModal-backdrop');
+	const topBackdrop = backdrops.last();
+
+	if ((await backdrops.count()) > 1) {
+		await topBackdrop.click({ force: true, position: { x: 0, y: 0 } });
+		await expect(backdrops).toHaveCount(1);
+	} else {
+		await page.keyboard.press('Escape');
+	}
+
+	const cancelButton = page
+		.locator('.MuiDialogActions-root')
+		.getByRole('button', { name: 'Cancel', exact: true });
+
+	await expect(cancelButton).toBeVisible();
+	await cancelButton.click();
+
+	await expect(page.locator('.MuiDialogActions-root')).not.toBeVisible();
 });
 
 Then('I should see the tax amount non-zero', async ({ page }) => {

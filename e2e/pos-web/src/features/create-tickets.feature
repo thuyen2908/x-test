@@ -940,7 +940,7 @@ Feature: Create tickets
     When I click on the "OK" button in the popup dialog
     Then I should be redirected to HOME page
 
-    When I clock in the timesheet with PIN "8226"
+    When I clock out the timesheet with PIN "8226"
 
   Scenario: Add the Discount ticket while paying
     Given I am on the HOME page
@@ -1239,6 +1239,7 @@ Feature: Create tickets
     Then I should see the "Ticket View" screen
     And I should see the services displayed correctly in ticket view
     When I void the current open ticket with reason "System Test"
+    And I clock out the timesheet with PIN "2486"
 
   Scenario: Discount items are in the correct order
     Given I am on the HOME page
@@ -1255,7 +1256,7 @@ Feature: Create tickets
     And I void the current open ticket with reason "System Test"
 
     When I clock out the timesheet with PIN "1173"
-    
+
   Scenario: Add multiple discounts
     Given I am on the HOME page
     When I clock in the timesheet with PIN "1000"
