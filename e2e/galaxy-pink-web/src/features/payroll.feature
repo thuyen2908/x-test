@@ -385,7 +385,7 @@ Feature: Payroll
 
   Scenario: Show payroll formula
     Given I am on the HOME page
-    And I wait for the page fully loaded
+    When I wait for the page fully loaded
     Then I should see the employee "Owner" in the employee list
     When I click on the header menu
     And I select the "Manager" label in the menu list
