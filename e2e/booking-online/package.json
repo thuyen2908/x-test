@@ -17,9 +17,9 @@
 		"test:debug": "pnpm test --debug"
 	},
 	"devDependencies": {
-		"@dotenvx/dotenvx": "^1.64.0",
+		"@dotenvx/dotenvx": "^1.71.0",
 		"@playwright/test": "^1.60.0",
-		"@types/node": "^24.12.2",
+		"@types/node": "^24.13.1",
 		"@x-test/common": "workspace:*",
 		"nodemon": "^3.1.14",
 		"playwright-bdd": "^9.0.0",
