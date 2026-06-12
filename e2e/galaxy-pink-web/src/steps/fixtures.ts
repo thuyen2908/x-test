@@ -2,6 +2,7 @@ import { test as base, createBdd } from 'playwright-bdd';
 
 import { getConfig, type TestConfig } from '../test-config';
 import { TestStorage } from '../test-storage';
+import { ClosedTicketPage } from './close-ticket.page';
 import { HomePage } from './home.page';
 import { LoginPage } from './login.page';
 import { TicketViewPage } from './ticket-view.page';
@@ -14,6 +15,7 @@ export interface Fixtures {
 
 	loginPage: LoginPage;
 	homePage: HomePage;
+	closedTicketPage: ClosedTicketPage;
 	ticketViewPage: TicketViewPage;
 }
 
@@ -27,6 +29,8 @@ export const test = base.extend<Fixtures>({
 		use(new LoginPage(testConfig, testStorage, page)),
 	homePage: ({ testConfig, testStorage, page }, use) =>
 		use(new HomePage(testConfig, testStorage, page)),
+	closedTicketPage: ({ testConfig, testStorage, page }, use) =>
+		use(new ClosedTicketPage(testConfig, testStorage, page)),
 	ticketViewPage: ({ testConfig, testStorage, page }, use) =>
 		use(new TicketViewPage(testConfig, testStorage, page)),
 });

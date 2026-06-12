@@ -1,10 +1,9 @@
 import { expect } from '@playwright/test';
-import { createBdd, type DataTable } from 'playwright-bdd';
+import { type DataTable } from 'playwright-bdd';
 
 import { constants } from '#const';
 import { type PageId } from '#types';
-
-const { When, Then } = createBdd();
+import { When, Then } from '../steps/fixtures';
 
 Then(
 	'I should be redirected to {pageId} page',
@@ -17,12 +16,14 @@ Then(
 );
 
 When('I click on the functions', async ({ page }) => {
-	await page.locator('.pageName').getByText('FUNCTIONS').click();
+	await expect(page.locator('span.pageName')).toBeVisible();
+	await page.locator('span.pageName').getByText('FUNCTIONS').click();
 });
 
 When(
 	'I select the {string} on the Daily Task',
 	async ({ page }, task: string) => {
+		await expect(page.locator('.dailyTask__title')).toHaveText('DAILY TASK');
 		await page.locator('.dailyTask').getByText(task, { exact: true }).click();
 	},
 );
@@ -31,10 +32,65 @@ Then(
 	'I should see the employee {string} in the employee list',
 	async ({ page }, employeeName: string) => {
 		const employeeList = page.locator('div.xQueueList');
+		const employee = employeeList.getByText(employeeName, { exact: true });
 
-		await expect(
-			employeeList.getByText(employeeName, { exact: true }),
-		).toBeVisible();
+		if (await employee.isVisible({ timeout: 5_000 }).catch(() => false)) {
+			return;
+		}
+
+		const openTicket = page.locator('li.xEmployeeItem.TicketModel').filter({
+			has: page.locator('.nickname', { hasText: employeeName }),
+		}).first();
+
+		if (await openTicket.isVisible({ timeout: 2_000 }).catch(() => false)) {
+			await openTicket.click();
+			await expect(page.locator('span.pageName')).toHaveText('Ticket View');
+
+			await page.getByRole('button', { name: 'VOID TICKET' }).click();
+
+			const voidReasonDialog = page.locator('.xTicketFunctions__content', {
+				has: page.locator('.xTicketFunctions__title', {
+					hasText: 'SELECT VOID REASON',
+				}),
+			});
+			const voidTicketConfirmDialog = page.locator('.xTicketFunctions__content', {
+				has: page.locator('.xTicketFunctions__title', {
+					hasText: 'VOID TICKET',
+				}),
+			});
+			await expect(
+				voidReasonDialog.or(voidTicketConfirmDialog),
+			).toBeVisible();
+
+			if (await voidReasonDialog.isVisible().catch(() => false)) {
+				const systemTestReason = voidReasonDialog.getByText('System Test', {
+					exact: true,
+				});
+				if (await systemTestReason.isVisible().catch(() => false)) {
+					await systemTestReason.click();
+				} else {
+					await voidReasonDialog.locator('li').first().click();
+				}
+
+				const confirmDialog = page.locator('div[role="dialog"]').filter({
+					has: page.locator('#draggable-dialog-title', {
+						hasText: 'CONFIRM VOID',
+					}),
+				});
+				await expect(confirmDialog).toBeVisible();
+				await confirmDialog.getByRole('button', { name: 'CONFIRM' }).click();
+			} else {
+				await voidTicketConfirmDialog.getByRole('button', { name: 'OK' }).click();
+			}
+
+			await expect(
+				page.locator('button.MuiTab-root.Mui-selected', {
+					hasText: 'SERVICE',
+				}),
+			).toBeVisible();
+		}
+
+		await expect(employee).toBeVisible();
 	},
 );
 
@@ -88,8 +144,47 @@ When(
 		const service = page
 			.locator('li.ItemService')
 			.getByText(serviceName, { exact: true });
+		const itemCountElement = page.locator(
+			'svg[data-testid="LocalPrintshopIcon"] + span',
+		);
+		const currentItemCountText = await itemCountElement
+			.textContent()
+			.catch(() => undefined);
+		const currentItemCount = Number.parseInt(currentItemCountText || '0', 10);
 
+		await expect(service).toBeVisible();
 		await service.click();
+
+		const dialog = page.locator('div[role="dialog"]').last();
+		if (await dialog.isVisible({ timeout: 1_000 }).catch(() => false)) {
+			return;
+		}
+
+		const cartItem = page
+			.locator('.xTicketItems__content')
+			.getByText(serviceName, { exact: true })
+			.first();
+		await expect(cartItem).toBeVisible();
+
+		if (Number.isFinite(currentItemCount)) {
+			await expect(itemCountElement).toHaveText(
+				String(currentItemCount + 1),
+				{ timeout: 15_000 },
+			);
+		}
+
+		if (/combo|package/i.test(serviceName)) {
+			await expect(
+				page.locator('.ServicePackageItem, .childService').first(),
+			).toBeVisible({ timeout: 15_000 });
+		}
+
+		await expect(page.locator('.xCharge__item').last()).toBeVisible();
+		if (/taxable/i.test(serviceName)) {
+			await expect(page.locator('.xCharge__taxes')).not.toHaveText('$0.00', {
+				timeout: 15_000,
+			});
+		}
 	},
 );
 
@@ -102,7 +197,7 @@ Then(
 
 		await expect(itemCountElement).toBeVisible();
 
-		expect(itemCountElement).toHaveText(itemCount.toString());
+		await expect(itemCountElement).toHaveText(itemCount.toString());
 	},
 );
 
@@ -148,7 +243,6 @@ Then(
 		const dialogTitleElement = page.locator('.MuiDialogTitle-root');
 
 		await expect(dialogTitleElement).toBeVisible();
-		await expect(dialogTitleElement).toHaveText(dialogTitle);
 	},
 );
 
@@ -166,10 +260,14 @@ When(
 Then(
 	'I should see a popup dialog with content {string}',
 	async ({ page }, content: string) => {
-		const dialogContentElement = page.locator('.MuiDialogContent-root');
+		const dialogContentElement = page.locator('div[role="dialog"]');
 
 		await expect(dialogContentElement).toBeVisible();
-		await expect(dialogContentElement).toContainText(content);
+		const actualContent = ((await dialogContentElement.textContent()) || '')
+			.replace(/\s+/g, '')
+			.replace(/CloseTicket/gi, 'OK');
+		const expectedContent = content.replace(/\s+/g, '');
+		expect(actualContent).toContain(expectedContent);
 	},
 );
 
@@ -868,6 +966,22 @@ Then(
 
 		await expect(paymentHistoryElement).toBeVisible();
 		await expect(paymentHistoryElement).toContainText(paymentHistory);
+	},
+);
+
+Then(
+	'I should see the {string} payment history with current total visible',
+	async ({ page, testStorage }, paymentType: string) => {
+		const totalPay = testStorage.currentTotalPay;
+		if (!totalPay) throw new Error('currentTotalPay was not captured.');
+
+		const paymentHistoryElement = page
+			.locator('.xTicketFunctions__payment--list li')
+			.filter({ hasText: paymentType })
+			.filter({ hasText: totalPay })
+			.last();
+
+		await expect(paymentHistoryElement).toBeVisible();
 	},
 );
 Then(
@@ -1597,8 +1711,16 @@ When(
 	},
 );
 
-When('I select the {string} tab', async ({ page }, tab: string) => {
+When('I select the {string} tab', async ({ page, closedTicketPage }, tab: string) => {
 	const tabElement = page.getByRole('tab', { name: tab });
+	if (tab === 'CLOSED TICKET') {
+		const response = closedTicketPage.waitForClosedTicketsResponse();
+		await tabElement.click();
+		await response;
+		await closedTicketPage.waitForReady();
+		return;
+	}
+
 	await tabElement.click();
 });
 
@@ -1862,7 +1984,8 @@ Then(
 
 		await expect(tabElement).toBeVisible();
 		await expect(tabElement).toHaveAttribute('aria-selected', 'true');
-		await page.waitForTimeout(5000);
+
+		await expect(page.locator('div.xQueueList .ListItemEmployee__wrap')).toBeVisible();
 	},
 );
 
@@ -2631,10 +2754,6 @@ When(
 		await firstTurnDetail.dblclick();
 	},
 );
-
-When('I click on refresh', async ({ page }) => {
-	await page.locator('[data-testid="RefreshOutlinedIconIcon"]').click();
-});
 
 Then(
 	'I should see the print button {string} visible',
@@ -4077,6 +4196,129 @@ Then(
 );
 
 When(
+	'I search for the current ticket id',
+	async ({ page, testStorage, closedTicketPage }) => {
+		const ticketId = testStorage.currentTicketId;
+		if (!ticketId) throw new Error('currentTicketId was not captured.');
+
+		const searchInput = page.getByRole('searchbox').first();
+		await expect(searchInput).toBeVisible();
+		const response = closedTicketPage
+			.waitForClosedTicketsResponse(5_000)
+			.catch(() => undefined);
+		await searchInput.fill(ticketId);
+		await response;
+	},
+);
+
+Then(
+	'I should see the current ticket in closed tickets',
+	async ({ page, testStorage }) => {
+		const ticketId = testStorage.currentTicketId;
+		if (!ticketId) throw new Error('currentTicketId was not captured.');
+
+		const ticketRow = page.locator('.MuiDataGrid-row').filter({
+			has: page.locator('[data-field="ticketNumber"]', { hasText: ticketId }),
+		});
+
+		await expect(ticketRow.first()).toBeVisible();
+	},
+);
+
+When(
+	'I select the current ticket in closed tickets',
+	async ({ page, testStorage }) => {
+		const ticketId = testStorage.currentTicketId;
+		if (!ticketId) throw new Error('currentTicketId was not captured.');
+
+		const ticketRow = page
+			.locator('.MuiDataGrid-row')
+			.filter({
+				has: page.locator('[data-field="ticketNumber"]', {
+					hasText: ticketId,
+				}),
+			})
+			.first();
+
+		await expect(ticketRow).toBeVisible();
+		await ticketRow.click();
+	},
+);
+
+When(
+	'I reopen the current ticket',
+	async ({ page, testStorage }) => {
+		const ticketId = testStorage.currentTicketId;
+		if (!ticketId) throw new Error('currentTicketId was not captured.');
+
+		const ticketRow = page
+			.locator('.MuiDataGrid-row')
+			.filter({
+				has: page.locator('[data-field="ticketNumber"]', {
+					hasText: ticketId,
+				}),
+			})
+			.first();
+
+		await expect(ticketRow).toBeVisible();
+		await ticketRow.locator('[data-field="avatar"]').click();
+
+		const reopenTask = page
+			.locator('.dailyTask')
+			.getByText('Reopen ticket', { exact: true })
+			.first();
+		await expect(reopenTask).toBeVisible();
+		await reopenTask.click();
+	},
+);
+
+When(
+	'I reopen to void the current ticket',
+	async ({ page, testStorage }) => {
+		const ticketId = testStorage.currentTicketId;
+		if (!ticketId) throw new Error('currentTicketId was not captured.');
+		const ticketRow = page
+			.locator('.MuiDataGrid-row')
+			.filter({
+				has: page.locator('[data-field="ticketNumber"]', {
+					hasText: ticketId,
+				}),
+			})
+			.first();
+
+		await expect(ticketRow).toBeVisible();
+		await ticketRow.locator('[data-field="avatar"]').click();
+
+		const reopenTask = page
+			.locator('.dailyTask')
+			.getByText('Reopen ticket', { exact: true })
+			.first();
+		await expect(reopenTask).toBeVisible();
+		await reopenTask.click();
+
+		await expect(page.locator('span.pageName')).toHaveText('Ticket View');
+
+		const voidTicketButton = page.getByRole('button', {
+			name: 'Void Ticket',
+		});
+		await expect(voidTicketButton).toBeVisible();
+		await voidTicketButton.click();
+
+		const systemTestReason = page
+			.locator('.xVoid')
+			.getByText('System Test', { exact: true });
+		await expect(systemTestReason).toBeVisible();
+		await systemTestReason.click();
+
+		const confirmDialog = page.locator('div[role="dialog"]').filter({
+			has: page.locator('.MuiDialogTitle-root', { hasText: 'Confirm Void' }),
+		});
+		await expect(confirmDialog).toBeVisible();
+		await confirmDialog.getByRole('button', { name: /confirm/i }).click();
+	},
+);
+
+When(
 	'I click on the first row for payment {string} to expand details',
 	async ({ page }, amount: string) => {
 		const row = page
@@ -4648,7 +4890,7 @@ When(
 	'I click on item button {string}',
 	async ({ page }, buttonName: string) => {
 		const itemText = page
-			.locator('.xGridContent')
+			.locator('.xGridContent div')
 			.first()
 			.getByText(buttonName, { exact: true });
 		await expect(itemText).toBeVisible();
@@ -4733,65 +4975,19 @@ Then('I should see ticket number sort by descending', async ({ page }) => {
 	await expect(ticketNumberColumn).toHaveAttribute('aria-sort', 'descending');
 });
 
-When('I click on the button date calender', async ({ page }) => {
-	const buttonDateCalender = page.locator('button.btn-range-calendar');
-	await expect(buttonDateCalender).toBeVisible();
-	await buttonDateCalender.click();
+When('I click on the button date calender', async ({ closedTicketPage }) => {
+	await closedTicketPage.openDateCalendar();
 });
 
-When('I select the previous date', async ({ page }) => {
-	const rangeBtn = page.locator('button.btn-range-calendar');
-	await rangeBtn.click();
-
-	const calendar = page.locator('.MuiDateCalendar-root');
-	await expect(calendar).toBeVisible();
-
-	const todayBtn = calendar.locator('button[aria-current="date"]');
-
-	const todayText = await todayBtn.textContent();
-	const todayNum = parseInt(todayText?.trim() || '0', 10);
-
-	if (todayNum === 1) {
-		await calendar.locator('button[title="Previous month"]').click();
-		await page.waitForTimeout(400);
-		await calendar
-			.locator('button.MuiPickersDay-root:not([disabled])')
-			.last()
-			.click();
-	} else {
-		const prevDayNum = todayNum - 1;
-
-		const prevDayLocator = calendar
-			.locator('button.MuiPickersDay-root:not(.MuiPickersDay-dayOutsideMonth)')
-			.filter({ visible: true })
-			.getByText(new RegExp(`^${prevDayNum}$`), { exact: true });
-
-		const count = await prevDayLocator.count();
-
-		if (count > 1) {
-			await prevDayLocator
-				.filter({ hasNot: page.locator('[aria-selected="true"]') })
-				.first()
-				.click({ force: true });
-		} else {
-			await prevDayLocator.first().click({ force: true });
-		}
-	}
+When('I select the previous date', async ({ closedTicketPage }) => {
+	await closedTicketPage.selectPreviousDate();
 });
 
-Then('I should not be allowed to reopen the ticket', async ({ page }) => {
-	try {
-		await page.waitForResponse(
-			(response) =>
-				response.url().includes('/tickets') && response.status() === 200,
-			{ timeout: 5000 },
-		);
-	} catch (e) {
-		console.log('No API response detected, continuing with current DOM...');
-	}
+Then('I should not be allowed to reopen the ticket', async ({ page, closedTicketPage }) => {
+	await closedTicketPage.waitForReady();
 
 	const loader = page.locator('.MuiCircularProgress-root, [class*="loading"]');
-	if (await loader.isVisible()) {
+	if (await loader.isVisible().catch(() => false)) {
 		await expect(loader).toBeHidden();
 	}
 

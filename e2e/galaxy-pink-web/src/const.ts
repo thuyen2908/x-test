@@ -115,6 +115,10 @@ export class Const {
 	/**
 	 * APIs endpoints called by our web
 	 */
+	public get APIBaseUrl() {
+		return `${env.apiConfig.host}/api`;
+	}
+
 	public get APIs() {
 		return {
 			'Get In-Service Tickets': ['GET', '/ticket-v2/get-ticket-inservices'],

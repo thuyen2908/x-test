@@ -12,6 +12,10 @@ class TestStorage {
 
 	constructor(protected readonly testConfig: TestConfig) {}
 
+	public currentTicketId?: string;
+
+	public currentTotalPay?: string;
+
 	/**
 	 * Keep track of ongoing tickets, used for test cleanup at the end of the test suite
 	 */

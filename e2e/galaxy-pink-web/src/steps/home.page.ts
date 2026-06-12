@@ -1,4 +1,4 @@
-import { expect } from '@playwright/test';
+import { expect, type Response } from '@playwright/test';
 import { Fixture, When } from 'playwright-bdd/decorators';
 
 import { constants } from '#const';
@@ -57,6 +57,62 @@ class HomePage extends xPage {
 		return locators.ticketById(id).click({ timeout: options.timeout });
 	}
 
+	private async captureCreatedTicket(response: Response) {
+		const responseBody = await response.json();
+		const ticketNo = responseBody?.dataSource?.ticketNo;
+
+		console.info(
+			`[captureCreatedTicket] status=${response.status()} url=${response.url()} ticketNo=${ticketNo ?? '<empty>'}`,
+		);
+
+		if (!ticketNo) return;
+
+		this.testStorage.currentTicketId = ticketNo;
+		this.testStorage.ongoingTickets.add(ticketNo);
+		console.info(
+			`[captureCreatedTicket] currentTicketId=${this.testStorage.currentTicketId} ongoingTickets=${this.testStorage.ongoingTickets.size}`,
+		);
+	}
+
+	public async createTicketByEmployee(employeeName: string) {
+		const { locators } = this;
+
+		const createTicketResponse = this.waitForResponseOfAPI('Create a ticket', {
+			timeout: 15_000,
+		}).catch((error) => {
+			console.warn(
+				`[captureCreatedTicket] Create ticket response was not observed for employee="${employeeName}": ${error.message}`,
+			);
+			return undefined;
+		});
+
+		await locators.employee(employeeName).click();
+
+		await expect(locators.pageName).toHaveText(TicketViewPage.TITLE);
+
+		const response = await Promise.race([
+			createTicketResponse,
+			this.page.waitForTimeout(1_000).then(() => undefined),
+		]);
+		if (response) {
+			await this.captureCreatedTicket(response);
+		}
+
+		const ticketViewPage = new TicketViewPage(
+			this.testConfig,
+			this.testStorage,
+			this.page,
+		);
+		const headerTicketNo = await ticketViewPage.getTicketNumber();
+		console.info(
+			`[captureCreatedTicket] headerTicketNo=${headerTicketNo ?? '<empty>'} storedTicketId=${this.testStorage.currentTicketId ?? '<empty>'}`,
+		);
+		if (headerTicketNo) {
+			this.testStorage.currentTicketId = headerTicketNo;
+			this.testStorage.ongoingTickets.add(headerTicketNo);
+		}
+	}
+
 	/* -------------------------------- BDD steps ------------------------------- */
 
 	/**
@@ -64,23 +120,7 @@ class HomePage extends xPage {
 	 */
 	@When('I select the {string} employee')
 	public async selectEmployee(employeeName: string) {
-		const { locators } = this;
-
-		const employee = locators.employee(employeeName);
-		await employee.click();
-
-		await this.waitForResponseOfAPI('Create a ticket');
-		await expect(locators.pageName).toHaveText(TicketViewPage.TITLE);
-
-		const ticketViewPage = new TicketViewPage(
-			this.testConfig,
-			this.testStorage,
-			this.page,
-		);
-		const ticketNumber = await ticketViewPage.getTicketNumber();
-
-		// keep track ongoing tickets, used for cleanup in case of test failure
-		ticketNumber && this.testStorage.ongoingTickets.add(ticketNumber);
+		await this.createTicketByEmployee(employeeName);
 	}
 	@When('I hold the {string} employee two seconds')
 	public async selectHoldEmployee(employeeName: string) {

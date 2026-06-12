@@ -1,57 +1,150 @@
 import { resolve } from 'node:path';
 
-import { expect } from '@playwright/test';
-import { ensureFile } from 'fs-extra/esm';
+import { type APIRequestContext } from '@playwright/test';
+import { ensureFile, writeJson } from 'fs-extra/esm';
 
 import { PageId, UserRole } from '#types';
 
 import { constants } from './const';
+import { env } from './env';
 import { test as setup } from './steps/fixtures';
-import { LoginPage } from './steps/login.page';
 
 const __dirname = import.meta.dirname;
 
-setup(
-	'Authentication: Admin role',
-	async ({ testConfig, testStorage, page, xPage }) => {
-		setup.setTimeout(120_000);
+async function requestJSON<T>(
+	request: APIRequestContext,
+	method: 'GET' | 'POST',
+	path: string,
+	options: {
+		data?: unknown;
+		token?: string;
+		ipAddress?: string;
+	} = {},
+) {
+	const { host: apiHost, xsoftsSecretKey } = env.apiConfig;
+	if (!apiHost) throw new Error('Missing PW_API_HOST_PINK in environment.');
+	if (!xsoftsSecretKey) {
+		throw new Error('Missing PW_XSOFTS_SECRET_KEY_PINK in environment.');
+	}
 
-		// make sure that the path is ready
-		const authStorage = resolve(
-			__dirname,
-			'..',
-			constants.AuthStorage[UserRole.ADMIN],
+	const response = await request.fetch(`${apiHost}${path}`, {
+		method,
+		data: options.data,
+		headers: {
+			Accept: 'application/json, text/plain, */*',
+			'Content-Type': 'application/json',
+			'XSOFTS-SECRET-KEY': xsoftsSecretKey,
+			...(options.token ? { Authorization: `Bearer ${options.token}` } : {}),
+			...(options.ipAddress ? { 'X-Client-IP': options.ipAddress } : {}),
+		},
+	});
+
+	if (!response.ok()) {
+		throw new Error(
+			`${method} ${path} failed with ${response.status()}: ${await response.text()}`,
 		);
-		await ensureFile(authStorage);
+	}
 
-		// go to login page
-		await xPage.gotoPage(PageId.LOGIN);
-		const loginPage = new LoginPage(testConfig, testStorage, page);
+	return response.json() as Promise<T>;
+}
 
-		// key in email & password
-		await loginPage.keyInAdminEmailPassword(
-			testConfig.adminEmail,
-			testConfig.adminPassword,
-		);
+setup('Authentication: Admin role', async ({ testConfig, request }) => {
+	setup.setTimeout(30_000);
 
-		// visual check — ensure all visual resources (fonts, background images, <img>) are fully loaded
-		await loginPage.waitForVisualReadiness();
-		await loginPage.captureLoginFormScreenshot();
+	const authStorage = resolve(
+		__dirname,
+		'..',
+		constants.AuthStorage[UserRole.ADMIN],
+	);
+	await ensureFile(authStorage);
 
-		// submit login
-		await loginPage.submitLogin();
+	const timezone = testConfig.timezone;
+	const deviceTimeZone = timezone;
+	const loginResponse = await requestJSON<Record<string, any>>(
+		request,
+		'POST',
+		`/users/login?_ts=${Date.now()}`,
+		{
+			data: {
+				userName: testConfig.adminEmail,
+				password: testConfig.adminPassword,
+				timezone,
+				ipAddress: '',
+				isCheckTimeZone: true,
+				isRequiredProfile: true,
+				deviceTimeZone,
+			},
+		},
+	);
 
-		const username = loginPage.locators.merchantInfo.getByText(
-			testConfig.adminName,
-		);
+	const token = loginResponse.token;
+	if (!token) throw new Error('Login API did not return a token.');
 
-		// wait until the loading spinner is gone
-		await expect(username).toBeVisible({
-			// currently, look like the login process is quite slow, re-adjust this value in the future if necessary
-			timeout: 90_000,
-		});
+	const ipAddress = loginResponse.ipAddress ?? '';
+	const authHeaders = { token, ipAddress };
+	const [businessDayResponse, companyProfileResponse, queueGroups, roleSetups] =
+		await Promise.all([
+			requestJSON<{ data: unknown }>(
+				request,
+				'GET',
+				`/business-day/get-current-business-day?_ts=${Date.now()}`,
+				authHeaders,
+			),
+			requestJSON<{ data: unknown }>(
+				request,
+				'GET',
+				`/company-profile/get-company-profile?_ts=${Date.now()}`,
+				authHeaders,
+			),
+			requestJSON<unknown[]>(
+				request,
+				'GET',
+				`/queue-group/get-data-lookup?_ts=${Date.now()}`,
+				authHeaders,
+			),
+			requestJSON<unknown[]>(
+				request,
+				'GET',
+				`/api/role/get-data-lookup?_ts=${Date.now()}`,
+				authHeaders,
+			),
+		]);
 
-		// persist all browser context to the auth storage
-		await page.context().storageState({ path: authStorage });
-	},
-);
+	const origin = new URL(constants.PageUrl[PageId.HOME]).origin;
+	const expire = new Date(Date.now() + 8 * 60 * 60 * 1000).toISOString();
+
+	await writeJson(
+		authStorage,
+		{
+			cookies: [],
+			origins: [
+				{
+					origin,
+					localStorage: [
+						{ name: 'user', value: JSON.stringify(loginResponse) },
+						{
+							name: 'companyProfile',
+							value: JSON.stringify(companyProfileResponse.data),
+						},
+						{ name: 'ipAddress', value: JSON.stringify(ipAddress) },
+						{ name: 'expire', value: JSON.stringify(expire) },
+						{
+							name: 'posProfile',
+							value: JSON.stringify(loginResponse.posProfile),
+						},
+						{ name: 'xDevice', value: JSON.stringify('WEB') },
+						{
+							name: 'dataStorage',
+							value: JSON.stringify({
+								businessDay: businessDayResponse.data,
+								roleSetups,
+								queueGroups,
+							}),
+						},
+					],
+				},
+			],
+		},
+		{ spaces: 2 },
+	);
+});

@@ -23,17 +23,17 @@ Feature: Closed Ticket
     When I select the "CLOSED TICKET" tab
     # And I wait for the page fully loaded
 
-    When I search for "11.5"
+    When I search for the current ticket id
     # And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$11.5"
+    Then I should see the current ticket in closed tickets
 
-    When I reopen ticket with payment amount "$11.5"
+    When I reopen the current ticket
     # And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Chloe" in the ticket
 
     When I click on the "Pay" button
-    Then I should see the payment history "Cash $11.50" visible
+    Then I should see the "Cash" payment history with current total visible
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
 
@@ -61,11 +61,11 @@ Feature: Closed Ticket
     When I select the "CLOSED TICKET" tab
     # And I wait for the page fully loaded
 
-    When I search for "47.00"
+    When I search for the current ticket id
     # And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$47.00"
+    Then I should see the current ticket in closed tickets
 
-    When I reopen ticket with payment amount "$47.00"
+    When I reopen the current ticket
     # And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Ethan" in the ticket
@@ -77,7 +77,7 @@ Feature: Closed Ticket
     Then I should see the "Anna" employee in my cart
 
     When I click on the "Pay" button
-    Then I should see the payment history "Cash $47.00" visible
+    Then I should see the "Cash" payment history with current total visible
     When I click on the "Close Ticket" button
     Then I should see the selected "SERVICE" tab on the Home page
 
@@ -114,11 +114,11 @@ Feature: Closed Ticket
     When I select the "CLOSED TICKET" tab
     # And I wait for the page fully loaded
 
-    When I search for "24.57"
+    When I search for the current ticket id
     # And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$24.57"
+    Then I should see the current ticket in closed tickets
 
-    When I reopen ticket with payment amount "$24.57"
+    When I reopen the current ticket
     # And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Mia" in the ticket
@@ -167,11 +167,11 @@ Feature: Closed Ticket
     When I select the "CLOSED TICKET" tab
     # And I wait for the page fully loaded
 
-    When I search for "12.36"
+    When I search for the current ticket id
     # And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$12.36"
+    Then I should see the current ticket in closed tickets
 
-    When I reopen ticket with payment amount "$12.36"
+    When I reopen the current ticket
     # And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Angie" in the ticket
@@ -214,11 +214,11 @@ Feature: Closed Ticket
     When I select the "CLOSED TICKET" tab
     # And I wait for the page fully loaded
 
-    When I search for "23.50"
+    When I search for the current ticket id
     # And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$23.50"
+    Then I should see the current ticket in closed tickets
 
-    When I reopen ticket with payment amount "$23.50"
+    When I reopen the current ticket
     # And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Samantha" in the ticket
@@ -281,11 +281,11 @@ Feature: Closed Ticket
 
     When I select the "CLOSED TICKET" tab
     # And I wait for the page fully loaded
-    And I search for "27.66"
+    When I search for the current ticket id
     # And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$27.66"
+    Then I should see the current ticket in closed tickets
 
-    When I reopen ticket with payment amount "$27.66"
+    When I reopen the current ticket
     # And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Daniel" in the ticket
@@ -321,11 +321,11 @@ Feature: Closed Ticket
     When I select the "CLOSED TICKET" tab
     # And I wait for the page fully loaded
 
-    When I search for "15.50"
+    When I search for the current ticket id
     # And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$15.50"
+    Then I should see the current ticket in closed tickets
 
-    When I reopen ticket with payment amount "$15.50"
+    When I reopen the current ticket
     # And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Julia" in the ticket
@@ -373,11 +373,11 @@ Feature: Closed Ticket
     When I select the "CLOSED TICKET" tab
     # And I wait for the page fully loaded
 
-    When I search for "16.48"
+    When I search for the current ticket id
     # And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$16.48"
+    Then I should see the current ticket in closed tickets
 
-    When I reopen to void ticket with payment amount "$16.48"
+    When I reopen to void the current ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I clock out the timesheet with PIN "5971"
@@ -411,11 +411,11 @@ Feature: Closed Ticket
     When I select the "CLOSED TICKET" tab
     # And I wait for the page fully loaded
 
-    When I search for "25.75"
+    When I search for the current ticket id
     # And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$25.75"
+    Then I should see the current ticket in closed tickets
 
-    When I reopen ticket with payment amount "$25.75"
+    When I reopen the current ticket
     # And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Fiona" in the ticket
@@ -473,11 +473,13 @@ Feature: Closed Ticket
 
     When I select the "CLOSED TICKET" tab
     # And I wait for the page fully loaded
-    And I search for "77.5"
+    When I search for the current ticket id
     # And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$77.5"
+    Then I should see the current ticket in closed tickets
 
-    When I reopen to void ticket with payment amount "$77.5"
+    When I reopen the current ticket
+
+    When I reopen to void the current ticket
     Then I should see the selected "SERVICE" tab on the Home page
     # And I should not see the employee "Isabella" in the ticket list
 
@@ -519,11 +521,11 @@ Feature: Closed Ticket
     When I select the "CLOSED TICKET" tab
     # And I wait for the page fully loaded
 
-    When I search for "75.7"
+    When I search for the current ticket id
     # And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$75.7"
+    Then I should see the current ticket in closed tickets
 
-    When I reopen ticket with payment amount "$75.7"
+    When I reopen the current ticket
     # And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Alexis" in the ticket
@@ -580,11 +582,11 @@ Feature: Closed Ticket
     When I select the "CLOSED TICKET" tab
     And I wait for the page fully loaded
 
-    When I search for "18.11"
-    And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$18.11"
+    When I search for the current ticket id
+    # And I wait for the page fully loaded
+    Then I should see the current ticket in closed tickets
 
-    When I reopen to void ticket with payment amount "$18.11"
+    When I reopen to void the current ticket
     Then I should see the selected "SERVICE" tab on the Home page
 
     Given I am on the GIFT_CARD_BALANCE page
@@ -652,11 +654,11 @@ Feature: Closed Ticket
     And I click on refresh
     Then I should see the toast message "Ticket data refreshed successfully." visible
     # When I wait for the page fully loaded
-    When I search for "29.25"
+    When I search for the current ticket id
     # And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$29.25"
+    Then I should see the current ticket in closed tickets
 
-    When I click on the first row for payment "$29.25"
+    When I select the current ticket in closed tickets
     Then I should see the store logo on the receipt
     And I should see the business info "PINK SALON 1032 YONKERS AVE Yonkers Avenel, NJ 07001 (090) 123-4567" on the receipt
 
@@ -723,11 +725,11 @@ Feature: Closed Ticket
     When I select the "CLOSED TICKET" tab
     # And I wait for the page fully loaded
 
-    When I search for "17.50"
+    When I search for the current ticket id
     # And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$17.50"
+    Then I should see the current ticket in closed tickets
 
-    When I reopen ticket with payment amount "$17.50"
+    When I reopen the current ticket
     # And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "Willow" in the ticket
@@ -791,11 +793,11 @@ Feature: Closed Ticket
     When I select the "CLOSED TICKET" tab
     # And I wait for the page fully loaded
 
-    When I search for "224.22"
+    When I search for the current ticket id
     # And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$224.22"
+    Then I should see the current ticket in closed tickets
 
-    When I reopen ticket with payment amount "$224.22"
+    When I reopen the current ticket
     # And I wait for the page fully loaded
     Then I should see the "Ticket View" screen
     And I should see the user info "CC_Slip" in the ticket
@@ -818,11 +820,11 @@ Feature: Closed Ticket
     And I click on refresh
     # And I wait for the page fully loaded
 
-    When I search for "234.22"
+    When I search for the current ticket id
     # And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$234.22"
+    Then I should see the current ticket in closed tickets
 
-    When I select the first ticket with payment "$234.22"
+    When I select the current ticket in closed tickets
     And I click on item button "CCSlip"
     Then I should see the detail "STATION #: 1" on the CC slip
     And I should see the detail "TERMINAL #: 0" on the CC slip
@@ -878,11 +880,12 @@ Feature: Closed Ticket
     And I click on refresh
     # And I wait for the page fully loaded
 
-    When I search for "241.48"
+    When I search for the current ticket id
     # And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$241.48"
+    Then I should see the current ticket in closed tickets
 
-    When I select the first ticket with payment "$241.48"
+    When I select the current ticket in closed tickets
+
     And I click on item button "CCSlip"
     Then I should see the detail "STATION #: 1" on the CC slip
     And I should see the detail "TERMINAL #: 0" on the CC slip
@@ -940,11 +943,11 @@ Feature: Closed Ticket
     And I click on refresh
     # And I wait for the page fully loaded
 
-    When I search for "254.57"
+    When I search for the current ticket id
     # And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$254.57"
+    Then I should see the current ticket in closed tickets
 
-    When I select the first ticket with payment "$254.57"
+    When I select the current ticket in closed tickets
     And I click on item button "Work Slip"
     Then I should see the Employee, Price, Tip as "WorkSlip $239.40 $10.00" on the work slip
 
@@ -1021,11 +1024,11 @@ Feature: Closed Ticket
     And I click on refresh
     And I wait for the page fully loaded
 
-    When I search for "244.27"
+    When I search for the current ticket id
     And I wait for the page fully loaded
-    Then I should see the first ticket of payment "$244.27"
+    Then I should see the current ticket in closed tickets
 
-    When I select the first ticket with payment "$244.27"
+    When I select the current ticket in closed tickets
     And I click on item button "Work Slip"
     Then I should see the Employee, Price, Tip as "WorkSlipAdjustTip $166.00 $6.47" on the work slip
     And I should see the Employee, Price, Tip as "WorkSlipAdjustTip2 $63.40 $3.53" on the work slip
@@ -1037,7 +1040,7 @@ Feature: Closed Ticket
     And I should see the "TOTAL: $240.36" on the work slip
     And I should see the "Visa #1234 $240.36" on the work slip
 
-    When I reopen to void ticket with payment amount "$244.27"
+    When I click on the "SERVICE" tab
     Then I should see the selected "SERVICE" tab on the Home page
 
     When I clock out the timesheet with PIN "9606"

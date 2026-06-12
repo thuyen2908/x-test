@@ -7,6 +7,8 @@ import { Env as BaseEnv } from '@x-test/common/env';
 
 const EnvSchema = z.object({
 	PW_BASE_URL_PINK: z.string(),
+	PW_API_HOST_PINK: z.string().default(''),
+	PW_XSOFTS_SECRET_KEY_PINK: z.string().default(''),
 
 	PW_ADMIN_NAME_PINK: z.string(),
 	PW_ADMIN_EMAIL_PINK: z.string(),
@@ -58,6 +60,16 @@ class Env extends BaseEnv<typeof EnvSchema> {
 	 */
 	public get baseURL() {
 		return this.get('PW_BASE_URL_PINK');
+	}
+
+	/**
+	 * Retrieve POS API configuration
+	 */
+	public get apiConfig() {
+		return {
+			host: this.get('PW_API_HOST_PINK'),
+			xsoftsSecretKey: this.get('PW_XSOFTS_SECRET_KEY_PINK'),
+		};
 	}
 
 	/**

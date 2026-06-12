@@ -33,6 +33,7 @@ const chromeProject: PlaywrightTestProject<Fixtures> = {
 	dependencies: ['setup'],
 	use: {
 		...devices['Desktop Chrome'],
+		viewport: { width: 1920, height: 1080 },
 		timezoneId: getConfig('chrome').timezone,
 		storageState: adminAuthStorage,
 
@@ -71,6 +72,7 @@ export default defineConfig<Fixtures>({
 	// CI config
 	forbidOnly: isCI,
 	retries: 0, // retries: isCI ? 2 : 0,
+	timeout: isCI ? 30_000 : 0,
 	workers: isCI ? 2 : undefined,
 
 	expect: {

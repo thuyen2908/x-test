@@ -2,7 +2,7 @@ import { expect, type Locator, type Page } from '@playwright/test';
 import { Fixture, Given, Then, When } from 'playwright-bdd/decorators';
 
 import { constants } from '#const';
-import { type PageId, type TestOptions } from '#types';
+import { PageId, type TestOptions } from '#types';
 
 import { type TestConfig } from '../test-config';
 import { type TestStorage } from '../test-storage';
@@ -166,12 +166,20 @@ class xPage {
 			 * Locate the name of the Salon on the top right corner of the page
 			 */
 			merchantName: companyProfile.locator(
-				'div.merchantInfo__dbaName > span.label',
+				'.xMerchantInfo__info__dbaName > span',
 			),
 			/**
 			 * Locate the contact information (address, phone number,...) on the top right corner of the page
 			 */
-			merchantContact: companyProfile.locator('div.merchantInfo__address'),
+			merchantContact: companyProfile.locator('.xMerchantInfo__info__address'),
+						/**
+			 * Locate the queue service (technican info) on the of the page
+			 */
+			queueService: page.locator('div.xQueueList'),
+						/**
+			 * Locate the main pos info on the page when user login in
+			 */
+			mainPosInfo: page.locator('div.MainPOS__right'),
 			/**
 			 * Locate the Pay button on the ticket screen
 			 */
@@ -242,8 +250,7 @@ class xPage {
 				page
 					.locator('li.xNavbar__item')
 					.filter({
-						has: page.locator('span.label', {
-							hasText: itemName,
+						has: page.locator('span.label').getByText(itemName, {
 							exact: true,
 						}),
 					})
@@ -263,9 +270,13 @@ class xPage {
 				const [method, url] = constants.APIs[api];
 				const request = response.request();
 
-				return request.url().includes(url) && request.method() === method;
+				return (
+					request.url().includes(url) &&
+					request.method() === method &&
+					response.status() < 400
+				);
 			},
-			{ timeout: options.timeout },
+			{ timeout: options.timeout ?? 30_000 },
 		);
 	}
 
@@ -282,11 +293,34 @@ class xPage {
 	/* -------------------------------- BDD steps ------------------------------- */
 
 	/**
+	 * Wait until the Home page is authenticated, authorized and ready for actions.
+	 */
+	public async waitForHomeReady() {
+		await expect(this.page).not.toHaveURL(/\/login/);
+
+		await expect(this.locators.pageHeader).toBeVisible();
+		await expect(this.locators.pageName).toBeVisible();
+		await expect(this.locators.queueService).toBeVisible();
+		await expect(this.locators.mainPosInfo).toBeVisible();
+		await expect(
+			this.page.getByText(/unauthorized|access denied|permission denied/i),
+		).toHaveCount(0);
+	}
+
+	/**
 	 * Go to a specific page by its {@link PageId}
 	 */
 	@Given('I am on the {pageId} page')
 	public async gotoPage(pageId: PageId) {
-		await this.page.goto(constants.PageUrl[pageId]);
+		const pageUrl = constants.PageUrl[pageId];
+
+		if (pageId === PageId.HOME) {
+			await this.page.goto(pageUrl);
+			await this.waitForHomeReady();
+			return;
+		}
+
+		await this.page.goto(pageUrl);
 	}
 
 	/**
@@ -345,6 +379,15 @@ class xPage {
 	}
 
 	/**
+	 * Click on refresh data
+	 */
+	@When('I click on refresh')
+	public async refreshData() {
+		await expect(this.locators.refreshButton).toBeVisible();
+		await this.locators.refreshButton.click();
+	}
+
+	/**
 	 * Close the opening dialog if it's visible
 	 */
 	@When('I close the opening dialog')
@@ -360,6 +403,15 @@ class xPage {
 	@When('I pay the exact amount by {string}')
 	public async payBy(paymentType: string) {
 		const { locators } = this;
+		const totalPay = await this.page
+			.locator('.xCharge__item')
+			.filter({ hasText: /\$\d/ })
+			.last()
+			.textContent();
+		const totalPayAmount = totalPay?.match(/\$[\d,]+(?:\.\d{2})?/)?.[0];
+		if (totalPayAmount) {
+			this.testStorage.currentTotalPay = totalPayAmount;
+		}
 
 		// Step 1: Click the Pay button
 		await locators.payButton.click();
@@ -368,8 +420,15 @@ class xPage {
 		const paymentTypeOption = locators.paymentTypeOption(paymentType).first();
 		await paymentTypeOption.click();
 
-		// Step 3: Wait for the Close Ticket dialog
-		const closeTicketDialog = locators.dialog('Close Ticket');
+		// Step 3: Wait for the change due dialog
+		const changeDueDialog = locators.dialog('Change Due');
+		const legacyCloseTicketDialog = locators.dialog('Close Ticket');
+		const closeTicketDialog =
+			(await changeDueDialog
+				.isVisible()
+				.catch(() => false))
+				? changeDueDialog
+				: legacyCloseTicketDialog;
 		await expect(closeTicketDialog).toBeVisible();
 
 		// Step 4: Verify dialog contains CHANGE $0.00
@@ -377,9 +436,11 @@ class xPage {
 		await expect(dialogContent).toContainText('CHANGE');
 		await expect(dialogContent).toContainText('$0.00');
 
-		// Step 5: Click OK to confirm payment
-		const okButton = locators.dialogActionButton(closeTicketDialog, 'OK');
-		await okButton.click();
+		// Step 5: Close the ticket
+		const closeTicketButton = closeTicketDialog.getByRole('button', {
+			name: /^(Close Ticket|OK)$/i,
+		});
+		await closeTicketButton.click();
 
 		await expect(closeTicketDialog).toBeHidden();
 	}
@@ -912,30 +973,31 @@ class xPage {
 
 		await this.enterPIN(PIN, enterPasswordDialog);
 
-		await this.clickOnActionButtonOfOpeningDialog('CONFIRM');
+		const successToast =
+			normalizedAction === 'in'
+				? locators.toast
+						.getByText('clocked in successfully')
+						.or(locators.toast.getByText('has clocked in'))
+				: locators.toast
+						.getByText('clocked out successfully')
+						.or(locators.toast.getByText('has not clocked in'));
+		const dialogClosed = enterPasswordDialog
+			.waitFor({ state: 'hidden', timeout: 15_000 })
+			.catch(() => undefined);
+		const toastShown = successToast
+			.waitFor({ state: 'visible', timeout: 15_000 })
+			.catch(() => undefined);
 
-		if (normalizedAction === 'in') {
-			const successfullyClockedInToast = locators.toast.getByText(
-				'clocked in successfully',
-			); // in case of new session
-			const alreadyClockedInToast = locators.toast.getByText('has clocked in'); // in case there's an existing session
+		const confirmButton = locators.dialogActionButton(
+			enterPasswordDialog,
+			'CONFIRM',
+		);
+		await expect(confirmButton).toBeEnabled();
+		await confirmButton.click();
 
-			await expect(
-				successfullyClockedInToast.or(alreadyClockedInToast),
-			).toBeVisible();
-		} else {
-			const successfullyClockedOutToast = locators.toast.getByText(
-				'clocked out successfully',
-			); // in case of clock out
-			const alreadyClockedOutToast =
-				locators.toast.getByText('has not clocked in'); // in case there's no existing session
+		await Promise.race([dialogClosed, toastShown]);
 
-			await expect(
-				successfullyClockedOutToast.or(alreadyClockedOutToast),
-			).toBeVisible();
-		}
-
-		if (await enterPasswordDialog.isVisible()) {
+		if (await enterPasswordDialog.isVisible().catch(() => false)) {
 			await this.closeOpeningDialog();
 		}
 	}

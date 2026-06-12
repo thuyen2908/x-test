@@ -294,7 +294,7 @@ Feature: Check In
     When I click on the "confirm" button in the popup dialog
     And I wait for the page fully loaded
     Then I should not see the customer "Delete" in the waiting list
-    Then I should see the toast message "Item successfully deleted" visible
+    Then I should see the toast message "Data has been deleted successfully" visible
 
   Scenario: Update the user info when changing technician for ticket check-in
     Given I am on the HOME page

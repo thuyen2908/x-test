@@ -2,7 +2,7 @@ import { expect, type Locator, type Page } from '@playwright/test';
 import { Fixture, Given, Then, When } from 'playwright-bdd/decorators';
 
 import { constants } from '#const';
-import { type PageId, type TestOptions } from '#types';
+import { PageId, type TestOptions } from '#types';
 
 import { type TestConfig } from '../test-config';
 import { type TestStorage } from '../test-storage';
@@ -143,7 +143,7 @@ class xPage {
 			 * Locate a Navigation Menu item
 			 */
 			navItem: (itemName: string) =>
-				page.locator('li.xNavbar__item', {
+				page.locator('.xNavbar__item', {
 					hasText: new RegExp(`^${itemName}$`),
 				}),
 		};
@@ -161,10 +161,35 @@ class xPage {
 				const [method, url] = constants.APIs[api];
 				const request = response.request();
 
-				return request.url().includes(url) && request.method() === method;
+				return (
+					request.url().includes(url) &&
+					request.method() === method &&
+					response.ok()
+				);
 			},
 			{ timeout: options.timeout },
 		);
+	}
+
+	/**
+	 * Wait until the Home page is authenticated, authorized and ready for actions.
+	 */
+	public async waitForHomeReady() {
+		await expect(this.page).not.toHaveURL(/\/login/);
+
+		await expect(this.locators.pageHeader).toBeVisible({ timeout: 30_000 });
+		await expect(this.page.locator('.pageName').first()).toBeVisible({
+			timeout: 30_000,
+		});
+		await expect(this.page.locator('div.xQueueList')).toBeVisible({
+			timeout: 30_000,
+		});
+		await expect(this.page.locator('div.ListTicket')).toBeVisible({
+			timeout: 30_000,
+		});
+		await expect(
+			this.page.getByText(/unauthorized|access denied|permission denied/i),
+		).toHaveCount(0);
 	}
 
 	/**
@@ -184,7 +209,18 @@ class xPage {
 	 */
 	@Given('I am on the {pageId} page')
 	public async gotoPage(pageId: PageId) {
-		await this.page.goto(constants.PageUrl[pageId]);
+		const pageUrl = constants.PageUrl[pageId];
+
+		if (pageId === PageId.HOME) {
+			void this.waitForResponseOfAPI('Get In-Service Tickets', {
+				timeout: 15_000,
+			}).catch(() => undefined);
+			await this.page.goto(pageUrl);
+			await this.waitForHomeReady();
+			return;
+		}
+
+		await this.page.goto(pageUrl);
 	}
 
 	/**
