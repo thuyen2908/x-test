@@ -38,9 +38,17 @@ Then(
 			return;
 		}
 
-		const openTicket = page.locator('li.xEmployeeItem.TicketModel').filter({
-			has: page.locator('.nickname', { hasText: employeeName }),
-		}).first();
+		const openTicket = page
+			.locator('li.xEmployeeItem.TicketModel')
+			.filter({
+				has: page.locator('.nickname', { hasText: employeeName }),
+			})
+			.or(
+				page
+					.locator('div.MainPOS__right li')
+					.filter({ hasText: employeeName }),
+			)
+			.first();
 
 		if (await openTicket.isVisible({ timeout: 2_000 }).catch(() => false)) {
 			await openTicket.click();
@@ -180,11 +188,6 @@ When(
 		}
 
 		await expect(page.locator('.xCharge__item').last()).toBeVisible();
-		if (/taxable/i.test(serviceName)) {
-			await expect(page.locator('.xCharge__taxes')).not.toHaveText('$0.00', {
-				timeout: 15_000,
-			});
-		}
 	},
 );
 
@@ -323,7 +326,7 @@ Then('I should see the tax amount non-zero', async ({ page }) => {
 	const chargeTax = page.locator('.xCharge__taxes');
 
 	//await expect(chargeTax).not.toContainText('0.00');
-	await expect(chargeTax).not.toHaveText('$0.00');
+	await expect(chargeTax).not.toHaveText('$0.00', { timeout: 15_000 });
 });
 
 When(
@@ -1358,8 +1361,20 @@ When('I select the {string} category', async ({ page }, category: string) => {
 	const categoryElement = page
 		.locator('button.MuiButtonBase-root')
 		.getByText(category, { exact: true });
+	const serviceByCategory: Record<string, string> = {
+		'FULL SET & FILL IN': 'Taxable',
+		'GIFT CARD': 'Shampoo',
+	};
+
 	await expect(categoryElement).toHaveText(category);
 	await categoryElement.click();
+
+	const expectedService = serviceByCategory[category];
+	if (expectedService) {
+		await expect(
+			page.locator('li.ItemService').getByText(expectedService, { exact: true }),
+		).toBeVisible({ timeout: 15_000 });
+	}
 });
 
 Then(

@@ -768,7 +768,7 @@ Feature: Closed Ticket
     Then I should see the "Ticket View" screen
     And I should see the "Manicure" service
     When I add the "Manicure" service to my cart
-    And I select the "GIFT CARD" category
+    When I select the "GIFT CARD" category
     And I add the "Shampoo" service to my cart
     And I add the "Gift card $100" service to my cart
     Then I should see a popup dialog with title "Activate Gift Card $100.00"
@@ -853,8 +853,9 @@ Feature: Closed Ticket
 
     And I select the "FULL SET & FILL IN" category
     And I add the "Taxable" service to my cart
+    Then I should see the tax amount non-zero
 
-    And I select the "GIFT CARD" category
+    When I select the "GIFT CARD" category
     And I add the "Shampoo" service to my cart
     And I add the "Gift card $100" service to my cart
     Then I should see a popup dialog with title "Activate Gift Card $100.00"
@@ -915,8 +916,9 @@ Feature: Closed Ticket
 
     And I select the "FULL SET & FILL IN" category
     And I add the "Taxable" service to my cart
+    Then I should see the tax amount non-zero
 
-    And I select the "GIFT CARD" category
+    When I select the "GIFT CARD" category
     And I add the "Shampoo" service to my cart
     And I add the "Gift card $100" service to my cart
     Then I should see a popup dialog with title "Activate Gift Card $100.00"
@@ -976,8 +978,9 @@ Feature: Closed Ticket
 
     And I select the "FULL SET & FILL IN" category
     And I add the "Taxable" service to my cart
+    Then I should see the tax amount non-zero
 
-    And I select the "GIFT CARD" category
+    When I select the "GIFT CARD" category
     And I add the "Shampoo" service to my cart
     And I add the "Gift card $100" service to my cart
     Then I should see a popup dialog with title "Activate Gift Card $100.00"
