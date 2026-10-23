@@ -70,7 +70,7 @@ importers:
         version: 6.0.3
       zod:
         specifier: ^4.4.3
-        version: 4.4.3
+        version: 4.6.6
 
   e2e/galaxy-in-pink:
     devDependencies:
@@ -100,7 +100,7 @@ importers:
         version: 6.0.3
       zod:
         specifier: ^4.4.3
-        version: 4.4.3
+        version: 4.6.6
 
   e2e/galaxy-pink-web:
     devDependencies:
@@ -145,7 +145,7 @@ importers:
         version: 6.0.3
       zod:
         specifier: ^4.4.3
-        version: 4.4.3
+        version: 4.6.6
 
   e2e/pos-web:
     devDependencies:
@@ -190,7 +190,7 @@ importers:
         version: 6.0.3
       zod:
         specifier: ^4.4.3
-        version: 4.4.3
+        version: 4.6.6
 
   e2e/pos-web-offline:
     devDependencies:
@@ -235,7 +235,7 @@ importers:
         version: 6.0.3
       zod:
         specifier: ^4.4.3
-        version: 4.4.3
+        version: 4.6.6
 
   packages/common:
     dependencies:
@@ -244,7 +244,7 @@ importers:
         version: 1.3.3
       zod:
         specifier: ^4.4.3
-        version: 4.4.3
+        version: 4.6.6
     devDependencies:
       '@types/node':
         specifier: ^24.13.1
@@ -266,7 +266,7 @@ importers:
         version: 8.0.16(@types/node@24.13.1)(jiti@2.6.1)(yaml@2.9.0)
       vite-plugin-dts:
         specifier: ^5.0.2
-        version: 5.0.2(rolldown@1.0.3)(typescript@6.0.3)(vite@8.0.16(@types/node@24.13.1)(jiti@2.6.1)(yaml@2.9.0))
+        version: 5.0.2(rolldown@1.0.3)(supports-color@5.5.0)(typescript@6.0.3)(vite@8.0.16(@types/node@24.13.1)(jiti@2.6.1)(yaml@2.9.0))
 
   packages/toolchains:
     dependencies:
@@ -1151,6 +1151,7 @@ packages:
   git-raw-commits@5.0.1:
     resolution: {integrity: sha512-Y+csSm2GD/PCSh6Isd/WiMjNAydu0VBiG9J7EdQsNA5P9uXvLayqjmTsNlK5Gs9IhblFZqOU0yid5Il5JPoLiQ==}
     engines: {node: '>=18'}
+    deprecated: Deprecated and no longer maintained. Use @conventional-changelog/git-client instead.
     hasBin: true
 
   glob-parent@5.1.2:
@@ -2076,8 +2077,8 @@ packages:
     resolution: {integrity: sha512-CzhO+pFNo8ajLM2d2IW/R93ipy99LWjtwblvC1RsoSUMZgyLbYFr221TnSNT7GjGdYui6P459mw9JH/g/zW2ug==}
     engines: {node: '>=18'}
 
-  zod@4.4.3:
-    resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
+  zod@4.6.6:
+    resolution: {integrity: sha512-4UmzQUF5fxvfcYHlbjBmejU+w+hbDnWFx4aS8kBx7nPBHcO2SqPbpAG8snbdg+Xse4pRefR98hgjFgIMCI/UhA==}
 
 snapshots:
 
@@ -3584,7 +3585,7 @@ snapshots:
 
   universalify@2.0.1: {}
 
-  unplugin-dts@1.0.2(rolldown@1.0.3)(typescript@6.0.3)(vite@8.0.16(@types/node@24.13.1)(jiti@2.6.1)(yaml@2.9.0)):
+  unplugin-dts@1.0.2(rolldown@1.0.3)(supports-color@5.5.0)(typescript@6.0.3)(vite@8.0.16(@types/node@24.13.1)(jiti@2.6.1)(yaml@2.9.0)):
     dependencies:
       '@rollup/pluginutils': 5.4.0
       '@volar/typescript': 2.4.28
@@ -3610,9 +3611,9 @@ snapshots:
 
   util-deprecate@1.0.2: {}
 
-  vite-plugin-dts@5.0.2(rolldown@1.0.3)(typescript@6.0.3)(vite@8.0.16(@types/node@24.13.1)(jiti@2.6.1)(yaml@2.9.0)):
+  vite-plugin-dts@5.0.2(rolldown@1.0.3)(supports-color@5.5.0)(typescript@6.0.3)(vite@8.0.16(@types/node@24.13.1)(jiti@2.6.1)(yaml@2.9.0)):
     dependencies:
-      unplugin-dts: 1.0.2(rolldown@1.0.3)(typescript@6.0.3)(vite@8.0.16(@types/node@24.13.1)(jiti@2.6.1)(yaml@2.9.0))
+      unplugin-dts: 1.0.2(rolldown@1.0.3)(supports-color@5.5.0)(typescript@6.0.3)(vite@8.0.16(@types/node@24.13.1)(jiti@2.6.1)(yaml@2.9.0))
     optionalDependencies:
       vite: 8.0.16(@types/node@24.13.1)(jiti@2.6.1)(yaml@2.9.0)
     transitivePeerDependencies:
@@ -3701,4 +3702,4 @@ snapshots:
 
   yoctocolors@2.1.2: {}
 
-  zod@4.4.3: {}
+  zod@4.6.6: {}
